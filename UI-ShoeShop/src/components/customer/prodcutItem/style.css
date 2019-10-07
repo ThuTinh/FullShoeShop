@@ -1,0 +1,72 @@
+.card-container{
+    width: 280px;
+    height: 380px;
+    margin: 10%;
+}
+.card-container:hover{
+    -webkit-box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
+    -moz-box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
+    box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
+ 
+}
+.card-item-image{
+    width: 280px;
+    height: 250px;
+    overflow: hidden;
+
+}
+.image-item {
+    width: 100% !important; 
+    height: 100% !important;  
+    transition-duration: 0.5s;
+        /* Safari */
+        -webkit-transition-duration: 0.5s; 
+        /* Mozilla Firefox */
+        -moz-transition-duration: 0.5s; 
+        /* Opera */
+        -o-transition-duration: 0.5s;
+        /* IE 9 */
+        -ms-transition-duration: 0.5s;
+
+}
+.image-item:hover{
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2); 
+    -moz-transform: scale(1.2); 
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+cursor: pointer; 
+
+}
+.card-item-body{
+    height: 80px;
+}
+.card-item-footer{
+    background-color: #ff6c00;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: center
+}
+.action-item{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: center
+
+}
+.action-item:hover{
+    background-color: aqua;
+   transition: all linear 0.5s;
+    cursor: pointer;
+    
+}
+label{
+    margin-top: 10px;
+}
+    
+    

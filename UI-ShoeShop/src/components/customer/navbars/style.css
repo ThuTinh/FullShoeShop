@@ -1,0 +1,115 @@
+.menu{
+    display: flex;
+    height: 80px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background-color: #FFFFFF;
+    width: 80%;
+    margin-top: 20px;
+    position: fixed;
+    z-index: 1000;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s; 
+    justify-content: flex-end;
+    align-items: center;
+   
+}
+
+.menu-scroll{
+    display: flex;
+    height: 80px;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 0;
+   
+    position: fixed;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s; 
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+.menu-items{
+    margin-right: 40px;
+   
+}
+
+.menu-search{
+    margin: 20px;
+}
+
+.menu-item{
+    margin-right: 30px;
+    color: black;
+    font-weight: 500;
+     font-family: 'Anton', sans-serif;
+}
+
+.menu-item:hover{
+    text-decoration: none;
+    color: #FF6F00;
+}
+
+.menu-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-image: url("../../../assets/image/banner-img.png");
+    background-repeat: no-repeat;
+}
+.search{
+    clear: both;
+    position: fixed;
+    margin-top: 100px;
+    width: 80%;
+    justify-content: flex-end;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s; 
+
+}
+.search-croll{
+    clear: both;
+    position: fixed;
+    margin-top: 80px;
+    width: 100%;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s; 
+    justify-content: flex-end;
+    align-items: center;
+}
+input{
+    background: -webkit-linear-gradient(270deg, #ffba00 0%, #ff6c00 100%);
+    background: -moz-linear-gradient(270deg, #ffba00 0%, #ff6c00 100%);
+    background: -o-linear-gradient(270deg, #ffba00 0%, #ff6c00 100%);
+    background: linear-gradient(270deg, #ffba00 0%, #ff6c00 100%); 
+    border: none;
+}
+.logo{
+    /* display: flex;
+    position: relative;
+    left: -500px;
+    color: black;
+    font-weight: 500;
+     font-family: 'Anton', sans-serif;
+    font-size: 20px; */
+
+}
+
+.menu-dropdown{
+    margin-left: 20px;
+    margin-right: 20px;
+   
+    
+}
+.menu-dropdown-item{
+
+    color: #FF6F00;
+}

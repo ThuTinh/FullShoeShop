@@ -1,0 +1,78 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+/**
+ * @swagger
+ *
+ * definitions:
+ *   Brand:
+ *     type: object
+ *     properties:
+ *       _id: 
+ *         type: string
+ *         readOnly: true
+ *       name:
+ *         type: string
+ *       products:
+ *         example: []
+ *         type: array
+ *         items:
+ *           type: string
+ *       images:
+ *         type: object
+ *         logo:
+ *           type: string
+ *         image:
+ *           type: string
+ *       deleted:
+ *         type: boolean
+ *         default: false
+ *         readOnly: true
+ *     required:
+ *       - name
+ *       - images
+ */
+const schema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim:true
+  },
+  products:[{ 
+    type: Schema.Types.ObjectId,
+    ref: 'product' }]
+  ,
+  // images: {
+  //   logo:{
+  //     type: String,
+  //     required: true
+  //   },
+  //   image:[
+  //     { 
+  //       type: String,
+  //       required: true
+  //     }
+  //   ]
+  // },
+  deleted: {
+    type: Boolean,
+    select: false,
+    default: false
+  }
+}, {timestamps: true})
+
+schema.pre('find', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOne', function() {
+  this.where({deleted: false})
+})
+schema.pre('findById', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOneAndUpdate', function() {
+  this.where({deleted: false})
+})
+schema.pre('findByIdAndUpdate', function() {
+  this.where({deleted: false})
+})
+module.exports = mongoose.model('brand', schema, 'brands')
