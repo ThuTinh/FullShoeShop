@@ -7,6 +7,7 @@
     -webkit-box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
     -moz-box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
     box-shadow: 11px 11px 11px -8px rgba(143,135,141,1);
+  
  
 }
 .card-item-image{
@@ -35,6 +36,8 @@
     -moz-transform: scale(1.2); 
     -o-transform: scale(1.2);
     -ms-transform: scale(1.2);
+
+
 cursor: pointer; 
 
 }
@@ -63,6 +66,8 @@ cursor: pointer;
     background-color: aqua;
    transition: all linear 0.5s;
     cursor: pointer;
+  
+ 
     
 }
 label{
