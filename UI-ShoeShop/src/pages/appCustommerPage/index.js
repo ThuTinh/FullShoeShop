@@ -9,16 +9,14 @@ import './style.css'
 function AppCustomerPage() {
     return (
         <>
-        <div  className="container">
+        <div className="container">
             <Navbars></Navbars>
             <div >
                 <Router >
                     {showPage(routes)}
-                </Router>
-               
-                
+                </Router>  
             </div>
-            
+  
    </div>
    {/* <Footer></Footer> */}
    </>

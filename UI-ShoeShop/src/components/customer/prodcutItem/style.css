@@ -1,4 +1,5 @@
 .card-container{
+    margin-bottom: 30px;
    
 }
 .card-container:hover{
@@ -10,7 +11,7 @@
 }
 .card-item-image{
     width: 100%;
-    height: 250px;
+    height: 200px;
     overflow: hidden;
 
 }
