@@ -6,5 +6,4 @@ function LoginPage() {
         <Login></Login>
     )
 }
-
 export default LoginPage;

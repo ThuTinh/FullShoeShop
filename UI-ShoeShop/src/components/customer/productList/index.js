@@ -14,8 +14,7 @@ class ProductList extends React.Component {
     render() {
         return (
 
-            < div className="row">
-      
+            < div className="row ">
             <div className="col-4" ><ProductItem /></div>
             <div className="col-4" ><ProductItem/></div>
             <div className="col-4" ><ProductItem/></div>

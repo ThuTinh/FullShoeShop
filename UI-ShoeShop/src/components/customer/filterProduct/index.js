@@ -17,7 +17,7 @@ class FilterProduct extends React.Component {
     render() {
         return (
 
-           <div  className = "filter-contaner">
+           <div className = "filter-contaner">
                <div className  = "filter-tile">
                    Lọc sản phẩm
                </div>
