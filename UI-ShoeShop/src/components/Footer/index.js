@@ -25,7 +25,7 @@ function Footer() {
           <Row type="flex" justify="start" align="top" > <Icon type="mail" theme="twoTone" className="icon-style" /><span>237zjh@gmail.com</span> </Row>
         </Col>
         <Col span={12}>
-          <h3 >About Group</h3>
+          <h3 style={{color:'white'}}>About Group</h3>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
           </p>

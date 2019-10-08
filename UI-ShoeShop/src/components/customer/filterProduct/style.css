@@ -1,23 +1,17 @@
 .filter-contaner{
-    width: 200px;
     background-color: #d2d0fe;
     box-shadow: 5px -30px 60px rgba(0, 0, 0, 0.1);
-    position: absolute; 
-    right: 0;
-    top: 450px;  
-    z-index: -10;
+  
 }
 
 .filter-tile{
     width: 100%;
     height: 60px;
-    text-align: center;
-    align-items: center;
+ 
     background-color: #ed5107;
     color: black;
     font-size: 25px;
     font-weight: 700;
-    justify-content: center;
 }
 
 .divide{
@@ -28,5 +22,4 @@
 }
 
 .filter-content{
-    margin: 20px;
 }

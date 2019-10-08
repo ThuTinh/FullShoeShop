@@ -32,7 +32,7 @@ class ProductItem extends React.Component {
 
             <div className="card-container ">
                 <div className="card-item-image">
-                    <img className="image-item" style={{ width: '250px', height: '200px' }}
+                    <img className="image-item" style={{ width: '100%', height: '200px' }}
                         alt="example"
                         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
 
