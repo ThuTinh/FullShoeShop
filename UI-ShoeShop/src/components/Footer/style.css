@@ -25,7 +25,7 @@
 margin-bottom: 0px;
 }
 .container-footer{
-position: absolute;
-bottom: 0%;
-
+padding: 30px;
+background-color: #413f3e;
+color: white;
 }

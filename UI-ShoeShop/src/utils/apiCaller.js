@@ -1,12 +1,16 @@
 import axios from 'axios'
 import {API_URL} from '../constants/config'
 
-export default function callApi(endpoint, method = 'GET', body)
+const _headers={
+    'Content-type':'application/json'
+}
+export default function callApi(endpoint, method = 'GET', data,headers=_headers)
 {
     return axios({
-        method: method,
+        method,
         url: `${API_URL}/${endpoint}`,
-        data: body
+        data,
+        headers
     }).catch(err=>{
        console.log("Lỗi", err);
     });

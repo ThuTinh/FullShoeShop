@@ -12,6 +12,18 @@ export const actGetSongsRequest = () => {
     }
 }
 
+
+export const login = () => {
+    return (dispatch) => {
+        return callApi('/api/v1/auth/login', 'POST', null).then(res => {
+            dispatch(login(res.data));
+            console.log(res);
+
+        });
+
+    }
+}
+
 export const actDeleteSongRequest = (id) => {
     return (dispatch) => {
         return callApi(`songs/${id}`, 'DELETE', null).then(res => {
@@ -45,6 +57,14 @@ export const actCreateSong = (song) => {
     return {
         type: Types.CREATE_SONG,
         song
+    }
+
+}
+
+export const login = (res) => {
+    return {
+        type: Types.LOGIN,
+        res
     }
 
 }

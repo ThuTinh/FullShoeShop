@@ -10,9 +10,6 @@
   color: #fff;
 }
 .custom-carousel{
-  position: absolute;
   margin-top: 140px;
   z-index: -10;
- 
-  
 }

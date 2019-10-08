@@ -1,15 +1,18 @@
 import React from 'react'
-import CustomHomePage from '../pages/customerPage/customHomePage'
+import CustomHomePage from '../pages/customerPage'
+import {  Route, Switch } from 'react-router-dom';
 
-
-const routes = [
-    {
-        path:'/customer/home',
-        axect: true,
-        main: ({match, history})=> <CustomHomePage match = {match} history = {history}></CustomHomePage>
-    }
-   
-
-]
-
-export default routes;
+function CustomerRoute() {
+    return (
+      <Switch>
+      <Route path="/" component={CustomHomePage} />
+      <Route path="**" component={CustomHomePage} />
+  </Switch>
+  
+  
+    );
+  }
+  
+  
+  
+  export default CustomerRoute;
