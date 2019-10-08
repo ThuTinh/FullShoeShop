@@ -4,19 +4,24 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import routes from '../../routes/routeCustomer';
 import Footer from '../../components/Footer';
 import './style.css'
-import { Row } from 'antd'
+
 
 function AppCustomerPage() {
     return (
-        <div className="container">
+        <>
+        <div  className="container">
             <Navbars></Navbars>
-            <Router>
-                {showPage(routes)}
-            </Router>
+            <div >
+                <Router >
+                    {showPage(routes)}
+                </Router>
+               
+                
+            </div>
             
-            <Footer></Footer>
-           
-        </div>
+   </div>
+   {/* <Footer></Footer> */}
+   </>
     )
 
 

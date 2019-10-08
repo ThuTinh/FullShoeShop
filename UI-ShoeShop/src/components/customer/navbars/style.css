@@ -6,7 +6,7 @@
     width: 80%;
     margin-top: 20px;
     position: fixed;
-    z-index: 1000;
+   
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;

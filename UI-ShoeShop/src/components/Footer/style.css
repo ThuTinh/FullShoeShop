@@ -18,14 +18,14 @@
 }
 .text-end{
   font-size: 12px;
-margin-top: 20px;
+  margin-top: 20px;
   text-align: center;
 }
 .margin-bottom-0{
 margin-bottom: 0px;
 }
 .container-footer{
+position: absolute;
+bottom: 0%;
 
-  position: absolute;
-  bottom: 0%;
 }

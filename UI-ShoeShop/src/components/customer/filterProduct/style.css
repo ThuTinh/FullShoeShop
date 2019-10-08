@@ -2,9 +2,9 @@
     width: 200px;
     background-color: #d2d0fe;
     box-shadow: 5px -30px 60px rgba(0, 0, 0, 0.1);
-    position: absolute;
+    position: absolute; 
     right: 0;
-    top: 150px;  
+    top: 450px;  
     z-index: -10;
 }
 
@@ -13,8 +13,8 @@
     height: 60px;
     text-align: center;
     align-items: center;
-    background-color: #fdecff;
-    color: #6d0c74;
+    background-color: #ed5107;
+    color: black;
     font-size: 25px;
     font-weight: 700;
     justify-content: center;
