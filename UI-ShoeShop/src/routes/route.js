@@ -1,25 +1,22 @@
 import React from 'react'
 import LoginPage from '../pages/loginPage/loginPage'
-import AppAdminPage from '../pages/appAdminPage/appAdminPage'
-import AppCustomerPage from '../pages/appCustommerPage/AppCustomerPage'
-
+import RouteAdmin from './routeAdmin'
+import RouteCustomer from './routeCustomer'
 const routes = [
+    {
+        path: '/login',
+        main: ({match, history})=> <LoginPage match = {match} history = {history}></LoginPage>
+    }
     
     {
         path:'/admin',
-        axect: true,
-        main : ()=> <AppAdminPage></AppAdminPage>,
+        main : ()=> <RouteAdmin></RouteAdmin>,
     },
     {
-        path:'/customer',
-        axect: true,
-        main: ({match, history})=> <AppCustomerPage match = {match} history = {history}></AppCustomerPage>
+        path:'/',
+        main: ({match, history})=> <RouteCustomer match = {match} history = {history}></RouteCustomer>
     },
-    {
-        path: '/login',
-        axect: false,
-        main: ({match, history})=> <LoginPage match = {match} history = {history}></LoginPage>
-    }
+   
 
 ]
 
