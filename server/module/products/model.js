@@ -44,14 +44,12 @@ const schema = new Schema({
   },
   brand: {
     type: Schema.Types.ObjectId,
-    // required: [true, 'is required'],
     ref: 'brand'
   },
-  images: {
+  images: [{
     type: String,
     trim: true
-  },
-  
+  }],
   categories: [{
     type: Schema.Types.ObjectId,
     required: [true, 'is required'],
@@ -68,49 +66,29 @@ const schema = new Schema({
     max: 500,
     default: 0
   },
-  
   tags : [{
-    _id: false,
-    tag: {
       type: Schema.Types.ObjectId,
       ref: 'tag'
-    },
-    score: {
-      type: Number,
-      min: 0,
-      max: 500
-    }
   }],
   price: {
     type: Number,
     min: 0
   },
-  productDetail: [{
-    _id: false,
-    unit: {
-      type: String,
-      trim:true
-    },
-   
-    images: {
+ Detail: [{
+    size: {
       type: [String],
       trim:true,
-      // required: [true, 'is required']
     },
-    capacity: {
+    price: {
       type: Number,
       trim:true,
-      // required: [true, 'is required']
     },
-    
+    quantity: {
+      type: Number,
+      default:0,
+      min:0
+    },
   }],
-  
-  sold_quantity: {
-    type: Number,
-    default:0,
-    min:0
-  },
-  
   favorited: {
     type: Number,
     default: 0,
@@ -128,51 +106,5 @@ const schema = new Schema({
   timestamps: true
 })
 
-const index = { name: 'text'}
-schema.index(index)
-schema.methods.updateCountFavorite = (id, totalFavorites) => {
-  return mongoose.model('product').findByIdAndUpdate(id, {favorited: totalFavorites})
-}
-schema.pre('find', function() {
-  this.where({deleted: false})
-})
-schema.post('find', function(docs) {
-  for(var i = 0; i < docs.length; i++) {
-    if(docs[i].images) docs[i].images = host + '/' + path200 + docs[i].images
-  }
-})
-schema.pre('findOne', function() {
-  this.where({deleted: false})
-})
-schema.post('findOne', function(doc) {
-  if(!doc) return
-  if(doc.images) doc.images = host + '/' + path200 + doc.images
-  const details = doc.productDetail ? doc.productDetail : []
-  for(let i = 0; i < details.length; i++) {
-    if(!details[i].images) continue
-    for(let j = 0; j < details[i].images.length; j++) {
-      details[i].images[j] = host + '/' + ogPath + details[i].images[j]
-    }
-  }
-})
-schema.pre('findById', function() {
-  this.where({deleted: false})
-})
-schema.post('findById', function(doc) {
-  if(doc.images) host + '/' + ogPath + doc.images
-})
-schema.pre('findOneAndUpdate', function() {
-  this.where({deleted: false})
-})
-schema.pre('findByIdAndUpdate', function() {
-  this.where({deleted: false})
-})
-schema.pre('aggregate', function() {
-  this.pipeline().unshift({
-    $match: {
-      deleted: {
-        $eq: false
-      }
-    }
-  })})
+
 module.exports = mongoose.model('product', schema, 'products')

@@ -5,7 +5,6 @@ import Carousels from '../../components/customer/carousel'
 import Navbars from '../../components/customer/navbars'
 import './style.css'
 import Footer from '../../components/Footer';
-import Navbars from '../../components/customer/navbars';
 
 
 function CustomHomePage() {

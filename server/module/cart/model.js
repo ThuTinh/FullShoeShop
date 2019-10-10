@@ -71,10 +71,7 @@ const schema = new Schema({
       default: false
     }
   }],
-  guid: {
-    type: String,
-    unique: true
-  },
+ 
   user: {
     type: Schema.Types.ObjectId,
     required: true,
