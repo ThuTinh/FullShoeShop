@@ -85,18 +85,15 @@ const {STATUS} = require('../common/constant')
  */
 const schema = new Schema({
   products:[{
-    transactionId:{
-      type: Schema.Types.ObjectId
-    },
+    
     productId:{
       type: Schema.Types.ObjectId,
       required: [true, 'is required'],
       ref: 'product'
     },
-    storeId:{
-      type: Schema.Types.ObjectId,
-      required: [true, 'is required'],
-      ref: 'store'
+    size: {
+      type: Number,
+      required: [true, 'is required']
     },
     price: {
       type: Number,
@@ -105,18 +102,6 @@ const schema = new Schema({
     quantity: {
       type: Number,
       required: [true, 'is required']
-    },
-    evacoinUsed: {
-      type: Number
-    }, 
-    evacoinReceived: {
-      type: Number
-    },
-    coupon: {
-      type: String
-    },
-    refUser: {
-      type: String
     },
     status: {
       type: String,

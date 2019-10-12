@@ -37,22 +37,24 @@ const schema = new Schema({
     required: true,
     trim:true
   },
+  phone:{
+    type: String,
+    trim: true,
+    unique: true
+  },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  address:{
+    type: String,
+  },
   products:[{ 
     type: Schema.Types.ObjectId,
-    ref: 'product' }]
-  ,
-  // images: {
-  //   logo:{
-  //     type: String,
-  //     required: true
-  //   },
-  //   image:[
-  //     { 
-  //       type: String,
-  //       required: true
-  //     }
-  //   ]
-  // },
+    ref: 'product' }],
+
   deleted: {
     type: Boolean,
     select: false,

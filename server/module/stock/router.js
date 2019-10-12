@@ -6,11 +6,11 @@ const {handleError, makeResponse} = require('../common')
 // const {MESSAGE} = require('../common/constant')
 /**
  * @swagger
- * /api/v1/products:
+ * /api/v1/brands:
  *   get:
  *     tags: 
- *       - products
- *     description: get products with filter
+ *       - Brands
+ *     description: get brands with filter
  *     produces:
  *       - application/json
  *     responses:
@@ -19,8 +19,8 @@ const {handleError, makeResponse} = require('../common')
  */
 router.get('/', async (req, res, next) => {
   try {
-    const products = await findAll()
-    res.json(makeResponse(products))
+    const brands = await findAll()
+    res.json(makeResponse(brands))
   }
   catch(error) {
     res.json(handleError(error))
@@ -29,17 +29,17 @@ router.get('/', async (req, res, next) => {
 })
 /**
  * @swagger
- * /api/v1/products/{name}?page&per_page:
+ * /api/v1/brands/{name}?page&per_page:
  *   get:
  *     tags: 
- *       - products
- *     description: get product by product
+ *       - Brands
+ *     description: get product by brand
  *     produces:
  *       - application/json
  *     parameters:
  *       - in: path
  *         name: name
- *         description: product name
+ *         description: brand name
  *         type: string
  *       - name: page
  *         in: query
@@ -55,10 +55,10 @@ router.get('/:name', async (req, res, next) => {
     const filter = { name:1 }
     const page = Number(req.query.page) ? Number(req.query.page) : undefined
     const perPage = Number(req.query.per_page) ? Number(req.query.per_page) : undefined
-    const product = await findOne(conditions, filter, page, perPage)
+    const brand = await findOne(conditions, filter, page, perPage)
    
-    if(!product) throw new Error('Unable to find product name ' + req.params.name)
-    res.json(makeResponse(product))
+    if(!brand) throw new Error('Unable to find brand name ' + req.params.name)
+    res.json(makeResponse(brand))
   }
   catch(error) {
     logger.info(`${req.originalUrl}: `, error)
@@ -67,20 +67,20 @@ router.get('/:name', async (req, res, next) => {
 })
 /**
  * @swagger
- * /api/v1/products:
+ * /api/v1/brands:
  *   post:
  *     tags: 
- *       - products
- *     description: Create a product
+ *       - Brands
+ *     description: Create a brand
  *     produces:
  *       - application/json
  *     parameters:
  *       - in: body
  *         name: bodyReq
- *         description: product body
+ *         description: brand body
  *         required: true
  *         schema:
- *            $ref: "#/definitions/product"
+ *            $ref: "#/definitions/Brand"
  *     responses:
  *       200:
  *         description: Success
@@ -92,11 +92,11 @@ router.post('/', async (req, res, next) => {
     validateReqBody(req.body)
     const isExistName = await findOne({conditions:{name: req.body.name},filter:{name:1}})
     if(isExistName) {
-      throw new Error(`product ${req.body.name} is already exist`)
+      throw new Error(`Brand ${req.body.name} is already exist`)
     }
-    const product = await create(req.body)
-    logger.info('created product')
-    res.status(200).json(makeResponse(product))
+    const brand = await create(req.body)
+    logger.info('created brand')
+    res.status(200).json(makeResponse(brand))
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error)
     res.status(200).json(handleError(error))
@@ -105,24 +105,24 @@ router.post('/', async (req, res, next) => {
   
 /**
  * @swagger
- * /api/v1/products/{name}:
+ * /api/v1/brands/{name}:
  *   put:
  *     tags: 
- *       - products
- *     description: update product's information
+ *       - Brands
+ *     description: update brand's information
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: name
- *         description: product name
+ *         description: brand name
  *         in: path
  *         required: true
  *       - in: body
  *         name: bodyReq
- *         description: product body
+ *         description: brand body
  *         required: true
  *         schema:
- *            $ref: "#/definitions/product"
+ *            $ref: "#/definitions/Brand"
  *     responses:
  *       200:
  *         description: Success
@@ -134,9 +134,9 @@ router.put('/:name', async (req, res, next) => {
     if(!req.body || Object.keys(req.body).length === 0) {
       throw new Error('Body is empty')
     }
-    const updatedproduct = await update(req.params.name, req.body)
-    logger.info('product edited')
-    res.status(200).json(makeResponse(updatedproduct))
+    const updatedBrand = await update(req.params.name, req.body)
+    logger.info('Brand edited')
+    res.status(200).json(makeResponse(updatedBrand))
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error)
     res.status(200).json(handleError(error))
@@ -144,16 +144,16 @@ router.put('/:name', async (req, res, next) => {
 })
 /**
  * @swagger
- * /api/v1/products/add-item/{productId}?list:
+ * /api/v1/brands/add-item/{brandId}?list:
  *   put:
  *     tags: 
- *       - products
- *     description: Add item to product
+ *       - Brands
+ *     description: Add item to brand
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: productId
- *         description: product id
+ *       - name: brandId
+ *         description: brand id
  *         in: path
  *         required: true
  *       - in: body
@@ -179,8 +179,8 @@ router.put('/add-item/:id', async (req, res, next) => {
       throw new Error('Body is empty')
     }
 
-    const updatedproduct = await addItem(req.params.id, req.query.list, req.body.newId)
-    res.json(makeResponse(updatedproduct))
+    const updatedBrand = await addItem(req.params.id, req.query.list, req.body.newId)
+    res.json(makeResponse(updatedBrand))
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error)
     res.json(handleError(error))
