@@ -1,64 +1,48 @@
-import React, { useState } from 'react';
-import { Card, Icon, Avatar } from 'antd';
-import { Link } from 'react-router-dom'
-import './style.css'
-const { Meta } = Card;
+import React from "react";
+import Rating from "@material-ui/lab/Rating";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import "./style.css";
 
-
-class ProductItem extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
-
-    handleScroll = () => {
-
-
-    };
-
-    render() {
-        return (
-
-            <div className="card-container ">
-                <div className="card-item-image">
-                    <img className="image-item" style={{ width: '100%', height: '200px' }}
-                        alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-
-                </div>
-                <div className="card-item-body">
-                    <h5> Giayf Convert</h5>
-                    <p>12$</p>
-
-                </div>
-                <div className="card-item-footer">
-                    <div className="action-item">
-                        <label> Mua Hang</label>
-                    </div>
-                    <div className="action-item">
-                       <label>Chi tiet</label> 
-                    </div>
-
-
-
-                </div>
-
-            </div>
-        )
-
-    }
-
+function ProductItem() {
+  const [value, setValue] = React.useState(2);
+  return (
+    <div className="card-container ">
+      <div className="card-item-image">
+        <img
+          className="image-item"
+          style={{ width: "100%", height: "200px" }}
+          alt="example"
+          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+        />
+      </div>
+      <div className="card-item-body">
+        <h6>Giày convert chính hàng mua từ hàn quốc giá rẻ</h6>
+        <p>12$</p>
+        <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <Rating
+              name="simple-controlled"
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            />
+          </div>
+          <div>
+            <FavoriteBorderIcon className = "favorite-icon"></FavoriteBorderIcon>
+          </div>
+        </div>
+      </div>
+      <div className="card-item-footer">
+        <div className="action-item">
+          <label> Mua Hang</label>
+        </div>
+        <div className="action-item">
+          <label>Chi tiet</label>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ProductItem;

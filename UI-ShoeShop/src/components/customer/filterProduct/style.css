@@ -6,8 +6,9 @@
 
 .filter-tile{
     width: 100%;
+    text-align: center;
+    padding-top: 10px;
     height: 60px;
- 
     background-color: #ed5107;
     color: black;
     font-size: 25px;
@@ -15,9 +16,9 @@
 }
 
 .divide{
-    width: 100%;
+    width: 100% !important;
     height: 1px;
-    background-color: #fdecff;
+    background-color: #fdecff !important;
     margin-top: 5px;
 }
 

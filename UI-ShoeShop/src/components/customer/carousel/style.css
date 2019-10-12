@@ -1,8 +1,8 @@
 .ant-carousel .slick-slide {
   text-align: center;
-  height: 400px;
-  line-height: 300px;
-  background: #364d79;
+  height: 400px !important;
+  line-height: 300px !important;
+  background: #364d79 !important;
   overflow: hidden;
 }
 
@@ -11,5 +11,4 @@
 }
 .custom-carousel{
   margin-top: 140px;
-  z-index: -10;
 }

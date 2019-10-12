@@ -9,3 +9,40 @@
   .ant-carousel .slick-slide h3 {
     color: #fff;
   }
+
+  .container{
+    background-color: #f9f9f9
+  }
+  .money{
+    color: #f75f00;
+    font-size: 25px;
+    margin-left: 10%;
+    font-weight: 600;
+  }
+
+  .color{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .buy{
+    margin-top: 50px;
+  }
+
+  .quanlity{
+    margin-top: 40px;
+  }
+  .dive{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 60%;
+    height: 3px;
+    background-color: #f75f00;
+  }
+
+  .size{
+    display: flex;
+    align-items: center;
+  }

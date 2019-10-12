@@ -1,10 +1,10 @@
 import * as Types from '../constants/actionType'
 import callApi from '../utils/apiCaller'
 
-export const actGetSongsRequest = () => {
+export const actloginRequest = (login) => {
     return (dispatch) => {
-        return callApi('songs', 'GET', null).then(res => {
-            dispatch(actGetSongs(res.data));
+        return callApi('/api/v1/auth/login', 'POST', login).then(res => {
+            dispatch(actlogin(res.data));
             console.log(res);
 
         });
@@ -12,71 +12,10 @@ export const actGetSongsRequest = () => {
     }
 }
 
-
-export const login = () => {
-    return (dispatch) => {
-        return callApi('/api/v1/auth/login', 'POST', null).then(res => {
-            dispatch(login(res.data));
-            console.log(res);
-
-        });
-
-    }
-}
-
-export const actDeleteSongRequest = (id) => {
-    return (dispatch) => {
-        return callApi(`songs/${id}`, 'DELETE', null).then(res => {
-            dispatch(actGetSongsRequest());
-        })
-    }
-}
-
-export const actCreateSongRequest = (song) => {
-    return (dispatch) => {
-        return callApi('songs', 'POST', {
-            nameSong: song.nameSong,
-            singer: song.singer,
-            composer: song.composer,
-            releaseYear: song.releaseYear
-        }).then(res => {
-            dispatch(actGetSongsRequest());
-        })
-    }
-}
-
-export const actUpdateSongRequest = (song, id)=>{
-    return (dispatch)=>{
-        return callApi(`songs/${id}`, 'PUT',song).then(res=>{
-            dispatch(actGetSongsRequest());
-        })
-    }
-}
-
-export const actCreateSong = (song) => {
-    return {
-        type: Types.CREATE_SONG,
-        song
-    }
-
-}
-
-export const login = (res) => {
+export const actlogin = (login) => {
     return {
         type: Types.LOGIN,
-        res
+        login
     }
 
-}
-export const actGetSongs = (songs) => {
-    return {
-        type: Types.GET_SONGS,
-        songs
-    }
-}
-export const actDeleteSong = (id) => {
-    return {
-        type: Types.DELETE_SONG,
-        id
-    }
 }

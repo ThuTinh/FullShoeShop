@@ -1,36 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React from 'react';
 import './style.css'
 import ProductItem from '../prodcutItem';
 
 
-class ProductList extends React.Component {
+function ProductList() {
 
-    constructor(props) {
-        super(props);
-    }
-
-
-    render() {
-        return (
-
-            < div className="row ">
+    return (
+        < div className="row ">
             <div className="col-4" ><ProductItem /></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-            <div className="col-4" ><ProductItem/></div>
-    
-          </div>
-            
-        )
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+            <div className="col-4" ><ProductItem /></div>
+        </div>
 
-    }
-
+    )
 }
 
 export default ProductList;

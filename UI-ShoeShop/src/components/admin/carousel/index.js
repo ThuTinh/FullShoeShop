@@ -2,9 +2,6 @@ import React from 'react';
 import { Carousel } from 'antd';
 import './style.css';
 
-
-
-
 function Carousels() {
   return (
     <Carousel autoplay className = "custom-carousel">

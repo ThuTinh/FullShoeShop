@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
-import songs from './songs'
+import login from './login'
 const reducerControler = combineReducers({
-    songs
+    login
 });
 
 export default reducerControler;
