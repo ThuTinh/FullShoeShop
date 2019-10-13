@@ -1,26 +1,25 @@
-.filter-contaner{
-    background-color: #d2d0fe;
-    box-shadow: 5px -30px 60px rgba(0, 0, 0, 0.1);
-   
+.filter-contaner {
+  background-color: #d2d0fe;
+  box-shadow: 5px -30px 60px rgba(0, 0, 0, 0.1);
 }
 
-.filter-tile{
-    width: 100%;
-    text-align: center;
-    padding-top: 10px;
-    height: 60px;
-    background-color: #ed5107;
-    color: black;
-    font-size: 25px;
-    font-weight: 700;
+.filter-tile {
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  height: 60px;
+  background-color: #ed5107;
+  color: wheat;
+  font-size: 25px;
+  font-weight: 700;
 }
 
-.divide{
-    width: 100% !important;
-    height: 1px;
-    background-color: #fdecff !important;
-    margin-top: 5px;
+.divide {
+  width: 100% !important;
+  height: 1px;
+  background-color: #fdecff !important;
+  margin-top: 5px;
 }
 
-.filter-content{
+.filter-content {
 }

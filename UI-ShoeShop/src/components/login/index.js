@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   width400: {
     width: "400px",
-    marginTop: "30px !important"
+    marginTop: "30px"
   },
   width200: {
     width: "200px"
@@ -105,7 +105,7 @@ function Login() {
         variant="contained"
         color="secondary"
         className={classes.width400}
-        style = {{backgroundColor :"#f75f00"}}
+        style = {{backgroundColor :"#f75f00", marginTop: '50px'}}
         
       >
         Đăng nhập
@@ -131,7 +131,7 @@ function Login() {
               width: "170px"
             }}
           >
-            <i>Quên mật khẩu?</i>
+            <i className = "forget-pass">Quên mật khẩu?</i>
           </div>
         </Grid>
       </div>

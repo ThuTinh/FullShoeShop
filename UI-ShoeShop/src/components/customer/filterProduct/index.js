@@ -48,6 +48,138 @@ function FilterProduct() {
           }}
         />
         Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
+        <div className="divide"></div>
+        <Checkbox
+          onChange={handleChange("checkedB")}
+          value="checkedC"
+          color="primary"
+          labe
+          inputProps={{
+            "aria-label": "secondary checkbox"
+          }}
+        />
+        Giày scanel
       </div>
     </div>
   );

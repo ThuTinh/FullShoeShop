@@ -1,14 +1,14 @@
 import React from 'react';
 import ProductList from '../../components/customer/productList';
 import FilterProduct from '../../components/customer/filterProduct';
-import Carousels from '../../components/customer/carousel'
 import './style.css'
+import CarouselHome from '../../components/customer/carousel/carouselHome';
 
 function CustomHomePage() {
     return (
         <div>
             <div className="container">
-                <Carousels></Carousels>
+                <CarouselHome></CarouselHome>
                 <div className="row mt-3">
                     <div className="col-3">
                         <FilterProduct></FilterProduct>

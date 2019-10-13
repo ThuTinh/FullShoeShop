@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../../components/admin/navbar';
+import MiniDrawer from '../../components/admin/navbar'
 
 function AdminHomePage() {
     return (
         <div>
-            <Navbar></Navbar>
+            <MiniDrawer></MiniDrawer>
         </div>
     )
 }

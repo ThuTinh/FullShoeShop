@@ -5,6 +5,9 @@ import CustomerRoute from './routeCustomer';
 import Login from '../pages/loginPage';
 import { Route, Switch } from 'react-router-dom';
 
+// css
+import 'react-id-swiper/lib/styles/css/swiper.css';
+
 
 
 

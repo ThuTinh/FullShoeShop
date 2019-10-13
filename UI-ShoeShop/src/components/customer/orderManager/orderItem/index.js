@@ -23,43 +23,45 @@ function OrderItem() {
   //     setActiveStep(0);
   //   };
   return (
-    <div className="container-order-item">
-      <Grid container style={{ width: "100%" }}>
-        <Grid sm={2} item>
-          <img
-            style={{ width: "100", height: "100px" }}
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        </Grid>
-        <Grid sm={4} item>
-          <h6> Giày thể thao ABC</h6>
-          <p>Số lượng 1</p>
-        </Grid>
+    <div className = "container-order">
+      <div className="container-order-item">
+        <Grid container style={{ width: "100%" }}>
+          <Grid sm={3} item>
+            <img
+              style={{ width: "100", height: "100px" }}
+              alt="example"
+              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            />
+          </Grid>
+          <Grid sm={3} item>
+            <h6> Giày thể thao ABC</h6>
+            <p>Số lượng 1</p>
+          </Grid>
 
-        <Grid sm={6} item>
-          <Stepper
-            alternativeLabel
-            activeStep={activeStep}
-            style={{ backgroundColor: "#f5f0e3" }}
-          >
-            {steps.map(label => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "flex-end"
-            }}
-          >
-            <h5>Tổng tiển: 199.000</h5>
-          </div>
+          <Grid sm={6} item>
+            <Stepper
+              alternativeLabel
+              activeStep={activeStep}
+              style={{ backgroundColor: "#f5f0e3" }}
+            >
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-end"
+              }}
+            >
+              <h5>Tổng tiển: 199.000</h5>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
   );
 }

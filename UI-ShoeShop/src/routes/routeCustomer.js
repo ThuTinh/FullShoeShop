@@ -17,7 +17,7 @@ function CustomerRoute() {
         <Route path="/product/cart" component={CartPage} />
         <Route path = "/product/purchase" component = {InfoPurchasePage}/>
         <Route path="/product/:id" component={ProductDetailPage} />
-        <Route path = "/info" component = {ProfilePage}/>
+        <Route path = "/info" component = {ProfilePage} />
         <Route path="/" component={CustomHomePage} exact={true} />
         <Route path="**" component={CustomHomePage} exact={true} />
       </Switch>

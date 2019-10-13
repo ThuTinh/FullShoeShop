@@ -1,5 +1,7 @@
 .divid{
-    width: 30%;
-    height: 2px;
+    width: 10%;
+    height: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     background-color: #2a1a5e;
 }

@@ -1,12 +1,13 @@
 import React from 'react';
-import OrderItem from '../../components/customer/orderManager/orderItem'
+import ManagerCustomer from '../../components/customer/managerCustomer'
+
 
 
 
 function ProfilePage() {
     return (
         <div className = "container">
-          <OrderItem></OrderItem>
+        <ManagerCustomer></ManagerCustomer>
         </div>
     )
 }

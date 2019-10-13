@@ -1,10 +1,12 @@
 import React from "react";
-import { Carousel } from "antd";
 import Button from "@material-ui/core/Button";
+import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
+import CarouselProduct from "../carousel/carouseProduct";
 import "./style.css";
 
 function ProductDetail() {
+  const [value, setValue] = React.useState(2);
   const useStyles = makeStyles(theme => ({
     button: {
       margin: theme.spacing(1)
@@ -16,20 +18,7 @@ function ProductDetail() {
     <div className="container">
       <div className="row">
         <div className="col-5">
-          <Carousel autoplay className="mt-4">
-            <div>
-              <h3>1</h3>
-            </div>
-            <div>
-              <h3>2</h3>
-            </div>
-            <div>
-              <h3>3</h3>
-            </div>
-            <div>
-              <h3>4</h3>
-            </div>
-          </Carousel>
+          <CarouselProduct></CarouselProduct>
         </div>
         <div className="col-7">
           <div className="title mt-4">
@@ -64,7 +53,7 @@ function ProductDetail() {
             </Button>
           </div>
           <div className="size">
-            <h6 className="mr-5">Zize</h6>
+            <h6 className="mr-5">Size</h6>
             <Button
               variant="outlined"
               color="secondary"
@@ -105,6 +94,7 @@ function ProductDetail() {
             </Button>
             <Button
               variant="contained"
+              color="secondary"
               className={classes.button}
               style={{ backgroundColor: "#ff0000" }}
             >
@@ -113,6 +103,7 @@ function ProductDetail() {
             <Button
               variant="contained"
               className={classes.button}
+              color="secondary"
               style={{ backgroundColor: "#ff0000" }}
             >
               Book
@@ -132,6 +123,16 @@ function ProductDetail() {
             cập vào History, HTML5 cung cấp 1 API có sẵn cho phép điều chỉnh đối
             tượng History thông qua các phương thức pushState và replaceState.
           </p>
+        </div>
+        <div>
+          <h6 style = {{marginTop:'10px'}}>ĐÁNH GIÁ SẢN PHẨM</h6>
+          <Rating
+              name="simple-controlled"
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            />
         </div>
       </div>
     </div>

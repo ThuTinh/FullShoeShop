@@ -70,10 +70,11 @@ class Navbars extends React.Component {
     // return focus to the button when we transitioned from !open -> open
     return (
       <div className="menu-container">
+        
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
           <div className="logo"></div>
           <div className="menu-items">
-            <div style={{ display: "inline" }}>
+            <div style={{ display: "inline" , width: '200px' }}>
               <label
                 className="menu-item "
                 aria-controls="sub-menu"
@@ -125,18 +126,16 @@ class Navbars extends React.Component {
           <form>
             <input
               type="text"
-              className="form-control"
+              className="control-input"
               id="search_input"
               placeholder="Search Here"
             />
             <button type="submit" className="btn"></button>
-            <span
-              className="lnr lnr-cross"
-              id="close_search"
-              title="Close Search"
-            ></span>
+            
           </form>
         </div>
+
+        
       </div>
     );
   }

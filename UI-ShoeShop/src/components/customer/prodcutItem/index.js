@@ -22,6 +22,7 @@ function ProductItem() {
           <div>
             <Rating
               name="simple-controlled"
+              readOnly
               value={value}
               onChange={(event, newValue) => {
                 setValue(newValue);
@@ -35,10 +36,10 @@ function ProductItem() {
       </div>
       <div className="card-item-footer">
         <div className="action-item">
-          <label> Mua Hang</label>
+          <label> Mua Hàng</label>
         </div>
         <div className="action-item">
-          <label>Chi tiet</label>
+          <label>Chi tiết</label>
         </div>
       </div>
     </div>
