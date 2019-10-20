@@ -9,14 +9,18 @@ const schema = new Schema({
     required: true,
     unique: true
   },
-  firstName:{
+  name:{
     type: String,
-    required: true
+    
   },
-  lastName: {
-    type: String,
-    required: true
-  },
+  // firstName:{
+  //   type: String,
+  //   required: true
+  // },
+  // lastName: {
+  //   type: String,
+  //   required: true
+  // },
   password: {
     type: String,
     select: false
@@ -47,18 +51,16 @@ const schema = new Schema({
   address:{
     type: String,
   },
-  birthday:{
-    type: Date
-  },
-  sex:{
-    type: Boolean
-  },
+  // birthday:{
+  //   type: Date
+  // },
+  // sex:{
+  //   type: Boolean
+  // },
   shipAddress:[{
     type: String
   }],
  
-
-
   favoriteProducts: [
     { type: Schema.Types.ObjectId, ref: 'product' }
   ],
@@ -69,7 +71,6 @@ const schema = new Schema({
   }
 },{timestamps: true})
 
-
 schema.post('find', function(docs) {
   if(docs.length <= 0) return
   for(let i = 0; i < docs.length; i++) {
@@ -77,4 +78,4 @@ schema.post('find', function(docs) {
   }
 })
 const user = mongoose.model('user', schema, 'users')
-module.exports = user
+module.exports = user 

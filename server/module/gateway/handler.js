@@ -1,7 +1,7 @@
 const { handleError } = require('../common')
 const jwt = require('jsonwebtoken')
 const {secret} = require('../config').tokenConfig
-const {CUSTOMER, DOCTOR,ADMIN} = require('../common/constant')
+const {ADMIN} = require('../common/constant')
 
 const requestIsNoNeedAuthen = [
   {
@@ -107,16 +107,13 @@ const first = (req, res, next) => {
     req.email = user.email
     req.id = user.id 
     req.roles=user.roles?user.roles:['customer']
-    
-    if(user.roles&&((reqAuthenForAdmin && user.roles.includes(ADMIN))
-    ||(reqAuthenForDoctor && user.roles.includes(DOCTOR) &&!reqAuthenForAdmin)
-    ||user.roles.includes(CUSTOMER)&&!reqAuthenForAdmin&&!reqAuthenForDoctor)){ 
-      next()
-      return 
-    }
-    throw new Error('Role permission deny')
-  } catch (error) {
-    if(reqIsOptionalAuthen&&!reqAuthenForAdmin&&!reqAuthenForDoctor) {
+    // if(user.roles&&((reqAuthenForAdmin && user.roles.includes(ADMIN)))){ 
+    next()
+    //   return 
+    // 
+    // throw new Error('Role permission deny')
+  }catch (error) {
+    if(reqIsOptionalAuthen&&!reqAuthenForAdmin) {
       next()
       return
     }

@@ -12,22 +12,10 @@ const Schema = mongoose.Schema
  *         readOnly: true
  *       name:
  *         type: string
- *       slug:
- *         type: string
- *       content:
- *         type: string
  *       parent:
  *         type: objectId
- *       ancestors:
- *         type: array
- *         items:
- *           type: object
- *           $ref: "#definitions/Ancestor"
- *       type:
- *         type: string
  *     required:
  *         - name
- *         - slug
  */
 /**
  * @swagger
@@ -41,10 +29,6 @@ const Schema = mongoose.Schema
  *         readOnly: true
  *       name:
  *         type: string
- *       slug:
- *         type: string
- *       type:
- *         type: string
  */
 const schema = new mongoose.Schema({
   name: {
@@ -52,36 +36,13 @@ const schema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  slug: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String
-  },
   parent: {
     type: Schema.Types.ObjectId,
     ref: 'category',
   },
-  ancestors: [{
-    _id: String,
-    name: String,
-    slug: String
-  }],
-  type: {
-    type: String,
-  },
-  image:{
-    type: String
-  }
+
+ 
 })
-const index = { parent: 1}
-schema.index(index)
-schema.pre('validate', function(next) {
-  if(this.name) {
-    this.slug = this.name.toLowerCase().split(' ').join('-')
-  }
-  next()
-})
+
 
 module.exports = mongoose.model('category', schema, 'categories')

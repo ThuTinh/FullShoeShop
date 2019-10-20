@@ -1,6 +1,6 @@
 const express = require('express')
 const router = new express.Router()
-const { findOne, create, update, addFriends,  addFavoritedProduct } = require('./handler')
+const { findOne, create, update,   addFavoritedProduct } = require('./handler')
 const { getPendingOrder} = require('../order')
 const { handleError, makeResponse } = require('../common')
 const model = require('./model')
@@ -160,8 +160,7 @@ router.get('/current', async (req, res, next) => {
  *         required: true
  *         example: {
  *                     "email": "",
- *                     "firstName": "",
- *                     "lastName": "",
+ *                     "name": "",
  *                     "password": "",
  *                     "phone": "",
  *                     "address": ""
@@ -180,11 +179,8 @@ router.post('/', async (req, res, next) => {
     if (!body.email) {
       throw new Error(`'email' is required`)
     }
-    if (!body.firstName) {
+    if (!body.name) {
       throw new Error(`'firstName' is required`)
-    }
-    if (!body.lastName) {
-      throw new Error(`'lastName' is required`)
     }
     if (!body.password) {
       throw new Error(`'password' is required`)
