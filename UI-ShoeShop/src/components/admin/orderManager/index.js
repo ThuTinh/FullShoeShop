@@ -7,9 +7,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import ListEmployee from './listEmpoyee'
-
-
+import ListOrder from "./listOrder";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,12 +42,11 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: '100%'
+    width: "100%"
   }
 }));
 
-function EmployeeManager() {
-
+function OrderManager() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -74,9 +71,12 @@ function EmployeeManager() {
           aria-label="full width tabs example"
         >
           <Tab label="Tất cả" {...a11yProps(0)} />
-          <Tab label="Nhân viên bán hàng" {...a11yProps(1)} />
-          <Tab label="Nhân viên thủ kho" {...a11yProps(2)} />
-          <Tab label="Shiper" {...a11yProps(3)} />
+          <Tab label="Chờ xác nhận" {...a11yProps(1)} />
+          <Tab label="Chờ lấy hàng" {...a11yProps(2)} />
+          <Tab label="Đang giao" {...a11yProps(3)} />
+          <Tab label="Đã giao" {...a11yProps(4)} />
+          <Tab label="Đã hủy" {...a11yProps(5)} />
+          <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -85,19 +85,33 @@ function EmployeeManager() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-         <ListEmployee></ListEmployee>
+          <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        
-         <ListEmployee></ListEmployee>
+          <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-     
-         <ListEmployee></ListEmployee>
-        
+          <ListOrder></ListOrder>
         </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+      
+          <ListOrder></ListOrder>
+        </TabPanel>
+        <TabPanel value={value} index={4} dir={theme.direction}>
+      
+          <ListOrder></ListOrder>
+        </TabPanel>
+        <TabPanel value={value} index={5} dir={theme.direction}>
+         
+          <ListOrder></ListOrder>
+          </TabPanel>
+          <TabPanel value={value} index={6} dir={theme.direction}>
+        
+          <ListOrder></ListOrder>
+          </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
-export default  EmployeeManager
+
+export default OrderManager;

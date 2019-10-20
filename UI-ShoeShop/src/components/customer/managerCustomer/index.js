@@ -7,7 +7,6 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Route, Switch } from "react-router-dom";
-import OrderList from "../orderManager/orderList";
 import InforCustomer from "../infoCustomer";
 import avatar from "../../../assets/image/avatar.JPG";
 

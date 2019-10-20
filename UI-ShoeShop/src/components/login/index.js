@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +10,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
-import './style.css'
+import { Redirect } from "react-router-dom";
+import "./style.css";
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: "5px",
@@ -24,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   paddingLabel: {
     paddingBottom: "10px"
-  },
+  }
 }));
 
 function Login() {
@@ -50,6 +52,13 @@ function Login() {
     event.preventDefault();
   };
 
+  const sign = () => {
+    <Redirect
+      to={{
+        pathname: "/sign"
+      }}
+    />;
+  };
   return (
     <Grid
       container
@@ -58,7 +67,7 @@ function Login() {
       alignItems="center"
       className={classes.margin}
     >
-      <div style = {{marginTop: '5%'}}>
+      <div style={{ marginTop: "5%" }}>
         <h4 className="title-login">WELCOME TO SHOE </h4>
         <h1 className="title-login">SHOP</h1>
       </div>
@@ -73,7 +82,7 @@ function Login() {
           <Input id="adornment-userName" className={classes.width400} />
         </FormControl>
       </div>
-      <div style = {{marginTop:'20px'}}>
+      <div style={{ marginTop: "20px" }}>
         <FormControl>
           <InputLabel
             htmlFor="adornment-password"
@@ -105,8 +114,7 @@ function Login() {
         variant="contained"
         color="secondary"
         className={classes.width400}
-        style = {{backgroundColor :"#f75f00", marginTop: '50px'}}
-        
+        style={{ backgroundColor: "#f75f00", marginTop: "50px" }}
       >
         Đăng nhập
       </Button>
@@ -116,7 +124,8 @@ function Login() {
             variant="contained"
             color="secondary"
             className={classes.width200}
-            style = {{backgroundColor :"#f75f00"}}
+            style={{ backgroundColor: "#f75f00" }}
+            onClick={sign()}
           >
             Đăng kí
           </Button>
@@ -131,7 +140,7 @@ function Login() {
               width: "170px"
             }}
           >
-            <i className = "forget-pass">Quên mật khẩu?</i>
+            <i className="forget-pass">Quên mật khẩu?</i>
           </div>
         </Grid>
       </div>

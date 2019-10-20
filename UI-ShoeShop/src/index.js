@@ -1,28 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './routes/';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import reducerController from './reducers/index'
-import thunk from 'redux-thunk';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./routes/";
+import "bootstrap/dist/css/bootstrap.min.css";
+import * as serviceWorker from "./serviceWorker";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reducerController from "./reducers/index";
+import thunk from "redux-thunk";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from "history";
 const store = createStore(reducerController, applyMiddleware(thunk));
 const history = createBrowserHistory();
 ReactDOM.render(
-    <Provider store = {store}>
- <Router history={history}>
-            <Switch>
-                <Route path="/" component={App} />
-            </Switch>
-        </Router>
-       
-    </Provider>
-    ,
-    document.getElementById('root'));
+  <Provider store={store}>
+    <Router history={history}>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

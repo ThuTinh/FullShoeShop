@@ -1,18 +1,14 @@
-import React from 'react'
-import AdminHomePage from '../pages/adminPage'
-import {  Route, Switch } from 'react-router-dom';
+import React from "react";
+import AdminHomePage from "../pages/adminPage";
+import { Route, Switch } from "react-router-dom";
 
 function AdminRoute() {
-    return (
-      <Switch>
+  return (
+    <Switch>
       <Route path="/" component={AdminHomePage} />
       <Route path="**" component={AdminHomePage} />
-  </Switch>
-  
-  
-    );
-  }
-  
-  
-  
-  export default AdminRoute;
+    </Switch>
+  );
+}
+
+export default AdminRoute;

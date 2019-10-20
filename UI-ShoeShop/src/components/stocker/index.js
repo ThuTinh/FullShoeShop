@@ -1,3 +1,4 @@
+
 import React from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -17,15 +18,17 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import BookIcon from "@material-ui/icons/Book";
 import { Route, Switch } from "react-router-dom";
-import OrderManager from "../orderManager";
-import EmployeeManager from "../employeeManager";
-import { Link } from "react-router-dom";
+import ListOrder from '../admin/orderManager/listOrder';
+import OrderStockList from './ImportStock/orderStockList';
+import {Link} from "react-router-dom"
+
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    width: "100%"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -33,6 +36,14 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
+  },
+  link:{
+    color: '#2a1a5e',
+    "&:hover":{
+      textDecoration: 'none',
+      color: '#F75F00',
+      cursor: 'pointer'
+    }
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -84,18 +95,10 @@ const useStyles = makeStyles(theme => ({
   },
   customToolbar: {
     backgroundColor: "#F75F00"
-  },
-  link: {
-    color: "#2a1a5e",
-    "&:hover": {
-      textDecoration: "none",
-      color: "#F75F00",
-      cursor: "pointer"
-    }
   }
 }));
 
-function MiniDrawer() {
+function StockerHome() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -130,7 +133,7 @@ function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap style={{ color: "#fff" }}>
-            Quản lý
+            Quản lý kho
           </Typography>
         </Toolbar>
       </AppBar>
@@ -159,53 +162,35 @@ function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="Quản lý đơn hàng">
+          <ListItem button key="Đơn hàng">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/order" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý đơn hàng" />
-            </Link>
+            <Link to="/stocker/order" className = {classes.link}>
+            <ListItemText primary="Đơn hàng" />
+            </Link>      
           </ListItem>
-          <ListItem button key="Quản lý sản phẩm">
+          <ListItem button key="Nhập kho">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="**" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý sản phẩm" />
+            <Link to = "/stocker/import-list"  className = {classes.link}>
+            <ListItemText primary="Nhập Kho" />
             </Link>
-          </ListItem>
-          <ListItem button key="Quản lý Nhân viên">
-            <ListItemIcon>
-              <BookIcon></BookIcon>
-            </ListItemIcon>
-            <Link to="/admin/employee" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý nhân viên" />
-            </Link>
-          </ListItem>
-          <ListItem button key="Quản lý danh mục">
-            <ListItemIcon>
-              <BookIcon></BookIcon>
-            </ListItemIcon>
-            <Link to="**" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý danh mục" />
-            </Link>
+          
           </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route path="/admin/order" component={OrderManager} />
-          <Route path="/admin/employee" component={EmployeeManager}></Route>
-          <Route path="**" component={OrderManager} />
+          <Route path="/stocker/order" component={ListOrder} />
+          <Route path="/stocker/import-list" component={OrderStockList} />
+          <Route path="**" component={ListOrder} />
+         
         </Switch>
       </main>
     </div>
   );
 }
-export default MiniDrawer;
+export default StockerHome;

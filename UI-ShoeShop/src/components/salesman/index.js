@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -17,15 +18,17 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import BookIcon from "@material-ui/icons/Book";
 import { Route, Switch } from "react-router-dom";
-import OrderManager from "../orderManager";
-import EmployeeManager from "../employeeManager";
+import ListOrder from "../admin/orderManager/listOrder";
+import AddProduct from "./addProduct";
+import ListProduct from "./listProduct";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    width: "100%"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -85,17 +88,17 @@ const useStyles = makeStyles(theme => ({
   customToolbar: {
     backgroundColor: "#F75F00"
   },
-  link: {
-    color: "#2a1a5e",
-    "&:hover": {
-      textDecoration: "none",
-      color: "#F75F00",
-      cursor: "pointer"
+  link:{
+    color: '#2a1a5e',
+    "&:hover":{
+      textDecoration: 'none',
+      color: '#F75F00',
+      cursor: 'pointer'
     }
   }
 }));
 
-function MiniDrawer() {
+function SalesManHome() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -159,53 +162,41 @@ function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="Quản lý đơn hàng">
+          <ListItem button key="Thêm sản phẩm">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/order" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý đơn hàng" />
+            <Link to="/saleman/add-product" className = {classes.link}>
+              <ListItemText primary="Thêm sản phẩm" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý sản phẩm">
+          <ListItem button key="Đơn hàng" >
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="**" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý sản phẩm" />
+            <Link to = "/saleman/order" className = {classes.link}>
+              <ListItemText primary="Đơn hàng" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý Nhân viên">
+          <ListItem button key="Danh sách sản phẩm">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/employee" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý nhân viên" />
-            </Link>
-          </ListItem>
-          <ListItem button key="Quản lý danh mục">
-            <ListItemIcon>
-              <BookIcon></BookIcon>
-            </ListItemIcon>
-            <Link to="**" className={classes.link}>
-              {" "}
-              <ListItemText primary="Quản lý danh mục" />
-            </Link>
+            <Link to = "/saleman/product-list" className = {classes.link}>
+            <ListItemText primary="Danh sách sản phẩm" /></Link>
           </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route path="/admin/order" component={OrderManager} />
-          <Route path="/admin/employee" component={EmployeeManager}></Route>
-          <Route path="**" component={OrderManager} />
+          <Route path="/saleman/order" component={ListOrder} />
+          <Route path="/saleman/product-list" component={ListProduct} />
+          <Route path="/saleman/add-product" component={AddProduct} />
+          <Route path="**" component={ListOrder} />
         </Switch>
       </main>
     </div>
   );
 }
-export default MiniDrawer;
+export default SalesManHome;

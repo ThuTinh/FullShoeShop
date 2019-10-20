@@ -7,9 +7,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import ListEmployee from './listEmpoyee'
-
-
+import OrderStockList from './orderStockList'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,12 +42,11 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: '100%'
+    width: "100%"
   }
 }));
 
-function EmployeeManager() {
-
+function ImportStockManager() {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -74,9 +71,9 @@ function EmployeeManager() {
           aria-label="full width tabs example"
         >
           <Tab label="Tất cả" {...a11yProps(0)} />
-          <Tab label="Nhân viên bán hàng" {...a11yProps(1)} />
-          <Tab label="Nhân viên thủ kho" {...a11yProps(2)} />
-          <Tab label="Shiper" {...a11yProps(3)} />
+          <Tab label="Chờ xác nhận" {...a11yProps(1)} />
+          <Tab label="Đang chờ nhận hàng" {...a11yProps(2)} />
+          <Tab label="Thanh toán" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -85,19 +82,22 @@ function EmployeeManager() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-         <ListEmployee></ListEmployee>
+            <OrderStockList></OrderStockList>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        
-         <ListEmployee></ListEmployee>
+        <OrderStockList></OrderStockList>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-     
-         <ListEmployee></ListEmployee>
-        
+          Item Three
+          <OrderStockList></OrderStockList>
+        </TabPanel>
+        <TabPanel value={value} index={3} dir={theme.direction}>
+          Item 4
+          <OrderStockList></OrderStockList>
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
-export default  EmployeeManager
+
+export default ImportStockManager;
