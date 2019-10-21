@@ -95,6 +95,10 @@ const schema = new Schema({
       type: Number,
       required: [true, 'is required']
     },
+    color: {
+      type: String,
+      required: [true, 'is required']
+    },
     price: {
       type: Number,
       required: [true, 'is required']

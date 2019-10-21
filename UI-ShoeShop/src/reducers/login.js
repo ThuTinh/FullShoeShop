@@ -1,17 +1,16 @@
 import *as Types from '../constants/actionType'
 
-var inintState = []
+var inintState = {}
 
 const login = (state = inintState, action) => {
 
     switch (action.type) {
         case Types.LOGIN:
             state = action.login;
-            ;
-            return [...state];
+            return state;
 
         default:
-            return [...state];
+            return state;
 
     }
 }

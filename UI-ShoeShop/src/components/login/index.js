@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import React from "react";
+import React , {useState, useEffect}from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
@@ -12,6 +12,9 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
 import "./style.css";
+import { actloginRequest } from "../../actions";
+import {connect} from "react-redux";
+
 const useStyles = makeStyles(theme => ({
   margin: {
     margin: "5px",
@@ -29,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Login() {
+function Login(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
@@ -39,9 +42,18 @@ function Login() {
     weightRange: "",
     showPassword: false
   });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [redirect, setRedirect] =useState(false)
 
+  useEffect(()=>{
+    if(props.resLogin.email){
+      setRedirect(true);
+    }
+  },[props.resLogin])
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
+    setPassword(event.target.value);
   };
 
   const handleClickShowPassword = () => {
@@ -53,11 +65,7 @@ function Login() {
   };
 
   const sign = () => {
-    <Redirect
-      to={{
-        pathname: "/sign"
-      }}
-    />;
+    <Redirect to="/admin" />;
   };
   return (
     <Grid
@@ -67,6 +75,9 @@ function Login() {
       alignItems="center"
       className={classes.margin}
     >
+      {
+        redirect&& <Redirect to ="/admin"/>
+      }
       <div style={{ marginTop: "5%" }}>
         <h4 className="title-login">WELCOME TO SHOE </h4>
         <h1 className="title-login">SHOP</h1>
@@ -74,12 +85,12 @@ function Login() {
       <div>
         <FormControl>
           <InputLabel
-            htmlFor="adornment-userName"
+            htmlFor="email"
             className={classes.paddingLabel}
           >
-            Username
+            Email
           </InputLabel>
-          <Input id="adornment-userName" className={classes.width400} />
+          <Input id="Email" className={classes.width400} name = "email" onChange ={(e)=>{setEmail(e.target.value)}} />
         </FormControl>
       </div>
       <div style={{ marginTop: "20px" }}>
@@ -94,6 +105,7 @@ function Login() {
             id="adornment-password"
             type={values.showPassword ? "text" : "password"}
             value={values.password}
+            name = "password"
             onChange={handleChange("password")}
             className={classes.width400}
             endAdornment={
@@ -115,6 +127,7 @@ function Login() {
         color="secondary"
         className={classes.width400}
         style={{ backgroundColor: "#f75f00", marginTop: "50px" }}
+        onClick = {()=>props.login({email, password})}
       >
         Đăng nhập
       </Button>
@@ -147,5 +160,19 @@ function Login() {
     </Grid>
   );
 }
-
-export default Login;
+const stateMapToProps = state => {
+  return {
+    resLogin: state.login
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    login: login => {
+      dispatch(actloginRequest(login));
+    }
+  };
+};
+export default connect(
+  stateMapToProps,
+  dispatchMapToProps
+)(Login);

@@ -4,16 +4,17 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import SearchIcon from "@material-ui/icons/Search";
-import { withStyles } from '@material-ui/core/styles';
-import Badge from '@material-ui/core/Badge';
+import { withStyles } from "@material-ui/core/styles";
+import Badge from "@material-ui/core/Badge";
+import PersonIcon from "@material-ui/icons/Person";
 import "./style.css";
 
- const StyledBadge1 = withStyles(theme => ({
+const StyledBadge1 = withStyles(theme => ({
   badge: {
     right: -3,
     border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
-  },
+    padding: "0 4px"
+  }
 }))(Badge);
 class Navbars extends React.Component {
   constructor(props) {
@@ -25,7 +26,6 @@ class Navbars extends React.Component {
       anchorEl: null
     };
   }
-
 
   // Adds an event listener when the component is mount.
   componentDidMount() {
@@ -70,11 +70,10 @@ class Navbars extends React.Component {
     // return focus to the button when we transitioned from !open -> open
     return (
       <div className="menu-container">
-        
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
           <div className="logo"></div>
           <div className="menu-items">
-            <div style={{ display: "inline" , width: '200px' }}>
+            <div style={{ display: "inline", width: "200px" }}>
               <label
                 className="menu-item "
                 aria-controls="sub-menu"
@@ -109,14 +108,17 @@ class Navbars extends React.Component {
             <Link className="menu-item">Kết nối</Link>
           </div>
           <div className="menu-cart-search">
-          <StyledBadge1 badgeContent={4} color="primary">
-          <ShoppingCartIcon className="menu-cart" />
-          </StyledBadge1>
-            
+            <StyledBadge1 badgeContent={4} color="primary">
+              <ShoppingCartIcon className="menu-cart" />
+            </StyledBadge1>
+
             <SearchIcon
               className="menu-search"
               onClick={this.onIconSearchClick}
             />
+          </div>
+          <div>
+            <PersonIcon className="icon-person"></PersonIcon>
           </div>
         </nav>
         <div
@@ -131,11 +133,8 @@ class Navbars extends React.Component {
               placeholder="Search Here"
             />
             <button type="submit" className="btn"></button>
-            
           </form>
         </div>
-
-        
       </div>
     );
   }

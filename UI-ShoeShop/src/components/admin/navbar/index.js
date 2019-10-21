@@ -20,6 +20,7 @@ import { Route, Switch } from "react-router-dom";
 import OrderManager from "../orderManager";
 import EmployeeManager from "../employeeManager";
 import { Link } from "react-router-dom";
+import ManagerProduct from "../managerProduct";
 
 const drawerWidth = 240;
 
@@ -163,7 +164,7 @@ function MiniDrawer() {
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/order" className={classes.link}>
+            <Link to="/admin/orders" className={classes.link}>
               {" "}
               <ListItemText primary="Quản lý đơn hàng" />
             </Link>
@@ -172,7 +173,7 @@ function MiniDrawer() {
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="**" className={classes.link}>
+            <Link to="/admin/products" className={classes.link}>
               {" "}
               <ListItemText primary="Quản lý sản phẩm" />
             </Link>
@@ -181,7 +182,7 @@ function MiniDrawer() {
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/employee" className={classes.link}>
+            <Link to="/admin/employees" className={classes.link}>
               {" "}
               <ListItemText primary="Quản lý nhân viên" />
             </Link>
@@ -200,8 +201,9 @@ function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route path="/admin/order" component={OrderManager} />
-          <Route path="/admin/employee" component={EmployeeManager}></Route>
+          <Route path="/admin/orders" component={OrderManager} />
+          <Route path="/admin/products" component={ManagerProduct} />
+          <Route path="/admin/employees" component={EmployeeManager}></Route>
           <Route path="**" component={OrderManager} />
         </Switch>
       </main>

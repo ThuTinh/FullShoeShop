@@ -17,18 +17,18 @@
             "error",
             2
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        // "linebreak-style": [
+        //     "error",
+        //     "unix"
+        // ],
         "quotes": [
             0,
             "backtick"
         ],
-        "semi": [
-            "error",
-            "never"
-        ],
+        // "semi": [
+        //     "error",
+        //     "never"
+        // ],
         "no-unused-vars": [
             2, {"vars": "all", "args": "none"}
         ]

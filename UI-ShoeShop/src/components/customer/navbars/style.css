@@ -35,6 +35,14 @@
 .menu-items {
   margin-right: 40px;
 }
+.icon-person{
+  margin-right: 20px;
+}
+
+.icon-person:hover{
+  cursor: pointer;
+  color: #fff
+}
 
 .menu-search {
   margin: 20px;

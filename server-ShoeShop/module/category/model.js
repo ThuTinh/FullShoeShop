@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 /**
  * @swagger
  *
@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
  *   Category:
  *     type: object
  *     properties:
- *       _id: 
+ *       _id:
  *         type: string
  *         readOnly: true
  *       name:
@@ -36,7 +36,7 @@ const Schema = mongoose.Schema
  *   Ancestor:
  *     type: object
  *     properties:
- *       _id: 
+ *       _id:
  *         type: string
  *         readOnly: true
  *       name:
@@ -52,36 +52,27 @@ const schema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  slug: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String
-  },
   parent: {
     type: Schema.Types.ObjectId,
-    ref: 'category',
+    ref: "category"
   },
-  ancestors: [{
-    _id: String,
-    name: String,
-    slug: String
-  }],
   type: {
-    type: String,
+    type: String
   },
-  image:{
+  image: {
     type: String
   }
-})
-const index = { parent: 1}
-schema.index(index)
-schema.pre('validate', function(next) {
-  if(this.name) {
-    this.slug = this.name.toLowerCase().split(' ').join('-')
+});
+const index = { parent: 1 };
+schema.index(index);
+schema.pre("validate", function(next) {
+  if (this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .split(" ")
+      .join("-");
   }
-  next()
-})
+  next();
+});
 
-module.exports = mongoose.model('category', schema, 'categories')
+module.exports = mongoose.model("category", schema, "categories");

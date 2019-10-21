@@ -19,6 +19,6 @@
   "scripts": {
     "start": "concurrently --kill-others-on-fail  \"npm run server\" \"npm run client\" ",
     "client": "cd UI-ShoeShop && npm start",
-    "server": "cd server && nodemon server"
+    "server": "cd server-ShoeShop && nodemon server"
   }
 }
