@@ -9,10 +9,10 @@ import "./style.css";
 
 const useStyles = makeStyles(theme => ({
   paddingLabel: {
-    margin: 'auto'
+    margin: "auto"
   },
   width100: {
-    marginBottom: "50px",
+    marginBottom: "20px",
     width: "80%"
   }
 }));
@@ -36,8 +36,8 @@ function InfoPurchase() {
           justify="flex-start"
           alignItems="center"
         >
-          <h4 >Thông tin khách hàng</h4>
-          <div className="divid "></div>
+          <h6>THÔNG TIN KHÁCH HÀNG</h6>
+          <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
         </Grid>
         <Grid item sm={5}>
           <FormControl style={{ width: "100%" }}>
@@ -54,7 +54,7 @@ function InfoPurchase() {
               htmlFor="adornment-address"
               className={classes.paddingLabel}
             >
-              Địa chỉ
+              Địa chỉ nhận
             </InputLabel>
             <Input id="adornment-userName" className={classes.width100} />
           </FormControl>
@@ -87,11 +87,9 @@ function InfoPurchase() {
           direction="column"
           justify="flex-start"
           alignItems="center"
-        >
-          <h5 >Danh sách sản phẩm</h5>
-          <div className="divid" ></div>
-        </Grid>
+        ></Grid>
         <Grid sm={10} item>
+          <div><b>Phương thức: Thanh toán khi nhận hàng</b></div>
           <Carts></Carts>
         </Grid>
       </Grid>

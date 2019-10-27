@@ -2,7 +2,13 @@
 /* eslint-disable react/style-prop-object */
 import React, { useState, useEffect } from "react";
 import Swiper from "react-id-swiper";
+import slide1 from "../../../../assets/image/slide1.jpg";
+import slide2 from "../../../../assets/image/slide2.jpg";
+import slide3 from "../../../../assets/image/slide3.jpg";
+import slide4 from "../../../../assets/image/slide4.jpg";
+import slide5 from "../../../../assets/image/slide5.jpg";
 import "./style.css";
+import { Slide } from "@material-ui/core";
 
 function CarouselProduct() {
   const [gallerySwiper, getGallerySwiper] = useState(null);
@@ -40,58 +46,68 @@ function CarouselProduct() {
         <div
           className="swiper-slide"
           style={{
-            backgroundImage: "url(http://lorempixel.com/600/600/nature/1)"
+            backgroundImage: `url(${slide1})`,
+            backgroundSize: '100%',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
         <div
           className="swiper-slide"
           style={{
-            backgroundImage: "url(http://lorempixel.com/600/600/nature/2)"
+            backgroundImage: `url(${slide2})`,
+            backgroundSize: '100%',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
         <div
           className="swiper-slide"
           style={{
-            backgroundImage: "url(http://lorempixel.com/600/600/nature/3)"
+            backgroundImage: `url(${slide3})`,
+            backgroundSize: '100%',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
         <div
           className="swiper-slide"
           style={{
-            backgroundImage: "url(http://lorempixel.com/600/600/nature/4)"
+            backgroundImage: `url(${slide4})`,
+            backgroundSize: '100%',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
         <div
           className="swiper-slide"
           style={{
-            backgroundImage: "url(http://lorempixel.com/600/600/nature/5)"
+            backgroundImage: `url(${slide5})`,
+            backgroundSize: '100%',
+            backgroundRepeat: 'no-repeat'
           }}
         ></div>
       </Swiper>
-      <Swiper {...thumbnailSwiperParams}>
+      <Swiper {...thumbnailSwiperParams} style = {{marginTop: '-80px'}}>
         <img
           className="slide-under swiper-slide "
-          src="http://lorempixel.com/600/600/nature/1"
+          src={slide1}
         ></img>
 
         <img
           className="slide-under swiper-slide "
-          src="http://lorempixel.com/600/600/nature/2"
+          src={slide2}
         ></img>
 
         <img
           className="slide-under swiper-slide "
-          src="http://lorempixel.com/600/600/nature/3"
+          src={slide3}
         ></img>
 
         <img
           className="slide-under swiper-slide "
-          src="http://lorempixel.com/600/600/nature/4"
+          src={slide4}
         ></img>
 
         <img
           className="slide-under swiper-slide "
-          src="http://lorempixel.com/600/600/nature/5"
+          src={slide5}
         ></img>
       </Swiper>
     </div>

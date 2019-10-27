@@ -5,15 +5,14 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
-import Checkbox from '@material-ui/core/Checkbox'
-import "./style.css";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(theme => ({
   paddingLabel: {
-    margin: "auto"
+    
   },
   width100: {
-    marginBottom: "50px",
+    marginBottom: "20px",
     width: "80%"
   }
 }));
@@ -22,7 +21,7 @@ function OrderDetail() {
   const classes = useStyles();
 
   return (
-    <div style={{ marginTop: "180px", width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <h6>Trạng thái đơn hàng: Đã duyệt</h6>
@@ -37,7 +36,7 @@ function OrderDetail() {
         direction="row"
         justify="center"
         alignItems="center"
-        spacing={2}
+       
       >
         <Grid
           item
@@ -46,8 +45,8 @@ function OrderDetail() {
           justify="flex-start"
           alignItems="center"
         >
-          <h4>Thông tin khách hàng</h4>
-          <div className="divid "></div>
+          <h6>THÔNG TIN KHÁCH HÀNG</h6>
+          <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
         </Grid>
         <Grid item sm={5}>
           <FormControl style={{ width: "100%" }}>
@@ -97,10 +96,7 @@ function OrderDetail() {
           direction="column"
           justify="flex-start"
           alignItems="center"
-        >
-          <h5>Danh sách sản phẩm</h5>
-          <div className="divid"></div>
-        </Grid>
+        ></Grid>
         <Grid sm={10} item>
           <Carts></Carts>
         </Grid>

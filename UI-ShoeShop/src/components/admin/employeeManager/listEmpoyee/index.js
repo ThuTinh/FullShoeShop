@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect}from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -6,18 +6,19 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import EmployeeItem from "../employeeItem";
+import {connect} from 'react-redux';
+import EmployeeItem from '../employeeItem';
+import { actGetCustomerRequest} from '../../../../actions'
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#43ab92",
     color: theme.palette.common.white
   },
   body: {
     fontSize: 14
   }
 }))(TableCell);
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,9 +31,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ListEmployee() {
+function ListEmployee(props) {
   const classes = useStyles();
-
+  const employees = props.employees
+  useEffect(()=>{
+    props.getCustomers();
+  },[])
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="customized table">
@@ -45,16 +49,42 @@ function ListEmployee() {
             <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
             <StyledTableCell align="center">Quyền</StyledTableCell>
             <StyledTableCell align="center">Tình trạng</StyledTableCell>
+            <StyledTableCell align="center"> Xóa</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <EmployeeItem></EmployeeItem>
-          <EmployeeItem></EmployeeItem>
-          <EmployeeItem></EmployeeItem>
-          <EmployeeItem></EmployeeItem>
+          {rendeEmployeeItem(employees)}
         </TableBody>
       </Table>
     </Paper>
   );
 }
-export default ListEmployee;
+
+const rendeEmployeeItem = employees => {
+  var result = "";
+
+  if (employees && employees.length > 0) {
+    result = employees.map((employee, index) => {
+      return <EmployeeItem key={index} employee={employee}></EmployeeItem>;
+    });
+  }
+  return result;
+};
+const stateMapToProps = state => {
+  return {
+    employees: state.customers
+  };
+};
+
+const dispatchMapToProps = (dispatch, state) => {
+  return {
+    getCustomers: () => {
+      dispatch(actGetCustomerRequest());
+    }
+  };
+};
+
+export default connect(
+  stateMapToProps,
+  dispatchMapToProps
+)(ListEmployee);

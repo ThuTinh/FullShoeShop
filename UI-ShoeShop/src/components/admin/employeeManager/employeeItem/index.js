@@ -1,7 +1,9 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {Link} from 'react-router-dom'
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -21,18 +23,38 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow);
 
+const useStyles = makeStyles(theme => ({
+  detail: {  color: "#512C62","&:hover": { color: "#f75f00", cursor: "pointer" } },
+  icon: {
+    color:"#512C62" ,
+    "&:hover":{
+      color: "#f75f00",
+      cursor: 'pointer'
+    }
+  }
+}));
 
-function EmployeeItem() {
+function EmployeeItem(props) {
+  const classes = useStyles();
+  const employee = props.employee;
 
   return (
     <StyledTableRow>
-      <StyledTableCell component="th" scope="row">1122435123 </StyledTableCell>
-      <StyledTableCell align="center">Nguyễn Văn B</StyledTableCell>
-      <StyledTableCell align="center">Thủ đức</StyledTableCell>
-      <StyledTableCell align="center">0981853641</StyledTableCell>
-      <StyledTableCell align="center">chi tiết</StyledTableCell>
-      <StyledTableCell align="center">Chưa có quyền</StyledTableCell>     
-      <StyledTableCell align="center">Đang hoạt động</StyledTableCell>
+      <StyledTableCell component="th" scope="row">
+        1122435123{" "}
+      </StyledTableCell>
+      <StyledTableCell align="center">{employee.name}</StyledTableCell>
+      <StyledTableCell align="center">{employee.address}</StyledTableCell>
+      <StyledTableCell align="center">{employee.phone}</StyledTableCell>
+      <StyledTableCell align="center" >
+        <Link to="/admin/employeeDetail" className={classes.detail}> chi tiết</Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+      Shiper
+            </StyledTableCell>
+      <StyledTableCell align="center">hoạt động</StyledTableCell>
+      <StyledTableCell align="center"><DeleteIcon className = {classes.icon}></DeleteIcon></StyledTableCell>
+      
     </StyledTableRow>
   );
 }

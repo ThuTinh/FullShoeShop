@@ -5,7 +5,8 @@ import OrderItem from "../orderItem";
 function OrderList() {
   return (
     <div style = {{marginTop:'40px'}}>
-      <h4 style = {{marginBottom: '40px', color: '#F75F00'}}>Danh sách các đơn hàng</h4>
+      <h6 style = {{color:"#512c62"}}>DANH SÁCH ĐƠN HÀNG</h6>
+      <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
       <OrderItem></OrderItem>
       <OrderItem></OrderItem>
       <OrderItem></OrderItem>

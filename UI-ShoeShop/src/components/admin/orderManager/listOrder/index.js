@@ -10,7 +10,7 @@ import OrderItem from "../orderItem";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#43ab92",
     color: theme.palette.common.white
   },
   body: {

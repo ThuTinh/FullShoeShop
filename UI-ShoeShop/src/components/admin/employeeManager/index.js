@@ -71,6 +71,7 @@ function EmployeeManager() {
           indicatorColor="primary"
           textColor="primary"
           variant="fullWidth"
+          // style = {{backgroundColor:"#c93838"}}
           aria-label="full width tabs example"
         >
           <Tab label="Tất cả" {...a11yProps(0)} />

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   width400: {
-    width: "400px",
+    width: "450px",
     marginTop: "30px"
   },
   width200: {
@@ -30,16 +30,17 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     paddingBottom: "5%",
-    boxShadow: "-2px 4px 20px 2px rgba(87,70,11,0.7)",
+    // boxShadow: "-2px 4px 20px 2px rgba(87,70,11,0.7)",
     width: "600px",
-    marginTop: "2%"
+    marginTop: "8%"
   },
   tilte: {
     width: "100%",
     textAlign: "center",
     marginTop: "10px",
     marginBottom: "10px",
-    color: "#F75F00"
+    color: "#5d1451",
+    fontWeight: 600
   }
 }));
 
@@ -98,7 +99,7 @@ console.log(props.resSign,'yeu tinh')
         redirect&&<Redirect to={'/'}/>
       }
       <div className={classes.container}>
-        <h3 className={classes.tilte}>ĐĂNG KÍ</h3>
+        <h3 className={classes.tilte}>ĐĂNG KÍ THÀNH VIÊN</h3>
         <Grid container spacing={4}>
           <Grid
             md={12}
@@ -210,7 +211,7 @@ console.log(props.resSign,'yeu tinh')
                 variant="contained"
                 color="secondary"
                 className={classes.width400}
-                style={{ backgroundColor: "#F75F00" }}
+                style={{ backgroundColor: "#5d1451" }}
                 onClick={()=>{props.sign({name, email, address, shipAddress, password, phone})
               }}
               >

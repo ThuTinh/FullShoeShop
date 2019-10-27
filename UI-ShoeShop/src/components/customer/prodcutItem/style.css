@@ -37,7 +37,7 @@
   height: 120px;
 }
 .card-item-footer {
-  background-color: #ff6c00;
+  background-color: rgba(81, 44, 98,0.8);
   height: 50px;
   width: 100%;
   display: flex;
@@ -56,7 +56,7 @@
   color: #ffffff;
 }
 .action-item:hover {
-  background-color: #ff0000;
+  background-color: #F75F00;
   transition: all linear 0.5s;
   cursor: pointer;
 }

@@ -10,11 +10,13 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { createBrowserHistory } from "history";
+import { Link } from "react-router-dom";
 import "./style.css";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#43AB92",
     color: theme.palette.common.white
   },
   body: {
@@ -38,13 +40,21 @@ const useStyles = makeStyles(theme => ({
     overflowX: "auto"
   },
   table: {
-    minWidth: 700
+    minWidth: 700,
+    marginTop: "20px"
   }
 }));
+
 function Carts() {
   const classes = useStyles();
+  const history = createBrowserHistory();
+  const buyProducts = id => {
+    history.push("/product/purchase");
+  };
   return (
     <Paper className={classes.root}>
+      <h6>DANH SÁCH SẢN PHẨM</h6>
+      <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -74,7 +84,7 @@ function Carts() {
                 className="amount"
                 style={{
                   color: "#fff",
-                  backgroundColor: "#ff0000",
+                  backgroundColor: "#c93838",
                   marginLeft: "5px",
                   borderBottomLeftRadius: "5px",
                   borderTopLeftRadius: "5px"
@@ -84,7 +94,7 @@ function Carts() {
                 className="amount"
                 style={{
                   color: "#fff",
-                  backgroundColor: "#ff0000",
+                  backgroundColor: "#c93838",
                   borderBottomRightRadius: "5px",
                   borderTopRightRadius: "5px"
                 }}
@@ -95,7 +105,7 @@ function Carts() {
               {" "}
               <Button
                 variant="contained"
-                style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
+                style={{ backgroundColor: "#c93838", color: "#ffffff" }}
               >
                 <DeleteIcon></DeleteIcon>
               </Button>
@@ -120,9 +130,16 @@ function Carts() {
             <StyledTableCell align="center">
               <Button
                 variant="contained"
-                style={{ backgroundColor: "#ff0000", color: "#ffffff" }}
+                color="primary"
+                style={{ backgroundColor: "#512c62" }}
               >
-                Mua hàng
+                {/* <Link
+                  to="/product/purchase"
+                  style={{ color: "#fff", textDecoration: "none" }}
+                >
+                  {" "} */}
+                  Đặt hàng
+                {/* </Link> */}
               </Button>
             </StyledTableCell>
           </StyledTableRow>

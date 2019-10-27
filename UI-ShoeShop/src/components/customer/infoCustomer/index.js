@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   butonSave: {
  
     marginTop: "30px",
-    backgroundColor: "#F75F00"
+    backgroundColor: "#512c62"
   },
   avatar: {
     width: "100px",
@@ -39,8 +39,10 @@ function InforCustomer() {
   const classes = useStyles();
 
   return (
+   
     <div style={{ marginLeft: "40px", width: "100%" }}>
-      <h3 style = {{marginTop: '10px', color:'#F75F00'}}>Hồ sơ của tôi</h3>
+      <h5 style = {{marginTop: '10px', color:'#512c62'}}>HỒ SƠ CỦA TÔI</h5>
+      <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
       <div className={classes.containerInfo}>
         <div style={{ width: "100%" }}>
           <div className={classes.containerTextField}>
@@ -87,6 +89,19 @@ function InforCustomer() {
             <TextField
               id="standard-name"
               label="Địa chỉ"
+              className={classes.textField}
+              margin="normal"
+            />
+            <div className="change-infor">
+              <p className={classes.textChange}>
+                <i>Thay đổi</i>
+              </p>
+            </div>
+          </div>
+          <div className={classes.containerTextField}>
+            <TextField
+              id="standard-name"
+              label="Địa chỉ nhận hàng"
               className={classes.textField}
               margin="normal"
             />

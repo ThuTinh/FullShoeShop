@@ -6,8 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import InforCustomer from "../infoCustomer";
+import OrderList from "../orderManager/orderList";
+import ProductFavorite from "../productFavorite";
 import avatar from "../../../assets/image/avatar.JPG";
 
 const useStyles = makeStyles(theme => ({
@@ -16,10 +18,11 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "50px"
   },
   navbar: {
-    backgroundColor: "tan"
+    backgroundColor: "rgba(67, 171, 146,0.5)"
   },
   inforCustomer: {
-    marginLeft: "60px"
+    marginLeft: "60px",
+    width:'70%'
   },
   info: {
     display: "flex",
@@ -39,8 +42,7 @@ const useStyles = makeStyles(theme => ({
   myOrder: {
     marginLeft: "20px",
     marginRight: "20px",
-    marginBottom: "20px",
-
+    marginBottom: "20px"
   },
   myFavorite: {
     marginLeft: "20px",
@@ -58,7 +60,16 @@ const useStyles = makeStyles(theme => ({
     color: "#F75F00",
     marginRight: "10px"
   },
+  link:{
+    textDecoration: 'none',
+    color: "#552C62",
+    "&:hover":{
+      textDecoration: 'none',
+      textTransform: 'none',
+      color:"#F75F00"
 
+    }
+  }
 }));
 function ManagerCustomer() {
   const classes = useStyles();
@@ -72,20 +83,25 @@ function ManagerCustomer() {
         </div>
         <div className={clsx(classes.acount, "action-hover")}>
           <AccountCircleIcon className={classes.icon}></AccountCircleIcon>
-          Tài khoản của tôi
+          <Link to="/info/infoDetail"  className = {classes.link}>Tài khoản của tôi</Link>
         </div>
         <div className={clsx("action-hover", classes.myOrder)}>
           <DescriptionIcon className={classes.icon}></DescriptionIcon>
-          Đơn mua
+          <Link to="/info/myOrder" className = {classes.link}> Đơn mua</Link>
         </div>
         <div className={clsx("action-hover", classes.myFavorite)}>
           <FavoriteIcon className={classes.icon}></FavoriteIcon>
-          Sản phẩm yêu thích
+          <Link to="/info/productFavorite"  className = {classes.link}> Sản phẩm yêu thích</Link>
         </div>
       </div>
       <div className={classes.inforCustomer}>
         <Switch>
-          {/* <Route path="**" component={OrderList}></Route> */}
+          <Route path="/info/infoDetail" component={InforCustomer}></Route>
+          <Route path="/info/myOrder" component={OrderList}></Route>
+          <Route
+            path="/info/productFavorite"
+            component={ProductFavorite}
+          ></Route>
           <Route path="**" component={InforCustomer}></Route>
         </Switch>
       </div>

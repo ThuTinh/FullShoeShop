@@ -2,6 +2,7 @@ import React from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import {Link} from 'react-router-dom'
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -43,7 +44,8 @@ function OrderItem() {
       <StyledTableCell align="center">0981853641</StyledTableCell>
       <StyledTableCell align="center">12:00 15/10/2019</StyledTableCell>
       <StyledTableCell align="center" className={classes.detail}>
-        Chi tiết
+        {/* <Link to="/admin/orderDetail">Chi tiết</Link> */}
+        <Link to="/admin/orderDetail">Chi tiết</Link> 
       </StyledTableCell>
       <StyledTableCell align="center">Duyệt</StyledTableCell>
     </StyledTableRow>

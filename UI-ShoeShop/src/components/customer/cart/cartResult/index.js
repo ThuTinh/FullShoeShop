@@ -20,6 +20,7 @@ function CartResult() {
       <Button variant="contained"  style = {{backgroundColor :'#ff0000', color: '#ffffff'}}>
       Mua hàng
       </Button>
+      
       </td>
     </tr>
   );

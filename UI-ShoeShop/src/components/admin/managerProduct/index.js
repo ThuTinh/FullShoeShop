@@ -14,7 +14,7 @@ import Fade from "@material-ui/core/Fade";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#43ab92",
     color: theme.palette.common.white
   },
   body: {
@@ -46,6 +46,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "50px",
     width: "300px",
     height: "30px"
+  },
+  label: {
+    width: "100px"
   }
 }));
 
@@ -64,7 +67,12 @@ function ManagerProduct() {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button variant="contained" color="primary" onClick={handleOpen}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: "#512c62" }}
+          onClick={handleOpen}
+        >
           Thêm sản phẩm mới
         </Button>
       </div>
@@ -74,7 +82,12 @@ function ManagerProduct() {
             <TableRow>
               <StyledTableCell>Mã sản phẩm</StyledTableCell>
               <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
+              <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
               <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
+              <StyledTableCell align="center">
+                {" "}
+                Chi tiết sản phẩm
+              </StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
@@ -99,26 +112,57 @@ function ManagerProduct() {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h3 id="transition-modal-title">Thêm sản phẩm</h3>
+            <h5 id="transition-modal-title">THÔNG TIN SẢN PHẨM </h5>
             <div id="transition-modal-description">
               <div>
                 <label className={classes.label}>Mã sản phẩm</label>
                 <input className={classes.input} />
               </div>
               <div>
-                <label>Tên sản phẩm</label>
+                <label className={classes.label}>Tên sản phẩm</label>
                 <input className={classes.input} />
               </div>
               <div>
-                <label>Số lượng tồn kho</label>
+                <label className={classes.label}>SL tồn kho</label>
                 <input className={classes.input} />
               </div>
+              
               <div>
-                <label>Trạng thái</label>
-                <input type = "checkbox"/> Hiện
+                <label className={classes.label}> Loại cha: </label>
+                <select className={classes.input}>
+                  <option>Cha1</option>
+                  <option>Cha4</option>
+                  <option>Cha3</option>
+                  <option>Cha2</option>
+                </select>
+              </div>
+              <div>
+                <label className={classes.label}>Loại Con: </label>
+                <select className={classes.input}>
+                  <option>Con1</option>
+                  <option>COn4</option>
+                  <option>Con3</option>
+                  <option>Con2</option>
+                </select>
+              </div>
+              <div>
+                <label className={classes.label} style = {{marginRight: '30px'}}>Trạng thái</label>
+                <input type="checkbox"  className /> Hiện
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button variant="contained" color="primary">
+              <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleClose}
+                  style={{ backgroundColor: "#512c62" , marginTop: '10px', marginRight: '10px'}}
+                >
+                  Hủy
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ backgroundColor: "#512c62" , marginTop: '10px'}}
+                >
                   Lưu
                 </Button>
               </div>

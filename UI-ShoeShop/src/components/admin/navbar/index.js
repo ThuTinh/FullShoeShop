@@ -21,6 +21,18 @@ import OrderManager from "../orderManager";
 import EmployeeManager from "../employeeManager";
 import { Link } from "react-router-dom";
 import ManagerProduct from "../managerProduct";
+import CustomerManager from "../customerManager";
+import DetailCustomer from "../customerManager/detailCustomer";
+import DetailEmployee from "../employeeManager/detailEmployee";
+import OrderDetail from "../orderManager/orderDetail";
+import ProductDetail from "../managerProduct/productDetail";
+import KindManager from "../kindManager";
+import ManagerImportStockManager from "../managerImportStock";
+import OrderStockDetail from "../managerImportStock/orderStockDetail";
+import OrderImport from "../managerImportStock/makeOrderImport";
+import ManagerProductDetail from "../managerProductDetail";
+import ProductInfoDetail from "../managerProductDetail/productInfoDetail";
+import Report from "../report";
 
 const drawerWidth = 240;
 
@@ -84,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   customToolbar: {
-    backgroundColor: "#F75F00"
+    backgroundColor: "#fff"
   },
   link: {
     color: "#2a1a5e",
@@ -96,7 +108,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MiniDrawer() {
+function AdminHome() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -128,9 +140,9 @@ function MiniDrawer() {
               [classes.hide]: open
             })}
           >
-            <MenuIcon />
+            <MenuIcon style={{ color: "#f75f00" }} />
           </IconButton>
-          <Typography variant="h6" noWrap style={{ color: "#fff" }}>
+          <Typography variant="h6" noWrap style={{ color: "#000" }}>
             Quản lý
           </Typography>
         </Toolbar>
@@ -169,6 +181,15 @@ function MiniDrawer() {
               <ListItemText primary="Quản lý đơn hàng" />
             </Link>
           </ListItem>
+          <ListItem button key="Quản lý danh mục">
+            <ListItemIcon>
+              <BookIcon></BookIcon>
+            </ListItemIcon>
+            <Link to="/admin/kinds" className={classes.link}>
+              {" "}
+              <ListItemText primary="Quản lý danh mục" />
+            </Link>
+          </ListItem>
           <ListItem button key="Quản lý sản phẩm">
             <ListItemIcon>
               <BookIcon></BookIcon>
@@ -176,6 +197,24 @@ function MiniDrawer() {
             <Link to="/admin/products" className={classes.link}>
               {" "}
               <ListItemText primary="Quản lý sản phẩm" />
+            </Link>
+          </ListItem>
+          <ListItem button key="Quản lý chi tiết sản phẩm">
+            <ListItemIcon>
+              <BookIcon></BookIcon>
+            </ListItemIcon>
+            <Link to="/admin/managerProductInfoDetail" className={classes.link}>
+              {" "}
+              <ListItemText primary="Quản lý chi tiết sản phẩm" />
+            </Link>
+          </ListItem>
+          <ListItem button key="Quản lý kho">
+            <ListItemIcon>
+              <BookIcon></BookIcon>
+            </ListItemIcon>
+            <Link to="/admin/managerStock" className={classes.link}>
+              {" "}
+              <ListItemText primary="Quản lý kho" />
             </Link>
           </ListItem>
           <ListItem button key="Quản lý Nhân viên">
@@ -187,13 +226,24 @@ function MiniDrawer() {
               <ListItemText primary="Quản lý nhân viên" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý danh mục">
+
+          <ListItem button key="Quản lý Khách hàng">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
-            <Link to="**" className={classes.link}>
+            <Link to="/admin/customers" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý danh mục" />
+              <ListItemText primary="Quản lý Khách hàng" />
+            </Link>
+          </ListItem>
+
+          <ListItem button key="Báo cáo">
+            <ListItemIcon>
+              <BookIcon></BookIcon>
+            </ListItemIcon>
+            <Link to="/admin/report" className={classes.link}>
+              {" "}
+              <ListItemText primary="Báo cáo" />
             </Link>
           </ListItem>
         </List>
@@ -204,10 +254,41 @@ function MiniDrawer() {
           <Route path="/admin/orders" component={OrderManager} />
           <Route path="/admin/products" component={ManagerProduct} />
           <Route path="/admin/employees" component={EmployeeManager}></Route>
+          <Route path="/admin/customers" component={CustomerManager}></Route>
+          <Route
+            path="/admin/customerDetail"
+            component={DetailCustomer}
+          ></Route>
+          <Route
+            path="/admin/employeeDetail"
+            component={DetailEmployee}
+          ></Route>
+          <Route path="/admin/orderDetail" component={OrderDetail}></Route>
+          <Route path="/admin/productDetail" component={ProductDetail}></Route>
+          <Route path="/admin/kinds" component={KindManager}></Route>
+          <Route
+            path="/admin/managerStock"
+            component={ManagerImportStockManager}
+          ></Route>
+          <Route
+            path="/admin/orderStockDetail"
+            component={OrderStockDetail}
+          ></Route>
+          <Route path="/admin/makeImportStock" component={OrderImport}></Route>
+          <Route
+            path="/admin/managerProductInfoDetail"
+            component={ManagerProductDetail}
+          ></Route>
+          <Route
+            path="/admin/productInforDetail"
+            component={ProductInfoDetail}
+          ></Route>
+          <Route path="/admin/report" component={Report}></Route>
+
           <Route path="**" component={OrderManager} />
         </Switch>
       </main>
     </div>
   );
 }
-export default MiniDrawer;
+export default AdminHome;

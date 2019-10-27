@@ -21,7 +21,6 @@ export const actSignRequest = sign => {
   return dispatch => {
     return callApi("users", "POST", sign).then(res => {
       dispatch(actSign(res.data.payload));
-      
     });
   };
 };
@@ -32,3 +31,20 @@ export const actSign = sign => {
     sign
   };
 };
+
+export const actGetCustomerRequest = () => {
+  return dispatch => {
+   
+    return callApi("users?page=&per_page=&_return_fields=email%2Cname%2Cpassword%2CfacebookId%2Croles%2Cphone%2Caddress%2CshipAddresses%2CfavoriteProducts", "GET").then(res => {
+      console.log(res.data.payload, "Test Res");
+      dispatch(actCustomer(res.data.payload));
+    });
+  };
+};
+
+export const actCustomer = (customers)=>{
+  return {
+    type: Types.GET_CUSTOMER,
+    customers : customers
+  }
+}
