@@ -4,8 +4,16 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import { Grid, makeStyles } from "@material-ui/core";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles(them => ({
+  deleteIcon:{
+    color:"#512C62",
+    "&:hover":{
+      color: 'red',
+      cursor: 'pointer'
+    }
+  }
 
 }));
 
@@ -65,7 +73,11 @@ function ImportStockItem() {
         </Grid>
         <Grid item md={6}>
           <Grid item>
-            <h6>SIZE: </h6>
+            <div style = {{display: 'flex', justifyContent: 'space-between', width: '50%'}}>
+            <h6>SIZE: </h6> 
+            <div><HighlightOffIcon className = {classes.deleteIcon}></HighlightOffIcon></div>
+            </div>
+           
           </Grid>
           <Grid item>
             <Grid
