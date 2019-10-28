@@ -7,7 +7,7 @@ import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import "./style.css";
-import { Button } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 function ProductInfoDetail() {
   return (
     <div>
@@ -30,7 +30,32 @@ function ProductInfoDetail() {
             </Button>
           </div>
           <h6>PHẦN MÔ TẢ</h6>
-          <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+          <div
+            style={{
+              width: "10%",
+              height: "4px",
+              backgroundColor: "#F75F00",
+              marginBottom: "30px"
+            }}
+          ></div>
+          <div >
+            <div>Tên Hiển thị : </div>
+            {/* <TextField
+        id="filled-uncontrolled"
+        label="Uncontrolled"
+        defaultValue="foo"
+        className={classes.textField}
+        margin="normal"
+        variant="filled"
+      /> */}
+            <div>
+              <Input></Input>
+            </div>
+          </div>
+          <div style = {{marginTop: '20px', marginBottom:'20px'}}>
+              <div>Giá bán ra</div>
+              <input type = "number"/>
+            </div>
           <div>
             <label>Mô tả:</label>
             <TextareaAutosize
@@ -60,7 +85,14 @@ function ProductInfoDetail() {
           </div>
         </div>
         <h6>THÔNG TIN CHI TIẾT SẢN PHẨM</h6>
-        <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+        <div
+          style={{
+            width: "10%",
+            height: "4px",
+            backgroundColor: "#F75F00",
+            marginBottom: "30px"
+          }}
+        ></div>
 
         <Table aria-label="simple table">
           <TableHead>

@@ -1,0 +1,107 @@
+ ThongTinnhapHang:{
+	MaDonNHapHang,
+	idNhaCungCap,
+	idThuKho,
+	products:[
+		{
+			detailProductId
+			maSp,
+			mau,
+			size,
+			giaNhap,
+			soLuong,
+		}
+	
+	]
+	ngayNhapHang,
+    trangThaiDonHang["ChoDuyet, DaDuyet, DangChoNhanHang, DaThanhToan"]
+    TongTien,
+}
+
+ProductDetail= { 
+	maSp,
+	TenSanPham,
+	SoLuongTonKho =0;
+	TenHienThiLenManHinh  ,
+	GiaBanRa,
+	MoTa,
+	sale
+    loai,
+	hinhAnhs:[
+        string
+    ]
+	slBanRa
+    deleted
+	trangThai[HoatĐong, NgungHoatDong]
+	detail:[
+		{
+			mau,
+			size,
+			soLuong
+		}
+		]
+}
+
+
+User= {
+   	 id,
+  	 Fullname,
+    	Phone,
+    	Adress,
+    	shipAdress
+   	 email,
+    	deleted,
+	Avatar,
+	ProductFavorite,
+	GoogleId,
+	FBID,
+	password,
+	role [Admin, ThuKho, NhanVienBanHang,Shiper, customer]
+	TrangThai: [DangHoatDong, TamNghi, NgungHoatDong]
+}
+
+NhaCungCap = {
+    maNhaCungCap,
+    tenNhaCungCap,
+    phone,
+    email,
+    address,
+    deleted,
+    products:[    
+        {
+            maSP,
+        }
+    ]
+}
+ loai = {
+    id,
+    parent,
+    tenloai,
+    delete,
+}
+donHang = {
+     Id,
+    userId,
+	NhanViens:[
+		NhanVienBanHangId,
+		ThuKhoId,
+		ShipperId,
+
+	],
+        Sanpham:[
+            {
+                maSP,
+				mau,
+				size,
+				gia
+                Soluong,
+            }
+        ],
+    Tongtien,
+    Trangthai[ChoDuyet, DaDuyet, ChoNhanHang, DangLayHang, CHoShip, dangShip,DaThanhToan, DaHuy ]
+    deleted,
+}
+
+
+
+
