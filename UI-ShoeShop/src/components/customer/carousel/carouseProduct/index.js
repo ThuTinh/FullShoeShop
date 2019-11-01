@@ -8,7 +8,6 @@ import slide3 from "../../../../assets/image/slide3.jpg";
 import slide4 from "../../../../assets/image/slide4.jpg";
 import slide5 from "../../../../assets/image/slide5.jpg";
 import "./style.css";
-import { Slide } from "@material-ui/core";
 
 function CarouselProduct() {
   const [gallerySwiper, getGallerySwiper] = useState(null);
@@ -43,72 +42,32 @@ function CarouselProduct() {
   return (
     <div>
       <Swiper {...gallerySwiperParams}>
-        <div
-          className="swiper-slide"
-          style={{
-            backgroundImage: `url(${slide1})`,
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
-        <div
-          className="swiper-slide"
-          style={{
-            backgroundImage: `url(${slide2})`,
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
-        <div
-          className="swiper-slide"
-          style={{
-            backgroundImage: `url(${slide3})`,
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
-        <div
-          className="swiper-slide"
-          style={{
-            backgroundImage: `url(${slide4})`,
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
-        <div
-          className="swiper-slide"
-          style={{
-            backgroundImage: `url(${slide5})`,
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat'
-          }}
-        ></div>
+        <div className="swiper-slide">
+          <img style={{ width: "100%", height: "100%" }} src={slide1}></img>
+        </div>
+        <div className="swiper-slide">
+          <img style={{ width: "100%", height: "100%" }} src={slide2}></img>
+        </div>
+        <div className="swiper-slide">
+          <img style={{ width: "100%", height: "100%" }} src={slide3}></img>
+        </div>
+        <div className="swiper-slide">
+          <img style={{ width: "100%", height: "100%" }} src={slide4}></img>
+        </div>
+        <div className="swiper-slide">
+          <img style={{ width: "100%", height: "100%" }} src={slide5}></img>
+        </div>
       </Swiper>
-      <Swiper {...thumbnailSwiperParams} style = {{marginTop: '-80px'}}>
-        <img
-          className="slide-under swiper-slide "
-          src={slide1}
-        ></img>
+      <Swiper {...thumbnailSwiperParams}>
+        <img className="slide-under swiper-slide " src={slide1}></img>
 
-        <img
-          className="slide-under swiper-slide "
-          src={slide2}
-        ></img>
+        <img className="slide-under swiper-slide " src={slide2}></img>
 
-        <img
-          className="slide-under swiper-slide "
-          src={slide3}
-        ></img>
+        <img className="slide-under swiper-slide " src={slide3}></img>
 
-        <img
-          className="slide-under swiper-slide "
-          src={slide4}
-        ></img>
+        <img className="slide-under swiper-slide " src={slide4}></img>
 
-        <img
-          className="slide-under swiper-slide "
-          src={slide5}
-        ></img>
+        <img className="slide-under swiper-slide " src={slide5}></img>
       </Swiper>
     </div>
   );

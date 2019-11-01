@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { ogPath, path200 } = require("../common/constant");
-const host = require("../common/host");
+// const { ogPath, path200 } = require("../common/constant");
+// const host = require("../common/host");
 
 const rating = new Schema(
   {
@@ -9,6 +9,7 @@ const rating = new Schema(
       type: String,
       required: true
     },
+    
     rate: {
       type: Number,
       max: [5, "max rate is 5"],
@@ -32,51 +33,55 @@ const schema = new Schema(
       trim: true,
       index: true
     },
-    brand: {
-      type: Schema.Types.ObjectId,
-      ref: "brand"
+
+    inventory: {
+      type: Number,
+      trim: true
     },
-    images: [
-      {
-        type: String,
-        trim: true
-      }
-    ],
-    categories: [
-      {
-        type: Schema.Types.ObjectId,
-        required: [true, "is required"],
-        ref: "category"
-      }
-    ],
+    nameShow: {
+      type: String,
+      trim: true
+    },
+    rating: [rating],
+    price: {
+      type: Number,
+      min: 0
+    },
     description: {
       type: String,
-      trim: true,
-      required: [true, "is required"]
+      trim: true
     },
+    sale: {
+      type: Number,
+      trim: true
+    },
+    categories: {
+      type: Schema.Types.ObjectId,
+      required: [true, "is required"],
+      ref: "category"
+    },
+
     rate: {
       type: Number,
       min: 0,
       max: 500,
       default: 0
     },
-    tags: [
+
+    images: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "tag"
+        type: String,
+        trim: true
       }
     ],
-    price: {
-      type: Number,
-      min: 0
-    },
+
     Detail: [
       {
         size: {
           type: [String],
           trim: true
         },
-        color:{
+        color: {
           type: [String],
           trim: true
         },
@@ -84,13 +89,30 @@ const schema = new Schema(
           type: Number,
           trim: true
         },
-        quantity: {
+        inventory: {
+          type: Number,
+          default: 0,
+          min: 0
+        },
+        amountSold: {
           type: Number,
           default: 0,
           min: 0
         }
       }
     ],
+    amountSold: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    status: {
+      type: Boolean,
+      select: true,
+      default: true,
+      required: true
+    },
+
     favorited: {
       type: Number,
       default: 0,
@@ -101,12 +123,25 @@ const schema = new Schema(
       select: false,
       default: false,
       required: [true, "is required"]
-    },
-    rating: [rating]
+    }
   },
   {
     timestamps: true
   }
 );
-
+schema.pre("find", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findOne", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findById", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findOneAndUpdate", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findByIdAndUpdate", function() {
+  this.where({ deleted: false });
+});
 module.exports = mongoose.model("product", schema, "products");

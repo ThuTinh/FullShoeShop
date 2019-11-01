@@ -1,51 +1,36 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-/**
- * @swagger
- *
- * definitions:
- *   Category:
- *     type: object
- *     properties:
- *       _id:
- *         type: string
- *         readOnly: true
- *       name:
- *         type: string
- *       slug:
- *         type: string
- *       content:
- *         type: string
- *       parent:
- *         type: objectId
- *       ancestors:
- *         type: array
- *         items:
- *           type: object
- *           $ref: "#definitions/Ancestor"
- *       type:
- *         type: string
- *     required:
- *         - name
- *         - slug
- */
-/**
- * @swagger
- *
- * definitions:
- *   Ancestor:
- *     type: object
- *     properties:
- *       _id:
- *         type: string
- *         readOnly: true
- *       name:
- *         type: string
- *       slug:
- *         type: string
- *       type:
- *         type: string
- */
+// /**
+//  * @swagger
+//  *
+//  * definitions:
+//  *   Category:
+//  *     type: object
+//  *     properties:
+//  *       _id:
+//  *         type: string
+//  *         readOnly: true
+//  *       name:
+//  *         type: string
+//  *       parent:
+//  *         type: objectId
+//  *     required:
+//  *         - name
+//  */
+// /**
+//  * @swagger
+//  *
+//  * definitions:
+//  *   Ancestor:
+//  *     type: object
+//  *     properties:
+//  *       _id:
+//  *         type: string
+//  *         readOnly: true
+//  *       name:
+//  *         type: string
+//  */
+
 const schema = new mongoose.Schema({
   name: {
     type: String,
@@ -56,23 +41,27 @@ const schema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "category"
   },
-  type: {
-    type: String
-  },
-  image: {
-    type: String
+  deleted:{
+    type:Boolean,
+    default: false
   }
 });
-const index = { parent: 1 };
-schema.index(index);
-schema.pre("validate", function(next) {
-  if (this.name) {
-    this.slug = this.name
-      .toLowerCase()
-      .split(" ")
-      .join("-");
-  }
-  next();
-});
+
+schema.pre('find', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOne', function() {
+  this.where({deleted: false})
+})
+schema.pre('findById', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOneAndUpdate', function() {
+  this.where({deleted: false})
+})
+schema.pre('findByIdAndUpdate', function() {
+  this.where({deleted: false})
+})
+
 
 module.exports = mongoose.model("category", schema, "categories");

@@ -89,20 +89,24 @@ const schema = new Schema(
       {
         productId: {
           type: Schema.Types.ObjectId,
-
+          required: [true, "is required"],
           ref: "product"
         },
         size: {
-          type: Number
+          type: Number,
+          required: [true, "is required"]
         },
         color: {
-          type: String
+          type: String,
+          required: [true, "is required"]
         },
         price: {
-          type: Number
+          type: Number,
+          required: [true, "is required"]
         },
         quantity: {
-          type: Number
+          type: Number,
+          required: [true, "is required"]
         }
       }
     ],
@@ -110,9 +114,9 @@ const schema = new Schema(
       type: Number,
       required: [true, "is required"]
     },
-    userId: {
+    suplierId: {
       type: Schema.Types.ObjectId,
-      ref: "user"
+      ref: "brand"
     },
     status: {
       type: String,
@@ -120,31 +124,10 @@ const schema = new Schema(
       default: STATUS.ORDERED,
       required: [true, "is required"]
     },
-    fullname: {
-      type: String,
-      required: [true, "is required"]
+    employee: {
+      type: Schema.Types.ObjectId,
+      ref: "user"
     },
-    email: {
-      type: String,
-      required: [true, "is required"]
-    },
-    phone: {
-      type: String,
-      required: [true, "is required"]
-    },
-    shipAddress: {
-      type: String,
-      required: [true, "is required"]
-    },
-    paymentMethod: {
-      type: String
-    },
-    employees: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "user"
-      }
-    ],
 
     deleted: {
       type: Boolean,
@@ -154,19 +137,19 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-schema.pre("find", function() {
-  this.where({ deleted: false });
-});
-schema.pre("findOne", function() {
-  this.where({ deleted: false });
-});
-schema.pre("findById", function() {
-  this.where({ deleted: false });
-});
-schema.pre("findOneAndUpdate", function() {
-  this.where({ deleted: false });
-});
-schema.pre("findByIdAndUpdate", function() {
-  this.where({ deleted: false });
-});
-module.exports = mongoose.model("order", schema, "orders");
+schema.pre('find', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOne', function() {
+  this.where({deleted: false})
+})
+schema.pre('findById', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOneAndUpdate', function() {
+  this.where({deleted: false})
+})
+schema.pre('findByIdAndUpdate', function() {
+  this.where({deleted: false})
+})
+module.exports = mongoose.model("orderSuplier", schema, "orderSupliers");

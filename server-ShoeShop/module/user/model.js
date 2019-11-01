@@ -45,6 +45,11 @@ const schema = new Schema(
     shipAddress: {
       type: String
     },
+    status: {
+      type: Boolean,
+      default: true,
+      select: true
+    },
 
     favoriteProducts: [{ type: Schema.Types.ObjectId, ref: "product" }],
 
@@ -63,5 +68,18 @@ schema.post("find", function(docs) {
       docs[i].avatar = host + "/" + pathAvatar + docs[i].avatar;
   }
 });
+
+schema.pre('findOne', function() {
+  this.where({deleted: false})
+})
+schema.pre('findById', function() {
+  this.where({deleted: false})
+})
+schema.pre('findOneAndUpdate', function() {
+  this.where({deleted: false})
+})
+schema.pre('findByIdAndUpdate', function() {
+  this.where({deleted: false})
+})
 const user = mongoose.model("user", schema, "users");
 module.exports = user;

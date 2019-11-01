@@ -14,9 +14,11 @@ const filter={
   name:1,
   images:1
 }
+
 const findAll=async()=>{
   return await Product.find().select(filter).lean()
 }
+
 const findOne = async (conditions, returnFields, page, perPage) => {
   return await Product.findOne(conditions)
     .populate({

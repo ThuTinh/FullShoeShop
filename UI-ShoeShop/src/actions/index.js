@@ -48,3 +48,28 @@ export const actCustomer = (customers)=>{
     customers : customers
   }
 }
+
+export const actCategory = (categories) =>{
+  return {
+    type: Types.GET_CATEGORY,
+    categories: categories
+  }
+}
+export const atcGetCategoryRequest = ()=>{
+  return dispatch =>{
+    return callApi("categories/group","GET").then(res=>{
+      console.log("catelogy",res.data.payload )
+      dispatch(actCategory(res.data.payload));
+    })
+
+  }
+}
+
+export const atcDeleteCaregoryRequest = (id) =>{
+  return dispatch=>{
+    return callApi("categories", "DELETE", `{"id": "${id}"}`).then(res=>{
+    //  console.log("Delete", res.data.payload);
+      dispatch(atcGetCategoryRequest());
+    });
+  }
+}

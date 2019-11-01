@@ -4,7 +4,7 @@ import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import CarouselProduct from "../carousel/carouseProduct";
 import { createBrowserHistory } from "history";
-import ProductItem from '../prodcutItem'
+import ProductItem from "../prodcutItem";
 import "./style.css";
 
 function ProductDetail(props) {
@@ -33,14 +33,19 @@ function ProductDetail(props) {
               FREESHIP ĐƠN TỪ 50K TOÀN QUỐC ] - ỐP LƯNG HOA QUẢ XINH ( IN PHỦ
               BÓNG ) - ỐP IPHONE DẺO NỔI SỌC 3D [ H5-3 ]
             </h4>
-            <Rating
-              name="simple-controlled"
-              value={value}
-              readOnly
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-            />
+            <div style = {{display: 'flex'}}>
+              <div >
+                <Rating
+                  name="simple-controlled"
+                  value={value}
+                  readOnly
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
+                />
+              </div>
+              <div style = {{marginLeft: '2%'}}>100 đánh giá</div>
+            </div>
           </div>
           <div className="flex mt-4">
             <div className="money">100.000 đ</div>

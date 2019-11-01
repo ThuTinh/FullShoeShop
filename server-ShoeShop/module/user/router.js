@@ -4,16 +4,14 @@ const {
   findOne,
   create,
   update,
-  addFriends,
   addFavoritedProduct
 } = require("./handler");
-const { getPendingOrder } = require("../order");
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
 const refFields = ["favoriteProducts"];
 const { encrypt, match } = require("../crypto");
 const logger = require("../logger");
-const { createCart } = require("../cart");
+
 /**
  * @swagger
  * /api/v1/users?_return_fields&page&per_page:
@@ -83,31 +81,31 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users/current?_return_fields&page&per_page:
- *   get:
- *     tags:
- *       - Users
- *     description: get user by id
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: query
- *         name: page
- *       - in: query
- *         name: per_page
- *       - in: query
- *         name: _return_fields
- *         description: email,firstName,lastName,password,facebookId,roles,phone,address,birthday,sex,shipAddresses,favoriteProducts
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users/current?_return_fields&page&per_page:
+//  *   get:
+//  *     tags:
+//  *       - Users
+//  *     description: get user by id
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - in: query
+//  *         name: page
+//  *       - in: query
+//  *         name: per_page
+//  *       - in: query
+//  *         name: _return_fields
+//  *         description: email,firstName,lastName,password,facebookId,roles,phone,address,birthday,sex,shipAddresses,favoriteProducts
+//  *         required: true
+//  *         type: string
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.get("/current", async (req, res, next) => {
   try {
     const page = Number(req.query.page) ? Number(req.query.page) : 0;
@@ -149,34 +147,34 @@ router.get("/current", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users:
- *   post:
- *     tags:
- *       - Users
- *     description: Create a user
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: bodyReq
- *         description: user body
- *         required: true
- *         example: {
- *                      "email": "",
- *                      "name": "",
- *                     "password": "",
- *                     "phone": "",
- *                     "address": "",
- *                     "shipAddress": ""
- *                   }
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users:
+//  *   post:
+//  *     tags:
+//  *       - Users
+//  *     description: Create a user
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - in: body
+//  *         name: bodyReq
+//  *         description: user body
+//  *         required: true
+//  *         example: {
+//  *                      "email": "",
+//  *                      "name": "",
+//  *                     "password": "",
+//  *                     "phone": "",
+//  *                     "address": "",
+//  *                     "shipAddress": ""
+//  *                   }
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.post("/", async (req, res, next) => {
   const validateReqBody = body => {
     if (!body) {
@@ -225,28 +223,28 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users/:
- *   put:
- *     tags:
- *       - Users
- *     description: Edit a user
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: bodyReq
- *         description: user body
- *         required: true
- *         schema:
- *            $ref: "#/definitions/User"
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users/:
+//  *   put:
+//  *     tags:
+//  *       - Users
+//  *     description: Edit a user
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - in: body
+//  *         name: bodyReq
+//  *         description: user body
+//  *         required: true
+//  *         schema:
+//  *            $ref: "#/definitions/User"
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.put("/", async (req, res, next) => {
   try {
     const validateBody = body => {
@@ -277,29 +275,29 @@ router.put("/", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users/favorited-product:
- *   put:
- *     tags:
- *       - Users
- *     description: User favorite a product
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: bodyReq
- *         description: newItem
- *         example: {
- *                    "productId":""
- *                  }
- *         required: true
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users/favorited-product:
+//  *   put:
+//  *     tags:
+//  *       - Users
+//  *     description: User favorite a product
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - in: body
+//  *         name: bodyReq
+//  *         description: newItem
+//  *         example: {
+//  *                    "productId":""
+//  *                  }
+//  *         required: true
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.put("/favorited-product", async (req, res, next) => {
   //Bug  inside, still need fix
   try {
@@ -314,21 +312,21 @@ router.put("/favorited-product", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users/:
- *   delete:
- *     tags:
- *       - Users
- *     description: delete user by id
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users/:
+//  *   delete:
+//  *     tags:
+//  *       - Users
+//  *     description: delete user by id
+//  *     produces:
+//  *       - application/json
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.delete("/", async (req, res, next) => {
   try {
     const user = await model.findById(req.id);
@@ -343,31 +341,31 @@ router.delete("/", async (req, res, next) => {
   }
 });
 
-/**
- * @swagger
- * /api/v1/users/changepassword:
- *   put:
- *     tags:
- *       - Users
- *     description: change user password
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: bodyReq
- *         description: old and new password
- *         example: {
- *                    "old":"",
- *                     "new": "",
- *                     "confirm"
- *                  }
- *         required: true
- *     responses:
- *       200:
- *         description: Success
- *     security:
- *       - bearerAuth: []
- */
+// /**
+//  * @swagger
+//  * /api/v1/users/changepassword:
+//  *   put:
+//  *     tags:
+//  *       - Users
+//  *     description: change user password
+//  *     produces:
+//  *       - application/json
+//  *     parameters:
+//  *       - in: body
+//  *         name: bodyReq
+//  *         description: old and new password
+//  *         example: {
+//  *                    "old":"",
+//  *                     "new": "",
+//  *                     "confirm"
+//  *                  }
+//  *         required: true
+//  *     responses:
+//  *       200:
+//  *         description: Success
+//  *     security:
+//  *       - bearerAuth: []
+//  */
 router.put("/changepassword", async (req, res, next) => {
   const validateReqBody = body => {
     if (!body.old) {

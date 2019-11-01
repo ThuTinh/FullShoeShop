@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -51,10 +51,18 @@ function Carts() {
   const buyProducts = id => {
     history.push("/product/purchase");
   };
+  const [customer, setCustomer] = useState(true);
   return (
     <Paper className={classes.root}>
       <h6>DANH SÁCH SẢN PHẨM</h6>
-      <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+      <div
+        style={{
+          width: "10%",
+          height: "4px",
+          backgroundColor: "#F75F00",
+          marginBottom: "30px"
+        }}
+      ></div>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -113,7 +121,6 @@ function Carts() {
           </StyledTableRow>
 
           <StyledTableRow>
-            {/* Cart resutl  */}
             <StyledTableCell colSpan={3}></StyledTableCell>
             <StyledTableCell
               align="center"
@@ -128,21 +135,22 @@ function Carts() {
               100.000
             </StyledTableCell>
             <StyledTableCell align="center">
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ backgroundColor: "#512c62" }}
-              >
-                {/* <Link
-                  to="/product/purchase"
-                  style={{ color: "#fff", textDecoration: "none" }}
+              {customer && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ backgroundColor: "#512c62" }}
                 >
-                  {" "} */}
-                  Đặt hàng
-                {/* </Link> */}
-              </Button>
+                  <Link
+                    to="/product/purchase"
+                    style={{ color: "#fff", textDecoration: "none" }}
+                  >
+                     Đặt hàng
+                  </Link>
+                </Button>
+              )}
             </StyledTableCell>
-          </StyledTableRow>
+          </StyledTableRow>       
         </TableBody>
       </Table>
     </Paper>

@@ -1,13 +1,12 @@
  ThongTinnhapHang:{
-	MaDonNHapHang,
+	
 	idNhaCungCap,
 	idThuKho,
 	products:[
 		{
-			detailProductId
-			maSp,
-			mau,
-			size,
+				_idProduct
+				mau,	
+				size,
 			giaNhap,
 			soLuong,
 		}
@@ -18,26 +17,32 @@
     TongTien,
 }
 
+
+
 ProductDetail= { 
-	maSp,
+	_idProduct
 	TenSanPham,
 	SoLuongTonKho =0;
 	TenHienThiLenManHinh  ,
+	rate
 	GiaBanRa,
 	MoTa,
 	sale
-    loai,
+    loaiId
+	rate
 	hinhAnhs:[
         string
     ]
 	slBanRa
     deleted
-	trangThai[HoatĐong, NgungHoatDong]
-	detail:[
+	trangThai[HoatĐong (true), NgungHoatDong(false)]
+	detaisl:[
 		{
-			mau,
-			size,
-			soLuong
+		
+		mau,
+		size,
+		SLTonKHo,
+		sl Banra=0;
 		}
 		]
 }
@@ -52,7 +57,7 @@ User= {
    	 email,
     	deleted,
 	Avatar,
-	ProductFavorite,
+	ProductFavorites,
 	GoogleId,
 	FBID,
 	password,
