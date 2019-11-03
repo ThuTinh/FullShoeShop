@@ -16,33 +16,36 @@ function CarouselHome() {
       delay: 2500,
       disableOnInteraction: false
     },
+    containerClass: 'container-swiper',
     pagination: {
       el: ".swiper-pagination",
       clickable: true
     },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev"
-    }
+    // navigation: {
+    //   nextEl: ".swiper-button-next",
+    //   prevEl: ".swiper-button-prev"
+    // }
   };
   return (
-    <Swiper {...params}>
-      <div>
-        <img className="image" src={slide1}></img>
-      </div>
-      <div>
-        <img className="image" src={slide2}></img>
-      </div>
-      <div>
-        <img className="image" src={slide3}></img>
-      </div>
-      <div>
-        <img className="image" src={slide4}></img>
-      </div>
-      <div>
-        <img className="image" src={slide5}></img>
-      </div>
-    </Swiper>
+    <div >
+      <Swiper {...params}   >
+        <div >
+          <img className="image" src={slide1}></img>
+        </div>
+        <div  >
+          <img className="image" src={slide2}></img>
+        </div>
+        <div  >
+          <img className="image" src={slide3}></img>
+        </div>
+        <div  >
+          <img className="image" src={slide4}></img>
+        </div>
+        <div  >
+          <img className="image" src={slide5}></img>
+        </div>
+      </Swiper>
+    </div>
   );
 }
 

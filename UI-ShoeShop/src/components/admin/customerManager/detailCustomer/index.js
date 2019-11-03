@@ -24,6 +24,14 @@ function DetailCustomer() {
             <h6>abc@gmail.com</h6>
             <label>SDT</label>
             <h6>098765432</h6>
+            <label>Quyền</label>
+            <div>
+            <select>
+              <option>Shipper</option>
+              <option>Saleman</option>
+              <option>customer</option>
+            </select>
+            </div>
         </div>
       </div>
       <div>

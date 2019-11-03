@@ -20,23 +20,27 @@ function KindItem(props) {
   const classes = usestyles();
   const category = props.category;
   const numberCategorySub = category.children.length;
+
   const remove = id => {
     console.log("id ne", id);
     props.deleteCategory(id);
   };
+ const editCategory = category=>{
+   let data = category
+   props.edit(data);
+   
+ }
   const renderContent = () => {
     console.log("render: ");
     var result = [];
     if (numberCategorySub === 0) {
       result[0] = (
         <TableRow key={0}>
-          <TableCell rowSpan={4} align="center">
+          <TableCell rowSpan={0} align="center">
             {category.name}
           </TableCell>
           <TableCell align="center"></TableCell>
           <TableCell>
-            <EditIcon className={classes.icon}> </EditIcon>{" "}
-            <DeleteIcon className={classes.icon}> </DeleteIcon>
           </TableCell>
         </TableRow>
       );
@@ -48,7 +52,7 @@ function KindItem(props) {
           </TableCell>
           <TableCell align="center">{category.children[0].name}</TableCell>
           <TableCell>
-            <EditIcon className={classes.icon}> </EditIcon>{" "}
+            <EditIcon className={classes.icon} onClick = {()=>editCategory(category.children[0])}> </EditIcon>{" "}
             <DeleteIcon
               className={classes.icon}
               onClick={() => remove(category.children[0]._id)}
@@ -59,17 +63,18 @@ function KindItem(props) {
         </TableRow>
       );
 
-      for (var i = 1; i < numberCategorySub; i++) {
+      var i = 0;
+      for ( i = 1; i < numberCategorySub; i++) {
+        let data = category.children[i];
         result[i] = (
           <TableRow key={i}>
-            <TableCell align="center">{category.children[i].name}</TableCell>
+            <TableCell align="center">{data.name}</TableCell>
             <TableCell>
-              <EditIcon className={classes.icon}> </EditIcon>{" "}
+              <EditIcon className={classes.icon} onClick = {()=>editCategory(data)}> </EditIcon>
               <DeleteIcon
                 className={classes.icon}
-                onClick={() => remove(category.children[i]._id)}
+                onClick={() => remove(data._id)}
               >
-                {" "}
               </DeleteIcon>
             </TableCell>
           </TableRow>

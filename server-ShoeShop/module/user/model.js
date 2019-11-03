@@ -75,6 +75,9 @@ schema.pre('findOne', function() {
 schema.pre('findById', function() {
   this.where({deleted: false})
 })
+schema.pre('find', function() {
+  this.where({deleted: false})
+})
 schema.pre('findOneAndUpdate', function() {
   this.where({deleted: false})
 })

@@ -37,7 +37,7 @@
   height: 120px;
 }
 .card-item-footer {
-  background-color: rgba(81, 44, 98,0.8);
+  background-color: rgba(81, 44, 98, 0.8);
   height: 50px;
   width: 100%;
   display: flex;
@@ -56,7 +56,7 @@
   color: #ffffff;
 }
 .action-item:hover {
-  background-color: #F75F00;
+  background-color: #f75f00;
   transition: all linear 0.5s;
   cursor: pointer;
 }
@@ -64,10 +64,12 @@ label {
   margin-top: 10px;
 }
 
-.favorite-icon :hover{
-    color: red;
-    cursor: pointer;
+.favorite-icon :hover {
+  color: #f75f00;
+  cursor: pointer;
 }
 .favorite-icon {
- 
+  color: #474746;
+  margin-right: 5px;
+  font-size: 10px;
 }

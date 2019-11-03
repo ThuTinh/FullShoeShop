@@ -43,10 +43,6 @@ const addFavoritedProduct = async (userId, productId) => {
 }
 
 
-
-
-
-
 const updateUser = async (condition,id)=> await User.findByIdAndUpdate(id,condition,{new:true})
 
 module.exports  = {create, update, findOne, addFavoritedProduct,updateUser}

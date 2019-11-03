@@ -122,7 +122,7 @@ const schema = new Schema(
       type: Boolean,
       select: false,
       default: false,
-      required: [true, "is required"]
+      
     }
   },
   {

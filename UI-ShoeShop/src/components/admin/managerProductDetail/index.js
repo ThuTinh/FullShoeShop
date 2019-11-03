@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,6 +7,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ProducDetailtItem from './productDetailItem'
+import { atcGetProductRequest } from "../../../actions";
+import {connect} from "react-redux"
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -45,9 +47,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ManagerProductDetail() {
+function ManagerProductDetail(props) {
   const classes = useStyles();
 
+  useEffect(()=>{
+    props.getProducts();
+  },[])
+
+  const renderProductItem = ()=>{
+    var result = "";
+    if(props.products && props.products.length>0)
+    {
+      result = props.products.map((product,index)=>{
+        return   <ProducDetailtItem key = {index} product = {product} index = {index}></ProducDetailtItem>
+      })
+    }
+    return result;
+  }
   return (
     <>
       <Paper className={classes.root}>
@@ -65,13 +81,24 @@ function ManagerProductDetail() {
             </TableRow>
           </TableHead>
           <TableBody>
-              <ProducDetailtItem></ProducDetailtItem>
-              <ProducDetailtItem></ProducDetailtItem>
-              <ProducDetailtItem></ProducDetailtItem>
+           {renderProductItem()}
           </TableBody>
         </Table>
       </Paper>
     </>
   );
 }
-export default ManagerProductDetail;
+
+const stateMapToProps = (state, props)=>{
+  return {
+    products: state.products
+  }
+}
+const dispatchMapToProps = (dispatch, props)=>{
+  return {
+    getProducts: ()=>{
+      dispatch( atcGetProductRequest());
+    }
+  }
+}
+export default  connect(stateMapToProps, dispatchMapToProps) (ManagerProductDetail);

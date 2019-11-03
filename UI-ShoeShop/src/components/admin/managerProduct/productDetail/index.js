@@ -24,13 +24,7 @@ function ProductDetail() {
         <div style = {{display:'flex', marginTop: '60px', marginBottom: '50px'}}>
         <div style = {{marginRight: '20px'}}>
           <label style = {{marginRight: '20px'}}> Loại cha: </label>
-          <select style = {{width: '200px', height: '40px'}}>
-            <option>Cha1</option>
-            <option>Cha4</option>
-            <option>Cha3</option>
-            <option>Cha2</option>
-
-          </select>
+          <label></label>
         </div>
         <div>
           <label style = {{marginRight: '20px'}}>Loại Con: </label>

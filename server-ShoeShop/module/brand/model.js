@@ -55,10 +55,8 @@ const schema = new Schema(
     },
     products: [
       {
-        productId: {
-          type: Schema.Types.ObjectId,
-          ref: "product"
-        }
+        type: Schema.Types.ObjectId,
+        ref: "product"
       }
     ],
 

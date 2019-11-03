@@ -32,7 +32,9 @@ import OrderStockDetail from "../managerImportStock/orderStockDetail";
 import OrderImport from "../managerImportStock/makeOrderImport";
 import ManagerProductDetail from "../managerProductDetail";
 import ProductInfoDetail from "../managerProductDetail/productInfoDetail";
+import SuplierManager from "../suplierManager"
 import Report from "../report";
+import DetailSuplier from "../suplierManager/detailSuplier";
 
 const drawerWidth = 240;
 
@@ -143,7 +145,7 @@ function AdminHome() {
             <MenuIcon style={{ color: "#f75f00" }} />
           </IconButton>
           <Typography variant="h6" noWrap style={{ color: "#000" }}>
-            Quản lý
+            QL
           </Typography>
         </Toolbar>
       </AppBar>
@@ -172,68 +174,77 @@ function AdminHome() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="Quản lý đơn hàng">
+          <ListItem button key="QL đơn hàng">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/orders" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý đơn hàng" />
+              <ListItemText primary="QL đơn hàng" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý danh mục">
+          <ListItem button key="QL danh mục">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/kinds" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý danh mục" />
+              <ListItemText primary="QL danh mục" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý sản phẩm">
+          <ListItem button key="QL sản phẩm">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/products" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý sản phẩm" />
+              <ListItemText primary="QL sản phẩm" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý chi tiết sản phẩm">
+          <ListItem button key="QL chi tiết sản phẩm">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/managerProductInfoDetail" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý chi tiết sản phẩm" />
+              <ListItemText primary="QL chi tiết sản phẩm" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý kho">
+          <ListItem button key="QL kho">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/managerStock" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý kho" />
+              <ListItemText primary="QL kho" />
             </Link>
           </ListItem>
-          <ListItem button key="Quản lý Nhân viên">
+          <ListItem button key="QL nhà cung cấp">
+            <ListItemIcon>
+              <BookIcon></BookIcon>
+            </ListItemIcon>
+            <Link to="/admin/supliers" className={classes.link}>
+              {" "}
+              <ListItemText primary="QL nhà cung cấp" />
+            </Link>
+          </ListItem>
+          <ListItem button key="QL Nhân viên">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/employees" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý nhân viên" />
+              <ListItemText primary="QL nhân viên" />
             </Link>
           </ListItem>
 
-          <ListItem button key="Quản lý Khách hàng">
+          <ListItem button key="QL Khách hàng">
             <ListItemIcon>
               <BookIcon></BookIcon>
             </ListItemIcon>
             <Link to="/admin/customers" className={classes.link}>
               {" "}
-              <ListItemText primary="Quản lý Khách hàng" />
+              <ListItemText primary="QL Khách hàng" />
             </Link>
           </ListItem>
 
@@ -255,6 +266,9 @@ function AdminHome() {
           <Route path="/admin/products" component={ManagerProduct} />
           <Route path="/admin/employees" component={EmployeeManager}></Route>
           <Route path="/admin/customers" component={CustomerManager}></Route>
+          <Route path="/admin/supliers" component={SuplierManager}></Route>
+          <Route path="/admin/suplierDetail" component={DetailSuplier}></Route>
+          
           <Route
             path="/admin/customerDetail"
             component={DetailCustomer}

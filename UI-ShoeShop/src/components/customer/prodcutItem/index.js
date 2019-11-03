@@ -1,6 +1,6 @@
 import React from "react";
 import Rating from "@material-ui/lab/Rating";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import shoe from '../../../assets/image/shoe.jpg'
 import {Link} from "react-router-dom"
 import "./style.css";
@@ -32,7 +32,7 @@ function ProductItem() {
             />
           </div>
           <div>
-            <FavoriteBorderIcon className = "favorite-icon"></FavoriteBorderIcon>
+            <FavoriteIcon className = "favorite-icon"></FavoriteIcon>
           </div>
         </div>
       </div>

@@ -81,6 +81,11 @@ router.get("/:name", async (req, res, next) => {
   }
 });
 
+router.get("/list-product/:id", async (req, res, next) => {
+  const list = await getProductIds(req.params.id);
+  res.status(200).json(makeResponse(list));
+});
+
 // /**
 //  * @swagger
 //  * /api/v1/brands:
@@ -202,12 +207,15 @@ router.put("/add-product/:id", async (req, res, next) => {
       throw new Error("Body is empty");
     }
 
+    console.log(req.params.id, req.body.addProductId);
+
     const updatedBrand = await addProductId(
       req.params.id,
       req.body.addProductId
     );
     res.json(makeResponse(updatedBrand));
   } catch (error) {
+    console.log("errr", error);
     logger.info(`${req.originalUrl}: `, error);
     res.json(handleError(error));
   }
@@ -220,7 +228,7 @@ router.put("/remove-product/:id", async (req, res, next) => {
     }
     const updatedBrand = await removeProductId(
       req.params.id,
-      req.body.addProductId
+      req.body.removeProductId
     );
     res.json(makeResponse(updatedBrand));
   } catch (error) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,6 +11,13 @@ import { Button } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import {
+  atcGetProductRequest,
+  atcDeleteProductRequest,
+  atcGetCategoryRequest,
+  atcCreateProductRequest
+} from "../../../actions";
+import { connect } from "react-redux";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -52,9 +59,65 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ManagerProduct() {
+function ManagerProduct(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [chooseParent, setChooseParent] = useState("Giày nam");
+  const [childrens, setChildrens] = useState([]);
+  const [subParent, setSubParent] = useState("");
+  const [nameProduct, setNameProduct] = useState("");
+
+  const atcChooseParent = e => {
+    setChooseParent(e.target.value);
+    console.log("e.target.value", e.target.value);
+    console.log("chooseParent", chooseParent);
+    console.log("catelogyProps", props.categories);
+
+    if (props.categories && props.categories.length > 0) {
+      var lsChildren = [];
+      props.categories.map((category, index) => {
+        if (chooseParent !== category.name) {
+          if (category.children && category.children.length > 0) {
+            lsChildren = category.children.map((children, index) => {
+              return children;
+            });
+            setChildrens(lsChildren);
+            console.log("lsChildren", lsChildren);
+          }
+        }
+      });
+    }
+  };
+
+  const atcChooseSubParent = e => {
+    setSubParent(e.target.value);
+    console.log("e.target.value", e.target.value);
+  };
+  const renderOption = lsChildren => {
+    var result = "";
+    if (lsChildren && lsChildren.length > 0) {
+      result = lsChildren.map((children, index) => {
+        return (
+          <option key={index} value={children._id}>
+            {children.name}
+          </option>
+        );
+      });
+    }
+    return result;
+  };
+
+  const createProduct = () => {
+    let product = {
+      name: nameProduct,
+      categories: subParent
+    };
+
+    console.log("productItem: ", product);
+    props.createProduct(product);
+    handleClose();
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -64,6 +127,35 @@ function ManagerProduct() {
     setOpen(false);
   };
 
+  useEffect(() => {
+    props.getProducts();
+    props.getCategories();
+  }, []);
+
+  const editProduct = product => {
+    console.log("AA", product);
+   handleOpen();
+    setNameProduct(product.name);
+
+  };
+
+  const renderProductItem = () => {
+    var result = "";
+    if (props.products && props.products.length > 0) {
+      result = props.products.map((product, index) => {
+        return (
+          <ProductItem
+            key={index}
+            index={index}
+            product={product}
+            deleteProduct={props.deleteProduct}
+            editProduct={editProduct}
+          ></ProductItem>
+        );
+      });
+    }
+    return result;
+  };
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -80,7 +172,7 @@ function ManagerProduct() {
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Mã sản phẩm</StyledTableCell>
+              <StyledTableCell>STT</StyledTableCell>
               <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
               <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
               <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
@@ -91,11 +183,7 @@ function ManagerProduct() {
               <StyledTableCell align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <ProductItem></ProductItem>
-            <ProductItem></ProductItem>
-            <ProductItem></ProductItem>
-          </TableBody>
+          <TableBody>{renderProductItem()}</TableBody>
         </Table>
       </Paper>
       <Modal
@@ -115,53 +203,64 @@ function ManagerProduct() {
             <h5 id="transition-modal-title">THÔNG TIN SẢN PHẨM </h5>
             <div id="transition-modal-description">
               <div>
-                <label className={classes.label}>Mã sản phẩm</label>
-                <input className={classes.input} />
-              </div>
-              <div>
                 <label className={classes.label}>Tên sản phẩm</label>
-                <input className={classes.input} />
+                <input
+                  className={classes.input}
+                  value = {nameProduct}
+                  onChange={e => {
+                    setNameProduct(e.target.value);
+                  }}
+                />
               </div>
               <div>
                 <label className={classes.label}>SL tồn kho</label>
-                <input className={classes.input} />
+                <input className={classes.input} value={0} />
               </div>
-              
+
               <div>
                 <label className={classes.label}> Loại cha: </label>
-                <select className={classes.input}>
-                  <option>Cha1</option>
-                  <option>Cha4</option>
-                  <option>Cha3</option>
-                  <option>Cha2</option>
+                <select
+                  className={classes.input}
+                  value={chooseParent}
+                  onChange={atcChooseParent}
+                >
+                  <option value="Giày nam">Giày nam</option>
+                  <option value="Giày nữ">Giày nữ</option>
                 </select>
               </div>
               <div>
                 <label className={classes.label}>Loại Con: </label>
-                <select className={classes.input}>
-                  <option>Con1</option>
-                  <option>COn4</option>
-                  <option>Con3</option>
-                  <option>Con2</option>
+                <select className={classes.input} onChange={atcChooseSubParent} value = {subParent}>
+                  {renderOption(childrens)}
                 </select>
               </div>
               <div>
-                <label className={classes.label} style = {{marginRight: '30px'}}>Trạng thái</label>
-                <input type="checkbox"  className /> Hiện
+                <label
+                  className={classes.label}
+                  style={{ marginRight: "30px" }}
+                >
+                  Trạng thái
+                </label>
+                <input type="checkbox" className /> Hiện
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button
+                <Button
                   variant="contained"
                   color="primary"
                   onClick={handleClose}
-                  style={{ backgroundColor: "#512c62" , marginTop: '10px', marginRight: '10px'}}
+                  style={{
+                    backgroundColor: "#512c62",
+                    marginTop: "10px",
+                    marginRight: "10px"
+                  }}
                 >
                   Hủy
                 </Button>
                 <Button
+                  onClick={createProduct}
                   variant="contained"
                   color="primary"
-                  style={{ backgroundColor: "#512c62" , marginTop: '10px'}}
+                  style={{ backgroundColor: "#512c62", marginTop: "10px" }}
                 >
                   Lưu
                 </Button>
@@ -173,4 +272,31 @@ function ManagerProduct() {
     </>
   );
 }
-export default ManagerProduct;
+
+const stateMapToProps = (state, props) => {
+  return {
+    products: state.products,
+    categories: state.categories
+  };
+};
+
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getProducts: () => {
+      dispatch(atcGetProductRequest());
+    },
+    deleteProduct: id => {
+      dispatch(atcDeleteProductRequest(id));
+    },
+    getCategories: () => {
+      dispatch(atcGetCategoryRequest());
+    },
+    createProduct: product => {
+      dispatch(atcCreateProductRequest(product));
+    }
+  };
+};
+export default connect(
+  stateMapToProps,
+  dispatchMapToProps
+)(ManagerProduct);

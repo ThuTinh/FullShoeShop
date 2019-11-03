@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import SearchIcon from "@material-ui/icons/Search";
 import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import PersonIcon from "@material-ui/icons/Person";
+import { connect } from "react-redux";
+import { atcGetCategoryRequest } from "../../../actions";
 import "./style.css";
 
 const StyledBadge1 = withStyles(theme => ({
@@ -19,11 +18,11 @@ const StyledBadge1 = withStyles(theme => ({
 class Navbars extends React.Component {
   constructor(props) {
     super(props);
+    props.getCategory();
     this.state = {
       prevScrollpos: window.pageYOffset,
       visible: true,
-      visibleSearch: true,
-      anchorEl: null
+      visibleSearch: true
     };
   }
 
@@ -42,7 +41,6 @@ class Navbars extends React.Component {
   // Hide or show the menu.
   handleScroll = () => {
     const visible = window.pageYOffset <= 20;
-
     this.setState({
       visible
     });
@@ -54,61 +52,82 @@ class Navbars extends React.Component {
     console.log(this.state.visibleSearch);
   };
 
+  renderWomenCategory = () => {
+    var result = "";
+    console.log("aaa", this.props.categories);
+    if (this.props.categories && this.props.categories.length > 0) {
+      var i = 0;
+      for (i = 0; i < this.props.categories.length; i++) {
+        if (this.props.categories[i].name == "Giày nữ") {
+          if (
+            this.props.categories[i].children &&
+            this.props.categories[i].children.length > 0
+          ) {
+            result = this.props.categories[i].children.map(
+              (children, index) => {
+                return <li>{children.name}</li>;
+              }
+            );
+          }
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
+  renderManCategory = () => {
+    var result = "";
+    console.log("aaa", this.props.categories);
+    if (this.props.categories && this.props.categories.length > 0) {
+      var i = 0;
+      for (i = 0; i < this.props.categories.length; i++) {
+        if (this.props.categories[i].name == "Giày nam") {
+          if (
+            this.props.categories[i].children &&
+            this.props.categories[i].children.length > 0
+          ) {
+            result = this.props.categories[i].children.map(
+              (children, index) => {
+                return <li>{children.name}</li>;
+              }
+            );
+          }
+          break;
+        }
+      }
+    }
+    return result;
+  };
+
   render() {
-    const handleClick = event => {
-      this.setState({
-        anchorEl: event.currentTarget
-      });
-    };
-
-    const handleClose = () => {
-      this.setState({
-        anchorEl: null
-      });
-    };
-
     // return focus to the button when we transitioned from !open -> open
     return (
       <div className="menu-container">
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
-          <div className="logo"></div>
-          <div className="menu-items">
-            <div style={{ display: "inline", width: "200px" }}>
-              <label
-                className="menu-item "
-                aria-controls="sub-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
+          <div className="wraper">
+            <ul>
+              <li>
                 Giày nữ
-              </label>
-              <Menu
-                id="sub-menu"
-                anchorEl={this.state.anchorEl}
-                keepMounted
-                open={Boolean(this.state.anchorEl)}
-                onClose={handleClose}
-                getContentAnchorEl={null}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                transformOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                <MenuItem onClick={handleClose} className="sub-item">
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose} className="sub-item">
-                  My account
-                </MenuItem>
-                <MenuItem onClick={handleClose} className="sub-item">
-                  Logout
-                </MenuItem>
-              </Menu>
-            </div>
-            <Link className="menu-item">Giày Nam</Link>
-            <Link className="menu-item">Khuyến mãi hot</Link>
-            <Link className="menu-item">Kết nối</Link>
+                <div style={{position:'relative'}}>
+                <ul style={{position:'absolute',top:0}}>{this.renderWomenCategory()}</ul>
+                </div>
+              </li>
+              <li>
+                Giày nam
+                <ul>{this.renderManCategory()}</ul>
+              </li>
+              <li>Bán chạy</li>
+              <li>Khuyến mãi</li>
+              <li>Giới thiệu shop</li>
+            </ul>
           </div>
           <div className="menu-cart-search">
-            <StyledBadge1 badgeContent={4} color="primary">
+            <StyledBadge1
+              badgeContent={4}
+              color="primary"
+              className="shopping-cart"
+            >
               <ShoppingCartIcon className="menu-cart" />
             </StyledBadge1>
 
@@ -118,7 +137,12 @@ class Navbars extends React.Component {
             />
           </div>
           <div>
-            <PersonIcon className="icon-person"></PersonIcon>
+            <PersonIcon className="icon-person">
+              <ul className="menu-person">
+                <li>Tài khoản của tôi</li>
+                <li>Đăng cuất</li>
+              </ul>
+            </PersonIcon>
           </div>
         </nav>
         <div
@@ -126,13 +150,17 @@ class Navbars extends React.Component {
           style={{ visibility: this.state.visibleSearch ? "hidden" : "" }}
         >
           <form>
-            <input
-              type="text"
-              className="control-input"
-              id="search_input"
-              placeholder="Search Here"
-            />
-            <button type="submit" className="btn"></button>
+            <div style={{ display: "flex" }}>
+              <input
+                type="text"
+                className="control-input"
+                id="search_input"
+                placeholder="Search Here"
+              />
+              <button type="submit" className="btn-search">
+                Tìm kiếm
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -140,4 +168,19 @@ class Navbars extends React.Component {
   }
 }
 
-export default Navbars;
+const stateMapToProps = (state, props) => {
+  return {
+    categories: state.categories
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getCategory: () => {
+      dispatch(atcGetCategoryRequest());
+    }
+  };
+};
+export default connect(
+  stateMapToProps,
+  dispatchMapToProps
+)(Navbars);

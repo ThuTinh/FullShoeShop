@@ -1,14 +1,22 @@
-const express = require('express')
-const router = new express.Router()
-const {validateReqBody,create,findOne,findAll,update,addItem} = require('./handler')
-const logger = require('../logger')
-const {handleError, makeResponse} = require('../common')
+const express = require("express");
+const router = new express.Router();
+const {
+  validateReqBody,
+  create,
+  findOne,
+  findAll,
+  update,
+  addItem,
+  remove
+} = require("./handler");
+const logger = require("../logger");
+const { handleError, makeResponse } = require("../common");
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger
 //  * /api/v1/products:
 //  *   get:
-//  *     tags: 
+//  *     tags:
 //  *       - products
 //  *     description: get products with filter
 //  *     produces:
@@ -17,21 +25,20 @@ const {handleError, makeResponse} = require('../common')
 //  *       200:
 //  *         description: Success
 //  */
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const products = await findAll()
-    res.json(makeResponse(products))
+    const products = await findAll();
+    res.json(makeResponse(products));
+  } catch (error) {
+    res.json(handleError(error));
+    logger.info(`${req.originalUrl}: `, error);
   }
-  catch(error) {
-    res.json(handleError(error))
-    logger.info(`${req.originalUrl}: `, error)
-  }
-})
+});
 // /**
 //  * @swagger
 //  * /api/v1/products/{name}?page&per_page:
 //  *   get:
-//  *     tags: 
+//  *     tags:
 //  *       - products
 //  *     description: get product by product
 //  *     produces:
@@ -49,27 +56,29 @@ router.get('/', async (req, res, next) => {
 //  *       200:
 //  *         description: Success
 //  */
-router.get('/:name', async (req, res, next) => {
+router.get("/:name", async (req, res, next) => {
   try {
-    const conditions = { name: req.params.name }
-    const filter = { name:1 }
-    const page = Number(req.query.page) ? Number(req.query.page) : undefined
-    const perPage = Number(req.query.per_page) ? Number(req.query.per_page) : undefined
-    const product = await findOne(conditions, filter, page, perPage)
-   
-    if(!product) throw new Error('Unable to find product name ' + req.params.name)
-    res.json(makeResponse(product))
+    const conditions = { name: req.params.name };
+    const filter = { name: 1 };
+    const page = Number(req.query.page) ? Number(req.query.page) : undefined;
+    const perPage = Number(req.query.per_page)
+      ? Number(req.query.per_page)
+      : undefined;
+    const product = await findOne(conditions, filter, page, perPage);
+
+    if (!product)
+      throw new Error("Unable to find product name " + req.params.name);
+    res.json(makeResponse(product));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
   }
-  catch(error) {
-    logger.info(`${req.originalUrl}: `, error)
-    res.json(handleError(error))
-  }
-})
+});
 // /**
 //  * @swagger
 //  * /api/v1/products:
 //  *   post:
-//  *     tags: 
+//  *     tags:
 //  *       - products
 //  *     description: Create a product
 //  *     produces:
@@ -87,27 +96,30 @@ router.get('/:name', async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    validateReqBody(req.body)
-    const isExistName = await findOne({conditions:{name: req.body.name},filter:{name:1}})
-    if(isExistName) {
-      throw new Error(`product ${req.body.name} is already exist`)
+    validateReqBody(req.body);
+    const isExistName = await findOne({
+      conditions: { name: req.body.name },
+      filter: { name: 1 }
+    });
+    if (isExistName) {
+      throw new Error(`product ${req.body.name} is already exist`);
     }
-    const product = await create(req.body)
-    logger.info('created product')
-    res.status(200).json(makeResponse(product))
+    const product = await create(req.body);
+    logger.info("created product");
+    res.status(200).json(makeResponse(product));
   } catch (error) {
-    logger.info(`${req.originalUrl}: `, error)
-    res.status(200).json(handleError(error))
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
   }
-})
-  
+});
+
 // /**
 //  * @swagger
 //  * /api/v1/products/{name}:
 //  *   put:
-//  *     tags: 
+//  *     tags:
 //  *       - products
 //  *     description: update product's information
 //  *     produces:
@@ -129,24 +141,24 @@ router.post('/', async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.put('/:name', async (req, res, next) => {
+router.put("/:name", async (req, res, next) => {
   try {
-    if(!req.body || Object.keys(req.body).length === 0) {
-      throw new Error('Body is empty')
+    if (!req.body || Object.keys(req.body).length === 0) {
+      throw new Error("Body is empty");
     }
-    const updatedproduct = await update(req.params.name, req.body)
-    logger.info('product edited')
-    res.status(200).json(makeResponse(updatedproduct))
+    const updatedproduct = await update(req.params.name, req.body);
+    logger.info("product edited");
+    res.status(200).json(makeResponse(updatedproduct));
   } catch (error) {
-    logger.info(`${req.originalUrl}: `, error)
-    res.status(200).json(handleError(error))
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
   }
-})
+});
 // /**
 //  * @swagger
 //  * /api/v1/products/add-item/{productId}?list:
 //  *   put:
-//  *     tags: 
+//  *     tags:
 //  *       - products
 //  *     description: Add item to product
 //  *     produces:
@@ -173,18 +185,27 @@ router.put('/:name', async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.put('/add-item/:id', async (req, res, next) => {
+router.put("/add-item/:id", async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
-      throw new Error('Body is empty')
+      throw new Error("Body is empty");
     }
 
-    const updatedproduct = await addItem(req.params.id, req.query.list, req.body.newId)
-    res.json(makeResponse(updatedproduct))
+    const updatedproduct = await addItem(
+      req.params.id,
+      req.query.list,
+      req.body.newId
+    );
+    res.json(makeResponse(updatedproduct));
   } catch (error) {
-    logger.info(`${req.originalUrl}: `, error)
-    res.json(handleError(error))
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
   }
-})
-module.exports = router
+});
 
+router.delete("/", async (req, res, next) => {
+  let id = req.body.id ? req.body.id : 0;
+  const product = await remove(id);
+  res.status(200).json(makeResponse(product));
+});
+module.exports = router;

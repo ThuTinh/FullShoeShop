@@ -70,7 +70,7 @@ router.get("/", async (req, res, next) => {
         path: keys,
         select: { name: 1, images: 1, rate: 1 }
       })
-      .select(returnFields)
+      // .select(returnFields)
       .skip(page * perpage)
       .limit(perpage)
       .lean();
@@ -329,11 +329,11 @@ router.put("/favorited-product", async (req, res, next) => {
 //  */
 router.delete("/", async (req, res, next) => {
   try {
-    const user = await model.findById(req.id);
+    const user = await model.findById(req.body.id);
     if (!user) {
-      throw new Error(`Unable to find user id ${req.id}`);
+      throw new Error(`Unable to find user id ${req.body.id}`);
     }
-    const deletedUser = await model.findByIdAndRemove(req.id);
+    const deletedUser = await model.findByIdAndUpdate(req.body.id, {deleted: true}, {new : true});
     res.status(200).json(makeResponse(deletedUser));
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error);

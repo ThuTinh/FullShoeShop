@@ -1,9 +1,15 @@
-.swiper-container{
-  height: 550px !important;
+.container-swiper {
+  height: 450px !important;
   margin-bottom: 50px !important;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  z-index: 1;
 }
-  
-.image{
+
+.image {
   width: 100%;
   height: 100%;
 }

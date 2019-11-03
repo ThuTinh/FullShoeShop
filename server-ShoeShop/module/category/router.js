@@ -102,11 +102,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-
-router.get('/group' , async(req, res,next)=>{
+router.get("/group", async (req, res, next) => {
   let categories = await getCategoryByGroup();
   res.status(200).json(makeResponse(categories));
-})
+});
 // /**
 //  * @swagger
 //  * /api/v1/categories/{categoryId}:
@@ -163,7 +162,10 @@ router.get("/:id", async (req, res, next) => {
 
 // })
 
-router.put("/", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
+  
+  console.log("1111", req.params.id);
+
   const validate = body => {
     if (!body) {
       throw new Error("Miss data");
@@ -174,17 +176,17 @@ router.put("/", async (req, res, next) => {
   };
   try {
     validate(req.body);
-    const category = update(req.id, req.body);
+    const category = update(req.params.id, req.body);
     res.status(200).json(makeResponse(category));
   } catch (err) {
     res.json(handleError(err));
   }
 });
 
-router.delete('/', async (req, res, next)=>{
+router.delete("/", async (req, res, next) => {
   let category = deleteCategory(req.body.id);
-  return res.status(200).json( makeResponse(category));
-  
-})
+  return res.status(200).json(makeResponse(category));
+});
+
 
 module.exports = router;

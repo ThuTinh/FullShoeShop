@@ -16,7 +16,7 @@ const filter={
 }
 
 const findAll=async()=>{
-  return await Product.find().select(filter).lean()
+  return await Product.find();
 }
 
 const findOne = async (conditions, returnFields, page, perPage) => {
@@ -60,4 +60,9 @@ const create = async (data) => {
 const update = async (id, data) => {
   return await Product.findByIdAndUpdate(id, data, {new: true, runValidators: true})
 }
-module.exports={validateReqBody,findAll,findOne,create,update,addItem,removeItem}
+
+const remove = async(id)=>{
+  return await Product.findByIdAndUpdate(id, {deleted: true},{new :true})
+
+}
+module.exports={validateReqBody,findAll,findOne,create,update,addItem,removeItem, remove}

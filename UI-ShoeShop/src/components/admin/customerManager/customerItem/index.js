@@ -37,10 +37,15 @@ const useStyles = makeStyles(theme => ({
 function CustomerItem(props) {
   const classes = useStyles();
   const {customer} = props;
+
+  const deleteCustomer = ()=>{
+    props.deleteCustomer(customer._id);
+  }
+
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-        1122435123{" "}
+       {props.index+1}
       </StyledTableCell>
       <StyledTableCell align="center">{customer.name}</StyledTableCell>
       <StyledTableCell align="center">{customer.address}</StyledTableCell>
@@ -49,19 +54,9 @@ function CustomerItem(props) {
         <Link to = "/admin/customerDetail" className={classes.detail}> chi tiết</Link>
        
       </StyledTableCell>
-      <StyledTableCell align="center">
-        <select>
-          <option>Customer</option>
-          <option>Thủ kho</option>
-          <option>Shiper</option>
-        </select>
-      </StyledTableCell>
-      <StyledTableCell align="center"><DeleteIcon className = {classes.icon}></DeleteIcon></StyledTableCell>
+      <StyledTableCell align="center"><DeleteIcon className = {classes.icon} onClick = {deleteCustomer}></DeleteIcon></StyledTableCell>
     </StyledTableRow>
   );
 }
-const detailCustomer = (id)=>{
-  console.log("ahihi");
-  return 
-}
+
 export default CustomerItem;

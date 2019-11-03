@@ -35,17 +35,24 @@
 .menu-items {
   margin-right: 40px;
 }
-.icon-person{
+.icon-person {
   margin-right: 20px;
+  color: #fff;
 }
 
-.icon-person:hover{
+.icon-person:hover {
   cursor: pointer;
-  color: #fff
+  color: #5d1451;
 }
 
 .menu-search {
   margin: 20px;
+  color: #fff;
+}
+
+.menu-search:hover{
+  cursor: pointer;
+  color: #5d1451;
 }
 
 .menu-item {
@@ -58,6 +65,7 @@
 .menu-item:hover {
   text-decoration: none;
   color: #5d1451;
+  cursor: pointer;
 }
 label:hover {
   cursor: pointer !important;
@@ -71,27 +79,19 @@ label:hover {
   background-repeat: no-repeat;
 }
 
-#sub-menu {
-  margin-top: 25px !important;
-}
-.sub-item:hover {
-  background-color: #f75f00 !important;
-}
-.sub-item {
-  padding-left: 50px !important;
-  padding-right: 50px !important;
-}
-
 .search {
   clear: both;
   position: fixed;
   margin-top: 100px;
   width: 85%;
+  height: 50px;
+  color: #fff;
   justify-content: flex-end;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
+  z-index: 1000 !important;
 }
 
 .search-croll {
@@ -99,6 +99,8 @@ label:hover {
   position: fixed;
   margin-top: 80px;
   width: 100%;
+  color: #fff;
+  height: 50px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -138,16 +140,66 @@ label:hover {
 
 .control-input {
   display: block;
-  width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
+  width: 90%;
+  height: 50px;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  color: #fff;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-search {
+  width:10%;
+  background-color: #5A3D6C;
+
+}
+.wraper {
+  height: 100%;
+}
+.wraper ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.wraper ul li {
+  margin-right: 30px;
+  color: beige;
+  font-weight: 500;
+  font-family: "Anton", sans-serif;
+}
+
+.wraper ul li:hover {
+  color: #5d1451;
+  cursor: pointer;
+}
+.wraper ul ul {
+  display: none;
+}
+.wraper ul li:hover > ul {
+  display: block;
+  cursor: pointer;
+}
+
+.shopping-cart{
+  color: #fff;
+}
+.shopping-cart:hover{
+  color: #5d1451;
+  cursor: pointer;
+}
+
+ .menu-person{
+  list-style: none;
+  display: none;
+}
+.icon-person:hover > .menu-person{
+  display: block
 }

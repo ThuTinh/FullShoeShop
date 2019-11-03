@@ -34,42 +34,162 @@ export const actSign = sign => {
 
 export const actGetCustomerRequest = () => {
   return dispatch => {
-   
-    return callApi("users?page=&per_page=&_return_fields=email%2Cname%2Cpassword%2CfacebookId%2Croles%2Cphone%2Caddress%2CshipAddresses%2CfavoriteProducts", "GET").then(res => {
+    return callApi(
+      "users?page=&per_page=&_return_fields=email%2Cname%2Cpassword%2CfacebookId%2Croles%2Cphone%2Caddress%2CshipAddresses%2CfavoriteProducts",
+      "GET"
+    ).then(res => {
       console.log(res.data.payload, "Test Res");
       dispatch(actCustomer(res.data.payload));
     });
   };
 };
 
-export const actCustomer = (customers)=>{
+export const atcDeleteCustomerRequest = id => {
+  return dispatch => {
+    return callApi("users", "DELETE", `{"id": "${id}"}`).then(res => {
+      dispatch(actGetCustomerRequest());
+    });
+  };
+};
+
+export const actCustomer = customers => {
   return {
     type: Types.GET_CUSTOMER,
-    customers : customers
-  }
-}
+    customers: customers
+  };
+};
 
-export const actCategory = (categories) =>{
+export const actCategory = categories => {
   return {
     type: Types.GET_CATEGORY,
     categories: categories
-  }
-}
-export const atcGetCategoryRequest = ()=>{
-  return dispatch =>{
-    return callApi("categories/group","GET").then(res=>{
-      console.log("catelogy",res.data.payload )
+  };
+};
+export const atcGetCategoryRequest = () => {
+  return dispatch => {
+    return callApi("categories/group", "GET").then(res => {
+      console.log("catelogy", res.data.payload);
       dispatch(actCategory(res.data.payload));
-    })
+    });
+  };
+};
 
-  }
-}
-
-export const atcDeleteCaregoryRequest = (id) =>{
-  return dispatch=>{
-    return callApi("categories", "DELETE", `{"id": "${id}"}`).then(res=>{
-    //  console.log("Delete", res.data.payload);
+export const atcDeleteCaregoryRequest = id => {
+  return dispatch => {
+    return callApi("categories", "DELETE", `{"id": "${id}"}`).then(res => {
       dispatch(atcGetCategoryRequest());
     });
+  };
+};
+
+export const atcCreateCaregoryRequest = category => {
+  return dispatch => {
+    return callApi("categories", "POST", category).then(res => {
+      console.log(res.data.payload);
+      dispatch(atcGetCategoryRequest());
+    });
+  };
+};
+
+export const atcUpdateCaregoryRequest = (id, category) => {
+  return dispatch => {
+    return callApi(`categories/${id}`, "PUT", category).then(res => {
+      console.log(res);
+      dispatch(atcGetCategoryRequest());
+    });
+  };
+};
+
+export const atcGetProduct = products => {
+  return {
+    type: Types.GET_PRODUCT,
+    products: products
+  };
+};
+
+export const atcGetProductRequest = () => {
+  return dispatch => {
+    return callApi("products", "GET").then(res => {
+      console.log(res.data.payload);
+      dispatch(atcGetProduct(res.data.payload));
+    });
+  };
+};
+
+export const atcCreateProductRequest = product => {
+  console.log("product:", product);
+  return dispatch => {
+    return callApi("products", "POST", product).then(res => {
+      console.log(res.data.payload);
+      //  dispatch(atcGetProduct(res.data.payload));
+    });
+  };
+};
+
+export const atcDeleteProductRequest = id => {
+  return dispatch => {
+    return callApi("products", "DELETE", `{"id": "${id}"}`).then(res => {
+      console.log("dataDeleteProduct", res.data.payload);
+      dispatch(atcGetProductRequest());
+    });
+  };
+};
+
+
+export const atcGetSuplier = supliers => {
+  return {
+    type: Types.GET_SUPLIER,
+    supliers: supliers
+  };
+};
+
+
+export const atcGetSuplierRequest = () => {
+  return dispatch => {
+    return callApi("brands", "GET").then(res => {
+      console.log(res.data.payload);
+      dispatch(atcGetSuplier(res.data.payload));
+    });
+  };
+};
+
+export const atcCreateProdctSuplierRequest = (id, productId)=>{
+console.log("aaaaa", id + ": " +productId);
+  return dispatch =>{
+    return callApi(`brands/add-product/${id}`, "PUT" , `{"addProductId": "${productId}"}`).then(res=>{
+      dispatch(atcGetProductSuplierRequest(id));
+    })
+  }
+}
+
+export const atcGetProductSuplier = (productSupliers)=>{
+  return {
+    type: Types.GET_PRODUCT_SUPLIER,
+    productSupliers: productSupliers
+  }
+
+}
+
+export const atcGetProductSuplierRequest = (id)=>{
+  return dispatch =>{
+    return callApi(`brands/list-product/${id}`, "GET").then(res=>{    
+      var products =[];
+      if(res.data.payload && res.data.payload.products.length>0){
+        products = res.data.payload.products;
+        console.log("product-suplier", res.data.payload.products )
+      }
+      console.log("product-suplier", products )
+      dispatch(atcGetProductSuplier(products));
+
+    })
+  }
+}
+
+export const atcDeletProductSuplierRequest = (id, productId)=>{
+  console.log("LLLL", id + "-" + productId)
+  return dispatch =>{
+    return callApi(`brands/remove-product/${id}`, "PUT", `{"removeProductId": "${productId}"}` ).then(res=>{
+      dispatch(atcGetProductSuplierRequest(id));
+    })
   }
 }

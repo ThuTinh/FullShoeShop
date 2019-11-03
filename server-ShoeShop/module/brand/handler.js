@@ -8,10 +8,6 @@ const validateReqBody = body => {
   if (!body.name) {
     throw new Error("'Name' is required");
   }
-  if (!body.products) {
-    throw new Error("products is required");
-  }
-
   if (!body.phone) {
     throw new Error("phone is required");
   }
@@ -33,46 +29,64 @@ const findOne = async (conditions, returnFields) => {
 };
 
 const addProductId = async (id, productId) => {
-  // let exist = await Brand.find(
-  //   {
-  //     _id: id
-  //   },
-  //   { products: { $elemMatch: { productId: productId } } }
+  let exist = await Brand.find({
+    _id: id,
+    products: { $elemMatch: { productId: productId } }
+  });
+  if (exist.length > 0) {
+    throw new Error("productID existed !");
+  } else {
+    await Brand.findById(id, function(err, brand) {
+      if (productId) {
+        brand.products.push(productId);
+      }
+      brand.markModified("products");
+      brand.save();
+    });
+  }
+  // return await Brand.findByIdAndUpdate(
+  //   id,
+  //   { $push: { products:  productId  } },
+  //   { new: true, runValidators: true }
   // );
-  // if (exist) {
-  //   throw new Error("productID existed !");
-  // } else {
-  //   await Brand.findById(id, function(err, brand) {
-  //     if (productId) {
-  //       brand.products.push(productId);
-  //     }
-  //     brand.markModified("products");
-  //     brand.save();
-  //   });
-  // }
-  return await Brand.findOneAndUpdate(
-    { _id: id },
-    { $pull: { products: { productId } } },
-    { new: true, runValidators: true }
-  );
 };
 
-const removeProductId = async (id, _productId) => {
-  return await Brand.findOneAndUpdate(
-    { _id: id },
-    { $push: { products: { productId: _productId } } },
-    { new: true, runValidators: true }
+const removeProductId = async (id, productId) => {
+  // return await Brand.findOneAndUpdate(
+  //   { _id: id },
+  //   { $pull: { products: {  _productId } } },
+  //   { new: true }
+  // );
+
+  let exist = await Brand.find(
+    {
+      _id: id
+    }
   );
+  console.log(exist);
+  if (exist.length>0) {
+    await Brand.findById(id, function(err, brand) {
+      if (productId) {
+        brand.products.pull(productId);
+      }
+      brand.markModified("products");
+      brand.save();
+    });
+
+  } else {
+    throw new Error("productID not  existed !");
+  }
 };
 const getNameBrand = async () => {
   return await Brand.find({}).select("_id name");
 };
 const getProductIds = async id => {
-  var productIds = {};
-  await Brand.findById(id, function(err, brand) {
-    productIds = brand.products;
-  });
-  return productIds;
+  //var productIds = {};
+  // await Brand.findById(id, function(err, brand) {
+  //   productIds = brand.products;
+  // });
+  return await Brand.findById(id).populate('products', 'name');
+  //return productIds;
 };
 
 // const addItem = async (_id,filter, newId) => {

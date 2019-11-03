@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,8 +10,13 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import KindItem from "./kindItem";
-import { atcGetCategoryRequest } from "../../../actions";
+import {
+  atcGetCategoryRequest,
+  atcCreateCaregoryRequest,
+  atcUpdateCaregoryRequest
+} from "../../../actions";
 import { connect } from "react-redux";
+import { CREATE_CATEGORY } from "../../../constants/actionType";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +48,9 @@ const useStyles = makeStyles(theme => ({
 function KindManager(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [parent, setParent] = useState("Giày nam");
+  const [nameCategory, setNameCategory] = useState("");
+  const [idUpdate, setIdUpdate] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -63,11 +71,55 @@ function KindManager(props) {
     if (categories && categories.length > 0) {
       console.log("!!!", categories);
       result = categories.map((category, index) => {
-        return <KindItem key={index} category={category}></KindItem>;
+        return (
+          <KindItem
+            key={index}
+            category={category}
+            edit={editCategory}
+          ></KindItem>
+        );
       });
     }
     console.log("result", result);
     return result;
+  };
+
+  const editCategory = categoryedit => {
+    console.log("categoryedit", categoryedit);
+    if (props.categories && props.categories.length > 0) {
+      props.categories.map((category, index) => {
+        if (categoryedit.parent == category._id) {
+          setParent(category.name);
+        }
+      });
+    }
+    setNameCategory(categoryedit.name);
+    setIdUpdate(categoryedit._id);
+    handleOpen();
+  };
+
+  const createCategory = () => {
+    var id = "";
+    if (props.categories && props.categories.length > 0) {
+      props.categories.map((category, index) => {
+        if (parent == category.name) {
+          id = category._id;
+          console.log("ID parent", id);
+        }
+      });
+    }
+
+    let category = {
+      parent: id,
+      name: nameCategory
+    };
+    if (idUpdate.length>0) {
+      props.updatecategory( idUpdate,category)
+    } else {
+      props.createCategory(category);
+    }
+
+    handleClose();
   };
   return (
     <div>
@@ -121,14 +173,26 @@ function KindManager(props) {
             <div id="transition-modal-description">
               <div>
                 <label className={classes.label}>Loại cha</label>
-                <select className={classes.input}>
-                  <option>Giày nam</option>
-                  <option>Giày nữ</option>
+                <select
+                  className={classes.input}
+                  onChange={e => {
+                    setParent(e.target.value);
+                  }}
+                  value={parent}
+                >
+                  <option value="Giày nam">Giày nam</option>
+                  <option value="Giày nữ">Giày nữ</option>
                 </select>
               </div>
               <div>
                 <label className={classes.label}>Tên loại</label>
-                <input className={classes.input} />
+                <input
+                  className={classes.input}
+                  value={nameCategory}
+                  onChange={e => {
+                    setNameCategory(e.target.value);
+                  }}
+                />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <Button
@@ -144,6 +208,7 @@ function KindManager(props) {
                   Hủy
                 </Button>
                 <Button
+                  onClick={createCategory}
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#512c62", marginTop: "10px" }}
@@ -169,6 +234,12 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getCategories: () => {
       dispatch(atcGetCategoryRequest());
+    },
+    createCategory: category => {
+      dispatch(atcCreateCaregoryRequest(category));
+    },
+    updatecategory: (id, category)=>{
+      dispatch(atcUpdateCaregoryRequest(id, category));
     }
   };
 };
