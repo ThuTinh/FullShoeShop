@@ -47,11 +47,17 @@ const getCategoryByGroup = async () => {
   return categorys;
 };
 
+const getnameCategoryParentAndSub =  async(id)=>{
+
+  return await Model.findById(id).populate('parent', 'name');
+}
+
 module.exports = {
   create,
   update,
   deleteCategory,
   getCategorys,
   getCategoryById,
-  getCategoryByGroup
+  getCategoryByGroup,
+  getnameCategoryParentAndSub
 };

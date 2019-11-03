@@ -124,6 +124,16 @@ const update = async (id, data) => {
     runValidators: true
   });
 };
+
+const remove = async(id)=>{
+  return await Brand.findByIdAndUpdate(id, {deleted: true}, {
+    new: true,
+    runValidators: true
+  });
+}
+
+
+
 module.exports = {
   validateReqBody,
   findAll,
@@ -133,5 +143,6 @@ module.exports = {
   addProductId,
   removeProductId,
   getNameBrand,
-  getProductIds
+  getProductIds,
+  remove
 };

@@ -6,7 +6,8 @@ const {
   getCategoryById,
   update,
   deleteCategory,
-  getCategoryByGroup
+  getCategoryByGroup,
+  getnameCategoryParentAndSub
 } = require("./handler");
 const { handleError, makeResponse } = require("../common");
 const logger = require("../logger");
@@ -162,8 +163,15 @@ router.get("/:id", async (req, res, next) => {
 
 // })
 
+router.get("/name-parent-sub/:id", async (req, res, next) => {
+  console.log("mane-parent-sub",req.params.id )
+  let id = req.params.id ;
+  logger.info("huhu"+ id,"aaa");
+  let restlt = await getnameCategoryParentAndSub(id);
+  res.status(200).json(makeResponse(restlt));
+});
+
 router.put("/:id", async (req, res, next) => {
-  
   console.log("1111", req.params.id);
 
   const validate = body => {
@@ -187,6 +195,5 @@ router.delete("/", async (req, res, next) => {
   let category = deleteCategory(req.body.id);
   return res.status(200).json(makeResponse(category));
 });
-
 
 module.exports = router;

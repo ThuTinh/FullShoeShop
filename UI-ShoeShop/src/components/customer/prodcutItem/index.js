@@ -1,8 +1,9 @@
 import React from "react";
 import Rating from "@material-ui/lab/Rating";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import shoe from '../../../assets/image/shoe.jpg'
-import {Link} from "react-router-dom"
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import shoe from "../../../assets/image/shoe.jpg";
+import { Link } from "react-router-dom";
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import "./style.css";
 
 function ProductItem() {
@@ -18,9 +19,18 @@ function ProductItem() {
         />
       </div>
       <div className="card-item-body">
-        <h6>Giày convert chính hàng mua từ hàn quốc giá rẻ</h6>
-        <p style = {{color: "#F75F00"}}><b>120.000đ</b></p>
-        <div style = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Link to = "/product/:id" className = "tilte">Giày convert chính hàng mua từ hàn quốc giá rẻ</Link>
+        <p style={{ color: "#F75F00" }}>
+          <b>120.000đ</b>
+        </p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            
+           
+          }}
+        >
           <div>
             <Rating
               name="simple-controlled"
@@ -31,24 +41,24 @@ function ProductItem() {
               }}
             />
           </div>
-          <div>
-            <FavoriteIcon className = "favorite-icon"></FavoriteIcon>
+          <div className = "add-to-cart">
+            <div className="action-item">
+              <div> <AddShoppingCartIcon
+             className = "cart"   style={{ color: "#5E3D6E", fontSize:'35px', marginBottom:'10px' }}
+              ></AddShoppingCartIcon></div>
+             <div> <FavoriteIcon className="favorite-icon"></FavoriteIcon></div>
+              
+            </div>
+            
+             
+           
           </div>
         </div>
       </div>
-      <div className="card-item-footer">
-        <div className="action-item">
-          <div style = {{display: 'flex', alignItems: 'center'}}>
-          <label> Mua Hàng</label>
-          </div>
-       
-        </div>
-        <div className="action-item">
-         <div style = {{display: 'flex', alignItems: 'center'}}> <Link to = "/product/:id" style = {{textDecoration: 'none' ,  color: '#fff'}}>Chi tiết</Link></div>
-        </div>
-      </div>
+      
     </div>
   );
 }
 
 export default ProductItem;
+

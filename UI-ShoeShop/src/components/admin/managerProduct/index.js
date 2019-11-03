@@ -15,7 +15,8 @@ import {
   atcGetProductRequest,
   atcDeleteProductRequest,
   atcGetCategoryRequest,
-  atcCreateProductRequest
+  atcCreateProductRequest,
+  atcUpdateProductRequest
 } from "../../../actions";
 import { connect } from "react-redux";
 
@@ -67,6 +68,8 @@ function ManagerProduct(props) {
   const [childrens, setChildrens] = useState([]);
   const [subParent, setSubParent] = useState("");
   const [nameProduct, setNameProduct] = useState("");
+  const [idUpdate, setIdUpdate] = useState("");
+  const [checkUpdate, setCheckUpdate] = useState(false);
 
   const atcChooseParent = e => {
     setChooseParent(e.target.value);
@@ -114,16 +117,42 @@ function ManagerProduct(props) {
       categories: subParent
     };
 
-    console.log("productItem: ", product);
-    props.createProduct(product);
+    if (idUpdate.length > 0) {
+      console.log("productItemUpdate: ", product);
+      setCheckUpdate(false)
+      props.updateProduct(idUpdate, product);
+    } else {
+      console.log("productItemCreate: ", product);
+      props.createProduct(product);
+    }
+
     handleClose();
   };
 
   const handleOpen = () => {
+    //Chưa ở trạng thái update
+    console.log(checkUpdate);
+    if (!checkUpdate) {
+      if (props.categories && props.categories.length > 0) {
+        var lsChildren = [];
+        props.categories.map((category, index) => {
+          if (chooseParent == category.name) {
+            if (category.children && category.children.length > 0) {
+              lsChildren = category.children.map((children, index) => {
+                return children;
+              });
+              setChildrens(lsChildren);
+              console.log("lsChildrenChuUpdate", lsChildren);
+            }
+          }
+        });
+      }
+    }
     setOpen(true);
   };
 
   const handleClose = () => {
+    setCheckUpdate(false)
     setOpen(false);
   };
 
@@ -134,9 +163,33 @@ function ManagerProduct(props) {
 
   const editProduct = product => {
     console.log("AA", product);
-   handleOpen();
+    setCheckUpdate(true);
+    console.log("update", checkUpdate);
+    setIdUpdate(product._id);
     setNameProduct(product.name);
+    if (product.categories != null) {
+      setChooseParent(product.categories.parent.name);
+      console.log("setCHooo",product.categories.parent.name );
+      if (props.categories && props.categories.length > 0) {
+        var lsChildren = [];
+        props.categories.map((category, index) => {
+          if (chooseParent !== category.name) {
+            if (category.children && category.children.length > 0) {
+              lsChildren = category.children.map((children, index) => {
+                return children;
+              });
+              setChildrens(lsChildren);
+              console.log("lsChildren", lsChildren);
+            }
+          }
+        });
+      }
 
+      setSubParent(product.categories._id);
+    }
+    handleOpen();
+
+    
   };
 
   const renderProductItem = () => {
@@ -206,7 +259,7 @@ function ManagerProduct(props) {
                 <label className={classes.label}>Tên sản phẩm</label>
                 <input
                   className={classes.input}
-                  value = {nameProduct}
+                  value={nameProduct}
                   onChange={e => {
                     setNameProduct(e.target.value);
                   }}
@@ -214,7 +267,7 @@ function ManagerProduct(props) {
               </div>
               <div>
                 <label className={classes.label}>SL tồn kho</label>
-                <input className={classes.input} value={0} />
+                <input className={classes.input} value={0} onChange={e => {}} />
               </div>
 
               <div>
@@ -230,7 +283,11 @@ function ManagerProduct(props) {
               </div>
               <div>
                 <label className={classes.label}>Loại Con: </label>
-                <select className={classes.input} onChange={atcChooseSubParent} value = {subParent}>
+                <select
+                  className={classes.input}
+                  onChange={atcChooseSubParent}
+                  value={subParent}
+                >
                   {renderOption(childrens)}
                 </select>
               </div>
@@ -293,6 +350,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     createProduct: product => {
       dispatch(atcCreateProductRequest(product));
+    },
+    updateProduct: (id, product) => {
+      dispatch(atcUpdateProductRequest(id, product));
     }
   };
 };

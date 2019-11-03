@@ -43,16 +43,21 @@ function ProductItem(props) {
   const editProduct = ()=>{
     props.editProduct(props.product)
   }
+ 
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
         {props.index + 1}
       </StyledTableCell>
       <StyledTableCell align="center">{props.product.name}</StyledTableCell>
-      <StyledTableCell align="center"> Giày nữ > Giày cao got</StyledTableCell>
+      { props.product.categories!=null  && <StyledTableCell align="center">  { props.product.categories.parent.name} > {props.product.categories.name}</StyledTableCell>
+
+      }
+      {
+        props.product.categories==null && <StyledTableCell align="center"> update category</StyledTableCell>
+      }
       <StyledTableCell align="center">100</StyledTableCell>
-      <StyledTableCell align="center" className={classes.detail}>
-        {" "}
+      <StyledTableCell align="center" className={classes.detail}>       
         <Link to="/admin/productDetail" className={classes.icon}>
           Chi tiết
         </Link>

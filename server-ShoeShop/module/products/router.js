@@ -141,12 +141,12 @@ router.post("/", async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.put("/:name", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
       throw new Error("Body is empty");
     }
-    const updatedproduct = await update(req.params.name, req.body);
+    const updatedproduct = await update(req.params.id, req.body);
     logger.info("product edited");
     res.status(200).json(makeResponse(updatedproduct));
   } catch (error) {

@@ -121,7 +121,7 @@ export const atcCreateProductRequest = product => {
   return dispatch => {
     return callApi("products", "POST", product).then(res => {
       console.log(res.data.payload);
-      //  dispatch(atcGetProduct(res.data.payload));
+      dispatch(atcGetProductRequest());
     });
   };
 };
@@ -135,6 +135,13 @@ export const atcDeleteProductRequest = id => {
   };
 };
 
+export const atcUpdateProductRequest = (id, product) => {
+  return dispatch => {
+    return callApi(`products/${id}`, "PUT", product).then(res => {
+      dispatch(atcGetProductRequest());
+    });
+  };
+};
 
 export const atcGetSuplier = supliers => {
   return {
@@ -142,7 +149,6 @@ export const atcGetSuplier = supliers => {
     supliers: supliers
   };
 };
-
 
 export const atcGetSuplierRequest = () => {
   return dispatch => {
@@ -153,43 +159,63 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
-export const atcCreateProdctSuplierRequest = (id, productId)=>{
-console.log("aaaaa", id + ": " +productId);
+export const atcCreateSuplierRequest = (suplier)=>{
+  return dispatch=>{
+    return callApi("brands", "POST" , suplier).then(res=>{
+      dispatch(atcGetSuplierRequest());
+    })
+  }
+
+}
+export const atcDeleteSuplierRequest = (id)=>{
   return dispatch =>{
-    return callApi(`brands/add-product/${id}`, "PUT" , `{"addProductId": "${productId}"}`).then(res=>{
-      dispatch(atcGetProductSuplierRequest(id));
+    return callApi(`brands/${id}`, 'DELETE' ).then(res=>{
+      dispatch(atcGetSuplierRequest());
     })
   }
 }
+export const atcCreateProdctSuplierRequest = (id, productId) => {
+  return dispatch => {
+    return callApi(
+      `brands/add-product/${id}`,
+      "PUT",
+      `{"addProductId": "${productId}"}`
+    ).then(res => {
+      dispatch(atcGetProductSuplierRequest(id));
+    });
+  };
+};
 
-export const atcGetProductSuplier = (productSupliers)=>{
+export const atcGetProductSuplier = productSupliers => {
   return {
     type: Types.GET_PRODUCT_SUPLIER,
     productSupliers: productSupliers
-  }
+  };
+};
 
-}
-
-export const atcGetProductSuplierRequest = (id)=>{
-  return dispatch =>{
-    return callApi(`brands/list-product/${id}`, "GET").then(res=>{    
-      var products =[];
-      if(res.data.payload && res.data.payload.products.length>0){
+export const atcGetProductSuplierRequest = id => {
+  return dispatch => {
+    return callApi(`brands/list-product/${id}`, "GET").then(res => {
+      var products = [];
+      if (res.data.payload && res.data.payload.products.length > 0) {
         products = res.data.payload.products;
-        console.log("product-suplier", res.data.payload.products )
+        console.log("product-suplier", res.data.payload.products);
       }
-      console.log("product-suplier", products )
+      console.log("product-suplier", products);
       dispatch(atcGetProductSuplier(products));
+    });
+  };
+};
 
-    })
-  }
-}
-
-export const atcDeletProductSuplierRequest = (id, productId)=>{
-  console.log("LLLL", id + "-" + productId)
-  return dispatch =>{
-    return callApi(`brands/remove-product/${id}`, "PUT", `{"removeProductId": "${productId}"}` ).then(res=>{
+export const atcDeletProductSuplierRequest = (id, productId) => {
+  console.log("LLLL", id + "-" + productId);
+  return dispatch => {
+    return callApi(
+      `brands/remove-product/${id}`,
+      "PUT",
+      `{"removeProductId": "${productId}"}`
+    ).then(res => {
       dispatch(atcGetProductSuplierRequest(id));
-    })
-  }
-}
+    });
+  };
+};

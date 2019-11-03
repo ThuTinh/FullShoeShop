@@ -37,20 +37,24 @@ const useStyles = makeStyles(theme => ({
 function SuplierItem(props) {
   const classes = useStyles();
 
+  const deleteSuplier = ()=>{
+    props.deleteSuplier(props.suplier._id);
+  }
+
   return (
     <StyledTableRow>
       <StyledTableCell align="center">
         {props.index+1}
       </StyledTableCell>
       <StyledTableCell align="center">{props.suplier.name}</StyledTableCell>
-      <StyledTableCell align="center">{props.suplier.name}</StyledTableCell>
-      <StyledTableCell align="center">{props.suplier.name}</StyledTableCell>
-      <StyledTableCell align="center">{props.suplier.name}</StyledTableCell>
+      <StyledTableCell align="center">{props.suplier.address}</StyledTableCell>
+      <StyledTableCell align="center">{props.suplier.phone}</StyledTableCell>
+      <StyledTableCell align="center">{props.suplier.email}</StyledTableCell>
       <StyledTableCell align="center" >
         <Link to="/admin/suplierDetail" className={classes.detail}> chi tiết</Link>
       </StyledTableCell>
     
-      <StyledTableCell align="center"><DeleteIcon className = {classes.icon}></DeleteIcon></StyledTableCell>
+      <StyledTableCell align="center"><DeleteIcon className = {classes.icon} onClick = {deleteSuplier}></DeleteIcon></StyledTableCell>
       
     </StyledTableRow>
   );

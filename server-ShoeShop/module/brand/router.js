@@ -9,7 +9,8 @@ const {
   addProductId,
   removeProductId,
   getNameBrand,
-  getProductIds
+  getProductIds,
+  remove
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -256,6 +257,13 @@ router.get("/productIds", async (req, res, next) => {
   } catch (err) {
     logger.info(`${req.originalUrl}: `, err);
     res.json(handleError(err));
+  }
+});
+
+router.delete("/:id", async (req, res, next) => {
+  if (req.params.id) {
+    let result = await remove(req.params.id);
+    res.status(200).json(makeResponse(result));
   }
 });
 module.exports = router;

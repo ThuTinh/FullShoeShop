@@ -16,7 +16,10 @@ const filter={
 }
 
 const findAll=async()=>{
-  return await Product.find();
+  return await Product.find().populate({
+    path: 'categories',
+    populate: { path: 'parent' }
+  });
 }
 
 const findOne = async (conditions, returnFields, page, perPage) => {

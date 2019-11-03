@@ -16,7 +16,7 @@ import {
   atcUpdateCaregoryRequest
 } from "../../../actions";
 import { connect } from "react-redux";
-import { CREATE_CATEGORY } from "../../../constants/actionType";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -147,8 +147,8 @@ function KindManager(props) {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Loại cha</TableCell>
-              <TableCell align="center">Loại con</TableCell>
+              <TableCell align="center">LOẠI CHA</TableCell>
+              <TableCell align="center">LOẠI CON</TableCell>
               <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>

@@ -5,6 +5,12 @@
   -webkit-box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
   -moz-box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
   box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
+
+}
+.card-container:hover >.action-item {
+  display: block;
+/* animation: visiable 0.5s linear ; */
+
 }
 
 .card-item-image {
@@ -31,11 +37,12 @@
   -moz-transform: scale(1.2);
   -o-transform: scale(1.2);
   -ms-transform: scale(1.2);
-  cursor: pointer;
+  
 }
 .card-item-body {
-  height: 120px;
+  height: 150px;
 }
+
 .card-item-footer {
   background-color: rgba(81, 44, 98, 0.8);
   height: 50px;
@@ -45,23 +52,22 @@
   align-content: center;
   align-self: center;
   margin-top: 4px;
+ 
+ 
+}
+.add-to-cart{
+
+  position: relative;
+ 
 }
 .action-item {
   height: 100%;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-self: center;
-  color: #ffffff;
-}
-.action-item:hover {
-  background-color: #f75f00;
-  transition: all linear 0.5s;
-  cursor: pointer;
-}
-label {
-  margin-top: 10px;
+  /* display: none ; */
+  position: absolute;
+  right:20px;
+  top: -20px;
+
+
 }
 
 .favorite-icon :hover {
@@ -69,7 +75,26 @@ label {
   cursor: pointer;
 }
 .favorite-icon {
-  color: #474746;
-  margin-right: 5px;
+  color: #5E3D6E;
   font-size: 10px;
+  position: absolute;
+  right: 8px;
+
+  font-size: 20px !important
+}
+.tilte{
+  color: #5E3D6E;
+  font-weight: 500;
+}
+.tilte:hover{
+  color: #f75f00
+}
+.cart:hover{
+  color: #f75f00 !important ;
+  cursor: pointer;
+}
+@keyframes visiable{
+  0% { transform: scale(0.5); }
+  50% {transform: scale(0.8); }
+  100% { transform: scale(1); }
 }
