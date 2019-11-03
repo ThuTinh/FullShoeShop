@@ -15,6 +15,7 @@ import { Redirect } from "react-router-dom";
 import "./style.css";
 import { actloginRequest } from "../../actions";
 import { connect } from "react-redux";
+import {Link} from "react-router-dom"
 
 const useStyles = makeStyles(theme => ({
   conatiner: {
@@ -216,6 +217,9 @@ function Login(props) {
                 Google
               </Button>
             </div>
+          </div>
+          <div style = {{color: '#fff', marginTop: '20px', fontSize:'12px'}}>
+            <i>Bạn chưa có tài khoản?</i> <Link to = "/sign"><u className = "registry">Đăng kí</u></Link>
           </div>
         </Grid>
       </div>

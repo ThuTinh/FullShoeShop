@@ -16,7 +16,8 @@ import {
   atcDeleteProductRequest,
   atcGetCategoryRequest,
   atcCreateProductRequest,
-  atcUpdateProductRequest
+  atcUpdateProductRequest,
+  atcGetProduct
 } from "../../../actions";
 import { connect } from "react-redux";
 
@@ -203,6 +204,7 @@ function ManagerProduct(props) {
             product={product}
             deleteProduct={props.deleteProduct}
             editProduct={editProduct}
+            getProduct = {props.getProduct}
           ></ProductItem>
         );
       });
@@ -353,6 +355,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     updateProduct: (id, product) => {
       dispatch(atcUpdateProductRequest(id, product));
+    },
+    getProduct: (product)=>{
+      dispatch(atcGetProduct(product));
     }
   };
 };

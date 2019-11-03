@@ -2,10 +2,11 @@ import { combineReducers } from 'redux'
 import login from './login'
 import sign from './sign'
 import customers from './customers'
-import categories from './category'
-import products from './product'
-import supliers from './suplier'
-import productSupliers from './productSuplier'
+import categories from './categorys'
+import products from './products'
+import supliers from './supliers'
+import productSupliers from './productSupliers'
+import suplier from './suplier'
 const reducerControler = combineReducers({
     login,
     sign,
@@ -13,7 +14,9 @@ const reducerControler = combineReducers({
     categories,
     products,
     supliers,
-    productSupliers
+    productSupliers,
+    suplier
+
 });
 
 export default reducerControler;

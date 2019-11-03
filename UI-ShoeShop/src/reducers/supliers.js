@@ -1,15 +1,15 @@
 import * as Types from '../constants/actionType'
-var initState = {};
+var initState = [];
 
-const suplier = (state = initState, action)=>{
+const supliers = (state = initState, action)=>{
     switch(action.type)
     {
-        case Types.GET_SUPLIER:
-           state = action.suplier;
+        case Types.GET_SUPLIERS:
+           state = action.supliers;
            return state;    
         default:
             return state;
     }
 }
 
-export default suplier;
+export default supliers;

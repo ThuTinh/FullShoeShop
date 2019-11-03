@@ -99,18 +99,19 @@ function DetailSuplier(props) {
     console.log("pppp", productSupliers)
     if( productSupliers && productSupliers.length>0 ){
       result = productSupliers.map((product, index)=>{
-        return   <Item key = {index} index = {index} product = {product} deleteProductSuplier = {props.deleteProductSuplier} ></Item>
+        return   <Item key = {index} index = {index} product = {product} deleteProductSuplier = {props.deleteProductSuplier} id = {props.suplier._id} ></Item>
       })
     }
     return result;
   }
   const createProduct = () => {
-    props.createProduct("5dbd3d063568eb3fa460dcfc", productId);
+    props.createProduct(props.suplier._id, productId);
     handleClose();
   };
   useEffect(() => {
     props.getProducts();
-    props.getProductSupliers("5dbd3d063568eb3fa460dcfc");
+    props.getProductSupliers(props.suplier._id);
+    console.log("supliertest", props.suplier);
   }, []);
 
   return (
@@ -148,15 +149,15 @@ function DetailSuplier(props) {
       >
         <div className="info-customer">
           <label>Tên</label>
-          <h6>Trần Thị Hoa</h6>
+          <h6>{props.suplier.name}</h6>
           <label>Địa chỉ</label>
-          <h6>Thôn 3 xã Thị Nghè</h6>
+          <h6>{props.suplier.address}</h6>
         </div>
         <div className="info-customer">
           <label>Email</label>
-          <h6>abc@gmail.com</h6>
+          <h6>{props.suplier.email}</h6>
           <label>SDT</label>
-          <h6>098765432</h6>
+          <h6>{props.suplier.phone}</h6>
         </div>
       </div>
       <div>
@@ -257,7 +258,8 @@ function DetailSuplier(props) {
 const stateMapToProps = (state, props) => {
   return {
     products: state.products,
-    productSupliers: state.productSupliers
+    productSupliers: state.productSupliers,
+    suplier: state.suplier
   };
 };
 

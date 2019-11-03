@@ -40,6 +40,9 @@ function SuplierItem(props) {
   const deleteSuplier = ()=>{
     props.deleteSuplier(props.suplier._id);
   }
+  const getSuplier = ()=>{
+    props.getSuplier(props.suplier);
+  }
 
   return (
     <StyledTableRow>
@@ -51,7 +54,7 @@ function SuplierItem(props) {
       <StyledTableCell align="center">{props.suplier.phone}</StyledTableCell>
       <StyledTableCell align="center">{props.suplier.email}</StyledTableCell>
       <StyledTableCell align="center" >
-        <Link to="/admin/suplierDetail" className={classes.detail}> chi tiết</Link>
+        <Link to="/admin/suplierDetail" className={classes.detail} onClick = {getSuplier}> chi tiết</Link>
       </StyledTableCell>
     
       <StyledTableCell align="center"><DeleteIcon className = {classes.icon} onClick = {deleteSuplier}></DeleteIcon></StyledTableCell>

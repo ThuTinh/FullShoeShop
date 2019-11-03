@@ -44,6 +44,9 @@ function ProductItem(props) {
     props.editProduct(props.product)
   }
  
+  const getProduct = ()=>{
+    props.getProduct(props.product);
+  }
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
@@ -58,7 +61,7 @@ function ProductItem(props) {
       }
       <StyledTableCell align="center">100</StyledTableCell>
       <StyledTableCell align="center" className={classes.detail}>       
-        <Link to="/admin/productDetail" className={classes.icon}>
+        <Link to="/admin/productDetail"  onClick = {getProduct}  className={classes.icon}>
           Chi tiết
         </Link>
       </StyledTableCell>

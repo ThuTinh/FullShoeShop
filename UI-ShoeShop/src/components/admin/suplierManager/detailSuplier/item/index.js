@@ -38,7 +38,7 @@ function Item(props) {
 
   const deleteProductSuplier = ()=>{
     console.log("check", props.id + "-"+  props.product._id );
-    props.deleteProductSuplier("5dbd3d063568eb3fa460dcfc", props.product._id);
+    props.deleteProductSuplier(props.id, props.product._id);
   }
 
   return (

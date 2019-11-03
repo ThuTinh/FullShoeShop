@@ -4,7 +4,7 @@ var init = []
 const customers = (state = init, action)=>{
     switch(action.type)
     {
-        case Types.GET_CUSTOMER:
+        case Types.GET_CUSTOMERS:
             state = action.customers
             console.log(state,"1111");
             return state;

@@ -4,7 +4,7 @@ var initState = [];
 const categories = (state = initState, action)=>{
     switch(action.type)
     {
-        case Types.GET_CATEGORY:
+        case Types.GET_CATEGORYS:
            state = action.categories;
            return state;
         case Types.DELETE_CATEGORY:

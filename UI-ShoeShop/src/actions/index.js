@@ -54,14 +54,14 @@ export const atcDeleteCustomerRequest = id => {
 
 export const actCustomer = customers => {
   return {
-    type: Types.GET_CUSTOMER,
+    type: Types.GET_CUSTOMERS,
     customers: customers
   };
 };
 
 export const actCategory = categories => {
   return {
-    type: Types.GET_CATEGORY,
+    type: Types.GET_CATEGORYS,
     categories: categories
   };
 };
@@ -100,18 +100,26 @@ export const atcUpdateCaregoryRequest = (id, category) => {
   };
 };
 
-export const atcGetProduct = products => {
+export const atcGetProducts = products => {
   return {
-    type: Types.GET_PRODUCT,
+    type: Types.GET_PRODUCTS,
     products: products
   };
 };
+
+export const atcGetProduct = product =>{
+  return {
+    type: Types.GET_PRODUCT,
+    product: product
+  }
+
+}
 
 export const atcGetProductRequest = () => {
   return dispatch => {
     return callApi("products", "GET").then(res => {
       console.log(res.data.payload);
-      dispatch(atcGetProduct(res.data.payload));
+      dispatch(atcGetProducts(res.data.payload));
     });
   };
 };
@@ -143,18 +151,26 @@ export const atcUpdateProductRequest = (id, product) => {
   };
 };
 
-export const atcGetSuplier = supliers => {
+export const atcGetSupliers = supliers => {
   return {
-    type: Types.GET_SUPLIER,
+    type: Types.GET_SUPLIERS,
     supliers: supliers
   };
 };
+
+export const atcGetSuplier = suplier =>{
+  return {
+    type: Types.GET_SUPLIER,
+    suplier: suplier
+  }
+
+}
 
 export const atcGetSuplierRequest = () => {
   return dispatch => {
     return callApi("brands", "GET").then(res => {
       console.log(res.data.payload);
-      dispatch(atcGetSuplier(res.data.payload));
+      dispatch(atcGetSupliers(res.data.payload));
     });
   };
 };

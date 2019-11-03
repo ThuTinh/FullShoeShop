@@ -45,3 +45,8 @@
 .MuiOutlinedInput-root{
     border-bottom-color: #fff !important;
 }
+
+.registry:hover{
+    color: #F75F00;
+    cursor: pointer;
+}

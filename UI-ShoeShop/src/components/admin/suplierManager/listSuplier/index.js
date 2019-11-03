@@ -11,7 +11,8 @@ import { Button } from "@material-ui/core";
 import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
-  atcDeleteSuplierRequest
+  atcDeleteSuplierRequest,
+  atcGetSuplier
 } from "../../../../actions";
 import SuplierItem from "../suplierItem";
 import Modal from "@material-ui/core/Modal";
@@ -99,6 +100,7 @@ function ListSuplier(props) {
             suplier={suplier}
             index={index}
             deleteSuplier = {props.deleteSuplier}
+            getSuplier = {props.getSuplier}
           ></SuplierItem>
         );
       });
@@ -230,6 +232,9 @@ const dispatchMapToProps = (dispatch, state) => {
   return {
     getSupliers: () => {
       dispatch(atcGetSuplierRequest());
+    },
+    getSuplier:(suplier)=>{
+      dispatch(atcGetSuplier(suplier));
     },
     createSuplier: suplier => {
       dispatch(atcCreateSuplierRequest(suplier));
