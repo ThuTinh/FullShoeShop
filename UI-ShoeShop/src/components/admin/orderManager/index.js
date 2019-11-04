@@ -94,21 +94,17 @@ function OrderManager() {
           <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-      
           <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={4} dir={theme.direction}>
-      
           <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={5} dir={theme.direction}>
-         
           <ListOrder></ListOrder>
-          </TabPanel>
-          <TabPanel value={value} index={6} dir={theme.direction}>
-        
+        </TabPanel>
+        <TabPanel value={value} index={6} dir={theme.direction}>
           <ListOrder></ListOrder>
-          </TabPanel>
+        </TabPanel>
       </SwipeableViews>
     </div>
   );

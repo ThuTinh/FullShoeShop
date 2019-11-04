@@ -7,9 +7,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import OrderStockList from './orderStockList'
+import OrderStockList from "./orderStockList";
 import { Button } from "@material-ui/core";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,10 +63,28 @@ function ManagerImportStockManager() {
 
   return (
     <div className={classes.root}>
-      <div style = {{display:'flex', justifyContent:'flex-end', marginBottom:'20px'}}>
-        <Button variant="contained" color="primary"  style = {{backgroundColor:'#512c62'}}> <Link to ="/admin/makeImportStock" style = {{ textDecoration: 'none', color: 'white'}}>Tạo đơn hàng</Link></Button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: "20px"
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: "#512c62" }}
+        >
+          {" "}
+          <Link
+            to="/admin/makeImportStock"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Tạo đơn hàng
+          </Link>
+        </Button>
       </div>
-     
+
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -88,18 +106,17 @@ function ManagerImportStockManager() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-            <OrderStockList></OrderStockList>
+          <OrderStockList></OrderStockList>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        <OrderStockList></OrderStockList>
+          <OrderStockList></OrderStockList>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
           <OrderStockList></OrderStockList>
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Item 4
-          <OrderStockList></OrderStockList>
+          Item 4<OrderStockList></OrderStockList>
         </TabPanel>
       </SwipeableViews>
     </div>

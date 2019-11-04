@@ -86,10 +86,10 @@ function ListSuplier(props) {
     console.log(suplier);
   };
 
-  const createSuplier = ()=>{
+  const createSuplier = () => {
     props.createSuplier(suplier);
     handleClose();
-  }
+  };
   const renderSuplierItem = () => {
     var result = "";
     if (supliers && supliers.length > 0) {
@@ -99,8 +99,8 @@ function ListSuplier(props) {
             key={index}
             suplier={suplier}
             index={index}
-            deleteSuplier = {props.deleteSuplier}
-            getSuplier = {props.getSuplier}
+            deleteSuplier={props.deleteSuplier}
+            getSuplier={props.getSuplier}
           ></SuplierItem>
         );
       });
@@ -233,14 +233,14 @@ const dispatchMapToProps = (dispatch, state) => {
     getSupliers: () => {
       dispatch(atcGetSuplierRequest());
     },
-    getSuplier:(suplier)=>{
+    getSuplier: suplier => {
       dispatch(atcGetSuplier(suplier));
     },
     createSuplier: suplier => {
       dispatch(atcCreateSuplierRequest(suplier));
     },
-    deleteSuplier: id=>{
-      dispatch(atcDeleteSuplierRequest(id))
+    deleteSuplier: id => {
+      dispatch(atcDeleteSuplierRequest(id));
     }
   };
 };

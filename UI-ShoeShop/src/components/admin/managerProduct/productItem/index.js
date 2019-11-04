@@ -40,37 +40,47 @@ function ProductItem(props) {
     props.deleteProduct(props.product._id);
   };
 
-  const editProduct = ()=>{
-    props.editProduct(props.product)
-  }
- 
-  const getProduct = ()=>{
+  const editProduct = () => {
+    props.editProduct(props.product);
+  };
+
+  const getProduct = () => {
     props.getProduct(props.product);
-  }
+  };
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
         {props.index + 1}
       </StyledTableCell>
       <StyledTableCell align="center">{props.product.name}</StyledTableCell>
-      { props.product.categories!=null  && <StyledTableCell align="center">  { props.product.categories.parent.name} > {props.product.categories.name}</StyledTableCell>
-
-      }
-      {
-        props.product.categories==null && <StyledTableCell align="center"> update category</StyledTableCell>
-      }
+      {props.product.categories != null && (
+        <StyledTableCell align="center">
+          {" "}
+          {props.product.categories.parent.name} >{" "}
+          {props.product.categories.name}
+        </StyledTableCell>
+      )}
+      {props.product.categories == null && (
+        <StyledTableCell align="center"> update category</StyledTableCell>
+      )}
       <StyledTableCell align="center">100</StyledTableCell>
-      <StyledTableCell align="center" className={classes.detail}>       
-        <Link to="/admin/productDetail"  onClick = {getProduct}  className={classes.icon}>
+      <StyledTableCell align="center">{props.product.status?"Đang hoạt động":"Ngừng hoạt động"}</StyledTableCell>
+      <StyledTableCell align="center" className={classes.detail}>
+        <Link
+          to="/admin/productDetail"
+          onClick={getProduct}
+          className={classes.icon}
+        >
           Chi tiết
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="center" >
-        <DeleteIcon className={classes.icon}
+      <StyledTableCell align="center">
+        <DeleteIcon
+          className={classes.icon}
           style={{ marginRight: "10px" }}
           onClick={deleteProduct}
         ></DeleteIcon>{" "}
-        <EditIcon  className={classes.icon} onClick={editProduct}></EditIcon>
+        <EditIcon className={classes.icon} onClick={editProduct}></EditIcon>
       </StyledTableCell>
     </StyledTableRow>
   );

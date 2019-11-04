@@ -4,13 +4,11 @@
 .card-container:hover {
   -webkit-box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
   -moz-box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
-  box-shadow: 11px 11px 11px -8px rgba(143, 135, 141, 1);
-
+  box-shadow: 10px 10px 10px -10px rgba(143, 135, 141, 1);
 }
-.card-container:hover >.action-item {
+.card-container:hover > .action-item {
   display: block;
-/* animation: visiable 0.5s linear ; */
-
+  /* animation: visiable 0.5s linear ; */
 }
 
 .card-item-image {
@@ -37,11 +35,10 @@
   -moz-transform: scale(1.2);
   -o-transform: scale(1.2);
   -ms-transform: scale(1.2);
-  
 }
 .card-item-body {
   height: 150px;
-  padding-left: 10px
+  padding-left: 10px;
 }
 
 .card-item-footer {
@@ -53,49 +50,77 @@
   align-content: center;
   align-self: center;
   margin-top: 4px;
- 
- 
 }
-.add-to-cart{
-
+.add-to-cart {
   position: relative;
- 
 }
 .action-item {
   height: 100%;
-  display: none ;
+
   position: absolute;
-  right:20px;
-  top: -20px;
-
-
+  right: 20px;
+  top: -40px;
+  animation: bounceInLeft 1s;
+}
+.d-block {
+  display: block;
 }
 
+.d-none {
+  display: none;
+}
 .favorite-icon :hover {
   color: #f75f00;
   cursor: pointer;
 }
 .favorite-icon {
-  color: #5E3D6E;
+  color: #5e3d6e;
   font-size: 10px;
   position: absolute;
   right: 8px;
-
-  font-size: 20px !important
+  font-size: 20px !important;
 }
-.tilte{
-  color: #5E3D6E;
+.tilte {
+  color: #5e3d6e;
   font-weight: 500;
 }
-.tilte:hover{
-  color: #f75f00
+.tilte:hover {
+  color: #f75f00;
 }
-.cart:hover{
+.cart:hover {
   color: #f75f00 !important ;
   cursor: pointer;
 }
-@keyframes visiable{
-  0% { transform: scale(0.5); }
-  50% {transform: scale(0.8); }
-  100% { transform: scale(1); }
+
+
+@keyframes bounceInLeft {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(-200px, 0, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(25px, 0, 0);
+  }
+
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  90% {
+    transform: translate3d(5px, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }

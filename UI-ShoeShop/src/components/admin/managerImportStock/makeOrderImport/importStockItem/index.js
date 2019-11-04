@@ -4,17 +4,16 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import { Grid, makeStyles } from "@material-ui/core";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const useStyles = makeStyles(them => ({
-  deleteIcon:{
-    color:"#512C62",
-    "&:hover":{
-      color: 'red',
-      cursor: 'pointer'
+  deleteIcon: {
+    color: "#512C62",
+    "&:hover": {
+      color: "red",
+      cursor: "pointer"
     }
   }
-
 }));
 
 function ImportStockItem() {
@@ -63,7 +62,11 @@ function ImportStockItem() {
                 <Button
                   variant="contained"
                   color="primary"
-                  style={{ backgroundColor: "#512c62", fontSize: "11px", marginTop: '10px' }}
+                  style={{
+                    backgroundColor: "#512c62",
+                    fontSize: "11px",
+                    marginTop: "10px"
+                  }}
                 >
                   Thêm màu
                 </Button>
@@ -73,11 +76,20 @@ function ImportStockItem() {
         </Grid>
         <Grid item md={6}>
           <Grid item>
-            <div style = {{display: 'flex', justifyContent: 'space-between', width: '50%'}}>
-            <h6>SIZE: </h6> 
-            <div><HighlightOffIcon className = {classes.deleteIcon}></HighlightOffIcon></div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "50%"
+              }}
+            >
+              <h6>SIZE: </h6>
+              <div>
+                <HighlightOffIcon
+                  className={classes.deleteIcon}
+                ></HighlightOffIcon>
+              </div>
             </div>
-           
           </Grid>
           <Grid item>
             <Grid
@@ -98,7 +110,11 @@ function ImportStockItem() {
                 <Button
                   variant="contained"
                   color="primary"
-                  style={{ backgroundColor: "#512c62", fontSize: "11px",  marginTop: '10px'  }}
+                  style={{
+                    backgroundColor: "#512c62",
+                    fontSize: "11px",
+                    marginTop: "10px"
+                  }}
                 >
                   Thêm size
                 </Button>

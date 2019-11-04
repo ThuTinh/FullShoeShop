@@ -32,7 +32,7 @@ import OrderStockDetail from "../managerImportStock/orderStockDetail";
 import OrderImport from "../managerImportStock/makeOrderImport";
 import ManagerProductDetail from "../managerProductDetail";
 import ProductInfoDetail from "../managerProductDetail/productInfoDetail";
-import SuplierManager from "../suplierManager"
+import SuplierManager from "../suplierManager";
 import Report from "../report";
 import DetailSuplier from "../suplierManager/detailSuplier";
 
@@ -268,7 +268,7 @@ function AdminHome() {
           <Route path="/admin/customers" component={CustomerManager}></Route>
           <Route path="/admin/supliers" component={SuplierManager}></Route>
           <Route path="/admin/suplierDetail" component={DetailSuplier}></Route>
-          
+
           <Route
             path="/admin/customerDetail"
             component={DetailCustomer}

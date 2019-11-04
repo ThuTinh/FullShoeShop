@@ -1,4 +1,4 @@
-import React , {useEffect}from "react";
+import React, { useEffect } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -6,9 +6,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import {connect} from 'react-redux';
-import EmployeeItem from '../employeeItem';
-import { actGetCustomerRequest} from '../../../../actions'
+import { connect } from "react-redux";
+import EmployeeItem from "../employeeItem";
+import { actGetCustomerRequest } from "../../../../actions";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
 
 function ListEmployee(props) {
   const classes = useStyles();
-  const employees = props.employees
-  useEffect(()=>{
+  const employees = props.employees;
+  useEffect(() => {
     props.getCustomers();
-  },[])
+  }, []);
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="customized table">
@@ -52,9 +52,7 @@ function ListEmployee(props) {
             <StyledTableCell align="center"> Xóa</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rendeEmployeeItem(employees)}
-        </TableBody>
+        <TableBody>{rendeEmployeeItem(employees)}</TableBody>
       </Table>
     </Paper>
   );

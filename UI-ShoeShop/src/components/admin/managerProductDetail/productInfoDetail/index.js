@@ -38,7 +38,7 @@ function ProductInfoDetail() {
               marginBottom: "30px"
             }}
           ></div>
-          <div >
+          <div>
             <div>Tên Hiển thị : </div>
             {/* <TextField
         id="filled-uncontrolled"
@@ -52,10 +52,10 @@ function ProductInfoDetail() {
               <Input></Input>
             </div>
           </div>
-          <div style = {{marginTop: '20px', marginBottom:'20px'}}>
-              <div>Giá bán ra</div>
-              <input type = "number"/>
-            </div>
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+            <div>Giá bán ra</div>
+            <input type="number" />
+          </div>
           <div>
             <label>Mô tả:</label>
             <TextareaAutosize

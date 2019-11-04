@@ -2,8 +2,8 @@ import React from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import {Redirect, Link} from "react-router-dom";
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Redirect, Link } from "react-router-dom";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -24,37 +24,47 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles(theme => ({
-  detail: { color:"#512C62" , "&:hover": { color: "#f75f00", cursor: "pointer" } },
+  detail: {
+    color: "#512C62",
+    "&:hover": { color: "#f75f00", cursor: "pointer" }
+  },
   icon: {
-    color:"#512C62" ,
-    "&:hover":{
+    color: "#512C62",
+    "&:hover": {
       color: "#f75f00",
-      cursor: 'pointer'
+      cursor: "pointer"
     }
   }
 }));
 
 function CustomerItem(props) {
   const classes = useStyles();
-  const {customer} = props;
+  const { customer } = props;
 
-  const deleteCustomer = ()=>{
+  const deleteCustomer = () => {
     props.deleteCustomer(customer._id);
-  }
+  };
 
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-       {props.index+1}
+        {props.index + 1}
       </StyledTableCell>
       <StyledTableCell align="center">{customer.name}</StyledTableCell>
       <StyledTableCell align="center">{customer.address}</StyledTableCell>
       <StyledTableCell align="center">{customer.phone}</StyledTableCell>
-      <StyledTableCell align="center" className={classes.detail} >
-        <Link to = "/admin/customerDetail" className={classes.detail}> chi tiết</Link>
-       
+      <StyledTableCell align="center" className={classes.detail}>
+        <Link to="/admin/customerDetail" className={classes.detail}>
+          {" "}
+          chi tiết
+        </Link>
       </StyledTableCell>
-      <StyledTableCell align="center"><DeleteIcon className = {classes.icon} onClick = {deleteCustomer}></DeleteIcon></StyledTableCell>
+      <StyledTableCell align="center">
+        <DeleteIcon
+          className={classes.icon}
+          onClick={deleteCustomer}
+        ></DeleteIcon>
+      </StyledTableCell>
     </StyledTableRow>
   );
 }

@@ -106,6 +106,8 @@ const schema = new Schema(
       default: 0,
       min: 0
     },
+    //status: true: đang hoạt đông
+    //status: false: ngừng hoạt động
     status: {
       type: Boolean,
       select: true,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -16,7 +16,6 @@ import {
   atcUpdateCaregoryRequest
 } from "../../../actions";
 import { connect } from "react-redux";
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,14 +38,18 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3)
   },
   input: {
-    marginLeft: "50px",
+   
     width: "300px",
     height: "30px"
+  },
+  label:{
+    width: '80px'
   }
 }));
 
 function KindManager(props) {
   const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
   const [parent, setParent] = useState("Giày nam");
   const [nameCategory, setNameCategory] = useState("");
@@ -69,7 +72,6 @@ function KindManager(props) {
   const renderCategoryItem = categories => {
     var result = "";
     if (categories && categories.length > 0) {
-      console.log("!!!", categories);
       result = categories.map((category, index) => {
         return (
           <KindItem
@@ -80,7 +82,6 @@ function KindManager(props) {
         );
       });
     }
-    console.log("result", result);
     return result;
   };
 
@@ -104,7 +105,6 @@ function KindManager(props) {
       props.categories.map((category, index) => {
         if (parent == category.name) {
           id = category._id;
-          console.log("ID parent", id);
         }
       });
     }
@@ -113,8 +113,8 @@ function KindManager(props) {
       parent: id,
       name: nameCategory
     };
-    if (idUpdate.length>0) {
-      props.updatecategory( idUpdate,category)
+    if (idUpdate.length > 0) {
+      props.updatecategory(idUpdate, category);
     } else {
       props.createCategory(category);
     }
@@ -169,7 +169,10 @@ function KindManager(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h3 id="transition-modal-title">Thêm loại</h3>
+            <h5 id="transition-modal-title">
+              {" "}
+              {idUpdate.length > 0 ? "Cập nhập phân loại" : "Thêm phân loại"}
+            </h5>
             <div id="transition-modal-description">
               <div>
                 <label className={classes.label}>Loại cha</label>
@@ -238,7 +241,7 @@ const dispatchMapToProps = (dispatch, props) => {
     createCategory: category => {
       dispatch(atcCreateCaregoryRequest(category));
     },
-    updatecategory: (id, category)=>{
+    updatecategory: (id, category) => {
       dispatch(atcUpdateCaregoryRequest(id, category));
     }
   };

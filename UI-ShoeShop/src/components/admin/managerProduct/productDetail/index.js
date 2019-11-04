@@ -11,30 +11,47 @@ function ProductDetail() {
   return (
     <div>
       <div>
-        <div style = {{display :'flex', justifyContent: 'flex-end'}}>
-        <Button variant="contained" color="primary" style = {{backgroundColor: "#512c62", marginRight: '10px'}} >
-         Lưu
-        </Button>
-        <Button variant="contained" color="primary" style = {{backgroundColor: "#512c62"}} >
-          Sửa
-        </Button>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: "#512c62", marginRight: "10px" }}
+          >
+            Lưu
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: "#512c62" }}
+          >
+            Sửa
+          </Button>
         </div>
         <h6>THÔNG TIN CHI TIẾT</h6>
-        <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
-        <div style = {{display:'flex', marginTop: '60px', marginBottom: '50px'}}>
-        <div style = {{marginRight: '20px'}}>
-          <label style = {{marginRight: '20px'}}> Loại cha: </label>
-          <label></label>
-        </div>
-        <div>
-          <label style = {{marginRight: '20px'}}>Loại Con: </label>
-          <select style = {{width: '200px', height:'40px'}}>
-            <option>Con1</option>
-            <option>COn4</option>
-            <option>Con3</option>
-            <option>Con2</option>
-          </select>
-        </div>
+        <div
+          style={{
+            width: "10%",
+            height: "4px",
+            backgroundColor: "#F75F00",
+            marginBottom: "30px"
+          }}
+        ></div>
+        <div
+          style={{ display: "flex", marginTop: "60px", marginBottom: "50px" }}
+        >
+          <div style={{ marginRight: "20px" }}>
+            <label style={{ marginRight: "20px" }}> Loại cha: </label>
+            <label></label>
+          </div>
+          <div>
+            <label style={{ marginRight: "20px" }}>Loại Con: </label>
+            <select style={{ width: "200px", height: "40px" }}>
+              <option>Con1</option>
+              <option>COn4</option>
+              <option>Con3</option>
+              <option>Con2</option>
+            </select>
+          </div>
         </div>
         <Table aria-label="simple table">
           <TableHead>

@@ -93,17 +93,25 @@ function DetailSuplier(props) {
     return result;
   };
 
-  const renderItemProduct = ()=>{
+  const renderItemProduct = () => {
     var result = "";
-    var productSupliers =  props.productSupliers;
-    console.log("pppp", productSupliers)
-    if( productSupliers && productSupliers.length>0 ){
-      result = productSupliers.map((product, index)=>{
-        return   <Item key = {index} index = {index} product = {product} deleteProductSuplier = {props.deleteProductSuplier} id = {props.suplier._id} ></Item>
-      })
+    var productSupliers = props.productSupliers;
+    console.log("pppp", productSupliers);
+    if (productSupliers && productSupliers.length > 0) {
+      result = productSupliers.map((product, index) => {
+        return (
+          <Item
+            key={index}
+            index={index}
+            product={product}
+            deleteProductSuplier={props.deleteProductSuplier}
+            id={props.suplier._id}
+          ></Item>
+        );
+      });
     }
     return result;
-  }
+  };
   const createProduct = () => {
     props.createProduct(props.suplier._id, productId);
     handleClose();
@@ -193,9 +201,7 @@ function DetailSuplier(props) {
               <StyledTableCell align="center">Edit</StyledTableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-           {renderItemProduct()}
-          </TableBody>
+          <TableBody>{renderItemProduct()}</TableBody>
         </Table>
       </Paper>
 
@@ -274,8 +280,8 @@ const dispatchMapToProps = (dispatch, props) => {
     getProductSupliers: id => {
       dispatch(atcGetProductSuplierRequest(id));
     },
-    deleteProductSuplier: (id, productId)=>{
-      console.log("ppppp", id+ "= "+ productId)
+    deleteProductSuplier: (id, productId) => {
+      console.log("ppppp", id + "= " + productId);
       dispatch(atcDeletProductSuplierRequest(id, productId));
     }
   };

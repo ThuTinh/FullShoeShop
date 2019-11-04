@@ -40,7 +40,10 @@ function RowProduct() {
         <TableCell align="center">
           <Input value="100000000000" style={{ width: "150px" }} />
         </TableCell>
-        <TableCell align="center"> <Input value ="10"  style ={{width:'150px'}}/></TableCell>
+        <TableCell align="center">
+          {" "}
+          <Input value="10" style={{ width: "150px" }} />
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell align="center">40</TableCell>

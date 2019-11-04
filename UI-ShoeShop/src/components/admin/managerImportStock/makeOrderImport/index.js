@@ -12,8 +12,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-end",
     marginRight: "10%",
-    marginBottom: '40px',
-    
+    marginBottom: "40px"
   },
   image: {
     display: "flex"
@@ -27,24 +26,34 @@ function OrderImport() {
   const classes = useStyles();
   return (
     <div>
-      <div className={classes.btnAddInfo} spaceing ={4}>
-      <Button variant="contained" color="primary" style = {{backgroundColor: "#512c62", marginRight: '10px'}} >
+      <div className={classes.btnAddInfo} spaceing={4}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: "#512c62", marginRight: "10px" }}
+        >
           Thêm
         </Button>
-        <Button variant="contained" color="primary" style = {{backgroundColor: "#512c62"}} >
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: "#512c62" }}
+        >
           Lưu
         </Button>
       </div>
       <div>
-      <div style = {{marginBottom:"30px"}}>
-          <label style = {{fontSize: '15px', marginRight: '20px'}}>Nhà sản xuất </label>
-          <select style = {{width:'200px', height: '40px'}}>
+        <div style={{ marginBottom: "30px" }}>
+          <label style={{ fontSize: "15px", marginRight: "20px" }}>
+            Nhà sản xuất{" "}
+          </label>
+          <select style={{ width: "200px", height: "40px" }}>
             <option>Nhà SX 1</option>
             <option>Nhà SX 2</option>
             <option>Nhà SX 3</option>
             <option>Nhà SX 4</option>
           </select>
-          </div>
+        </div>
         <ImportStockItem></ImportStockItem>
       </div>
       {/* <div className={classes.image}>
@@ -67,7 +76,6 @@ function OrderImport() {
         </div>
         <ImportStockDetail></ImportStockDetail>
       </div>
-     
     </div>
   );
 }

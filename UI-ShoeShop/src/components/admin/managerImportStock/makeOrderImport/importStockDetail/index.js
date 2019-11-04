@@ -10,13 +10,21 @@ function ImportStockDetail() {
   return (
     <div>
       <Table aria-label="simple table">
-        <TableHead style = {{backgroundColor:'#43ab92', }}>
-          <TableRow >
-            <TableCell style = {{color:"#fff"}}>Tên sản phẩm</TableCell>
-            <TableCell  style = {{color:"#fff"}} align="center">Màu sắc</TableCell>
-            <TableCell  style = {{color:"#fff"}} align="center">Size</TableCell>
-            <TableCell  style = {{color:"#fff"}} align="center">Giá</TableCell>
-            <TableCell  style = {{color:"#fff"}} align="center">Số lượng</TableCell>
+        <TableHead style={{ backgroundColor: "#43ab92" }}>
+          <TableRow>
+            <TableCell style={{ color: "#fff" }}>Tên sản phẩm</TableCell>
+            <TableCell style={{ color: "#fff" }} align="center">
+              Màu sắc
+            </TableCell>
+            <TableCell style={{ color: "#fff" }} align="center">
+              Size
+            </TableCell>
+            <TableCell style={{ color: "#fff" }} align="center">
+              Giá
+            </TableCell>
+            <TableCell style={{ color: "#fff" }} align="center">
+              Số lượng
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

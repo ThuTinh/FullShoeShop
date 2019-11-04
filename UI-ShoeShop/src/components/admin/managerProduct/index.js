@@ -63,6 +63,7 @@ const useStyles = makeStyles(theme => ({
 
 function ManagerProduct(props) {
   const classes = useStyles();
+
   const [open, setOpen] = useState(false);
 
   const [chooseParent, setChooseParent] = useState("Giày nam");
@@ -112,6 +113,12 @@ function ManagerProduct(props) {
     return result;
   };
 
+  const setDefaultValue = ()=>{
+    setChooseParent("Giày nam");
+    setChildrens([])
+    setCheckUpdate(false)
+    
+  }
   const createProduct = () => {
     let product = {
       name: nameProduct,
@@ -120,7 +127,7 @@ function ManagerProduct(props) {
 
     if (idUpdate.length > 0) {
       console.log("productItemUpdate: ", product);
-      setCheckUpdate(false)
+      setCheckUpdate(false);
       props.updateProduct(idUpdate, product);
     } else {
       console.log("productItemCreate: ", product);
@@ -153,7 +160,7 @@ function ManagerProduct(props) {
   };
 
   const handleClose = () => {
-    setCheckUpdate(false)
+    setCheckUpdate(false);
     setOpen(false);
   };
 
@@ -161,6 +168,13 @@ function ManagerProduct(props) {
     props.getProducts();
     props.getCategories();
   }, []);
+
+  const btnCreate =()=>{
+    setCheckUpdate(false);
+    setOpen(true);
+
+
+  }
 
   const editProduct = product => {
     console.log("AA", product);
@@ -170,7 +184,7 @@ function ManagerProduct(props) {
     setNameProduct(product.name);
     if (product.categories != null) {
       setChooseParent(product.categories.parent.name);
-      console.log("setCHooo",product.categories.parent.name );
+      console.log("setCHooo", product.categories.parent.name);
       if (props.categories && props.categories.length > 0) {
         var lsChildren = [];
         props.categories.map((category, index) => {
@@ -189,8 +203,6 @@ function ManagerProduct(props) {
       setSubParent(product.categories._id);
     }
     handleOpen();
-
-    
   };
 
   const renderProductItem = () => {
@@ -204,7 +216,7 @@ function ManagerProduct(props) {
             product={product}
             deleteProduct={props.deleteProduct}
             editProduct={editProduct}
-            getProduct = {props.getProduct}
+            getProduct={props.getProduct}
           ></ProductItem>
         );
       });
@@ -218,7 +230,7 @@ function ManagerProduct(props) {
           variant="contained"
           color="primary"
           style={{ backgroundColor: "#512c62" }}
-          onClick={handleOpen}
+          onClick={btnCreate}
         >
           Thêm sản phẩm mới
         </Button>
@@ -231,6 +243,7 @@ function ManagerProduct(props) {
               <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
               <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
               <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
+              <StyledTableCell align="center">Trạng thái</StyledTableCell>
               <StyledTableCell align="center">
                 {" "}
                 Chi tiết sản phẩm
@@ -356,7 +369,7 @@ const dispatchMapToProps = (dispatch, props) => {
     updateProduct: (id, product) => {
       dispatch(atcUpdateProductRequest(id, product));
     },
-    getProduct: (product)=>{
+    getProduct: product => {
       dispatch(atcGetProduct(product));
     }
   };

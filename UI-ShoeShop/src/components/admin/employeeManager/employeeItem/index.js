@@ -3,7 +3,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -24,12 +24,15 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles(theme => ({
-  detail: {  color: "#512C62","&:hover": { color: "#f75f00", cursor: "pointer" } },
+  detail: {
+    color: "#512C62",
+    "&:hover": { color: "#f75f00", cursor: "pointer" }
+  },
   icon: {
-    color:"#512C62" ,
-    "&:hover":{
+    color: "#512C62",
+    "&:hover": {
       color: "#f75f00",
-      cursor: 'pointer'
+      cursor: "pointer"
     }
   }
 }));
@@ -46,15 +49,17 @@ function EmployeeItem(props) {
       <StyledTableCell align="center">{employee.name}</StyledTableCell>
       <StyledTableCell align="center">{employee.address}</StyledTableCell>
       <StyledTableCell align="center">{employee.phone}</StyledTableCell>
-      <StyledTableCell align="center" >
-        <Link to="/admin/employeeDetail" className={classes.detail}> chi tiết</Link>
-      </StyledTableCell>
       <StyledTableCell align="center">
-      Shiper
-            </StyledTableCell>
+        <Link to="/admin/employeeDetail" className={classes.detail}>
+          {" "}
+          chi tiết
+        </Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">Shiper</StyledTableCell>
       <StyledTableCell align="center">hoạt động</StyledTableCell>
-      <StyledTableCell align="center"><DeleteIcon className = {classes.icon}></DeleteIcon></StyledTableCell>
-      
+      <StyledTableCell align="center">
+        <DeleteIcon className={classes.icon}></DeleteIcon>
+      </StyledTableCell>
     </StyledTableRow>
   );
 }

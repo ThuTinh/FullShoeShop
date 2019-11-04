@@ -8,9 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles(theme => ({
-  paddingLabel: {
-    
-  },
+  paddingLabel: {},
   width100: {
     marginBottom: "20px",
     width: "80%"
@@ -31,13 +29,7 @@ function OrderDetail() {
           <Checkbox color="primary" /> Duyệt
         </div>
       </div>
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-       
-      >
+      <Grid container direction="row" justify="center" alignItems="center">
         <Grid
           item
           sm={10}
@@ -46,7 +38,14 @@ function OrderDetail() {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+          <div
+            style={{
+              width: "10%",
+              height: "4px",
+              backgroundColor: "#F75F00",
+              marginBottom: "30px"
+            }}
+          ></div>
         </Grid>
         <Grid item sm={5}>
           <FormControl style={{ width: "100%" }}>

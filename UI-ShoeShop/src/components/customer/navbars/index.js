@@ -65,7 +65,7 @@ class Navbars extends React.Component {
           ) {
             result = this.props.categories[i].children.map(
               (children, index) => {
-                return <li>{children.name}</li>;
+                return <li style = {{color:"#F75F00"}}>{children.name}</li>;
               }
             );
           }
@@ -109,9 +109,7 @@ class Navbars extends React.Component {
             <ul>
               <li>
                 Giày nữ
-                <div style={{position:'relative'}}>
-                <ul style={{position:'absolute',top:0}}>{this.renderWomenCategory()}</ul>
-                </div>
+                <ul >{this.renderWomenCategory()}</ul>
               </li>
               <li>
                 Giày nam

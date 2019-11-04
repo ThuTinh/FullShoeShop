@@ -25,11 +25,10 @@ function KindItem(props) {
     console.log("id ne", id);
     props.deleteCategory(id);
   };
- const editCategory = category=>{
-   let data = category
-   props.edit(data);
-   
- }
+  const editCategory = category => {
+    let data = category;
+    props.edit(data);
+  };
   const renderContent = () => {
     console.log("render: ");
     var result = [];
@@ -40,8 +39,7 @@ function KindItem(props) {
             {category.name}
           </TableCell>
           <TableCell align="center"></TableCell>
-          <TableCell>
-          </TableCell>
+          <TableCell></TableCell>
         </TableRow>
       );
     } else {
@@ -52,7 +50,12 @@ function KindItem(props) {
           </TableCell>
           <TableCell align="center">{category.children[0].name}</TableCell>
           <TableCell>
-            <EditIcon className={classes.icon} onClick = {()=>editCategory(category.children[0])}> </EditIcon>{" "}
+            <EditIcon
+              className={classes.icon}
+              onClick={() => editCategory(category.children[0])}
+            >
+              {" "}
+            </EditIcon>{" "}
             <DeleteIcon
               className={classes.icon}
               onClick={() => remove(category.children[0]._id)}
@@ -64,18 +67,22 @@ function KindItem(props) {
       );
 
       var i = 0;
-      for ( i = 1; i < numberCategorySub; i++) {
+      for (i = 1; i < numberCategorySub; i++) {
         let data = category.children[i];
         result[i] = (
           <TableRow key={i}>
             <TableCell align="center">{data.name}</TableCell>
             <TableCell>
-              <EditIcon className={classes.icon} onClick = {()=>editCategory(data)}> </EditIcon>
+              <EditIcon
+                className={classes.icon}
+                onClick={() => editCategory(data)}
+              >
+                {" "}
+              </EditIcon>
               <DeleteIcon
                 className={classes.icon}
                 onClick={() => remove(data._id)}
-              >
-              </DeleteIcon>
+              ></DeleteIcon>
             </TableCell>
           </TableRow>
         );
