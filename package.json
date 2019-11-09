@@ -14,7 +14,9 @@
   },
   "homepage": "https://github.com/ThuTinh/FullShoeShop#readme",
   "dependencies": {
-    "concurrently": "^5.0.0"
+    "concurrently": "^5.0.0",
+    "material-ui": "^0.20.2",
+    "material-ui-search-bar": "^0.4.2"
   },
   "scripts": {
     "start": "concurrently --kill-others-on-fail  \"npm run server\" \"npm run client\" ",

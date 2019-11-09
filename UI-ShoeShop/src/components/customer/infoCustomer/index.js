@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 350,
-    marginBottom: "10px"
+    marginBottom: "-10px"
   },
   containerTextField: {
     display: "flex",
@@ -17,9 +17,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-start"
   },
   butonSave: {
- 
+    color: "#ffffff",
     marginTop: "30px",
-    backgroundColor: "#512c62"
+    backgroundColor: "#D9A128",
+    padding: "8px",
+    width: "100px",
+    border: "none"
   },
   avatar: {
     width: "100px",
@@ -39,10 +42,23 @@ function InforCustomer() {
   const classes = useStyles();
 
   return (
-   
-    <div style={{ marginLeft: "40px", width: "100%" }}>
-      <h5 style = {{marginTop: '10px', color:'#512c62'}}>HỒ SƠ CỦA TÔI</h5>
-      <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+    <div
+      style={{
+        marginLeft: "40px",
+        width: "100%",
+        backgroundColor: "#ffffff",
+        padding: "20px"
+      }}
+    >
+      <h5 style={{ marginTop: "10px", color: "#2b2b28" }}>HỒ SƠ CỦA TÔI</h5>
+      <div
+        style={{
+          width: "10%",
+          height: "4px",
+          backgroundColor: "#e3b04b",
+          marginBottom: "30px"
+        }}
+      ></div>
       <div className={classes.containerInfo}>
         <div style={{ width: "100%" }}>
           <div className={classes.containerTextField}>
@@ -111,13 +127,7 @@ function InforCustomer() {
               </p>
             </div>
           </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.butonSave}
-          >
-            Lưu
-          </Button>
+          <button className={classes.butonSave}>Lưu</button>
         </div>
         <div
           style={{
@@ -126,13 +136,13 @@ function InforCustomer() {
             justifyItems: "center",
             width: 200,
             alignItems: "end",
-            marginLeft: '30px'
+            marginLeft: "30px"
           }}
         >
           <img className={classes.avatar} src={avatar} alt="avatar" />
-          <Button variant="outlined" color="secondary">
-            Chọn ảnh
-          </Button>
+          <div>
+            <button className={classes.butonSave}>CHọn ảnh</button>
+          </div>
         </div>
       </div>
     </div>

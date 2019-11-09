@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -15,7 +15,18 @@ import {
   atcCreateCaregoryRequest,
   atcUpdateCaregoryRequest
 } from "../../../actions";
+import "./style.css";
 import { connect } from "react-redux";
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,12 +49,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3)
   },
   input: {
-   
     width: "300px",
     height: "30px"
   },
-  label:{
-    width: '80px'
+  label: {
+    width: "80px"
   }
 }));
 
@@ -124,18 +134,13 @@ function KindManager(props) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
-          onClick={handleOpen}
-        >
+        <button className="outline-button" onClick={handleOpen}>
           Thêm loại
-        </Button>
+        </button>
       </div>
 
       <div>
-        <h6>DANH SÁCH LOẠI</h6>
+        {/* <h6>DANH SÁCH LOẠI</h6>
         <div
           style={{
             width: "10%",
@@ -143,13 +148,13 @@ function KindManager(props) {
             backgroundColor: "#F75F00",
             marginBottom: "30px"
           }}
-        ></div>
+        ></div> */}
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">LOẠI CHA</TableCell>
-              <TableCell align="center">LOẠI CON</TableCell>
-              <TableCell align="center"></TableCell>
+              <StyledTableCell align="center">LOẠI CHA</StyledTableCell>
+              <StyledTableCell align="center">LOẠI CON</StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>{renderCategoryItem(props.categories)}</TableBody>
@@ -198,26 +203,19 @@ function KindManager(props) {
                 />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
+                <button
+                  className = "fill-button"
                   onClick={handleClose}
-                  style={{
-                    backgroundColor: "#512c62",
-                    marginTop: "10px",
-                    marginRight: "10px"
-                  }}
+                 
                 >
                   Hủy
-                </Button>
-                <Button
+                </button>
+                <button
+                 className = "fill-button"
                   onClick={createCategory}
-                  variant="contained"
-                  color="primary"
-                  style={{ backgroundColor: "#512c62", marginTop: "10px" }}
                 >
                   Lưu
-                </Button>
+                </button>
               </div>
             </div>
           </div>

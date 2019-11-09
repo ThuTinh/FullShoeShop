@@ -28,7 +28,7 @@ function Footer() {
         </div>
       </div>
       <div className="text-footer">
-        <h3 style={{ color: "white" }}>About Group</h3>
+        <h3 style={{ color: "#D9A128" }}>About Group</h3>
         <p>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever

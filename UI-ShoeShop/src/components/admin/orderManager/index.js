@@ -8,6 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import ListOrder from "./listOrder";
+import "./style.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,8 +18,8 @@ function TabPanel(props) {
       component="div"
       role="tabpanel"
       hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
       <Box p={3}>{children}</Box>
@@ -34,15 +35,18 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`
   };
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    width: "100%"
+    // backgroundColor: "rgba(67,171, 146,0.4)",
+    // width: "100%"
+
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
   }
 }));
 
@@ -60,35 +64,34 @@ function OrderManager() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Tất cả" {...a11yProps(0)} />
-          <Tab label="Chờ xác nhận" {...a11yProps(1)} />
-          <Tab label="Chờ lấy hàng" {...a11yProps(2)} />
-          <Tab label="Đang giao" {...a11yProps(3)} />
-          <Tab label="Đã giao" {...a11yProps(4)} />
-          <Tab label="Đã hủy" {...a11yProps(5)} />
-          <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Tất cả" {...a11yProps(0)} />
+            <Tab label="Chờ xác nhận" {...a11yProps(1)} />
+            <Tab label="Chờ lấy hàng" {...a11yProps(2)} />
+            <Tab label="Đang giao" {...a11yProps(3)} />
+            <Tab label="Đã giao" {...a11yProps(4)} />
+            <Tab label="Đã hủy" {...a11yProps(5)} />
+            {/* <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} /> */}
+          </Tabs>
+        </AppBar>
+
         <TabPanel value={value} index={0} dir={theme.direction}>
           <ListOrder></ListOrder>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <ListOrder></ListOrder>
+          {/* <ListOrder></ListOrder> */}
+          <div style={{ marginTop: "100px" }}>
+            <p>sadfgh</p>
+          </div>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <ListOrder></ListOrder>
@@ -102,11 +105,11 @@ function OrderManager() {
         <TabPanel value={value} index={5} dir={theme.direction}>
           <ListOrder></ListOrder>
         </TabPanel>
-        <TabPanel value={value} index={6} dir={theme.direction}>
+        {/* <TabPanel value={value} index={6} dir={theme.direction}>
           <ListOrder></ListOrder>
-        </TabPanel>
-      </SwipeableViews>
-    </div>
+        </TabPanel> */}
+      </div>
+   
   );
 }
 

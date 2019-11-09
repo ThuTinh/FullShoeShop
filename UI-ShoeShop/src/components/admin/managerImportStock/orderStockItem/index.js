@@ -46,7 +46,6 @@ function OrderStockItem() {
       <StyledTableCell align="center">Công ty TNHH </StyledTableCell>
       <StyledTableCell align="center">Thủ đức TPHCM</StyledTableCell>
       <StyledTableCell align="center">0981853641</StyledTableCell>
-      <StyledTableCell align="center">12:00 15/10/2019</StyledTableCell>
       <StyledTableCell align="center">1000.000</StyledTableCell>
       <StyledTableCell align="center">Duyệt</StyledTableCell>
       <StyledTableCell align="center">

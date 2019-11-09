@@ -12,20 +12,16 @@ function ProductDetail() {
     <div>
       <div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ backgroundColor: "#512c62", marginRight: "10px" }}
+          <button
+           className = "outline-button"
           >
             Lưu
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ backgroundColor: "#512c62" }}
+          </button>
+          <button
+           className = "outline-button"
           >
             Sửa
-          </Button>
+          </button>
         </div>
         <h6>THÔNG TIN CHI TIẾT</h6>
         <div

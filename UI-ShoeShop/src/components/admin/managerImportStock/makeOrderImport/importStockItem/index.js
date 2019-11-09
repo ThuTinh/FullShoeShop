@@ -1,10 +1,8 @@
-import React from "react";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
+import React, { useState } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import DeleteIcon from "@material-ui/icons/Delete";
+import InputItem from "./subItem"
 
 const useStyles = makeStyles(them => ({
   deleteIcon: {
@@ -16,23 +14,106 @@ const useStyles = makeStyles(them => ({
   }
 }));
 
-function ImportStockItem() {
+function ImportStockItem(props) {
   const classes = useStyles();
+
+  const [sizes, setSizes] = useState([]);
+  const [contentSize, setContentSize] = useState("");
+  const [colors, setColors] = useState([]);
+  const [contentColor, setContentColor] = useState("");
+
+  const onRemove = () => {
+    console.log("remove index ", props.index);
+    props.onRemove(props.index);
+  };
+
+  const addSize = ()=>{
+    let arrSize = sizes;
+    let item = "";
+    arrSize.push(item);
+    setSizes(arrSize);
+    renderSizeItem();
+  }
+
+  const addColor = ()=>{
+    let arrColor = colors;
+    let item = "";
+    arrColor.push(item);
+    setColors(arrColor);
+    renderColorItem();
+  }
+
+  const renderColorItem = ()=>{
+      var result = "";
+      if(colors && colors.length>0){
+        result = colors.map((color, index)=>{
+          return <InputItem color ={color} key = {index} index = {index} onRemove ={onSubColorRemove}/>
+        })
+      }
+      setContentColor(result);
+  }
+  const renderSizeItem = ()=>{
+    var result = "";
+    if(sizes && sizes.length>0){
+      result = sizes.map((size, index)=>{
+        return <InputItem size={size} key = {index} index = {index} onRemove = {onSubSizeRemove}/>
+      })
+    }
+    setContentSize(result);
+  }
+
+  const onSubColorRemove = (index)=>{
+    let arrColor = colors;
+    arrColor.splice(index,1);
+    setColors(arrColor);
+    renderColorItem();
+  }
+
+  const onSubSizeRemove = (index)=>{
+    let arrSize = sizes;
+    arrSize.splice(index,1);
+    setSizes(arrSize);
+    renderSizeItem();
+  }
+
   return (
-    <div>
+    <div style={{ marginBottom: "100px", marginLeft: "15%" }}>
       <Grid container>
-        <Grid item xs={12} md={12}>
-          <div style={{ marginBottom: "30px" }}>
-            <label style={{ fontSize: "15px", marginRight: "20px" }}>
-              Tên Sản phẩm:{" "}
-            </label>
-            <select style={{ width: "200px", height: "40px" }}>
-              <option>SP1</option>
-              <option>SP 2</option>
-              <option>Sp3</option>
-              <option>Sp 4</option>
-            </select>
-          </div>
+        <Grid
+          container
+          xs={12}
+          md={9}
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Grid item>
+            <div style={{ marginBottom: "30px" }}>
+              <label
+                style={{
+                  fontSize: "15px",
+                  marginRight: "20px",
+                  width: "120px"
+                }}
+              >
+                Tên Sản phẩm:{" "}
+              </label>
+              <select style={{ width: "200px", height: "40px" }}>
+                <option>SP1</option>
+                <option>SP 2</option>
+                <option>Sp3</option>
+                <option>Sp 4</option>
+              </select>
+            </div>
+          </Grid>
+          <Grid item>
+            <div>
+              <HighlightOffIcon
+                onClick={onRemove}
+                className={classes.deleteIcon}
+              ></HighlightOffIcon>
+            </div>
+          </Grid>
         </Grid>
 
         <Grid item md={6}>
@@ -46,49 +127,27 @@ function ImportStockItem() {
               direction="column"
               alignItems="flex-start"
             >
-              <Grid item>
-                <FormControl>
-                  <InputLabel htmlFor="mau">Màu</InputLabel>
-                  <Input id="mau" />
-                </FormControl>
-              </Grid>
-              <Grid
-                container
-                spacing={1}
-                direction="column"
-                alignItems="flex-end"
-              ></Grid>
+             {contentColor}
+              
               <Grid item alignItems="flex-end">
-                <Button
-                  variant="contained"
-                  color="primary"
+                <button
+                  className="outline-button"
                   style={{
-                    backgroundColor: "#512c62",
                     fontSize: "11px",
                     marginTop: "10px"
                   }}
+                  onClick = {addColor}
                 >
                   Thêm màu
-                </Button>
+                </button>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
         <Grid item md={6}>
           <Grid item>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "50%"
-              }}
-            >
+            <div>
               <h6>SIZE: </h6>
-              <div>
-                <HighlightOffIcon
-                  className={classes.deleteIcon}
-                ></HighlightOffIcon>
-              </div>
             </div>
           </Grid>
           <Grid item>
@@ -99,25 +158,19 @@ function ImportStockItem() {
               alignItems="flex-start"
               item
             >
-              <Grid item>
-                <FormControl>
-                  <InputLabel htmlFor="size">Size </InputLabel>
-                  <Input id="size" />
-                </FormControl>
-              </Grid>
-
+             {contentSize}
+             
               <Grid>
-                <Button
-                  variant="contained"
-                  color="primary"
+                <button
+                onClick = {addSize}
+                  className="outline-button"
                   style={{
-                    backgroundColor: "#512c62",
                     fontSize: "11px",
                     marginTop: "10px"
                   }}
                 >
                   Thêm size
-                </Button>
+                </button>
               </Grid>
             </Grid>
           </Grid>

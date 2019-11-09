@@ -5,15 +5,16 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import EmployeeItem from "../employeeItem";
 import { actGetCustomerRequest } from "../../../../actions";
+import SearchBar from "material-ui-search-bar";
+
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#f5f5f5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -38,23 +39,43 @@ function ListEmployee(props) {
     props.getCustomers();
   }, []);
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Mã nhân viên</StyledTableCell>
-            <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-            <StyledTableCell align="center">Địa chỉ</StyledTableCell>
-            <StyledTableCell align="center">SDT</StyledTableCell>
-            <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
-            <StyledTableCell align="center">Quyền</StyledTableCell>
-            <StyledTableCell align="center">Tình trạng</StyledTableCell>
-            <StyledTableCell align="center"> Xóa</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{rendeEmployeeItem(employees)}</TableBody>
-      </Table>
-    </Paper>
+    <>
+    <div
+    style={{
+      display: "flex",
+      alignItems: "flex-end",
+      justifyContent: "flex-start",
+      marginBottom:'20px'
+    }}
+  >
+    <div style={{ width: "400px" }}>
+      <SearchBar
+        hintText="Tìm kiếm nhân viên"
+        onChange={() => console.log("onChange")}
+        onRequestSearch={() => console.log("onRequestSearch")}
+        style={{
+          margin: "0 auto",
+          maxWidth: 400
+        }}
+      />
+    </div>
+  </div>
+    <Table className={classes.table} aria-label="customized table">
+      <TableHead>
+        <TableRow>
+          <StyledTableCell>Mã nhân viên</StyledTableCell>
+          <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
+          <StyledTableCell align="center">Địa chỉ</StyledTableCell>
+          <StyledTableCell align="center">SDT</StyledTableCell>
+          <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
+          <StyledTableCell align="center">Quyền</StyledTableCell>
+          <StyledTableCell align="center">Tình trạng</StyledTableCell>
+          <StyledTableCell align="center"> Xóa</StyledTableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>{rendeEmployeeItem(employees)}</TableBody>
+    </Table>
+    </>
   );
 }
 

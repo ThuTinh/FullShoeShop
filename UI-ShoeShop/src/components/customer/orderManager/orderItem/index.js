@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Grid,Paper, Button } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import shoe from "../../../../assets/image/shoe.jpg"
 import "./style.css";
 function getSteps() {
   return ["Select campaign settings", "Create an ad group", "Create an ad"];
@@ -23,22 +24,21 @@ function OrderItem() {
   //     setActiveStep(0);
   //   };
   return (
-    <Paper>
       <div className="container-order">
         <div className="container-order-item">
           <Grid container style={{ width: "100%" }}>
             <Grid sm={3} item>
               <img
-                style={{ width: "100", height: "100px" }}
+                style={{ width: "75%", height: "75%" }}
                 alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                src={shoe}
               />
             </Grid>
             <Grid sm={3} item>
               <h6> Giày thể thao ABC</h6>
               <p>Số lượng 1</p>
               <p>Ngày mua: 20/10/2019</p>
-              <Button variant="contained" color="primary" style = {{backgroundColor: "#f75f00"}}>Hủy</Button>
+              <button className = "fill-button">Hủy</button>
             </Grid>
 
             <Grid sm={6} item>
@@ -60,13 +60,13 @@ function OrderItem() {
                   alignItems: "flex-end"
                 }}
               >
-                <h5 style = {{color: "#512c62"}}>Tổng tiền: 199.000</h5>
+                <h5 style = {{color: "#d9a128"}}>Tổng tiền: 199.000</h5>
               </div>
             </Grid>
           </Grid>
         </div>
       </div>
-    </Paper>
+
   );
 }
 

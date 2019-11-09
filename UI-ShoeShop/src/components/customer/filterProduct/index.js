@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Checkbox from "@material-ui/core/Checkbox";
 import "./style.css";
 import { atcGetCategoryRequest } from "../../../actions";
 import { connect } from "react-redux";
-import FilterItem from "./filterItem";
+import FilterShoeMan from "./filterShoeMan";
+import FilterShoeWomen from "./filterShoeWomen";
+import FilterShoePrice from "./filterShoePrice";
 
 function FilterProduct(props) {
   const [state, setState] = React.useState({
@@ -32,7 +33,7 @@ function FilterProduct(props) {
             props.categories[i].children.length > 0
           ) {
             result = props.categories[i].children.map((children, index) => {
-              return <FilterItem key={index} children={children}></FilterItem>;
+              return "";
             });
           }
           break;
@@ -54,7 +55,7 @@ function FilterProduct(props) {
             props.categories[i].children.length > 0
           ) {
             result = props.categories[i].children.map((children, index) => {
-              return <FilterItem key={index} children={children}></FilterItem>;
+              return "";
             });
           }
           break;
@@ -64,69 +65,11 @@ function FilterProduct(props) {
     return result;
   };
   return (
-    <div className="filter-contaner">
-      <div className="filter-tile">Lọc sản phẩm</div>
-      <div className = "content">
-        <Checkbox style={{ visibility: "hidden" }} />
-      GIÀY NỮ
-      </div>
-      {renderWomenShoes()}
-      <div className="divide"></div>
-      <div className = "content">
-        <Checkbox style={{ visibility: "hidden" }} />
-        GIÀY NAM
-      </div>
-      {renderManShoes()}
-      <div className = "content">
-      <Checkbox style={{ visibility: "hidden" }} />
-      MỨC GIÁ
-      </div>
-      <div className="divide"></div>
-      <div id="sub" style={{ marginLeft: "10%" }}>
-        <Checkbox
-          onChange={handleChange("checkedB")}
-          value="checkedB"
-          color="primary"
-          labe
-          inputProps={{
-            "aria-label": "secondary checkbox"
-          }}
-        />
-        0-200
-        <div className="divide"></div>
-        <Checkbox
-          onChange={handleChange("checkedB")}
-          value="checkedC"
-          color="primary"
-          labe
-          inputProps={{
-            "aria-label": "secondary checkbox"
-          }}
-        />
-        200-500
-        <div className="divide"></div>
-        <Checkbox
-          onChange={handleChange("checkedB")}
-          value="checkedC"
-          color="primary"
-          labe
-          inputProps={{
-            "aria-label": "secondary checkbox"
-          }}
-        />
-        500-1000
-        <div className="divide"></div>
-        <Checkbox
-          onChange={handleChange("checkedB")}
-          value="checkedC"
-          color="primary"
-          labe
-          inputProps={{
-            "aria-label": "secondary checkbox"
-          }}
-        />
-        trên 1000
-      </div>
+    <div>
+      <FilterShoeMan/>
+      <FilterShoeWomen/>
+      <FilterShoePrice/>
+    
     </div>
   );
 }

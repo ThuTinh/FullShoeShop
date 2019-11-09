@@ -18,11 +18,15 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "50px"
   },
   navbar: {
-    backgroundColor: "rgba(67, 171, 146,0.5)"
+    backgroundColor: "#ffffff",
+    borderRadius: "10px",
+    height: "400px",
+    boxShadow:
+      "rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px"
   },
   inforCustomer: {
     marginLeft: "60px",
-    width:'70%'
+    width: "70%"
   },
   info: {
     display: "flex",
@@ -31,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "20px",
     marginLeft: "20px",
     marginRight: "20px",
-    color: "#F75F00",
+    color: "#000000",
     fontWeight: 500
   },
   acount: {
@@ -57,17 +61,16 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     fontSize: "30px",
-    color: "#F75F00",
+    color: "#D9A128",
     marginRight: "10px"
   },
-  link:{
-    textDecoration: 'none',
-    color: "#552C62",
-    "&:hover":{
-      textDecoration: 'none',
-      textTransform: 'none',
-      color:"#F75F00"
-
+  link: {
+    textDecoration: "none",
+    color: "#000000",
+    "&:hover": {
+      textDecoration: "none",
+      textTransform: "none",
+      color: "#D9A128"
     }
   }
 }));
@@ -83,15 +86,23 @@ function ManagerCustomer() {
         </div>
         <div className={clsx(classes.acount, "action-hover")}>
           <AccountCircleIcon className={classes.icon}></AccountCircleIcon>
-          <Link to="/info/infoDetail"  className = {classes.link}>Tài khoản của tôi</Link>
+          <Link to="/info/infoDetail" className={classes.link}>
+            Tài khoản của tôi
+          </Link>
         </div>
         <div className={clsx("action-hover", classes.myOrder)}>
           <DescriptionIcon className={classes.icon}></DescriptionIcon>
-          <Link to="/info/myOrder" className = {classes.link}> Đơn mua</Link>
+          <Link to="/info/myOrder" className={classes.link}>
+            {" "}
+            Đơn mua
+          </Link>
         </div>
         <div className={clsx("action-hover", classes.myFavorite)}>
           <FavoriteIcon className={classes.icon}></FavoriteIcon>
-          <Link to="/info/productFavorite"  className = {classes.link}> Sản phẩm yêu thích</Link>
+          <Link to="/info/productFavorite" className={classes.link}>
+            {" "}
+            Sản phẩm yêu thích
+          </Link>
         </div>
       </div>
       <div className={classes.inforCustomer}>

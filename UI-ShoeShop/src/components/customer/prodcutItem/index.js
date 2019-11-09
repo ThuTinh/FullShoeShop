@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Rating from "@material-ui/lab/Rating";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import shoe from "../../../assets/image/shoe.jpg";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Paper from "@material-ui/core/Paper";
 import "./style.css";
 
@@ -28,8 +28,9 @@ function ProductItem() {
         <div className="card-item-body">
           <Link to="/product/:id" className="tilte">
             Giày convert chính hàng mua từ hàn quốc giá rẻ
+       
           </Link>
-          <p style={{ color: "#F75F00" }}>
+          <p style={{ color: "#FFB700", }}>
             <b>120.000đ</b>
           </p>
           <div
@@ -63,13 +64,13 @@ function ProductItem() {
                 </div>
                 <div>
                   {" "}
-                  <FavoriteIcon className="favorite-icon"></FavoriteIcon>
+                  <FavoriteBorderIcon className="favorite-icon"></FavoriteBorderIcon>
                 </div>
               </div>
             </div>
           </div>
-          <div style = {{display:'flex', justifyContent:'flex-end', marginRight:"5px"}}>
-            <i style = {{color:"#5e3d6e", fontSize:'12px'}}>120 đã bán</i>
+          <div style = {{display:'flex', justifyContent:'flex-end', marginRight:"20px"}}>
+            <i style = {{color:"#00000", fontSize:'12px', fontWeight:'500'}}>120 đã bán</i>
           </div>
         </div>
       </div>

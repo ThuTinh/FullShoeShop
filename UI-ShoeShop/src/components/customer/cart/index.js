@@ -16,8 +16,8 @@ import "./style.css";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43AB92",
-    color: theme.palette.common.white
+    backgroundColor: "#FAFAFA",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -53,7 +53,7 @@ function Carts() {
   };
   const [customer, setCustomer] = useState(true);
   return (
-    <Paper className={classes.root}>
+    <>
       <h6>DANH SÁCH SẢN PHẨM</h6>
       <div
         style={{
@@ -92,6 +92,7 @@ function Carts() {
                 className="amount"
                 style={{
                   color: "#fff",
+                  fontSize: "20px",
                   backgroundColor: "#c93838",
                   marginLeft: "5px",
                   borderBottomLeftRadius: "5px",
@@ -102,6 +103,7 @@ function Carts() {
                 className="amount"
                 style={{
                   color: "#fff",
+                  fontSize: "20px",
                   backgroundColor: "#c93838",
                   borderBottomRightRadius: "5px",
                   borderTopRightRadius: "5px"
@@ -110,13 +112,7 @@ function Carts() {
             </StyledTableCell>
             <StyledTableCell align="center">LLLLLLL</StyledTableCell>
             <StyledTableCell align="center">
-              {" "}
-              <Button
-                variant="contained"
-                style={{ backgroundColor: "#c93838", color: "#ffffff" }}
-              >
-                <DeleteIcon></DeleteIcon>
-              </Button>
+              <DeleteIcon></DeleteIcon>
             </StyledTableCell>
           </StyledTableRow>
 
@@ -145,15 +141,15 @@ function Carts() {
                     to="/product/purchase"
                     style={{ color: "#fff", textDecoration: "none" }}
                   >
-                     Đặt hàng
+                    Đặt hàng
                   </Link>
                 </Button>
               )}
             </StyledTableCell>
-          </StyledTableRow>       
+          </StyledTableRow>
         </TableBody>
       </Table>
-    </Paper>
+    </>
   );
 }
 

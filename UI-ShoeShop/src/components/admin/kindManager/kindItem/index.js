@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 const usestyles = makeStyles(theme => ({
   icon: {
     color: "#512C62",
-    marginRight: "10px",
     "&:hover": {
       color: "#F75F00",
       cursor: "pointer"
@@ -52,6 +51,7 @@ function KindItem(props) {
           <TableCell>
             <EditIcon
               className={classes.icon}
+              style={{marginRight:'20px'}}
               onClick={() => editCategory(category.children[0])}
             >
               {" "}
@@ -75,6 +75,7 @@ function KindItem(props) {
             <TableCell>
               <EditIcon
                 className={classes.icon}
+                style={{marginRight:'20px'}}
                 onClick={() => editCategory(data)}
               >
                 {" "}

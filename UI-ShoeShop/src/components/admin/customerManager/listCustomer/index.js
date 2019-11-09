@@ -5,17 +5,18 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import CustomerItem from "../customerItem";
 import { connect } from "react-redux";
+import SearchBar from "material-ui-search-bar";
+
 import {
   actGetCustomerRequest,
   atcDeleteCustomerRequest
 } from "../../../../actions/index";
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#FAFAFA",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -60,7 +61,27 @@ function ListCustomer(props) {
     return result;
   };
   return (
-    <Paper className={classes.root}>
+    <>
+     <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          marginBottom: "20px"
+        }}
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm nhà cung cấp"
+            onChange={() => console.log("onChange")}
+            onRequestSearch={() => console.log("onRequestSearch")}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+          />
+        </div>
+      </div>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -74,7 +95,7 @@ function ListCustomer(props) {
         </TableHead>
         <TableBody>{rendeCustomerItem(customers)}</TableBody>
       </Table>
-    </Paper>
+      </>
   );
 }
 

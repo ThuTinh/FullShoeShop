@@ -4,14 +4,14 @@ label + .MuiInput-formControl {
 
 .change-infor:hover{
     cursor: pointer;
-    color: #FF0000;
+    color: #000000;
 }
 
 .change-infor{
     margin: 0;
     align-self: flex-end;
     font-size: 15px;
-    color: #f75f00;
+    color: #d9a128;
     font-weight: 500;
     text-decoration: underline
 }

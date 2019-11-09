@@ -4,13 +4,11 @@ import { Button } from "@material-ui/core";
 function Report() {
   return (
     <div>
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ backgroundColor: "#512c62" }}
+      <button
+      className = "outline-button"
       >
         Báo cáo doanh thu
-      </Button>
+      </button>
     </div>
   );
 }

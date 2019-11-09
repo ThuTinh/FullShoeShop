@@ -10,16 +10,20 @@ import reducerController from "./reducers/index";
 import thunk from "redux-thunk";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 const store = createStore(reducerController, applyMiddleware(thunk));
 const history = createBrowserHistory();
 ReactDOM.render(
+  <MuiThemeProvider muiTheme={getMuiTheme()}>
   <Provider store={store}>
     <Router history={history}>
       <Switch>
         <Route path="/" component={App} />
       </Switch>
     </Router>
-  </Provider>,
+  </Provider>
+  </MuiThemeProvider>,
   document.getElementById("root")
 );
 

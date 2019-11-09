@@ -1,0 +1,17 @@
+.outline-button {
+  margin-bottom: 20px;
+  border: 1px solid #d9a128 !important;
+  border-radius: 5px;
+  padding: 8px 20px;
+  background-color: #f5f5f5;
+}
+.fill-button{
+  background-color: #d9a128;
+  border-radius: 5px;
+  padding: 8px 20px;
+  color: #f5f5f5;
+  border: none;
+  margin-left: 10px;
+  margin-top: 10px;
+
+}

@@ -4,25 +4,25 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import RowProduct from "../importStockItem/rowProduct";
+import RowProduct from "../rowProduct";
 
 function ImportStockDetail() {
   return (
     <div>
       <Table aria-label="simple table">
-        <TableHead style={{ backgroundColor: "#43ab92" }}>
+        <TableHead style={{ backgroundColor: "#F5F5F5" }}>
           <TableRow>
-            <TableCell style={{ color: "#fff" }}>Tên sản phẩm</TableCell>
-            <TableCell style={{ color: "#fff" }} align="center">
+            <TableCell >Tên sản phẩm</TableCell>
+            <TableCell align="center">
               Màu sắc
             </TableCell>
-            <TableCell style={{ color: "#fff" }} align="center">
+            <TableCell align="center">
               Size
             </TableCell>
-            <TableCell style={{ color: "#fff" }} align="center">
+            <TableCell  align="center">
               Giá
             </TableCell>
-            <TableCell style={{ color: "#fff" }} align="center">
+            <TableCell  align="center">
               Số lượng
             </TableCell>
           </TableRow>

@@ -1,8 +1,8 @@
 .menu {
   display: flex;
   height: 80px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  background-color: #f75f00;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
+  background-color: #FFFFFF;
   width: 85%;
   margin-top: 20px;
   position: fixed;
@@ -19,8 +19,8 @@
 .menu-scroll {
   display: flex;
   height: 80px;
-  background-color: #f75f00;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color:#FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
   width: 100%;
   margin-top: 0;
   position: fixed;
@@ -37,7 +37,7 @@
 }
 .icon-person {
   margin-right: 20px;
-  color: #fff;
+  color: #000000;
 }
 
 .icon-person:hover {
@@ -47,7 +47,7 @@
 
 .menu-search {
   margin: 20px;
-  color: #fff;
+  color: #000000;
 }
 
 .menu-search:hover{
@@ -57,7 +57,7 @@
 
 .menu-item {
   margin-right: 30px;
-  color: beige;
+  color: #000000;
   font-weight: 500;
   font-family: "Anton", sans-serif;
 }
@@ -84,7 +84,7 @@ label:hover {
   position: fixed;
   margin-top: 100px;
   width: 85%;
-  height: 50px;
+  height: 40px;
   color: #fff;
   justify-content: flex-end;
   -webkit-transition: all 0.3s ease 0s;
@@ -100,7 +100,7 @@ label:hover {
   margin-top: 80px;
   width: 100%;
   color: #fff;
-  height: 50px;
+  height: 40px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -141,7 +141,7 @@ label:hover {
 .control-input {
   display: block;
   width: 90%;
-  height: 50px;
+  height: 40px;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -171,7 +171,7 @@ label:hover {
 }
 .wraper ul li {
   margin-right: 30px;
-  color: beige;
+  color: #000000;
   font-weight: 500;
   font-family: "Anton", sans-serif;
 }
@@ -184,7 +184,7 @@ label:hover {
 .wraper ul ul {
   display: none;
   position: absolute;
-  background-color: #FFFFFF;
+  background-color: #000000;
   border-radius: 8px;
   
 }
@@ -194,7 +194,7 @@ label:hover {
 }
 
 .shopping-cart{
-  color: #fff;
+  color: #000000;
 }
 .shopping-cart:hover{
   color: #5d1451;

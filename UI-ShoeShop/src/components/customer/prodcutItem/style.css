@@ -39,6 +39,7 @@
 .card-item-body {
   height: 150px;
   padding-left: 10px;
+  margin-top: 10px;
 }
 
 .card-item-footer {
@@ -70,25 +71,26 @@
   display: none;
 }
 .favorite-icon :hover {
-  color: #f75f00;
+  color: #E3B04B;
   cursor: pointer;
+  background-color: #E3B04B;
 }
 .favorite-icon {
   color: #5e3d6e;
-  font-size: 10px;
+  font-size: 15px;
   position: absolute;
   right: 8px;
   font-size: 20px !important;
 }
 .tilte {
-  color: #5e3d6e;
+  color: #000000;
   font-weight: 500;
 }
 .tilte:hover {
-  color: #f75f00;
+  color: #E3B04B;
 }
 .cart:hover {
-  color: #f75f00 !important ;
+  color: #E3B04B !important ;
   cursor: pointer;
 }
 

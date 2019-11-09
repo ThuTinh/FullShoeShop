@@ -80,11 +80,6 @@ function EmployeeManager() {
           <Tab label="Shiper" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
         <TabPanel value={value} index={0} dir={theme.direction}>
          <ListEmployee></ListEmployee>
         </TabPanel>
@@ -97,7 +92,7 @@ function EmployeeManager() {
          <ListEmployee></ListEmployee>
         
         </TabPanel>
-      </SwipeableViews>
+ 
     </div>
   );
 }

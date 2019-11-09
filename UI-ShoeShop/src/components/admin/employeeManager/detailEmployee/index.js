@@ -7,20 +7,8 @@ function DetailEmployee() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62", marginRight: "10px" }}
-        >
-          Lưu
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
-        >
-          Sửa
-        </Button>
+        <button className="outline-button">Lưu</button>
+        <button className="outline-button">Sửa</button>
       </div>
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>

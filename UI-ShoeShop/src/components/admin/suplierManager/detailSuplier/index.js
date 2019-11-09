@@ -22,8 +22,8 @@ import Item from "./item";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -125,20 +125,8 @@ function DetailSuplier(props) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62", marginRight: "10px" }}
-        >
-          Lưu
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
-        >
-          Sửa
-        </Button>
+        <button className="outline-button">Lưu</button>
+        <button className="outline-button">sửa</button>
       </div>
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
@@ -183,16 +171,10 @@ function DetailSuplier(props) {
           marginTop: "10px"
         }}
       >
-        <Button
-          onClick={handleOpen}
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
-        >
+        <button onClick={handleOpen} className="outline-button">
           Thêm sản phẩm
-        </Button>
+        </button>
       </div>
-      <Paper className={classes.root}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -203,7 +185,6 @@ function DetailSuplier(props) {
           </TableHead>
           <TableBody>{renderItemProduct()}</TableBody>
         </Table>
-      </Paper>
 
       <Modal
         aria-labelledby="transition-modal-title"

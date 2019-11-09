@@ -7,12 +7,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import OrderStockItem from '../orderStockItem'
+import SearchBar from "material-ui-search-bar";
+
 
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -35,7 +37,27 @@ function OrderStockList() {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <>
+    <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          marginBottom:'20px'
+        }}
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm sản phẩm"
+            onChange={() => console.log("onChange")}
+            onRequestSearch={() => console.log("onRequestSearch")}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+          />
+        </div>
+      </div>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -43,7 +65,7 @@ function OrderStockList() {
             <StyledTableCell align="center">Nhà cung cấp</StyledTableCell>
             <StyledTableCell align="center">Địa chỉ</StyledTableCell>
             <StyledTableCell align="center">Số điện thoại</StyledTableCell>
-            <StyledTableCell align="center">Thời gian tạo</StyledTableCell>
+          
             <StyledTableCell align="center">Tổng giá trị</StyledTableCell>
             <StyledTableCell align="center">
               Trạng thái đơn hàng
@@ -60,7 +82,8 @@ function OrderStockList() {
           <OrderStockItem></OrderStockItem>
         </TableBody>
       </Table>
-    </Paper>
+      </>
+  
   );
 }
 export default OrderStockList;

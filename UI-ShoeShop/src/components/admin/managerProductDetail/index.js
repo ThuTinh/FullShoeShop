@@ -9,11 +9,13 @@ import Paper from "@material-ui/core/Paper";
 import ProducDetailtItem from "./productDetailItem";
 import { atcGetProductRequest } from "../../../actions";
 import { connect } from "react-redux";
+import SearchBar from "material-ui-search-bar";
+
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -71,21 +73,39 @@ function ManagerProductDetail(props) {
   };
   return (
     <>
-      <Paper className={classes.root}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Mã sản phẩm</StyledTableCell>
-              <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
-              <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
-              <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
-              <StyledTableCell align="center">Chi tiết</StyledTableCell>
-              <StyledTableCell align="center">Trạng Thái</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderProductItem()}</TableBody>
-        </Table>
-      </Paper>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          marginBottom:'20px'
+        }}
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm sản phẩm"
+            onChange={() => console.log("onChange")}
+            onRequestSearch={() => console.log("onRequestSearch")}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+          />
+        </div>
+      </div>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Mã sản phẩm</StyledTableCell>
+            <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
+            <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
+            <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
+            <StyledTableCell align="center">Chi tiết</StyledTableCell>
+            <StyledTableCell align="center">Trạng Thái</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderProductItem()}</TableBody>
+      </Table>
     </>
   );
 }

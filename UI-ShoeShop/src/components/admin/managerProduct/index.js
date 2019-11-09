@@ -11,6 +11,7 @@ import { Button } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import SearchBar from "material-ui-search-bar";
 import {
   atcGetProductRequest,
   atcDeleteProductRequest,
@@ -23,8 +24,8 @@ import { connect } from "react-redux";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -226,14 +227,31 @@ function ManagerProduct(props) {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
+        <button
+          className = "outline-button"
           onClick={btnCreate}
         >
-          Thêm sản phẩm mới
-        </Button>
+          Thêm mới
+        </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start"
+        }}
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm sản phẩm"
+            onChange={() => console.log("onChange")}
+            onRequestSearch={() => console.log("onRequestSearch")}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+          />
+        </div>
       </div>
       <Paper className={classes.root}>
         <Table className={classes.table} aria-label="customized table">

@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 function ProductFavoriteItem() {
   return (
     <div>
-      <Paper style={{ width: "100%" }}>
         <div className="container-order">
           <div className="container-order-item">
             <div style={{ width: "100%", display: "flex" }}>
@@ -22,7 +21,7 @@ function ProductFavoriteItem() {
                 <h6> Giày thể thao ABC</h6>
 
                 <div>
-                  <h6 style={{ color: "#f75f00" }}> 199.000 đ</h6>
+                  <h6 style={{ color: "#d9a128" }}> 199.000 đ</h6>
                 </div>
                 <div>
                   <DeleteIcon></DeleteIcon>
@@ -37,25 +36,22 @@ function ProductFavoriteItem() {
                     height: "100%"
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ backgroundColor: "#512c62" }}
+                  <button
+                    className = "fill-button"
                   >
                     <Link
                       to="/product/purchase"
                       style={{ color: "#fff", textDecoration: "none" }}
                     >
-                      {" "}
+                     
                       Mua hàng
                     </Link>
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </Paper>
     </div>
   );
 }

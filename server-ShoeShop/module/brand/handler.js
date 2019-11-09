@@ -20,8 +20,9 @@ const validateReqBody = body => {
 };
 
 const findAll = async () => {
-  return await Brand.find({}).lean();
+  return await Brand.find({}).populate('products', 'name');
 };
+
 const findOne = async (conditions, returnFields) => {
   return await Brand.findOne(conditions)
     .select(returnFields)

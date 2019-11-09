@@ -35,6 +35,17 @@ import ProductInfoDetail from "../managerProductDetail/productInfoDetail";
 import SuplierManager from "../suplierManager";
 import Report from "../report";
 import DetailSuplier from "../suplierManager/detailSuplier";
+import PersonIcon from "@material-ui/icons/Person";
+import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
+import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
+import CategoryIcon from "@material-ui/icons/Category";
+import DetailsIcon from "@material-ui/icons/Details";
+import ReportIcon from "@material-ui/icons/Report";
+import ExtensionIcon from "@material-ui/icons/Extension";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid"
+import "./style.css";
 
 const drawerWidth = 240;
 
@@ -98,7 +109,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   customToolbar: {
-    backgroundColor: "#fff"
+    backgroundColor: "#d9a128"
   },
   link: {
     color: "#2a1a5e",
@@ -142,11 +153,19 @@ function AdminHome() {
               [classes.hide]: open
             })}
           >
-            <MenuIcon style={{ color: "#f75f00" }} />
+            <MenuIcon style={{ color: "#ffffff" }} />
           </IconButton>
-          <Typography variant="h6" noWrap style={{ color: "#000" }}>
-            QL
-          </Typography>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+             <Typography variant="h6" noWrap style={{ color: "#fff" }}>
+              QUẢN LÝ SHOE SHOP
+            </Typography>
+            <PersonIcon></PersonIcon>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -163,12 +182,12 @@ function AdminHome() {
         }}
         open={open}
       >
-        <div className={classes.toolbar}>
+        <div lassName={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
+            {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
             )}
           </IconButton>
         </div>
@@ -176,7 +195,7 @@ function AdminHome() {
         <List>
           <ListItem button key="QL đơn hàng">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <AccessAlarmIcon style={{ color: "#d9a128" }}></AccessAlarmIcon>
             </ListItemIcon>
             <Link to="/admin/orders" className={classes.link}>
               {" "}
@@ -185,7 +204,7 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL danh mục">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <CategoryIcon style={{ color: "#d9a128" }}></CategoryIcon>
             </ListItemIcon>
             <Link to="/admin/kinds" className={classes.link}>
               {" "}
@@ -194,7 +213,7 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL sản phẩm">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <ExtensionIcon style={{ color: "#d9a128" }}></ExtensionIcon>
             </ListItemIcon>
             <Link to="/admin/products" className={classes.link}>
               {" "}
@@ -203,7 +222,7 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL chi tiết sản phẩm">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <DetailsIcon style={{ color: "#d9a128" }}></DetailsIcon>
             </ListItemIcon>
             <Link to="/admin/managerProductInfoDetail" className={classes.link}>
               {" "}
@@ -212,7 +231,7 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL kho">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <BookIcon style={{ color: "#d9a128" }}></BookIcon>
             </ListItemIcon>
             <Link to="/admin/managerStock" className={classes.link}>
               {" "}
@@ -221,7 +240,9 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL nhà cung cấp">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <AccountBalanceIcon
+                style={{ color: "#d9a128" }}
+              ></AccountBalanceIcon>
             </ListItemIcon>
             <Link to="/admin/supliers" className={classes.link}>
               {" "}
@@ -230,7 +251,9 @@ function AdminHome() {
           </ListItem>
           <ListItem button key="QL Nhân viên">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <SupervisedUserCircleIcon
+                style={{ color: "#d9a128" }}
+              ></SupervisedUserCircleIcon>
             </ListItemIcon>
             <Link to="/admin/employees" className={classes.link}>
               {" "}
@@ -240,7 +263,9 @@ function AdminHome() {
 
           <ListItem button key="QL Khách hàng">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <SupervisedUserCircleIcon
+                style={{ color: "#d9a128" }}
+              ></SupervisedUserCircleIcon>
             </ListItemIcon>
             <Link to="/admin/customers" className={classes.link}>
               {" "}
@@ -250,7 +275,7 @@ function AdminHome() {
 
           <ListItem button key="Báo cáo">
             <ListItemIcon>
-              <BookIcon></BookIcon>
+              <ReportIcon style={{ color: "#d9a128" }}></ReportIcon>
             </ListItemIcon>
             <Link to="/admin/report" className={classes.link}>
               {" "}
@@ -259,48 +284,64 @@ function AdminHome() {
           </ListItem>
         </List>
       </Drawer>
-      <main className={classes.content}>
+
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open
+        })}
+      >
         <div className={classes.toolbar} />
-        <Switch>
-          <Route path="/admin/orders" component={OrderManager} />
-          <Route path="/admin/products" component={ManagerProduct} />
-          <Route path="/admin/employees" component={EmployeeManager}></Route>
-          <Route path="/admin/customers" component={CustomerManager}></Route>
-          <Route path="/admin/supliers" component={SuplierManager}></Route>
-          <Route path="/admin/suplierDetail" component={DetailSuplier}></Route>
+        <Container fixed>
+          <Switch>
+            <Route path="/admin/orders" component={OrderManager} />
+            <Route path="/admin/products" component={ManagerProduct} />
+            <Route path="/admin/employees" component={EmployeeManager}></Route>
+            <Route path="/admin/customers" component={CustomerManager}></Route>
+            <Route path="/admin/supliers" component={SuplierManager}></Route>
+            <Route
+              path="/admin/suplierDetail"
+              component={DetailSuplier}
+            ></Route>
 
-          <Route
-            path="/admin/customerDetail"
-            component={DetailCustomer}
-          ></Route>
-          <Route
-            path="/admin/employeeDetail"
-            component={DetailEmployee}
-          ></Route>
-          <Route path="/admin/orderDetail" component={OrderDetail}></Route>
-          <Route path="/admin/productDetail" component={ProductDetail}></Route>
-          <Route path="/admin/kinds" component={KindManager}></Route>
-          <Route
-            path="/admin/managerStock"
-            component={ManagerImportStockManager}
-          ></Route>
-          <Route
-            path="/admin/orderStockDetail"
-            component={OrderStockDetail}
-          ></Route>
-          <Route path="/admin/makeImportStock" component={OrderImport}></Route>
-          <Route
-            path="/admin/managerProductInfoDetail"
-            component={ManagerProductDetail}
-          ></Route>
-          <Route
-            path="/admin/productInforDetail"
-            component={ProductInfoDetail}
-          ></Route>
-          <Route path="/admin/report" component={Report}></Route>
+            <Route
+              path="/admin/customerDetail"
+              component={DetailCustomer}
+            ></Route>
+            <Route
+              path="/admin/employeeDetail"
+              component={DetailEmployee}
+            ></Route>
+            <Route path="/admin/orderDetail" component={OrderDetail}></Route>
+            <Route
+              path="/admin/productDetail"
+              component={ProductDetail}
+            ></Route>
+            <Route path="/admin/kinds" component={KindManager}></Route>
+            <Route
+              path="/admin/managerStock"
+              component={ManagerImportStockManager}
+            ></Route>
+            <Route
+              path="/admin/orderStockDetail"
+              component={OrderStockDetail}
+            ></Route>
+            <Route
+              path="/admin/makeImportStock"
+              component={OrderImport}
+            ></Route>
+            <Route
+              path="/admin/managerProductInfoDetail"
+              component={ManagerProductDetail}
+            ></Route>
+            <Route
+              path="/admin/productInforDetail"
+              component={ProductInfoDetail}
+            ></Route>
+            <Route path="/admin/report" component={Report}></Route>
 
-          <Route path="**" component={OrderManager} />
-        </Switch>
+            <Route path="**" component={OrderManager} />
+          </Switch>
+        </Container>
       </main>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   atcDeleteSuplierRequest,
   atcGetSuplier
 } from "../../../../actions";
+import SearchBar from "material-ui-search-bar";
 import SuplierItem from "../suplierItem";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -21,8 +22,8 @@ import Fade from "@material-ui/core/Fade";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#43ab92",
-    color: theme.palette.common.white
+    backgroundColor: "#F5F5F5",
+    color: theme.palette.common.black
   },
   body: {
     fontSize: 14
@@ -114,32 +115,49 @@ function ListSuplier(props) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ backgroundColor: "#512c62" }}
+        <button
+          className = "outline-button"
           onClick={handleOpen}
         >
-          Thêm nhà cung cấp
-        </Button>
+          Thêm mới
+        </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          marginBottom: "20px"
+        }}
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm nhà cung cấp"
+            onChange={() => console.log("onChange")}
+            onRequestSearch={() => console.log("onRequestSearch")}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+          />
+        </div>
       </div>
 
-      <Paper className={classes.root}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">STT</StyledTableCell>
-              <StyledTableCell align="center">Tên nhà cung cấp</StyledTableCell>
-              <StyledTableCell align="center">Địa chỉ</StyledTableCell>
-              <StyledTableCell align="center">SDT</StyledTableCell>
-              <StyledTableCell align="center">email</StyledTableCell>
-              <StyledTableCell align="center">Sản phẩm</StyledTableCell>
-              <StyledTableCell align="center"> Xóa</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderSuplierItem()}</TableBody>
-        </Table>
-      </Paper>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">STT</StyledTableCell>
+            <StyledTableCell align="center">Tên nhà cung cấp</StyledTableCell>
+            <StyledTableCell align="center">Địa chỉ</StyledTableCell>
+            <StyledTableCell align="center">SDT</StyledTableCell>
+            <StyledTableCell align="center">email</StyledTableCell>
+            <StyledTableCell align="center">Sản phẩm</StyledTableCell>
+            <StyledTableCell align="center"> Xóa</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderSuplierItem()}</TableBody>
+      </Table>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

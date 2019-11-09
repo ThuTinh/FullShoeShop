@@ -1,12 +1,21 @@
 import React from "react";
+import {withStyles} from "@material-ui/core/styles"
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import { Input } from "@material-ui/core";
 
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.background.default
+    },
+    width: "100%"
+  }
+}))(TableRow);
 function RowProduct() {
   return (
     <>
-      <TableRow>
+      <StyledTableRow>
         <TableCell rowSpan={4}>SP A</TableCell>
         <TableCell align="center" rowSpan={2}>
           Màu Hổng
@@ -20,8 +29,8 @@ function RowProduct() {
           {" "}
           <Input value="10" style={{ width: "150px" }} />
         </TableCell>
-      </TableRow>
-      <TableRow>
+      </StyledTableRow>
+      <StyledTableRow>
         <TableCell align="center">40</TableCell>
         <TableCell align="center">
           {" "}
@@ -31,8 +40,8 @@ function RowProduct() {
           {" "}
           <Input value="100" style={{ width: "150px" }} />
         </TableCell>
-      </TableRow>
-      <TableRow>
+      </StyledTableRow>
+      <StyledTableRow>
         <TableCell align="center" rowSpan={2}>
           Màu đỏ
         </TableCell>
@@ -44,8 +53,8 @@ function RowProduct() {
           {" "}
           <Input value="10" style={{ width: "150px" }} />
         </TableCell>
-      </TableRow>
-      <TableRow>
+      </StyledTableRow>
+      <StyledTableRow>
         <TableCell align="center">40</TableCell>
         <TableCell align="center">
           {" "}
@@ -55,7 +64,7 @@ function RowProduct() {
           {" "}
           <Input value="100" style={{ width: "150px" }} />
         </TableCell>
-      </TableRow>
+      </StyledTableRow>
     </>
   );
 }
