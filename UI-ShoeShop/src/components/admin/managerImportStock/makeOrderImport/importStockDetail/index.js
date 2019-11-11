@@ -6,7 +6,21 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import RowProduct from "../rowProduct";
 
-function ImportStockDetail() {
+function ImportStockDetail(props) {
+
+  var products = props.products;
+  
+  const renderRowProduct = ()=>{
+    var result  = "";
+  console.log("detail ne", props.products);
+    if(products && products.length>0){
+      result = products.map((product, index)=>{
+        return <RowProduct product = {product} key = {index + Date.now} />
+      })
+    }
+    return result;
+
+}
   return (
     <div>
       <Table aria-label="simple table">
@@ -28,9 +42,7 @@ function ImportStockDetail() {
           </TableRow>
         </TableHead>
         <TableBody>
-          <RowProduct></RowProduct>
-          <RowProduct></RowProduct>
-          <RowProduct></RowProduct>
+          {renderRowProduct()}
           <TableRow>
             <TableCell
               colSpan={5}

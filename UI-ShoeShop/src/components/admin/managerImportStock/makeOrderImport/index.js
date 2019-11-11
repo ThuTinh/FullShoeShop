@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ImportStockItem from "./importStockItem";
 import ImportStockDetail from "../makeOrderImport/importStockDetail";
-import addImg from "../../../../assets/image/addImg.png";
 import { atcGetSuplierRequest } from "../../../../actions";
-
 import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
@@ -30,12 +28,15 @@ function OrderImport(props) {
     props.getSupliers();
   }, []);
 
-
   const [suplier, setSuplier] = useState({});
-  const [classifications, setClassifications] = useState([
-    // { color: [], size: [] }
+
+  const [products, setProducts] = useState([
+    {
+      maSanPham: "",
+      classification: { color: ["Màu"], size: [40] }
+    }
   ]);
-  const [contentRender , setContentRender] = useState("");
+
   const supliers = props.supliers;
 
   const renderOptionSuplier = () => {
@@ -43,7 +44,7 @@ function OrderImport(props) {
     if (supliers && supliers.length > 0) {
       result = supliers.map((suplier, index) => {
         return (
-          <option key={index} value={suplier}>
+          <option key={index} value={JSON.stringify(suplier)}>
             {suplier.name}
           </option>
         );
@@ -53,47 +54,59 @@ function OrderImport(props) {
   };
 
   const onSelectSuplier = e => {
-    setSuplier(e.target.value);
-    // renderOptionProduct(suplier.product);
+    const obj = JSON.parse(e.target.value);
+    // console.log(obj.name);
+    setSuplier(obj);
+    //  const chooes = supliers[0];
   };
 
   const addCatelogyElement = () => {
-    let arr = classifications;
+    let arr = products;
     let item = {
-      color: [],
-      size: []
+      maSanPham: "",
+      classification: { color: ["Màu"], size: [40] }
     };
     arr.push(item);
-     setClassifications(arr);
-    renderImportStockItem();
+    setProducts([...arr]);
   };
 
   const renderImportStockItem = () => {
     var result = "";
-    if (classifications && classifications.length > 0) {
-      result = classifications.map((classification, index) => {
-        console.log("classification", classification)
+    if (products && products.length > 0) {
+      result = products.map((product, index) => {
         return (
           <ImportStockItem
-            key={index}
-            index ={index}
-            classification={classification}
-            onRemove = {removeImportStockItem}
+            key={index + new Date()}
+            index={index}
+            product={product}
+            suplierProducts={suplier.products}
+            onRemove={() => removeImportStockItem(index)}
+            reciveProduct={reciveProduct}
           ></ImportStockItem>
         );
       });
-    }   
-    setContentRender(result);
+    }
+    return result;
   };
 
-  const removeImportStockItem= (index)=>{
-    let arrClassification = classifications;
-    arrClassification.splice(index,1);
-    setClassifications(arrClassification);
-    renderImportStockItem();
+  const reciveProduct = (index, product) => {
+    let arrProduct = products;
+    arrProduct[index] = product;
+    setProducts([...arrProduct]);
+    console.log("product ne", product);
+    console.log(" list product ne", products);
 
-  }
 
+  };
+
+  const removeImportStockItem = index => {
+    let arrProduct = products;
+    arrProduct.splice(index, 1);
+    setProducts([...arrProduct]);
+  };
+  const renderImportStockDetail = () => {
+    return <ImportStockDetail products={products} />;
+  };
   return (
     <div>
       <div className={classes.btnAddInfo} spaceing={4}>
@@ -116,14 +129,14 @@ function OrderImport(props) {
             {renderOptionSuplier()}
           </select>
         </div>
-        {contentRender}
+        {renderImportStockItem()}
       </div>
 
       <div style={{ marginTop: "50px", marginBottom: "50px" }}>
         <div>
           <h5>Chi tiết đơn hàng</h5>
         </div>
-        <ImportStockDetail></ImportStockDetail>
+        {renderImportStockDetail()}
       </div>
     </div>
   );

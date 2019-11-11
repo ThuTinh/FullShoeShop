@@ -1,8 +1,8 @@
 import React from "react";
-import {withStyles} from "@material-ui/core/styles"
+import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { Input } from "@material-ui/core";
+import PriceAndQualityItem from "./priceAndQuanlityItem";
 
 const StyledTableRow = withStyles(theme => ({
   root: {
@@ -12,60 +12,77 @@ const StyledTableRow = withStyles(theme => ({
     width: "100%"
   }
 }))(TableRow);
-function RowProduct() {
-  return (
-    <>
-      <StyledTableRow>
-        <TableCell rowSpan={4}>SP A</TableCell>
-        <TableCell align="center" rowSpan={2}>
-          Màu Hổng
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="100000000000" style={{ width: "150px" }} />
-        </TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="10" style={{ width: "150px" }} />
-        </TableCell>
-      </StyledTableRow>
-      <StyledTableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="100000000000" style={{ width: "150px" }} />
-        </TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="100" style={{ width: "150px" }} />
-        </TableCell>
-      </StyledTableRow>
-      <StyledTableRow>
-        <TableCell align="center" rowSpan={2}>
-          Màu đỏ
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">
-          <Input value="100000000000" style={{ width: "150px" }} />
-        </TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="10" style={{ width: "150px" }} />
-        </TableCell>
-      </StyledTableRow>
-      <StyledTableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="100000000000" style={{ width: "150px" }} />
-        </TableCell>
-        <TableCell align="center">
-          {" "}
-          <Input value="100" style={{ width: "150px" }} />
-        </TableCell>
-      </StyledTableRow>
-    </>
-  );
+function RowProduct(props) {
+
+  const onRecive = (index, content)=>{
+
+  }
+
+  const renderProduct = () => {
+    var result = [];
+    var rowSpanProductName = props.product.classification
+      ? props.product.classification.color.length *
+        props.product.classification.size.length
+      : 0;
+    var rowSpanSize = props.product.classification
+      ? props.product.classification.size.length
+      : 0;
+    var i = 1;
+    var color=0;
+    var size = 0;
+    for (i = 1; i <= rowSpanProductName; i++) {
+
+      console.log("i", i);
+      if (i === 1) {
+        let item = (
+          <StyledTableRow>
+            <TableCell rowSpan={rowSpanProductName}>SP A</TableCell>
+            <TableCell align="center" rowSpan={rowSpanSize}>
+              {props.product.classification.color[0]}
+            </TableCell>
+            <TableCell align="center"> {props.product.classification.size[0]}</TableCell>
+            <PriceAndQualityItem  key = {i} index = {props.index} onRecive = {onRecive}/>
+          </StyledTableRow >
+        );
+        result.push(item);
+      } else {
+        if (i % rowSpanSize === 1) {
+          var item = (
+            <StyledTableRow>
+              <TableCell align="center" rowSpan={rowSpanSize}>
+              {props.product.classification.color[color]}
+              </TableCell>
+              <TableCell align="center"> {props.product.classification.size[size]}</TableCell>
+              <PriceAndQualityItem key = {i} index = {props.index} onRecive = {onRecive} />
+            </StyledTableRow>
+          );
+          result.push(item);
+        } else {
+          var item = (
+            <StyledTableRow>
+              <TableCell align="center"> {props.product.classification.size[size]}</TableCell>
+              <PriceAndQualityItem key = {i} index = {props.index} onRecive = {onRecive}/>
+            </StyledTableRow>
+          );
+          result.push(item);
+        }
+      }
+      ++color;
+      ++size;
+      if(color== props.product.classification.color.length)
+      {
+        color=0;
+      }
+      if(size== props.product.classification.size.length)
+      {
+        size=0;
+      }
+
+    }
+    console.log("KQ", result);
+    return result;
+  };
+
+  return <>{renderProduct()}</>;
 }
 export default RowProduct;

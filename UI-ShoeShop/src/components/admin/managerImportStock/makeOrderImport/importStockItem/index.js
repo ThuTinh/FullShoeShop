@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InputItem from "./subItem"
+import InputItem from "./subItem";
+import color from "@material-ui/core/colors/amber";
 
 const useStyles = makeStyles(them => ({
   deleteIcon: {
@@ -16,66 +16,131 @@ const useStyles = makeStyles(them => ({
 
 function ImportStockItem(props) {
   const classes = useStyles();
-
-  const [sizes, setSizes] = useState([]);
-  const [contentSize, setContentSize] = useState("");
-  const [colors, setColors] = useState([]);
-  const [contentColor, setContentColor] = useState("");
+  const [sizes, setSizes] = useState(
+    props.product.classification ? props.product.classification.size : []
+  );
+  const [colors, setColors] = useState(
+    props.product.classification ? props.product.classification.color : []
+  );
 
   const onRemove = () => {
-    console.log("remove index ", props.index);
     props.onRemove(props.index);
   };
 
-  const addSize = ()=>{
+  const reciveProduct = (index, product) => {
+    props.reciveProduct(index, product);
+  };
+
+  const addSize = () => {
     let arrSize = sizes;
     let item = "";
     arrSize.push(item);
-    setSizes(arrSize);
-    renderSizeItem();
-  }
+    setSizes([...arrSize]);
+  };
 
-  const addColor = ()=>{
+  const addColor = () => {
     let arrColor = colors;
     let item = "";
     arrColor.push(item);
-    setColors(arrColor);
-    renderColorItem();
-  }
 
-  const renderColorItem = ()=>{
-      var result = "";
-      if(colors && colors.length>0){
-        result = colors.map((color, index)=>{
-          return <InputItem color ={color} key = {index} index = {index} onRemove ={onSubColorRemove}/>
-        })
-      }
-      setContentColor(result);
-  }
-  const renderSizeItem = ()=>{
+    setColors([...arrColor]);
+  };
+
+  const renderColorItem = () => {
     var result = "";
-    if(sizes && sizes.length>0){
-      result = sizes.map((size, index)=>{
-        return <InputItem size={size} key = {index} index = {index} onRemove = {onSubSizeRemove}/>
+    if (colors && colors.length > 0) {
+      result = colors.map((color, index) => {
+        return (
+          <InputItem
+            input={color}
+            key={index + new Date()}
+            index={index}
+            onRemove={onSubColorRemove}
+            reciveContentInput={reciveContentInputColor}
+          />
+        );
+      });
+    }
+    return result;
+  };
+
+  const reciveContentInputColor = (index, contentInput) => {
+    let arrColor = colors;
+    arrColor[index] = contentInput;
+    setColors(arrColor);
+
+    // let product = {
+    //   maSanPham: "",
+    //   classification: {
+    //     color: colors,
+    //     size: sizes
+    //   }
+    // };
+    // props.reciveProduct(props.index, product);
+  };
+  const renderSizeItem = () => {
+    var result = "";
+    if (sizes && sizes.length > 0) {
+      result = sizes.map((size, index) => {
+        return (
+          <InputItem
+            input={size}
+            key={index + new Date()}
+            index={index}
+            onRemove={onSubSizeRemove}
+            reciveContentInput={reciveContentInputSize}
+          />
+        );
+      });
+    }
+    return result;
+  };
+  const reciveContentInputSize = (index, contentInput) => {
+    let arrSize = sizes;
+    arrSize[index] = contentInput;
+    setSizes(arrSize);
+    // let product = {
+    //   maSanPham: "",
+    //   classification: {
+    //     color: colors,
+    //     size: sizes
+    //   }
+    // };
+    // props.reciveProduct(props.index, product);
+  };
+
+  const onSubColorRemove = index => {
+    let arrColor = colors;
+    arrColor.splice(index, 1);
+    setColors([...arrColor]);
+  };
+
+  const onSubSizeRemove = index => {
+    let arrSize = sizes;
+    arrSize.splice(index, 1);
+    setSizes([...arrSize]);
+  };
+
+  const renderOption = () => {
+    var result = "";
+    if(props.suplierProducts && props.suplierProducts.length>0){
+      result = props.suplierProducts.map((suplierProduct, index)=>{
+      return  <option>{suplierProduct.name}</option>
       })
     }
-    setContentSize(result);
-  }
+    return result;
+  };
 
-  const onSubColorRemove = (index)=>{
-    let arrColor = colors;
-    arrColor.splice(index,1);
-    setColors(arrColor);
-    renderColorItem();
+  const confirmInfoProductDetail = ()=>{
+    let product = {
+      maSanPham: "",
+      classification: {
+        color: colors,
+        size: sizes
+      }
+    };
+    props.reciveProduct(props.index, product);
   }
-
-  const onSubSizeRemove = (index)=>{
-    let arrSize = sizes;
-    arrSize.splice(index,1);
-    setSizes(arrSize);
-    renderSizeItem();
-  }
-
   return (
     <div style={{ marginBottom: "100px", marginLeft: "15%" }}>
       <Grid container>
@@ -99,10 +164,7 @@ function ImportStockItem(props) {
                 Tên Sản phẩm:{" "}
               </label>
               <select style={{ width: "200px", height: "40px" }}>
-                <option>SP1</option>
-                <option>SP 2</option>
-                <option>Sp3</option>
-                <option>Sp 4</option>
+                {renderOption()}
               </select>
             </div>
           </Grid>
@@ -127,8 +189,8 @@ function ImportStockItem(props) {
               direction="column"
               alignItems="flex-start"
             >
-             {contentColor}
-              
+              {renderColorItem()}
+
               <Grid item alignItems="flex-end">
                 <button
                   className="outline-button"
@@ -136,7 +198,7 @@ function ImportStockItem(props) {
                     fontSize: "11px",
                     marginTop: "10px"
                   }}
-                  onClick = {addColor}
+                  onClick={addColor}
                 >
                   Thêm màu
                 </button>
@@ -158,11 +220,11 @@ function ImportStockItem(props) {
               alignItems="flex-start"
               item
             >
-             {contentSize}
-             
+              {renderSizeItem()}
+
               <Grid>
                 <button
-                onClick = {addSize}
+                  onClick={addSize}
                   className="outline-button"
                   style={{
                     fontSize: "11px",
@@ -175,6 +237,12 @@ function ImportStockItem(props) {
             </Grid>
           </Grid>
         </Grid>
+        <Grid sm = {8}>  
+        <Grid container justify = "center">
+        <button className = "outline-button" onClick = {confirmInfoProductDetail}>Xác nhận</button>
+        </Grid>
+        </Grid>
+       
       </Grid>
     </div>
   );
