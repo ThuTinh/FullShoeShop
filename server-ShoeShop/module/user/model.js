@@ -28,12 +28,10 @@ const schema = new Schema(
       type: String
     },
 
-    roles: [
-      {
-        type: String,
-        default: "customer"
-      }
-    ],
+    role: {
+      type: String,
+      default: "customer"
+    },
     phone: {
       type: String,
       trim: true,
@@ -69,20 +67,20 @@ schema.post("find", function(docs) {
   }
 });
 
-schema.pre('findOne', function() {
-  this.where({deleted: false})
-})
-schema.pre('findById', function() {
-  this.where({deleted: false})
-})
-schema.pre('find', function() {
-  this.where({deleted: false})
-})
-schema.pre('findOneAndUpdate', function() {
-  this.where({deleted: false})
-})
-schema.pre('findByIdAndUpdate', function() {
-  this.where({deleted: false})
-})
+schema.pre("findOne", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findById", function() {
+  this.where({ deleted: false });
+});
+schema.pre("find", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findOneAndUpdate", function() {
+  this.where({ deleted: false });
+});
+schema.pre("findByIdAndUpdate", function() {
+  this.where({ deleted: false });
+});
 const user = mongoose.model("user", schema, "users");
 module.exports = user;

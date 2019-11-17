@@ -22,6 +22,7 @@ function ImportStockItem(props) {
   const [colors, setColors] = useState(
     props.product.classification ? props.product.classification.color : []
   );
+  const [idSanPham, setIdSanPham] = useState("");
 
   const onRemove = () => {
     props.onRemove(props.index);
@@ -125,7 +126,7 @@ function ImportStockItem(props) {
     var result = "";
     if(props.suplierProducts && props.suplierProducts.length>0){
       result = props.suplierProducts.map((suplierProduct, index)=>{
-      return  <option>{suplierProduct.name}</option>
+      return  <option value = {suplierProduct._id}>{suplierProduct.name}</option>
       })
     }
     return result;
@@ -133,13 +134,17 @@ function ImportStockItem(props) {
 
   const confirmInfoProductDetail = ()=>{
     let product = {
-      maSanPham: "",
+      maSanPham: idSanPham,
       classification: {
         color: colors,
         size: sizes
       }
     };
     props.reciveProduct(props.index, product);
+  }
+
+  const selectMaSanPham = (e)=>{
+    setIdSanPham(e.target.value);
   }
   return (
     <div style={{ marginBottom: "100px", marginLeft: "15%" }}>
@@ -163,7 +168,7 @@ function ImportStockItem(props) {
               >
                 Tên Sản phẩm:{" "}
               </label>
-              <select style={{ width: "200px", height: "40px" }}>
+              <select style={{ width: "200px", height: "40px" }}  onChange = {(e)=>selectMaSanPham(e)}>
                 {renderOption()}
               </select>
             </div>

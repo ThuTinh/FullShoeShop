@@ -1,8 +1,40 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import ImportStockDetail from "../makeOrderImport/importStockDetail";
-import Checkbox from "@material-ui/core/Checkbox";
+import { connect } from "react-redux";
+import {Checkbox} from "@material-ui/core"
+import {atcGetDetailOrderSuplierRequest} from "../../../../actions"
+function OrderStockDetail(props) {
 
-function OrderStockDetail() {
+  const [order, setOrder] = useState(props.order);
+//const order = props.order
+  var products = [];
+  if(order.products && order.products.length>0){
+    for(var i = 0; i<order.products.length; i++){
+      var color = new Set();
+      var size = new Set();
+
+      for(var m = 0; m<order.products[i].Detail.length; m++){
+        color.add(order.products[i].Detail[m].color);
+        size.add(order.products[i].Detail[m].size);
+      }
+      let product = {
+        maSanPham: order.products[i]._id,
+        classification: { color:Array.from(color), size: Array.from(size) }
+      }
+      products.push(product);
+    }
+  }
+  useEffect(()=>{
+    let id = props.match.params.id;
+    props.getOrder(id);
+    console.log("11", props.order);
+  },[]);
+
+  useEffect(()=>{
+    console.log("order nè",props.order );
+    setOrder(props.order);
+  },[props.order])
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -35,13 +67,13 @@ function OrderStockDetail() {
             <div style={{ width: "150px" }}>Nhà cung cấp:</div>
             <p>
               {" "}
-              <b>Nhà CC 1 </b>
+              <b>{order.suplierId.name} </b>
             </p>
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Người tạo:</div>
             <p>
-              <b>Trần Thị Bánh Bèo</b>
+              <b>{order.employee.name}</b>
             </p>
           </div>
         </div>
@@ -49,7 +81,7 @@ function OrderStockDetail() {
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Thời gian: </div>
             <p>
-              <b>25/10/2019 </b>
+              <b>{order.createdAt} </b>
             </p>
           </div>
           <div style={{ display: "flex" }}>
@@ -61,7 +93,7 @@ function OrderStockDetail() {
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Tổng công:</div>
             <p>
-              <b>1000.000</b>
+              <b>{order.totalPrice}</b>
             </p>
           </div>
         </div>
@@ -75,8 +107,21 @@ function OrderStockDetail() {
           marginBottom: "30px"
         }}
       ></div>
-      <ImportStockDetail></ImportStockDetail>
+      <ImportStockDetail products={products}/>
     </div>
   );
 }
-export default OrderStockDetail;
+const stateMapToProps = (state, props) => {
+  return {
+    order: state.detailOrderSuplier
+  };
+};
+
+const dispatchMapToProps = (dispatch, props)=>{
+  return {
+    getOrder: (id)=>{
+      dispatch(atcGetDetailOrderSuplierRequest(id));
+    }
+  }
+}
+export default connect(stateMapToProps, dispatchMapToProps)(OrderStockDetail);

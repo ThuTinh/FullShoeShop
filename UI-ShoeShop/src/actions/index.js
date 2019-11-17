@@ -107,13 +107,12 @@ export const atcGetProducts = products => {
   };
 };
 
-export const atcGetProduct = product =>{
+export const atcGetProduct = product => {
   return {
     type: Types.GET_PRODUCT,
     product: product
-  }
-
-}
+  };
+};
 
 export const atcGetProductRequest = () => {
   return dispatch => {
@@ -151,6 +150,20 @@ export const atcUpdateProductRequest = (id, product) => {
   };
 };
 
+export const atcGetDetailProductRequest = id => {
+  return async dispatch => {
+    return await callApi(`products/detail/${id}`, "GET").then(res => {
+      return dispatch(atcGetDetailProduct(res.data.payload));
+    });
+  };
+};
+
+export const atcGetDetailProduct = detailProduct => {
+  return {
+    type: Types.GET_DETAIL_PRODUCT,
+    detailProduct: detailProduct
+  };
+};
 export const atcGetSupliers = supliers => {
   return {
     type: Types.GET_SUPLIERS,
@@ -158,13 +171,60 @@ export const atcGetSupliers = supliers => {
   };
 };
 
-export const atcGetSuplier = suplier =>{
+export const atcCreateOrderSuplierRequest = order => {
+  return dispatch => {
+    return callApi("order-suplier", "POST", order).then(res => {
+      console.log("order-suplier", res);
+    });
+  };
+};
+
+export const atcGetDetailOrderSuplierRequest = id => {
+  return dispatch => {
+    return callApi(`order-suplier/${id}`, "GET").then(res => {
+      dispatch(atcGetDetailOrderSuplier(res.data.payload))
+    });
+  };
+};
+
+export const atcGetDetailOrderSuplier = order => {
+  console.log("1111ss", order);
+  return {
+    type: Types.GET_DETAIL_ORDER_SUPLIER,
+    detailOrderSuplier: order
+  };
+};
+
+export const atcDeleteOrderSuplier = id => {
+  return dispatch => {
+    return callApi(`order-suplier`, "DELETE", `{"id": "${id}"}`).then(res => {
+      dispatch(atcGetOrderSuplierRequest());
+    });
+  };
+};
+
+export const atcGetOrderSuplierRequest = (filter) => {
+  return dispatch => {
+    return callApi(`order-suplier?filter=&${filter}`, "GET").then(res => {
+      console.log("ác", res)
+    dispatch(atcGetOrderSuplier(res.data.payload));
+    });
+  };
+};
+
+export const atcGetOrderSuplier = orders => {
+  return {
+    type: Types.GET_ORDERS_SUPLIER,
+    ordersSuplier: orders
+  };
+};
+
+export const atcGetSuplier = suplier => {
   return {
     type: Types.GET_SUPLIER,
     suplier: suplier
-  }
-
-}
+  };
+};
 
 export const atcGetSuplierRequest = () => {
   return dispatch => {
@@ -175,21 +235,20 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
-export const atcCreateSuplierRequest = (suplier)=>{
-  return dispatch=>{
-    return callApi("brands", "POST" , suplier).then(res=>{
+export const atcCreateSuplierRequest = suplier => {
+  return dispatch => {
+    return callApi("brands", "POST", suplier).then(res => {
       dispatch(atcGetSuplierRequest());
-    })
-  }
-
-}
-export const atcDeleteSuplierRequest = (id)=>{
-  return dispatch =>{
-    return callApi(`brands/${id}`, 'DELETE' ).then(res=>{
+    });
+  };
+};
+export const atcDeleteSuplierRequest = id => {
+  return dispatch => {
+    return callApi(`brands/${id}`, "DELETE").then(res => {
       dispatch(atcGetSuplierRequest());
-    })
-  }
-}
+    });
+  };
+};
 export const atcCreateProdctSuplierRequest = (id, productId) => {
   return dispatch => {
     return callApi(
@@ -233,5 +292,28 @@ export const atcDeletProductSuplierRequest = (id, productId) => {
     ).then(res => {
       dispatch(atcGetProductSuplierRequest(id));
     });
+  };
+};
+
+export const atcChangeRoleRequest = (id, role) => {
+  return dispatch => {
+    callApi(`users/role/${id}`, "PUT", `{"role": "${role}"}`).then(res => {
+      console.log("role chảng", res.data.payload);
+    });
+  };
+};
+
+export const atcGetUserByIdRequest = id => {
+  return dispatch => {
+    return callApi(`users/${id}`, "GET").then(res => {
+      dispatch(atcGetUserById(res.data.payload));
+    });
+  };
+};
+
+export const atcGetUserById = user => {
+  return {
+    type: Types.GET_USER,
+    user: user
   };
 };

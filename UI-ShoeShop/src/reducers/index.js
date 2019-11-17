@@ -7,6 +7,10 @@ import products from './products'
 import supliers from './supliers'
 import productSupliers from './productSupliers'
 import suplier from './suplier'
+import detailProduct from './detailProduct'
+import ordersSuplier from "./ordersSuplier" 
+import detailOrderSuplier from "./detailOrderSuplier"
+import user from "./user"
 const reducerControler = combineReducers({
     login,
     sign,
@@ -15,7 +19,11 @@ const reducerControler = combineReducers({
     products,
     supliers,
     productSupliers,
-    suplier
+    suplier,
+    detailProduct,
+    ordersSuplier,
+    detailOrderSuplier,
+    user
 
 });
 

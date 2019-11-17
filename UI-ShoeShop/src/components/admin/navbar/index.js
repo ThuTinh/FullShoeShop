@@ -44,7 +44,7 @@ import DetailsIcon from "@material-ui/icons/Details";
 import ReportIcon from "@material-ui/icons/Report";
 import ExtensionIcon from "@material-ui/icons/Extension";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid"
+import Grid from "@material-ui/core/Grid";
 import "./style.css";
 
 const drawerWidth = 240;
@@ -121,7 +121,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AdminHome() {
+function AdminHome(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -161,7 +161,7 @@ function AdminHome() {
             justify="space-between"
             alignItems="center"
           >
-             <Typography variant="h6" noWrap style={{ color: "#fff" }}>
+            <Typography variant="h6" noWrap style={{ color: "#fff" }}>
               QUẢN LÝ SHOE SHOP
             </Typography>
             <PersonIcon></PersonIcon>
@@ -233,7 +233,7 @@ function AdminHome() {
             <ListItemIcon>
               <BookIcon style={{ color: "#d9a128" }}></BookIcon>
             </ListItemIcon>
-            <Link to="/admin/managerStock" className={classes.link}>
+            <Link to="/admin/stock-orders" className={classes.link}>
               {" "}
               <ListItemText primary="QL kho" />
             </Link>
@@ -293,9 +293,13 @@ function AdminHome() {
         <div className={classes.toolbar} />
         <Container fixed>
           <Switch>
-            <Route path="/admin/orders" component={OrderManager} />
+            <Route path={`${props.match}/orders`} component={OrderManager} />
             <Route path="/admin/products" component={ManagerProduct} />
             <Route path="/admin/employees" component={EmployeeManager}></Route>
+            <Route
+              path="/admin/customers/:id"
+              component={DetailCustomer}
+            ></Route>
             <Route path="/admin/customers" component={CustomerManager}></Route>
             <Route path="/admin/supliers" component={SuplierManager}></Route>
             <Route
@@ -303,10 +307,6 @@ function AdminHome() {
               component={DetailSuplier}
             ></Route>
 
-            <Route
-              path="/admin/customerDetail"
-              component={DetailCustomer}
-            ></Route>
             <Route
               path="/admin/employeeDetail"
               component={DetailEmployee}
@@ -318,13 +318,14 @@ function AdminHome() {
             ></Route>
             <Route path="/admin/kinds" component={KindManager}></Route>
             <Route
-              path="/admin/managerStock"
-              component={ManagerImportStockManager}
-            ></Route>
-            <Route
-              path="/admin/orderStockDetail"
+              path="/admin/stock-orders/:id"
               component={OrderStockDetail}
             ></Route>
+            <Route
+              path="/admin/stock-orders"
+              component={ManagerImportStockManager}
+            ></Route>
+
             <Route
               path="/admin/makeImportStock"
               component={OrderImport}

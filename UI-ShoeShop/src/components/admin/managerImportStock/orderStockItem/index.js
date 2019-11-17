@@ -36,26 +36,53 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function OrderStockItem() {
+function OrderStockItem(props) {
   const classes = useStyles();
+  const order = props.order;
+  console.log("status", props.status);
+  console.log("status ỏder", order.status);
+
+  const showDetailOrder = () => {
+    // console.log("AAAA", order)
+    // props.getDetailOrderSuplier(order);
+  };
+
+  const deleteOrderSuplier = () => {
+    props.deleteOrderSuplier(order._id);
+  };
   return (
-    <StyledTableRow>
-      <StyledTableCell component="th" scope="row">
-        Ma don hang{" "}
-      </StyledTableCell>
-      <StyledTableCell align="center">Công ty TNHH </StyledTableCell>
-      <StyledTableCell align="center">Thủ đức TPHCM</StyledTableCell>
-      <StyledTableCell align="center">0981853641</StyledTableCell>
-      <StyledTableCell align="center">1000.000</StyledTableCell>
-      <StyledTableCell align="center">Duyệt</StyledTableCell>
-      <StyledTableCell align="center">
-        <Link to="/admin/orderStockDetail" className={classes.icon}>
-          <VisibilityIcon></VisibilityIcon>
-        </Link>{" "}
-        <DeleteIcon className={classes.icon}></DeleteIcon>{" "}
-        <EditIcon className={classes.icon}></EditIcon>
-      </StyledTableCell>
-    </StyledTableRow>
+    (props.status == "ALL" || props.status == order.status) && (
+      <StyledTableRow>
+        <StyledTableCell component="th" scope="row">
+          {props.index + 1}
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          {order.suplierId.name}{" "}
+        </StyledTableCell>
+
+        <StyledTableCell align="center">
+          {order.suplierId.phone}
+        </StyledTableCell>
+        <StyledTableCell align="center">{order.totalPrice}</StyledTableCell>
+        <StyledTableCell align="center">{order.employee.name}</StyledTableCell>
+        <StyledTableCell align="center">{order.status}</StyledTableCell>
+        <StyledTableCell align="center">
+          <Link
+            to={{
+              pathname: `/admin/stock-orders/${order._id}`
+            }}
+            className={classes.icon}
+          >
+            <VisibilityIcon onClick={showDetailOrder}></VisibilityIcon>
+          </Link>
+          <DeleteIcon
+            className={classes.icon}
+            onClick={deleteOrderSuplier}
+          ></DeleteIcon>{" "}
+          <EditIcon className={classes.icon}></EditIcon>
+        </StyledTableCell>
+      </StyledTableRow>
+    )
   );
 }
 export default OrderStockItem;

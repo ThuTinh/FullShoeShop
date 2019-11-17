@@ -14,4 +14,5 @@ router.use('/v1/orders', require('../order').router)
 router.use('/v1/campaigns', require('../campaign').router)
 router.use('/v1/coupons', require('../coupon').router)
 router.use('/v1/uploads', require('../upload').router)
+router.use('/v1/order-suplier', require('../orderSuplier').router)
 module.exports = router

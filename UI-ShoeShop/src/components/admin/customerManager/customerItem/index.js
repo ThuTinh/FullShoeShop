@@ -54,7 +54,12 @@ function CustomerItem(props) {
       <StyledTableCell align="center">{customer.address}</StyledTableCell>
       <StyledTableCell align="center">{customer.phone}</StyledTableCell>
       <StyledTableCell align="center" className={classes.detail}>
-        <Link to="/admin/customerDetail" className={classes.detail}>
+        <Link  to = {{
+          pathname:`/admin/customers/${props.customer._id}`,
+          aboutProps:{
+            customer: props.customer
+          }
+        }} className={classes.detail}>
           {" "}
           chi tiết
         </Link>

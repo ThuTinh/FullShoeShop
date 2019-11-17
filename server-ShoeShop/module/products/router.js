@@ -7,7 +7,8 @@ const {
   findAll,
   update,
   addItem,
-  remove
+  remove,
+  getDetail
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -185,6 +186,9 @@ router.put("/:id", async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
+
+
+
 router.put("/add-item/:id", async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
@@ -207,5 +211,11 @@ router.delete("/", async (req, res, next) => {
   let id = req.body.id ? req.body.id : 0;
   const product = await remove(id);
   res.status(200).json(makeResponse(product));
+});
+
+router.get("/detail/:id", async (req, res, next) => {
+  let id =  req.params.id;
+  const details = await getDetail(id);
+  res.status(200).json(makeResponse(details));
 });
 module.exports = router;

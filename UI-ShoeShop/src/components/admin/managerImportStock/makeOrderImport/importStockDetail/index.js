@@ -9,13 +9,13 @@ import RowProduct from "../rowProduct";
 function ImportStockDetail(props) {
 
   var products = props.products;
+  console.log("lallala", products);
   
   const renderRowProduct = ()=>{
     var result  = "";
-  console.log("detail ne", props.products);
     if(products && products.length>0){
       result = products.map((product, index)=>{
-        return <RowProduct product = {product} key = {index + Date.now} />
+        return <RowProduct product = {product} key = {index + Date.now}  index = {index}/>
       })
     }
     return result;

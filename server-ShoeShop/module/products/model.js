@@ -78,11 +78,11 @@ const schema = new Schema(
     Detail: [
       {
         size: {
-          type: [String],
+          type: String,
           trim: true
         },
         color: {
-          type: [String],
+          type: String,
           trim: true
         },
         price: {

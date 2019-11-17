@@ -4,7 +4,8 @@ const {
   findOne,
   create,
   update,
-  addFavoritedProduct
+  addFavoritedProduct,
+  getUserById
 } = require("./handler");
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
@@ -36,6 +37,13 @@ const logger = require("../logger");
  *     security:
  *       - bearerAuth: []
  */
+router.get("/:id", async (req, res, next) => {
+  if (req.params.id) {
+    const user = await getUserById(req.params.id);
+    res.status(200).json(makeResponse(user));
+  }
+});
+
 router.get("/", async (req, res, next) => {
   try {
     const returnFields =
@@ -275,6 +283,13 @@ router.put("/", async (req, res, next) => {
   }
 });
 
+router.put("/role/:id", async (req, res, next) => {
+  if (req.params.id && req.body) {
+    const user = await model.update(req.id, req.body);
+    res.status(200).json(makeResponse(user));
+  }
+});
+
 // /**
 //  * @swagger
 //  * /api/v1/users/favorited-product:
@@ -333,7 +348,11 @@ router.delete("/", async (req, res, next) => {
     if (!user) {
       throw new Error(`Unable to find user id ${req.body.id}`);
     }
-    const deletedUser = await model.findByIdAndUpdate(req.body.id, {deleted: true}, {new : true});
+    const deletedUser = await model.findByIdAndUpdate(
+      req.body.id,
+      { deleted: true },
+      { new: true }
+    );
     res.status(200).json(makeResponse(deletedUser));
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error);
@@ -413,5 +432,7 @@ router.put("/changepassword", async (req, res, next) => {
     res.status(200).json(handleError(error));
   }
 });
+
+
 
 module.exports = router;

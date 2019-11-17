@@ -68,4 +68,18 @@ const remove = async(id)=>{
   return await Product.findByIdAndUpdate(id, {deleted: true},{new :true})
 
 }
-module.exports={validateReqBody,findAll,findOne,create,update,addItem,removeItem, remove}
+
+const getDetail = async(id)=>{
+  return await Product.findById(id).select('Detail');
+}
+
+// const update = async (_id, data ,filter, newId) => { 
+//   let object ={}
+//   object[filter]=newId
+//   const user= await User.findById(_id).lean()
+//   if(!user[filter] || user[filter].filter(item=>item==newId).length===0)
+//     return await User.findByIdAndUpdate(_id, {'$addToSet': object},{new: true})
+//   throw new Error(filter + ' existed')
+// }
+
+module.exports={validateReqBody,findAll,findOne,create,update,addItem,removeItem, remove, getDetail}

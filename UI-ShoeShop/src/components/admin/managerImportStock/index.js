@@ -95,16 +95,16 @@ function ManagerImportStockManager() {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        <OrderStockList></OrderStockList>
+        <OrderStockList status = "ALL"></OrderStockList>
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <OrderStockList></OrderStockList>
+        <OrderStockList status = "PAID"></OrderStockList>
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        <OrderStockList></OrderStockList>
+        <OrderStockList status = "PAID_RECIVE"></OrderStockList>
       </TabPanel>
       <TabPanel value={value} index={3} dir={theme.direction}>
-        <OrderStockList></OrderStockList>
+        <OrderStockList status = "PAYED"></OrderStockList>
       </TabPanel>
     </div>
   );
