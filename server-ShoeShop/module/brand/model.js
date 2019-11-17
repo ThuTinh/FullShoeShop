@@ -39,10 +39,6 @@ const schema = new Schema(
       required: true,
       trim: true,
       index:true,
-<<<<<<< HEAD
-=======
-      
->>>>>>> 6c9da9e45a62250002f23984e33d61c51e169406
       unique: true
     },
     phone: {
