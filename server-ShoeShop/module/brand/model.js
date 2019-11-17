@@ -38,7 +38,9 @@ const schema = new Schema(
       type: String,
       required: true,
       trim: true,
-      index:true
+      index:true,
+      
+      unique: true
     },
     phone: {
       type: String,
@@ -69,7 +71,8 @@ const schema = new Schema(
   },
   { timestamps: true }
 );
-
+const index = { name: 'text'}
+schema.index(index)
 schema.pre("find", function() {
   this.where({ deleted: false });
 });
