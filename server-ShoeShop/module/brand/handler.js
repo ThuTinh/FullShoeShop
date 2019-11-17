@@ -23,6 +23,10 @@ const findAll = async () => {
   return await Brand.find({}).populate('products', 'name');
 };
 
+const search = async (text) => {
+  return await Brand.find(
+          { $text: { $search: text }});
+  };
 const findOne = async (conditions, returnFields) => {
   return await Brand.findOne(conditions)
     .select(returnFields)
@@ -145,5 +149,6 @@ module.exports = {
   removeProductId,
   getNameBrand,
   getProductIds,
-  remove
+  remove,
+  search
 };

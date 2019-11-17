@@ -12,17 +12,19 @@ const filter = async filter => {
   return OrderSuplier.find({
     
   })
-    .populate({
-      path: "suplierId",
-      select: "name",
-      match: {name: /NCC Từ An/i },
+
+    //không sử dụng được như thế này nha===>ahihi
+    // .populate({
+    //   path: "suplierId",
+    //   select: "name",
     
-    })
-    .populate({
-      path: "employee",
+    
+    // })
+    // .populate({
+    //   path: "employee",
      
-      select: "name"
-    });
+    //   select: "name"
+    // });
 };
 
 const findOne = async id => {

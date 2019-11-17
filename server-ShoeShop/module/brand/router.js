@@ -10,7 +10,8 @@ const {
   removeProductId,
   getNameBrand,
   getProductIds,
-  remove
+  remove,
+  search
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -33,6 +34,16 @@ const { handleError, makeResponse } = require("../common");
 router.get("/", async (req, res, next) => {
   try {
     const brands = await findAll();
+    res.json(makeResponse(brands));
+  } catch (error) {
+    res.json(handleError(error));
+    logger.info(`${req.originalUrl}: `, error);
+  }
+});
+
+router.get("/search", async (req, res, next) => {
+  try {
+    const brands = await search(req.query.q);
     res.json(makeResponse(brands));
   } catch (error) {
     res.json(handleError(error));

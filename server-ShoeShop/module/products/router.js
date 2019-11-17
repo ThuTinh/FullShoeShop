@@ -12,6 +12,7 @@ const {
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
+ const model = require('./model')
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger
@@ -218,4 +219,11 @@ router.get("/detail/:id", async (req, res, next) => {
   const details = await getDetail(id);
   res.status(200).json(makeResponse(details));
 });
+
+
+// router.get("/search", async (req, res, next) => {
+//   let id =  req.params.id;
+//   const details = await getDetail(id);
+//   res.status(200).json(makeResponse(details));
+// });
 module.exports = router;

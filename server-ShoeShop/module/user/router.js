@@ -5,13 +5,28 @@ const {
   create,
   update,
   addFavoritedProduct,
-  getUserById
+  getUserById,
+  search
 } = require("./handler");
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
 const refFields = ["favoriteProducts"];
 const { encrypt, match } = require("../crypto");
 const logger = require("../logger");
+
+
+
+
+router.get("/search", async (req, res, next) => {
+  try {
+    const brands = await search(req.query.q);
+    res.json(makeResponse(brands));
+  } catch (error) {
+    res.json(handleError(error));
+    logger.info(`${req.originalUrl}: `, error);
+  }
+});
+
 
 /**
  * @swagger
