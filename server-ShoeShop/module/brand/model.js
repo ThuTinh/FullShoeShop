@@ -44,13 +44,15 @@ const schema = new Schema(
     phone: {
       type: String,
       trim: true,
+      index:true,
       unique: true
     },
 
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      index:true,
     },
     address: {
       type: String

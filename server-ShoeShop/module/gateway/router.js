@@ -1,8 +1,8 @@
 const express = require('express')
 const router = new express.Router()
-//const {first} = require('./handler')
+const {first} = require('./handler')
 
-// router.use(first)
+router.use(first)
 
 router.use('/v1/auth', require('../auth').router)
 

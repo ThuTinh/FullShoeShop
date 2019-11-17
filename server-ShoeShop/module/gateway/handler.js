@@ -106,17 +106,16 @@ const first = (req, res, next) => {
     const user = decodeToken(req.headers)
     req.email = user.email
     req.id = user.id 
-    req.roles=user.roles?user.roles:['customer']
+    req.role=user.role?user.role:['customer']
     
-    if(user.roles&&((reqAuthenForAdmin && user.roles.includes(ADMIN))
-    ||(reqAuthenForDoctor && user.roles.includes(DOCTOR) &&!reqAuthenForAdmin)
-    ||user.roles.includes(CUSTOMER)&&!reqAuthenForAdmin&&!reqAuthenForDoctor)){ 
+    if(user.role&&((reqAuthenForAdmin && user.role.includes(ADMIN))
+    ||user.role.includes(CUSTOMER)&&!reqAuthenForAdmin)){ 
       next()
       return 
     }
     throw new Error('Role permission deny')
   } catch (error) {
-    if(reqIsOptionalAuthen&&!reqAuthenForAdmin&&!reqAuthenForDoctor) {
+    if(reqIsOptionalAuthen&&!reqAuthenForAdmin) {
       next()
       return
     }

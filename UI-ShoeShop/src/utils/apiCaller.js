@@ -6,6 +6,8 @@ const _headers={
 }
 export default function callApi(endpoint, method = 'GET', data,headers=_headers)
 {
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer " + localStorage.getItem("token");
     return axios({
         method,
         url: `${API_URL}/${endpoint}`,
