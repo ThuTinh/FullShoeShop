@@ -44,6 +44,14 @@ export const actGetCustomerRequest = () => {
   };
 };
 
+export const atcSearchUserRequets = (filter)=>{
+  return dispatch =>{
+    return callApi(`users/search?q=${filter}`, "GET").then(res=>{
+      dispatch(actCustomer(res.data.payload));
+    })
+  }
+}
+
 export const atcDeleteCustomerRequest = id => {
   return dispatch => {
     return callApi("users", "DELETE", `{"id": "${id}"}`).then(res => {
@@ -114,7 +122,16 @@ export const atcGetProduct = product => {
   };
 };
 
-export const atcGetProductRequest = () => {
+export const atcGetProductRequest = (id)=>{
+  return dispatch => {
+    return callApi(`products/${id}`, "GET").then(res => {
+      console.log(res.data.payload);
+      dispatch(atcGetProduct(res.data.payload));
+    });
+  };
+}
+
+export const atcGetProductsRequest = () => {
   return dispatch => {
     return callApi("products", "GET").then(res => {
       console.log(res.data.payload);
@@ -128,7 +145,7 @@ export const atcCreateProductRequest = product => {
   return dispatch => {
     return callApi("products", "POST", product).then(res => {
       console.log(res.data.payload);
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     });
   };
 };
@@ -137,7 +154,7 @@ export const atcDeleteProductRequest = id => {
   return dispatch => {
     return callApi("products", "DELETE", `{"id": "${id}"}`).then(res => {
       console.log("dataDeleteProduct", res.data.payload);
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     });
   };
 };
@@ -145,16 +162,14 @@ export const atcDeleteProductRequest = id => {
 export const atcUpdateProductRequest = (id, product) => {
   return dispatch => {
     return callApi(`products/${id}`, "PUT", product).then(res => {
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     });
   };
 };
 
 export const atcGetDetailProductRequest = id => {
   return async dispatch => {
-    return await callApi(`products/detail/${id}`, "GET").then(res => {
-      return dispatch(atcGetDetailProduct(res.data.payload));
-    });
+    return await callApi(`products/detail/${id}`, "GET");
   };
 };
 
@@ -235,6 +250,13 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
+export const atcSearchSuplierRequest = (filter)=>{
+return dispatch =>{
+  return callApi(`brands/search?q=${filter}`, "GET").then(res=>{
+    dispatch(atcGetSupliers(res.data.payload));
+  })
+}
+}
 export const atcCreateSuplierRequest = suplier => {
   return dispatch => {
     return callApi("brands", "POST", suplier).then(res => {

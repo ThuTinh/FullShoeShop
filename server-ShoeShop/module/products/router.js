@@ -8,11 +8,12 @@ const {
   update,
   addItem,
   remove,
-  getDetail
+  getDetail,
+  findProductById
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
- const model = require('./model')
+const model = require("./model");
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger
@@ -58,23 +59,30 @@ router.get("/", async (req, res, next) => {
 //  *       200:
 //  *         description: Success
 //  */
-router.get("/:name", async (req, res, next) => {
-  try {
-    const conditions = { name: req.params.name };
-    const filter = { name: 1 };
-    const page = Number(req.query.page) ? Number(req.query.page) : undefined;
-    const perPage = Number(req.query.per_page)
-      ? Number(req.query.per_page)
-      : undefined;
-    const product = await findOne(conditions, filter, page, perPage);
 
-    if (!product)
-      throw new Error("Unable to find product name " + req.params.name);
-    res.json(makeResponse(product));
-  } catch (error) {
-    logger.info(`${req.originalUrl}: `, error);
-    res.json(handleError(error));
-  }
+// router.get("/:name", async (req, res, next) => {
+//   try {
+//     const conditions = { name: req.params.name };
+//     const filter = { name: 1 };
+//     const page = Number(req.query.page) ? Number(req.query.page) : undefined;
+//     const perPage = Number(req.query.per_page)
+//       ? Number(req.query.per_page)
+//       : undefined;
+//     const product = await findOne(conditions, filter, page, perPage);
+
+//     if (!product)
+//       throw new Error("Unable to find product name " + req.params.name);
+//     res.json(makeResponse(product));
+//   } catch (error) {
+//     logger.info(`${req.originalUrl}: `, error);
+//     res.json(handleError(error));
+//   }
+// });
+
+router.get("/:id", async (req, res, next) => {
+  console.log("111", req.params.id);
+  var product =  await findProductById(req.params.id);
+  res.status(200).json(makeResponse(product));
 });
 // /**
 //  * @swagger
@@ -188,8 +196,6 @@ router.put("/:id", async (req, res, next) => {
 //  *       - bearerAuth: []
 //  */
 
-
-
 router.put("/add-item/:id", async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
@@ -215,11 +221,10 @@ router.delete("/", async (req, res, next) => {
 });
 
 router.get("/detail/:id", async (req, res, next) => {
-  let id =  req.params.id;
+  let id = req.params.id;
   const details = await getDetail(id);
   res.status(200).json(makeResponse(details));
 });
-
 
 // router.get("/search", async (req, res, next) => {
 //   let id =  req.params.id;

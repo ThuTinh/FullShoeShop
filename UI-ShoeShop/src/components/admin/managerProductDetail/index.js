@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import ProducDetailtItem from "./productDetailItem";
-import { atcGetProductRequest } from "../../../actions";
+import { atcGetProductsRequest } from "../../../actions";
 import { connect } from "react-redux";
 import SearchBar from "material-ui-search-bar";
 
@@ -118,7 +118,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     }
   };
 };

@@ -52,16 +52,22 @@ function OrderStockList(props) {
     var orders = props.ordersSuplier;
     if (orders && orders.length > 0) {
       result = orders.map((order, index) => {
-        return (
-          <OrderStockItem
-            order={order}
-            index={index}
-            key={index}
-            getDetailOrderSuplier={props.getDetailOrderSuplier}
-            deleteOrderSuplier={props.deleteOrderSuplier}
-            status = {props.status}
-          />
-        );
+        if(order.suplierId!=null){
+          return (
+            <OrderStockItem
+              order={order}
+              index={index}
+              key={index}
+              getDetailOrderSuplier={props.getDetailOrderSuplier}
+              deleteOrderSuplier={props.deleteOrderSuplier}
+              status = {props.status}
+            />
+          );
+        }
+        else{
+          return null
+        }
+        
       });
     }
     return result;

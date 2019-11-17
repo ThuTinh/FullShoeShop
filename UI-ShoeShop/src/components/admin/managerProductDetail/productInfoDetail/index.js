@@ -6,6 +6,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import {connect} from "react-redux"
+import {atcGetProductsRequest} from "../../../../actions"
 import "./style.css";
 import { Button, Input } from "@material-ui/core";
 function ProductInfoDetail() {
@@ -130,4 +132,16 @@ function ProductInfoDetail() {
     </div>
   );
 }
-export default ProductInfoDetail;
+const stateMapToProps = (state, props) => {
+  return {
+    products: state.products
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getProducts: () => {
+      dispatch(atcGetProductsRequest());
+    }
+  };
+};
+export default connect(stateMapToProps,dispatchMapToProps) (ProductInfoDetail);

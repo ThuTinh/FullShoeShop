@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,8 +11,9 @@ import SearchBar from "material-ui-search-bar";
 
 import {
   actGetCustomerRequest,
-  atcDeleteCustomerRequest
-} from "../../../../actions/index";
+  atcDeleteCustomerRequest,
+  atcSearchUserRequets
+} from "../../../../actions";
 const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: "#FAFAFA",
@@ -37,8 +38,16 @@ const useStyles = makeStyles(theme => ({
 function ListCustomer(props) {
   const classes = useStyles();
   const customers = props.customers;
-  console.log(props.customers, "2222");
+  const [filter, setFilter] = useState("")
 
+  const search =()=>{
+    props.search(filter);
+  }
+
+  const clearSearch =()=>{
+    props.getCustomers();
+    setFilter("");
+  }
   useEffect(() => {
     props.getCustomers();
   }, []);
@@ -73,15 +82,20 @@ function ListCustomer(props) {
         <div style={{ width: "400px" }}>
           <SearchBar
             hintText="Tìm kiếm nhà cung cấp"
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={(text) => setFilter(text)}
+            onRequestSearch={search}
             style={{
               margin: "0 auto",
               maxWidth: 400
             }}
+            value = {filter}
           />
         </div>
+       
       </div>
+      <div>
+          <button className="outline-button" onClick={clearSearch}>Hủy</button>
+        </div>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -112,6 +126,9 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     deleteCustomer: id => {
       dispatch(atcDeleteCustomerRequest(id));
+    },
+    search: (filter)=>{
+      dispatch(atcSearchUserRequets(filter));
     }
   };
 };

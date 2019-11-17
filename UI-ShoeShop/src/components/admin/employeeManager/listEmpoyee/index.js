@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,9 +7,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
 import EmployeeItem from "../employeeItem";
-import { actGetCustomerRequest } from "../../../../actions";
+import {
+  actGetCustomerRequest,
+  atcSearchUserRequets
+} from "../../../../actions";
 import SearchBar from "material-ui-search-bar";
-
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -34,47 +36,63 @@ const useStyles = makeStyles(theme => ({
 
 function ListEmployee(props) {
   const classes = useStyles();
+  const [filter, setFilter] = useState("");
+
   const employees = props.employees;
+  const search = () => {
+    props.search(filter);
+  };
+
+  const clearSearch = () => {
+    props.getCustomers();
+    setFilter("");
+  };
   useEffect(() => {
     props.getCustomers();
   }, []);
   return (
     <>
-    <div
-    style={{
-      display: "flex",
-      alignItems: "flex-end",
-      justifyContent: "flex-start",
-      marginBottom:'20px'
-    }}
-  >
-    <div style={{ width: "400px" }}>
-      <SearchBar
-        hintText="Tìm kiếm nhân viên"
-        onChange={() => console.log("onChange")}
-        onRequestSearch={() => console.log("onRequestSearch")}
+      <div
         style={{
-          margin: "0 auto",
-          maxWidth: 400
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-start",
+          marginBottom: "20px"
         }}
-      />
-    </div>
-  </div>
-    <Table className={classes.table} aria-label="customized table">
-      <TableHead>
-        <TableRow>
-          <StyledTableCell>Mã nhân viên</StyledTableCell>
-          <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-          <StyledTableCell align="center">Địa chỉ</StyledTableCell>
-          <StyledTableCell align="center">SDT</StyledTableCell>
-          <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
-          <StyledTableCell align="center">Quyền</StyledTableCell>
-          <StyledTableCell align="center">Tình trạng</StyledTableCell>
-          <StyledTableCell align="center"> Xóa</StyledTableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>{rendeEmployeeItem(employees)}</TableBody>
-    </Table>
+      >
+        <div style={{ width: "400px" }}>
+          <SearchBar
+            hintText="Tìm kiếm nhân viên"
+            onChange={text => setFilter(text)}
+            onRequestSearch={search}
+            style={{
+              margin: "0 auto",
+              maxWidth: 400
+            }}
+            value={filter}
+          />
+        </div>
+      </div>
+      <div>
+        <button className="outline-button" onClick={clearSearch}>
+          Hủy
+        </button>
+      </div>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Mã nhân viên</StyledTableCell>
+            <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
+            <StyledTableCell align="center">Địa chỉ</StyledTableCell>
+            <StyledTableCell align="center">SDT</StyledTableCell>
+            <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
+            <StyledTableCell align="center">Quyền</StyledTableCell>
+            <StyledTableCell align="center">Tình trạng</StyledTableCell>
+            <StyledTableCell align="center"> Xóa</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{rendeEmployeeItem(employees)}</TableBody>
+      </Table>
     </>
   );
 }
@@ -99,11 +117,11 @@ const dispatchMapToProps = (dispatch, state) => {
   return {
     getCustomers: () => {
       dispatch(actGetCustomerRequest());
+    },
+    search: filter => {
+      dispatch(atcSearchUserRequets(filter));
     }
   };
 };
 
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(ListEmployee);
+export default connect(stateMapToProps, dispatchMapToProps)(ListEmployee);

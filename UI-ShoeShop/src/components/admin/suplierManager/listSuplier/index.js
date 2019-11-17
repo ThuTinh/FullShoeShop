@@ -5,14 +5,14 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
   atcDeleteSuplierRequest,
-  atcGetSuplier
+  atcGetSuplier,
+  atcSearchSuplierRequest
 } from "../../../../actions";
 import SearchBar from "material-ui-search-bar";
 import SuplierItem from "../suplierItem";
@@ -71,6 +71,7 @@ function ListSuplier(props) {
     address: ""
   });
 
+  const [filter, setFilter] = useState("");
   const handleOpen = () => {
     setOpen(true);
   };
@@ -109,23 +110,28 @@ function ListSuplier(props) {
     return result;
   };
 
+  const search = () => {
+    if (filter !== "") props.search(filter);
+  };
+  const clearSearch = () => {
+    setFilter("");
+    props.getSupliers();
+    
+  };
   useEffect(() => {
     props.getSupliers();
   }, []);
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className = "outline-button"
-          onClick={handleOpen}
-        >
+        <button className="outline-button" onClick={handleOpen}>
           Thêm mới
         </button>
       </div>
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           justifyContent: "flex-start",
           marginBottom: "20px"
         }}
@@ -133,15 +139,22 @@ function ListSuplier(props) {
         <div style={{ width: "400px" }}>
           <SearchBar
             hintText="Tìm kiếm nhà cung cấp"
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={text => {
+              setFilter(text);
+            }}
+            onRequestSearch={search}
             style={{
               margin: "0 auto",
               maxWidth: 400
             }}
+            value = {filter}
           />
         </div>
+       
       </div>
+      <div>
+          <button className="outline-button" onClick={clearSearch}>Hủy tìm kiếm</button>
+        </div>
 
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -259,11 +272,11 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     deleteSuplier: id => {
       dispatch(atcDeleteSuplierRequest(id));
+    },
+    search: filter => {
+      dispatch(atcSearchSuplierRequest(filter));
     }
   };
 };
 
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(ListSuplier);
+export default connect(stateMapToProps, dispatchMapToProps)(ListSuplier);

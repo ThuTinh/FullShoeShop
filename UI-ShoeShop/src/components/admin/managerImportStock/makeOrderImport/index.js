@@ -107,8 +107,11 @@ function OrderImport(props) {
     let arrProduct = products;
     arrProduct[index] = product;
     setProducts([...arrProduct]);
-    console.log("product ne", product);
-    console.log(" list product ne", products);
+    props.getDetailProduct(product.maSanPham).then(res => {
+      let arr = detailProducts;
+      arr.push(res.data.payload);
+      setDetailProducts([...arr]);
+    });
   };
 
   const removeImportStockItem = index => {
@@ -125,9 +128,7 @@ function OrderImport(props) {
   const saveOrder = () => {
     if (products && products.length > 0) {
       //thực hiện lấu product detail của sản phẩm theo mã sản phẩm
-      products.map((product, index) => {
-        props.getDetailProduct(product.maSanPham);
-      });
+      console.log("huhu", detailProducts);
 
       // thực hiện lưu order vào trong model orderSuplier
 
@@ -135,7 +136,6 @@ function OrderImport(props) {
         // Product order là chi tiết 1 sản phẩm trong đơn mua hàng
         var ProductOrder = {};
         var detail = [];
-        console.log("pproduct111", product);
         if (product.classification) {
           for (var i = 0; i < product.classification.color.length; i++) {
             for (var j = 0; j < product.classification.size.length; j++) {
@@ -157,7 +157,7 @@ function OrderImport(props) {
         let tempProductsOrder = productsOrder;
         tempProductsOrder.push(ProductOrder);
 
-        setProductsOrder(tempProductsOrder);
+        setProductsOrder([...tempProductsOrder]);
       });
 
       let order = {
@@ -167,50 +167,61 @@ function OrderImport(props) {
         employee: "5dbedb5ba5592c2698f1992a"
       };
 
-      console.log("order", order);
       setOrderSuplier(order);
       props.createOrderSuplier(order);
 
       //Thực hiện update dữ liệu trong model products
       if (productsOrder && productsOrder.length > 0) {
         var tempDetailProducts = detailProducts; // cái này bị null => bug
-        console.log("tempDetailProducts", tempDetailProducts)
         productsOrder.map((productOrderDetail, index) => {
-          for (var k = 0; k < tempDetailProducts.length; k++) {
-            console.log("aaa", productOrderDetail);
-            console.log("aaaa", tempDetailProducts[k]);
-            if (tempDetailProducts[k].length > 0) {
-              if (productOrderDetail._id == tempDetailProducts[k]._id) {
+          var k = 0;
+          for (k = 0; k < tempDetailProducts.length; k++) {
+            if (tempDetailProducts[k]) {
+              if (productOrderDetail.productId == tempDetailProducts[k]._id) {
                 if (
                   tempDetailProducts[k].Detail &&
                   tempDetailProducts[k].Detail.length > 0
                 ) {
-                  for (
-                    var l = 0;
-                    l < tempDetailProducts[k].Detail.length;
-                    l++
-                  ) {
-                    for (var n = 0; n < productOrderDetail.Detail.length; n++) {
+                  var l = 0;
+                  for (l = 0; l < tempDetailProducts[k].Detail.length; l++) {
+                    var n = 0;
+                    for (n = 0; n < productOrderDetail.Detail.length; n++) {
                       if (
-                        tempDetailProducts[k].Detail[l].color ===
+                        tempDetailProducts[k].Detail[l].color ==
                           productOrderDetail.Detail[n].color &&
-                        tempDetailProducts[k].Detail[l].size ===
+                        tempDetailProducts[k].Detail[l].size ==
                           productOrderDetail.Detail[n].size
                       ) {
                         //cập nhập lại số lượng của product detail
                         tempDetailProducts[k].Detail[l].inventory =
                           tempDetailProducts[k].Detail[l].inventory +
                           productOrderDetail.Detail[n].quantity;
+                      } else {
+                        let item = {
+                          amountSold: 0,
+                          color: productOrderDetail.Detail[n].color,
+                          inventory: 0,
+                          price: 10,
+                          size: productOrderDetail.Detail[n].size
+                        };
+
+                        console.log("lllll");
+                        console.log(tempDetailProducts[k].Detail);
+                        console.log(productOrderDetail.Detail[n]);
                       }
                     }
                   }
 
                   //update detail product trong model products
-                  console.log("sau update", tempDetailProducts[k].Detail);
-                  props.updateProduct(
-                    tempDetailProducts[k]._id,
-                    tempDetailProducts[k].Detail
-                  );
+                  let data = {
+                    Detail: tempDetailProducts[k].Detail
+                  };
+                  props.updateProduct(tempDetailProducts[k]._id, data);
+                } else {
+                  let data = {
+                    Detail: productOrderDetail.Detail
+                  };
+                  props.updateProduct(productOrderDetail.productId, data);
                 }
 
                 break;
@@ -223,10 +234,10 @@ function OrderImport(props) {
   };
 
   useEffect(() => {
-    let arr = detailProducts;
-    arr.push(props.detailProduct);
-    setDetailProducts(arr);
-    console.log("arr", detailProducts);
+    // let arr = detailProducts;
+    // arr.push(props.detailProduct);
+    // setDetailProducts(arr);
+    // console.log("arr", detailProducts);
   }, [props.detailProduct]);
   return (
     <div>

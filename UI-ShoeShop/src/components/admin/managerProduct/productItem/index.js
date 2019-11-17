@@ -5,6 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
   detail: { "&:hover": { color: "#f75f00", cursor: "pointer" } },
   icon: {
     color: "#512C62",
+    marginRight: "10px",
     "&:hover": {
       color: "#f75f00",
       cursor: "pointer"
@@ -64,17 +66,22 @@ function ProductItem(props) {
         <StyledTableCell align="center"> update category</StyledTableCell>
       )}
       <StyledTableCell align="center">100</StyledTableCell>
-      <StyledTableCell align="center">{props.product.status?"Đang hoạt động":"Ngừng hoạt động"}</StyledTableCell>
-      <StyledTableCell align="center" className={classes.detail}>
-        <Link
-          to="/admin/productDetail"
-          onClick={getProduct}
-          className={classes.icon}
-        >
-          Chi tiết
-        </Link>
-      </StyledTableCell>
       <StyledTableCell align="center">
+        {props.product.status ? "Đang hoạt động" : "Ngừng hoạt động"}
+      </StyledTableCell>
+
+      <StyledTableCell align="center">
+        <Link
+          className={classes.icon}
+          to={{
+            pathname: `/admin/products/${props.product._id}`,
+            aboutProps: {
+              customer: props.customer
+            }
+          }}
+        >
+          <VisibilityIcon />
+        </Link>
         <DeleteIcon
           className={classes.icon}
           style={{ marginRight: "10px" }}

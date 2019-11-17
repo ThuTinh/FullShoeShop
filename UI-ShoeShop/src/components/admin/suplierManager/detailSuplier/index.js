@@ -13,7 +13,7 @@ import Fade from "@material-ui/core/Fade";
 import { connect } from "react-redux";
 import "./style.css";
 import {
-  atcGetProductRequest,
+  atcGetProductsRequest,
   atcCreateProdctSuplierRequest,
   atcGetProductSuplierRequest,
   atcDeletProductSuplierRequest
@@ -253,7 +253,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     },
     createProduct: (id, productId) => {
       dispatch(atcCreateProdctSuplierRequest(id, productId));

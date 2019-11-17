@@ -54,7 +54,6 @@ class Navbars extends React.Component {
 
   renderWomenCategory = () => {
     var result = "";
-    console.log("aaa", this.props.categories);
     if (this.props.categories && this.props.categories.length > 0) {
       var i = 0;
       for (i = 0; i < this.props.categories.length; i++) {
@@ -65,7 +64,7 @@ class Navbars extends React.Component {
           ) {
             result = this.props.categories[i].children.map(
               (children, index) => {
-                return <li style = {{color:"#F75F00"}}>{children.name}</li>;
+                return <li >{children.name}</li>;
               }
             );
           }

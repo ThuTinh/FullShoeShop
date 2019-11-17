@@ -59,7 +59,8 @@ const schema = new Schema(
   },
   { timestamps: true }
 );
-
+const index = { name: 'text'}
+schema.index(index)
 schema.post("find", function(docs) {
   if (docs.length <= 0) return;
   for (let i = 0; i < docs.length; i++) {

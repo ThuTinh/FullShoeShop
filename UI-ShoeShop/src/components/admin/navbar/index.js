@@ -294,6 +294,7 @@ function AdminHome(props) {
         <Container fixed>
           <Switch>
             <Route path={`${props.match}/orders`} component={OrderManager} />
+            <Route path="/admin/products/:id" component={ProductDetail}></Route>
             <Route path="/admin/products" component={ManagerProduct} />
             <Route path="/admin/employees" component={EmployeeManager}></Route>
             <Route
@@ -312,10 +313,7 @@ function AdminHome(props) {
               component={DetailEmployee}
             ></Route>
             <Route path="/admin/orderDetail" component={OrderDetail}></Route>
-            <Route
-              path="/admin/productDetail"
-              component={ProductDetail}
-            ></Route>
+
             <Route path="/admin/kinds" component={KindManager}></Route>
             <Route
               path="/admin/stock-orders/:id"

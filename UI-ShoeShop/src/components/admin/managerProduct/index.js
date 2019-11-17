@@ -13,7 +13,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SearchBar from "material-ui-search-bar";
 import {
-  atcGetProductRequest,
+  atcGetProductsRequest,
   atcDeleteProductRequest,
   atcGetCategoryRequest,
   atcCreateProductRequest,
@@ -262,10 +262,6 @@ function ManagerProduct(props) {
               <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
               <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
               <StyledTableCell align="center">Trạng thái</StyledTableCell>
-              <StyledTableCell align="center">
-                {" "}
-                Chi tiết sản phẩm
-              </StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
@@ -373,7 +369,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductRequest());
+      dispatch(atcGetProductsRequest());
     },
     deleteProduct: id => {
       dispatch(atcDeleteProductRequest(id));

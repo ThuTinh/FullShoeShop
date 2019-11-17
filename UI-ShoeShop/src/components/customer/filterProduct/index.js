@@ -23,7 +23,6 @@ function FilterProduct(props) {
 
   const renderWomenShoes = () => {
     var result = "";
-    console.log("aaa", props.categories);
     if (props.categories && props.categories.length > 0) {
       var i = 0;
       for (i = 0; i < props.categories.length; i++) {
@@ -32,10 +31,12 @@ function FilterProduct(props) {
             props.categories[i].children &&
             props.categories[i].children.length > 0
           ) {
-            // result = props.categories[i].children.map((children, index) => {
-            //   return "";
-            // });
-            return <FilterShoeWomen key={new Date()} categories={props.categories[i].children}/>
+            return (
+              <FilterShoeWomen
+                key={new Date()}
+                categories={props.categories[i].children}
+              />
+            );
           }
           break;
         }
@@ -55,10 +56,12 @@ function FilterProduct(props) {
             props.categories[i].children &&
             props.categories[i].children.length > 0
           ) {
-            // result = props.categories[i].children.map((children, index) => {
-            //   return "";
-            // });
-            return <FilterShoeMan key={new Date()} categories={props.categories[i].children} />
+            result = (
+              <FilterShoeMan
+                key={new Date()}
+                categories={props.categories[i].children}
+              />
+            );
           }
           break;
         }
@@ -68,13 +71,9 @@ function FilterProduct(props) {
   };
   return (
     <div>
-      {/* <FilterShoeMan />
-      <FilterShoeWomen/>
-      <FilterShoePrice/> */}
-      {renderManShoes()}
+      <FilterShoePrice />
       {renderWomenShoes()}
-      <FilterShoePrice/>
-    
+      {renderManShoes()}
     </div>
   );
 }
@@ -91,7 +90,4 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(FilterProduct);
+export default connect(stateMapToProps, dispatchMapToProps)(FilterProduct);

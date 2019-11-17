@@ -6,8 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
-import { Button } from "@material-ui/core";
-function ProductDetail() {
+function ProductDetail(props) {
   return (
     <div>
       <div>
