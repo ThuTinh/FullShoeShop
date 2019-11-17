@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { Checkbox, Box, Typography, Divider } from "@material-ui/core";
+import CheckItem from "../checkItem";
 
 function FilterShoeWomen(props) {
+  const renderItem =()=>{
+    var result="";
+    console.log("2222", props.categories )
+    const categories =props.categories;
+    if(categories && categories.length>0){
+      result= categories.map((categogy,index)=>{
+        return <CheckItem  key ={index + new Date()} categogy={categogy.name}/>
+      })
+    }
+    return result;
+  }
   return (
     <>
       <Box
@@ -23,22 +35,7 @@ function FilterShoeWomen(props) {
         >
          GIÀY NỮ
         </Box>
-        <Box>
-          <Checkbox fontSize={10} /> Giày cao got
-          <Divider />
-        </Box>
-        <Box>
-          <Checkbox /> Giày cao got
-          <Divider />
-        </Box>
-        <Box>
-          <Checkbox /> Giày cao got
-          <Divider />
-        </Box>
-        <Box>
-          <Checkbox /> Giày cao got
-          <Divider />
-        </Box>
+      {renderItem()}
       </Box>
     </>
   );

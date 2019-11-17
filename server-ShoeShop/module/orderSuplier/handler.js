@@ -8,21 +8,10 @@ const validate = data => {
 };
 
 const filter = async filter => {
-  const reg = new RegExp( filter , "i");
-  return OrderSuplier.find({
-    
-  })
-    .populate({
-      path: "suplierId",
-      select: "name",
-      match: {name: /NCC Từ An/i },
-    
-    })
-    .populate({
-      path: "employee",
-     
-      select: "name"
-    });
+  const reg = new RegExp(filter, "i");
+  return OrderSuplier.find({})
+    .populate( "suplierId")
+    .populate("employee");
 };
 
 const findOne = async id => {

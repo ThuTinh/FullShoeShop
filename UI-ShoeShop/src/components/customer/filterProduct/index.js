@@ -32,9 +32,10 @@ function FilterProduct(props) {
             props.categories[i].children &&
             props.categories[i].children.length > 0
           ) {
-            result = props.categories[i].children.map((children, index) => {
-              return "";
-            });
+            // result = props.categories[i].children.map((children, index) => {
+            //   return "";
+            // });
+            return <FilterShoeWomen key={new Date()} categories={props.categories[i].children}/>
           }
           break;
         }
@@ -54,9 +55,10 @@ function FilterProduct(props) {
             props.categories[i].children &&
             props.categories[i].children.length > 0
           ) {
-            result = props.categories[i].children.map((children, index) => {
-              return "";
-            });
+            // result = props.categories[i].children.map((children, index) => {
+            //   return "";
+            // });
+            return <FilterShoeMan key={new Date()} categories={props.categories[i].children} />
           }
           break;
         }
@@ -66,8 +68,11 @@ function FilterProduct(props) {
   };
   return (
     <div>
-      <FilterShoeMan/>
+      {/* <FilterShoeMan />
       <FilterShoeWomen/>
+      <FilterShoePrice/> */}
+      {renderManShoes()}
+      {renderWomenShoes()}
       <FilterShoePrice/>
     
     </div>
