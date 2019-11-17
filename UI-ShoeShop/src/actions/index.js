@@ -5,7 +5,7 @@ export const actloginRequest = login => {
   return dispatch => {
     return callApi("auth/login", "POST", login).then(res => {
       dispatch(actlogin(res.data.payload));
-      console.log(res);
+      
     });
   };
 };

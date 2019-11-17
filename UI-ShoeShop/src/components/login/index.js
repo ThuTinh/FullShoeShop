@@ -58,8 +58,12 @@ function Login(props) {
   const [remember, setRemameber] = useState();
 
   useEffect(() => {
-    if (props.resLogin.email) {
+    if (props.resLogin.token) {
       setRedirect(true);
+      localStorage.setItem('token',props.resLogin.token)
+      localStorage.setItem('id',props.resLogin.id)
+      localStorage.setItem('email',props.resLogin.email)
+      localStorage.setItem('role',props.resLogin.role)
     }
   }, [props.resLogin]);
   const handleChange = prop => event => {

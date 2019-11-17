@@ -182,7 +182,7 @@ function AdminHome(props) {
         }}
         open={open}
       >
-        <div lassName={classes.toolbar}>
+        <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
