@@ -37,7 +37,9 @@ const schema = new Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      index:true,
+      unique: true
     },
     phone: {
       type: String,

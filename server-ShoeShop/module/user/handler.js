@@ -5,7 +5,10 @@ const mongoose = require("mongoose");
 // const get = async (filter, returnFields, page, numberPerPage) => {
 //   return await User.find(filter).select(userReturnFileds).lean()
 // }
-
+const search = async (text) => {
+  return await User.find(
+          { $text: { $search: text }});
+  };
 const findOne = async (filter, returnFields = "") => {
   const conditions = filter || {};
   const userReturnFileds = returnFields;
@@ -51,4 +54,5 @@ const addFavoritedProduct = async (userId, productId) => {
 const updateUser = async (condition, id) =>
   await User.findByIdAndUpdate(id, condition, { new: true });
 
-module.exports = { create, update, findOne, addFavoritedProduct, updateUser , getUserById};
+module.exports = { create, update, findOne, addFavoritedProduct, updateUser , getUserById,
+  search};

@@ -9,9 +9,21 @@ const validate = data => {
 
 const filter = async filter => {
   const reg = new RegExp(filter, "i");
-  return OrderSuplier.find({})
-    .populate( "suplierId")
+  return OrderSuplier.find()
+    .populate({ path: "suplierId", match: { _id: { $exists: true } } })
     .populate("employee");
+
+  //không sử dụng được như thế này nha===>ahihi
+  // .populate({
+  //   path: "suplierId",
+  //   select: "name",
+
+  // })
+  // .populate({
+  //   path: "employee",
+
+  //   select: "name"
+  // });
 };
 
 const findOne = async id => {
