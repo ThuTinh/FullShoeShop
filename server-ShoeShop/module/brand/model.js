@@ -39,6 +39,10 @@ const schema = new Schema(
       required: true,
       trim: true,
       index:true,
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 6c9da9e45a62250002f23984e33d61c51e169406
       unique: true
     },
     phone: {
@@ -70,7 +74,8 @@ const schema = new Schema(
   },
   { timestamps: true }
 );
-
+const index = { name: 'text'}
+schema.index(index)
 schema.pre("find", function() {
   this.where({ deleted: false });
 });

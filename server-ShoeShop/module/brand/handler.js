@@ -25,7 +25,11 @@ const findAll = async () => {
 
 const search = async (text) => {
   return await Brand.find(
+<<<<<<< HEAD
           { $text: { $search: text }});
+=======
+          { $text: { $search: text }},  {score: {$meta: 'textScore'}});
+>>>>>>> 6c9da9e45a62250002f23984e33d61c51e169406
   };
 const findOne = async (conditions, returnFields) => {
   return await Brand.findOne(conditions)

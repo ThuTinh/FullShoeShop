@@ -8,6 +8,7 @@ const validate = data => {
 };
 
 const filter = async filter => {
+<<<<<<< HEAD
   const reg = new RegExp(filter, "i");
   return OrderSuplier.find()
     .populate({ path: "suplierId", match: { _id: { $exists: true } } })
@@ -24,6 +25,25 @@ const filter = async filter => {
 
   //   select: "name"
   // });
+=======
+  const reg = new RegExp( filter , "i");
+  return OrderSuplier.find({
+    
+  })
+
+    //không sử dụng được như thế này nha===>ahihi
+    // .populate({
+    //   path: "suplierId",
+    //   select: "name",
+    
+    
+    // })
+    // .populate({
+    //   path: "employee",
+     
+    //   select: "name"
+    // });
+>>>>>>> 6c9da9e45a62250002f23984e33d61c51e169406
 };
 
 const findOne = async id => {
