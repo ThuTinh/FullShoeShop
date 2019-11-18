@@ -9,7 +9,9 @@ const {
   addItem,
   remove,
   getDetail,
-  findProductById
+  findProductById,
+  addDetail,
+  updateDetailItem
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -81,7 +83,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   console.log("111", req.params.id);
-  var product =  await findProductById(req.params.id);
+  var product = await findProductById(req.params.id);
   res.status(200).json(makeResponse(product));
 });
 // /**
@@ -214,6 +216,7 @@ router.put("/add-item/:id", async (req, res, next) => {
   }
 });
 
+
 router.delete("/", async (req, res, next) => {
   let id = req.body.id ? req.body.id : 0;
   const product = await remove(id);
@@ -224,6 +227,28 @@ router.get("/detail/:id", async (req, res, next) => {
   let id = req.params.id;
   const details = await getDetail(id);
   res.status(200).json(makeResponse(details));
+});
+
+router.put("/add-detail-item/:id", async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const update = await addDetail(id, req.body);
+    res.status(200).json(makeResponse(update));
+  } catch (err) {
+    logger.info(`${req.originalUrl}: `, err);
+    res.json(handleError(err));
+  }
+});
+
+router.put("/update-detail-item/:id", async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const update = await updateDetailItem(id,req.body.id ,req.body.inventory);
+    res.status(200).json(makeResponse(update));
+  } catch (err) {
+    logger.info(`${req.originalUrl}: `, err);
+    res.json(handleError(err));
+  }
 });
 
 // router.get("/search", async (req, res, next) => {

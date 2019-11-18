@@ -7,7 +7,9 @@ import {
   atcGetSuplierRequest,
   atcGetDetailProductRequest,
   atcCreateOrderSuplierRequest,
-  atcUpdateProductRequest
+  atcUpdateProductRequest,
+  atcAddDetailItemProductRequets,
+  atcUpdateDetailItemProductRequets
 } from "../../../../actions";
 import { connect } from "react-redux";
 
@@ -168,8 +170,10 @@ function OrderImport(props) {
       };
 
       setOrderSuplier(order);
-      props.createOrderSuplier(order);
+      //  props.createOrderSuplier(order);
 
+      var setIndexToAdd = new Set();
+      var setIndexToUpdate = new Set();
       //Thực hiện update dữ liệu trong model products
       if (productsOrder && productsOrder.length > 0) {
         var tempDetailProducts = detailProducts; // cái này bị null => bug
@@ -193,30 +197,46 @@ function OrderImport(props) {
                           productOrderDetail.Detail[n].size
                       ) {
                         //cập nhập lại số lượng của product detail
-                        tempDetailProducts[k].Detail[l].inventory =
-                          tempDetailProducts[k].Detail[l].inventory +
-                          productOrderDetail.Detail[n].quantity;
+                        props.updateDetailItem(
+                          productOrderDetail.productId,
+                          tempDetailProducts[k].Detail[l]._id,
+                          productOrderDetail.Detail[n].quantity
+                        );
+                        setIndexToUpdate.add(n);
                       } else {
-                        let item = {
-                          amountSold: 0,
-                          color: productOrderDetail.Detail[n].color,
-                          inventory: 0,
-                          price: 10,
-                          size: productOrderDetail.Detail[n].size
-                        };
-
-                        console.log("lllll");
-                        console.log(tempDetailProducts[k].Detail);
-                        console.log(productOrderDetail.Detail[n]);
+                        // let item = {
+                        //   color: productOrderDetail.Detail[n].color,
+                        //   inventory: 0, //se lam sau
+                        //   price: 10, //se lam sau
+                        //   size: productOrderDetail.Detail[n].size
+                        // };
+                        // props.addDetailProduct(
+                        //   productOrderDetail.productId,
+                        //   item
+                        // );
+                        setIndexToAdd.add(n);
+                        console.log("index", n);
                       }
                     }
                   }
 
                   //update detail product trong model products
-                  let data = {
-                    Detail: tempDetailProducts[k].Detail
-                  };
-                  props.updateProduct(tempDetailProducts[k]._id, data);
+                  console.log("set add", setIndexToAdd);
+                  console.log("set update", setIndexToUpdate);
+                  let difference = new Set(
+                    [...setIndexToAdd].filter(x => !setIndexToUpdate.has(x))
+                  );
+                  console.log("dif", difference);
+                  let arr = Array.from(difference);
+                  for (var index = 0; index < arr.length; index++) {
+                    let item = {
+                      color: productOrderDetail.Detail[index].color,
+                      inventory: 0, //se lam sau
+                      price: 10, //se lam sau
+                      size: productOrderDetail.Detail[index].size
+                    };
+                    props.addDetailProduct(productOrderDetail.productId, item);
+                  }
                 } else {
                   let data = {
                     Detail: productOrderDetail.Detail
@@ -296,6 +316,12 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     updateProduct: (id, data) => {
       dispatch(atcUpdateProductRequest(id, data));
+    },
+    addDetailProduct: (id, detail) => {
+      dispatch(atcAddDetailItemProductRequets(id, detail));
+    },
+    updateDetailItem: (id, idItem, inventory) => {
+      dispatch(atcUpdateDetailItemProductRequets(id, idItem, inventory));
     }
   };
 };

@@ -5,7 +5,6 @@ export const actloginRequest = login => {
   return dispatch => {
     return callApi("auth/login", "POST", login).then(res => {
       dispatch(actlogin(res.data.payload));
-      
     });
   };
 };
@@ -44,13 +43,13 @@ export const actGetCustomerRequest = () => {
   };
 };
 
-export const atcSearchUserRequets = (filter)=>{
-  return dispatch =>{
-    return callApi(`users/search?q=${filter}`, "GET").then(res=>{
+export const atcSearchUserRequets = filter => {
+  return dispatch => {
+    return callApi(`users/search?q=${filter}`, "GET").then(res => {
       dispatch(actCustomer(res.data.payload));
-    })
-  }
-}
+    });
+  };
+};
 
 export const atcDeleteCustomerRequest = id => {
   return dispatch => {
@@ -122,15 +121,38 @@ export const atcGetProduct = product => {
   };
 };
 
-export const atcGetProductRequest = (id)=>{
+export const atcGetProductRequest = id => {
   return dispatch => {
     return callApi(`products/${id}`, "GET").then(res => {
       console.log(res.data.payload);
       dispatch(atcGetProduct(res.data.payload));
     });
   };
-}
+};
 
+export const atcAddDetailItemProductRequets = (id, detail) => {
+  return dispatch => {
+    return callApi(`products/add-detail-item/${id}`, "PUT", detail)
+      .then(res => {})
+      .catch(err => {
+        console.log("lỗi", err);
+      });
+  };
+};
+
+export const atcUpdateDetailItemProductRequets = (id, idItem, inventoryAdd) => {
+  return dispatch => {
+    return callApi(
+      `products/update-detail-item/${id}`,
+      "PUT",
+      `{"id": "${idItem}", "inventory":"${inventoryAdd}"}`
+    )
+      .then(res => {})
+      .catch(err => {
+        console.log("lỗi", err);
+      });
+  };
+};
 export const atcGetProductsRequest = () => {
   return dispatch => {
     return callApi("products", "GET").then(res => {
@@ -161,9 +183,13 @@ export const atcDeleteProductRequest = id => {
 
 export const atcUpdateProductRequest = (id, product) => {
   return dispatch => {
-    return callApi(`products/${id}`, "PUT", product).then(res => {
-      dispatch(atcGetProductsRequest());
-    });
+    return callApi(`products/${id}`, "PUT", product)
+      .then(res => {
+        dispatch(atcGetProductsRequest());
+      })
+      .catch(err => {
+        console.log("lỗi", err);
+      });
   };
 };
 
@@ -197,7 +223,7 @@ export const atcCreateOrderSuplierRequest = order => {
 export const atcGetDetailOrderSuplierRequest = id => {
   return dispatch => {
     return callApi(`order-suplier/${id}`, "GET").then(res => {
-      dispatch(atcGetDetailOrderSuplier(res.data.payload))
+      dispatch(atcGetDetailOrderSuplier(res.data.payload));
     });
   };
 };
@@ -218,11 +244,11 @@ export const atcDeleteOrderSuplier = id => {
   };
 };
 
-export const atcGetOrderSuplierRequest = (filter) => {
+export const atcGetOrderSuplierRequest = filter => {
   return dispatch => {
     return callApi(`order-suplier?filter=&${filter}`, "GET").then(res => {
-      console.log("ác", res)
-    dispatch(atcGetOrderSuplier(res.data.payload));
+      console.log("ác", res);
+      dispatch(atcGetOrderSuplier(res.data.payload));
     });
   };
 };
@@ -250,13 +276,13 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
-export const atcSearchSuplierRequest = (filter)=>{
-return dispatch =>{
-  return callApi(`brands/search?q=${filter}`, "GET").then(res=>{
-    dispatch(atcGetSupliers(res.data.payload));
-  })
-}
-}
+export const atcSearchSuplierRequest = filter => {
+  return dispatch => {
+    return callApi(`brands/search?q=${filter}`, "GET").then(res => {
+      dispatch(atcGetSupliers(res.data.payload));
+    });
+  };
+};
 export const atcCreateSuplierRequest = suplier => {
   return dispatch => {
     return callApi("brands", "POST", suplier).then(res => {

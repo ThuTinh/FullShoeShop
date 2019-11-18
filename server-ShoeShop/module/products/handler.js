@@ -72,7 +72,7 @@ const create = async data => {
 };
 
 const update = async (id, data) => {
-  return await Product.findByIdAndUpdate(id, data, {
+  return await Product.findByIdAndUpdate(mongoose.Types.ObjectId(id), data, {
     new: true,
     runValidators: true
   });
@@ -83,9 +83,31 @@ const remove = async id => {
 };
 
 const getDetail = async id => {
-  return await Product.findById(id).select("Detail");
+  return await Product.findById(mongoose.Types.ObjectId(id)).select("Detail");
 };
 
+const addDetail = async (id, detail) => {
+  return await Product.update(
+    {
+      _id: mongoose.Types.ObjectId(id)
+    },
+    {
+      $push: {
+        Detail: detail
+      }
+    }
+  );
+};
+
+const updateDetailItem = async (id, idItem, item) => {
+  return await Product.update(
+    {
+      _id: mongoose.Types.ObjectId(id),
+      "Detail._id": mongoose.Types.ObjectId(idItem)
+    },
+    { $inc: { "Detail.$.inventory": item } }
+  );
+};
 // const update = async (_id, data ,filter, newId) => {
 //   let object ={}
 //   object[filter]=newId
@@ -105,5 +127,7 @@ module.exports = {
   removeItem,
   remove,
   getDetail,
-  findProductById
+  findProductById,
+  addDetail,
+  updateDetailItem
 };
