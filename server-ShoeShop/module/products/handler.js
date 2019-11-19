@@ -36,7 +36,10 @@ const findOne = async (conditions, returnFields, page, perPage) => {
 };
 
 const findProductById = async id => {
-  return await Product.findById(id);
+  return await Product.findById(id).populate({
+    path: 'categories',
+    populate:{path:'parent'}
+  });
 };
 
 const addItem = async (_id, filter, newId) => {

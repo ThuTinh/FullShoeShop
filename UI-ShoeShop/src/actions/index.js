@@ -124,7 +124,7 @@ export const atcGetProduct = product => {
 export const atcGetProductRequest = id => {
   return dispatch => {
     return callApi(`products/${id}`, "GET").then(res => {
-      console.log(res.data.payload);
+      console.log("1111", res);
       dispatch(atcGetProduct(res.data.payload));
     });
   };

@@ -75,9 +75,6 @@ function ProductItem(props) {
           className={classes.icon}
           to={{
             pathname: `/admin/products/${props.product._id}`,
-            aboutProps: {
-              customer: props.customer
-            }
           }}
         >
           <VisibilityIcon />

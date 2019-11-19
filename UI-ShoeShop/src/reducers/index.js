@@ -11,12 +11,14 @@ import detailProduct from './detailProduct'
 import ordersSuplier from "./ordersSuplier" 
 import detailOrderSuplier from "./detailOrderSuplier"
 import user from "./user"
+import product from './product'
 const reducerControler = combineReducers({
     login,
     sign,
     customers,
     categories,
     products,
+    product,
     supliers,
     productSupliers,
     suplier,

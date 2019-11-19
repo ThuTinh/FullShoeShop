@@ -1,26 +1,31 @@
-import React from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
+import { connect } from "react-redux";
+import { atcGetProductRequest } from "../../../../actions";
 function ProductDetail(props) {
+  var product = props.product;
+  useEffect(() => {
+    let id = props.match.params.id;
+    props.getProduct(id);
+  }, []);
+
+  useEffect(() => {
+    product = props.product;
+    console.log("qqqq111", props.product);
+  }, [props.product]);
+
+
   return (
     <div>
       <div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-           className = "outline-button"
-          >
-            Lưu
-          </button>
-          <button
-           className = "outline-button"
-          >
-            Sửa
-          </button>
+          <button className="outline-button">Lưu</button>
+          <button className="outline-button">Sửa</button>
         </div>
         <h6>THÔNG TIN CHI TIẾT</h6>
         <div
@@ -36,16 +41,11 @@ function ProductDetail(props) {
         >
           <div style={{ marginRight: "20px" }}>
             <label style={{ marginRight: "20px" }}> Loại cha: </label>
-            <label></label>
+            <label>{product.categories.parent.name}</label>
           </div>
           <div>
             <label style={{ marginRight: "20px" }}>Loại Con: </label>
-            <select style={{ width: "200px", height: "40px" }}>
-              <option>Con1</option>
-              <option>COn4</option>
-              <option>Con3</option>
-              <option>Con2</option>
-            </select>
+            <label>{product.categories.name}</label>
           </div>
         </div>
         <Table aria-label="simple table">
@@ -58,9 +58,7 @@ function ProductDetail(props) {
               <TableCell align="center">Sl tồn kho</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <ProductItem></ProductItem>
-          </TableBody>
+          <TableBody><ProductItem product={props.product}/></TableBody>
         </Table>
         <div
           style={{
@@ -80,4 +78,18 @@ function ProductDetail(props) {
     </div>
   );
 }
-export default ProductDetail;
+
+const StateMapToProps = state => {
+  return {
+    product: state.product
+  };
+};
+
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getProduct: id => {
+      dispatch(atcGetProductRequest(id));
+    }
+  };
+};
+export default connect(StateMapToProps, dispatchMapToProps)(ProductDetail);
