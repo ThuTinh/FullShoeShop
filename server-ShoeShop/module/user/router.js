@@ -6,16 +6,18 @@ const {
   update,
   addFavoritedProduct,
   getUserById,
-  search
+  search,
+  upDateCartItem,
+  getCarts,
+  removeCart,
+  removeCartItem,
+  addToCard
 } = require("./handler");
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
 const refFields = ["favoriteProducts"];
 const { encrypt, match } = require("../crypto");
 const logger = require("../logger");
-
-
-
 
 router.get("/search", async (req, res, next) => {
   try {
@@ -26,7 +28,6 @@ router.get("/search", async (req, res, next) => {
     logger.info(`${req.originalUrl}: `, error);
   }
 });
-
 
 /**
  * @swagger
@@ -129,47 +130,51 @@ router.get("/", async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.get("/current", async (req, res, next) => {
-  try {
-    const page = Number(req.query.page) ? Number(req.query.page) : 0;
-    const perPage = Number(req.query.per_page) ? Number(req.query.per_page) : 0;
-    let keys = "";
-    let returnFields = [];
-    if (req.query._return_fields) {
-      returnFields =
-        req.query._return_fields.split(",").reduce((rs, key) => {
-          rs[key] = 1;
-          return rs;
-        }, {}) || "";
+// router.get("/current", async (req, res, next) => {
+//   try {
+//     const page = Number(req.query.page) ? Number(req.query.page) : 0;
+//     const perPage = Number(req.query.per_page) ? Number(req.query.per_page) : 0;
+//     let keys = "";
+//     let returnFields = [];
+//     if (req.query._return_fields) {
+//       returnFields =
+//         req.query._return_fields.split(",").reduce((rs, key) => {
+//           rs[key] = 1;
+//           return rs;
+//         }, {}) || "";
 
-      Object.keys(returnFields).map(key => {
-        refFields.map(item => {
-          if (item === key) {
-            keys += key + " ";
-          }
-        });
-      });
-    }
-    const user = await model
-      .findById(req.id)
-      .populate({
-        path: keys,
-        select: { name: 1, images: 1, rate: 1, skinType: 1, description: 1 },
-        options: {
-          limit: perPage,
-          skip: page * perPage
-        }
-      })
-      .select(returnFields)
-      .lean();
-    if (!user) throw new Error(`Unable to find user id ${req.id}`);
-    return res.json(makeResponse(user));
-  } catch (error) {
-    logger.info(`${req.originalUrl}: `, error);
-    res.json(handleError(error));
-  }
+//       Object.keys(returnFields).map(key => {
+//         refFields.map(item => {
+//           if (item === key) {
+//             keys += key + " ";
+//           }
+//         });
+//       });
+//     }
+//     const user = await model
+//       .findById(req.id)
+//       .populate({
+//         path: keys,
+//         select: { name: 1, images: 1, rate: 1, skinType: 1, description: 1 },
+//         options: {
+//           limit: perPage,
+//           skip: page * perPage
+//         }
+//       })
+//       .select(returnFields)
+//       .lean();
+//     if (!user) throw new Error(`Unable to find user id ${req.id}`);
+//     return res.json(makeResponse(user));
+//   } catch (error) {
+//     logger.info(`${req.originalUrl}: `, error);
+//     res.json(handleError(error));
+//   }
+// });
+
+router.get("current", async (req, res, next) => {
+  const user = await getUserById("5dbedb5ba5592c2698f1992a");
+  res.status(200).json(makeResponse(user));
 });
-
 // /**
 //  * @swagger
 //  * /api/v1/users:
@@ -448,6 +453,49 @@ router.put("/changepassword", async (req, res, next) => {
   }
 });
 
+router.post("cart-item/:id", async (req, res, next) => {
+  try {
+    if (req.body) throw new Error("body is empity");
+    return await addToCard(req.body.id, req.body.cart);
+  } catch (error) {
+    logger.error(`Failed to post cart`, error);
+  }
+});
 
+router.get("carts/:id", async (req, res, next) => {
+  try {
+    const carts = await getCarts(req.body.id);
+    res.status(200).json(carts);
+  } catch (error) {
+    logger.error(`Failed to post cart`, error);
+  }
+});
+
+router.delete("cart-item/:id", async (req, res, next) => {
+  try {
+    const cart = await removeCartItem(req.body.id);
+    res.status(200).json(makeResponse(cart));
+  } catch (error) {
+    logger.error(`Failed to post cart`, error);
+  }
+});
+router.delete("carts/:id", async (req, res, next) => {
+  const carts = await removeCart(req.params.id);
+  res.status(200).json(makeResponse(carts));
+});
+
+router.put("cart-item/:id", async (req, res, next) => {
+  try {
+    if (req.body) throw new Error("body empity");
+    const cartUpdate = await upDateCartItem(
+      req.params.id,
+      req.body.id,
+      req.body.quantity
+    );
+    res.status(200).json(makeResponse(cartUpdate));
+  } catch (error) {
+    logger.error(`Failed to post cart`, error);
+  }
+});
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -6,11 +6,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import {connect} from "react-redux"
-import {atcGetProductsRequest} from "../../../../actions"
+import { connect } from "react-redux";
+import { atcGetProductsRequest } from "../../../../actions";
+import addImg from "../../../../assets/image/upload.png";
+import axios from "axios";
 import "./style.css";
 import { Button, Input } from "@material-ui/core";
 function ProductInfoDetail() {
+  const [image, setImage] = useState("");
   return (
     <div>
       <div>
@@ -40,8 +43,8 @@ function ProductInfoDetail() {
               marginBottom: "30px"
             }}
           ></div>
-          <div>
-            <div>Tên Hiển thị : </div>
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "100px" }}>Tên Hiển thị : </div>
             {/* <TextField
         id="filled-uncontrolled"
         label="Uncontrolled"
@@ -51,12 +54,20 @@ function ProductInfoDetail() {
         variant="filled"
       /> */}
             <div>
-              <Input></Input>
+              <input placeholder="Tên hiển thị" />
             </div>
           </div>
-          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-            <div>Giá bán ra</div>
+          <div
+            style={{ marginTop: "20px", marginBottom: "20px", display: "flex" }}
+          >
+            <div style={{ width: "100px" }}>Giá bán ra:</div>
             <input type="number" />
+          </div>
+          <div style={{display:'flex'}}>
+            <div  style={{ width: "100px" }}>Sale</div>
+            <div>
+              <input type="number" placeholder="sale.."></input>
+            </div>
           </div>
           <div>
             <label>Mô tả:</label>
@@ -71,20 +82,40 @@ function ProductInfoDetail() {
           <div style={{ marginBottom: "20px" }}>
             <label>Hình ảnh</label>
             <div>
-              <img className="imgProduct"></img>
-              <img className="imgProduct"></img>
-              <img className="imgProduct"></img>
-              <img className="imgProduct"></img>
-              <img className="imgProduct"></img>
+              <img src={addImg} className="imgProduct"></img>
+              <img src={addImg} className="imgProduct"></img>
+              <img src={addImg} className="imgProduct"></img>
+              <img src={addImg} className="imgProduct"></img>
+              <img src={addImg} className="imgProduct"></img>
             </div>
           </div>
-          <div>
-            <label>Sale</label>
-            <div>
-              {" "}
-              <input type="number" placeholder="sale.."></input>
-            </div>
-          </div>
+          <input
+            type="file"
+            onChange={e => {
+              setImage(e.target.files[0]);
+            }}
+          />
+          <button
+            className="outline-button"
+            onClick={() => {
+              console.log("llll", image);
+              const data = new FormData();
+              data.append("image", image);
+              axios
+                .post(
+                  "http://localhost:1337/api/v1/uploads/images/single",
+                  data,
+                  {
+                    // receive two    parameter endpoint url ,form data
+                  }
+                )
+                .then(res => {
+                  console.log("imageL:", res);
+                });
+            }}
+          >
+            upload
+          </button>
         </div>
         <h6>THÔNG TIN CHI TIẾT SẢN PHẨM</h6>
         <div
@@ -144,4 +175,4 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
-export default connect(stateMapToProps,dispatchMapToProps) (ProductInfoDetail);
+export default connect(stateMapToProps, dispatchMapToProps)(ProductInfoDetail);

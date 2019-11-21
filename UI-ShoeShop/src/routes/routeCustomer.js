@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomHomePage from "../pages/customerPage";
 import { Route, Switch } from "react-router-dom";
 import ProductDetailPage from "../pages/customerPage/productDetailPage";
@@ -7,17 +7,25 @@ import Footer from "../components/Footer";
 import CartPage from "../pages/customerPage/cartPage";
 import InfoPurchasePage from "../pages/customerPage/inforPurchasePage";
 import ProfilePage from "../pages/customerPage/profilePage";
-import IntroducePage from "../pages/introducePage"
+import IntroducePage from "../pages/introducePage";
 
-
-function CustomerRoute() {
+function CustomerRoute(props) {
+  const [countCarts, setCountCarts] = useState(0);
+  const addToCart = () => {
+    setCountCarts(countCarts + 1);
+  };
   return (
     <div>
-      <Navbars></Navbars>
+      <Navbars countCarts={countCarts}></Navbars>
       <Switch>
         <Route path="/product/cart" component={CartPage} />
         <Route path="/product/purchase" component={InfoPurchasePage} />
-        <Route path="/product/:id" component={ProductDetailPage} />
+        <Route
+          path="/product/:id"
+          render={props => <ProductDetailPage {...props} numberOfCart={12} />}
+        />
+        {/* <Route path="/product/:id"  component={ProductDetailPage} /> */}
+
         <Route path="/info" component={ProfilePage} />
         <Route path="/introduce" component={IntroducePage} />
         <Route path="/" component={CustomHomePage} exact={true} />

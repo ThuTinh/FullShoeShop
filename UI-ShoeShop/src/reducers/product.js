@@ -16,7 +16,6 @@ const product = (state = initState, action) => {
   switch (action.type) {
     case Types.GET_PRODUCT:
       state = action.product;
-      console.log("aaaa", state);
       return state;
     default:
       return state;

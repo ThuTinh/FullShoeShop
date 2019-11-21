@@ -21,6 +21,7 @@ function ProductDetail(props) {
     history.push("/product/cart");
     history.goForward();
   };
+  console.log( props.numberOfCart)
   return (
     <div className="container">
       <div className="row">
@@ -121,6 +122,7 @@ function ProductDetail(props) {
               color="secondary"
               className={classes.button}
               style={{ backgroundColor: "#ff0000" }}
+              onClick = {()=> console.log( props.title)}
             >
               Thêm vào giỏ hàng
             </Button>
