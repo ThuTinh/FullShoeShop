@@ -57,7 +57,7 @@ function OrderStockItem(props) {
           {props.index + 1}
         </StyledTableCell>
         <StyledTableCell align="center">
-          {order.suplierId.name}{" "}
+          {order.suplierId.name}
         </StyledTableCell>
 
         <StyledTableCell align="center">

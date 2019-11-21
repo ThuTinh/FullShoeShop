@@ -100,8 +100,10 @@ class Navbars extends React.Component {
   };
 
   render() {
+    
     // return focus to the button when we transitioned from !open -> open
     return (
+      
       <div className="menu-container">
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
           <div className="wraper">
@@ -119,9 +121,10 @@ class Navbars extends React.Component {
               <li>Giới thiệu shop</li>
             </ul>
           </div>
+         
           <div className="menu-cart-search">
             <StyledBadge1
-              badgeContent={4}
+              badgeContent= {this.props.countCarts}
               color="primary"
               className="shopping-cart"
             >

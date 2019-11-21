@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from "react";
+import React,{useEffect} from "react";
 import "./style.css";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,8 @@ import InforCustomer from "../infoCustomer";
 import OrderList from "../orderManager/orderList";
 import ProductFavorite from "../productFavorite";
 import avatar from "../../../assets/image/avatar.JPG";
+import { atcGetCurentUserRequest } from "../../../actions";
+import {connect} from "react-redux"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -74,8 +76,11 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-function ManagerCustomer() {
+function ManagerCustomer(props) {
   const classes = useStyles();
+  useEffect(() => {
+    props.getCurrentUser();
+  }, []);
 
   return (
     <div className={classes.container}>
@@ -119,4 +124,16 @@ function ManagerCustomer() {
     </div>
   );
 }
-export default ManagerCustomer;
+const stateMapToProps = (state, props) => {
+  return {
+    currentUser: state.user
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getCurrentUser: () => {
+      dispatch(atcGetCurentUserRequest());
+    }
+  };
+};
+export default connect(stateMapToProps, dispatchMapToProps)(ManagerCustomer);

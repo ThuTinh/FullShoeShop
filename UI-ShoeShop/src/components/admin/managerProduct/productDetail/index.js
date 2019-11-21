@@ -23,10 +23,10 @@ function ProductDetail(props) {
   return (
     <div>
       <div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <button className="outline-button">Lưu</button>
           <button className="outline-button">Sửa</button>
-        </div>
+        </div> */}
         <h6>THÔNG TIN CHI TIẾT</h6>
         <div
           style={{

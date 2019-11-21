@@ -1,9 +1,9 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import "./style.css";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import avatar from "../../../assets/image/avatar.JPG";
+import { connect } from "react-redux";
 const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -38,9 +38,21 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   }
 }));
-function InforCustomer() {
+function InforCustomer(props) {
   const classes = useStyles();
+  const [user, setUser] = useState(props.user)
+  const [disName, setdisName]=useState(true)
+  const [disEmail, setdisEmail]=useState(true)
+  const [disPhone, setdisPhone]=useState(true)
+  const [disAddress, setdisAddres]=useState(true)
+  const [disShipAddress, setdisShipAddress]=useState(true)
+  const [name, setName]=useState("")
+  const [email, setEmail]=useState("")
+  const [phone, setPhone]=useState("")
+  const [address, setAddres]=useState("")
+  const [shipAddress, setShipAddress]=useState("")
 
+ 
   return (
     <div
       style={{
@@ -68,7 +80,11 @@ function InforCustomer() {
               className={classes.textField}
               margin="normal"
               style={{ marginTop: "30px" }}
+              disabled = {disName}
+              name = "name"
+              onChange = {(e)=>{setName(e.target.value)}}
             />
+          
             <div className="change-infor">
               <p className={classes.textChange}>
                 <i>Thay đổi</i>
@@ -81,6 +97,9 @@ function InforCustomer() {
               label="Email"
               className={classes.textField}
               margin="normal"
+              disabled = {disEmail}
+              name = "email" onChange = {(e)=>{setEmail(e.target.value)}}
+
             />
             <div className="change-infor">
               <p className={classes.textChange}>
@@ -94,6 +113,9 @@ function InforCustomer() {
               label="Số điện thoại"
               className={classes.textField}
               margin="normal"
+              disabled = {disPhone}
+              name = "phone"
+              onChange = {(e)=>{setPhone(e.target.value)}}
             />
             <div className="change-infor">
               <p className={classes.textChange}>
@@ -107,6 +129,9 @@ function InforCustomer() {
               label="Địa chỉ"
               className={classes.textField}
               margin="normal"
+              disabled = {disAddress}
+              name = "address"
+              onChange = {(e)=>{setAddres(e.target.value)}}
             />
             <div className="change-infor">
               <p className={classes.textChange}>
@@ -120,6 +145,9 @@ function InforCustomer() {
               label="Địa chỉ nhận hàng"
               className={classes.textField}
               margin="normal"
+              disabled = {disShipAddress}
+              onChange = {(e)=>{setShipAddress(e.target.value)}}
+              name = "shipAddress"
             />
             <div className="change-infor">
               <p className={classes.textChange}>
@@ -148,4 +176,5 @@ function InforCustomer() {
     </div>
   );
 }
+
 export default InforCustomer;

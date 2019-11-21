@@ -15,58 +15,51 @@ function ProductItem(props) {
 
   const renderRow = () => {
     var result = [];
+    var color = Array.from(colorCount);
+    var size = Array.from(sizeCount);
     let item = (
       <TableRow>
         <TableCell rowSpan={countDetail}>Giày nữ> giày cao got</TableCell>
         <TableCell rowSpan={countDetail}>SP A</TableCell>
         <TableCell align="center" rowSpan={sizeCount.size}>
-          Màu Hổng
+          {color[0]}
         </TableCell>
-        <TableCell align="center">39</TableCell>
+    <TableCell align="center">{size[0]}</TableCell>
         <TableCell align="center">100</TableCell>
       </TableRow>
     );
     result.push(item);
     var i = 0;
     for (i = 0; i < colorCount.size; i++) {
-      var j=0;
-      for(j=0; j<sizeCount.size;j++){
-        if(i==0){
-          
-        }
+      var j = 0;
+      if (i != 0) {
+        let item = (
+          <TableRow>
+            <TableCell align="center" rowSpan={2}>
+             {color[i]}
+            </TableCell>
+        <TableCell align="center">{size[0]}</TableCell>
+            <TableCell align="center">50</TableCell>
+          </TableRow>
+        );
+        result.push(item);
       }
-      
+
+      for (j = 1; j < sizeCount.size; j++) {
+        let item = (
+          <TableRow>
+      <TableCell align="center">{size[j]}</TableCell>
+            <TableCell align="center">10</TableCell>
+          </TableRow>
+        );
+        result.push(item);
+      }
     }
+    return result;
   };
   return (
     <>
-      <TableRow>
-        <TableCell rowSpan={countDetail}>Giày nữ> giày cao got</TableCell>
-        <TableCell rowSpan={countDetail}>SP A</TableCell>
-        <TableCell align="center" rowSpan={sizeCount.size}>
-          Màu Hổng
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">100</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">200</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell align="center" rowSpan={2}>
-          Màu đỏ
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">50</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">10</TableCell>
-      </TableRow>
+    {props.product.Detail.length>0 && renderRow()}
     </>
   );
 }

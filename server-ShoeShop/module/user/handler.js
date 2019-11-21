@@ -15,7 +15,7 @@ const findOne = async (filter, returnFields = "") => {
 };
 
 const getUserById = async id => {
-  return await User.findById(id);
+  return await User.findById(mongoose.ObjectId(id));
 };
 
 const create = async data => {
@@ -50,6 +50,44 @@ const addFavoritedProduct = async (userId, productId) => {
   return user;
 };
 
+const addToCard = async (id, cart) => {
+  return await User.update(
+    {
+      _id: mongoose.Types.ObjectId(id)
+    },
+    {
+      $push: {
+        carts: cart
+      }
+    }
+  );
+};
+
+const removeCartItem = async (id, idItem) => {
+  return await User.findOneAndRemove({
+    _id: mongoose.Types.ObjectId(id),
+    "detail._id": mongoose.Types.ObjectId(idItem)
+  });
+};
+
+const removeCart = async id => {
+  return await User.findOneAndUpdate(id, { carts: [] });
+};
+
+const getCarts = async id => {
+  return await User.findById(id).select("carts");
+};
+
+const upDateCartItem = async (id, idItem, quantity) => {
+  return await User.update(
+    {
+      _id: mongoose.Types.ObjectId(id),
+      "carts._id": mongoose.Types.ObjectId(idItem)
+    },
+    { $inc: { "carts.$.quantity": quantity } }
+  );
+};
+
 const updateUser = async (condition, id) =>
   await User.findByIdAndUpdate(id, condition, { new: true });
 
@@ -60,5 +98,10 @@ module.exports = {
   addFavoritedProduct,
   updateUser,
   getUserById,
-  search
+  search,
+  upDateCartItem,
+  getCarts,
+  removeCart,
+  removeCartItem,
+  addToCard
 };

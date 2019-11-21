@@ -13,7 +13,7 @@ const schema = new Schema(
     name: {
       type: String,
       required: true,
-      index:true
+      index: true
     },
     password: {
       type: String,
@@ -49,7 +49,26 @@ const schema = new Schema(
       default: true,
       select: true
     },
-
+    carts: [
+      {
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: "product"
+        },
+        size: {
+          type: Number
+        },
+        color: {
+          type: String
+        },
+        price: {
+          type: Number
+        },
+        quantity: {
+          type: Number
+        }
+      }
+    ],
     favoriteProducts: [{ type: Schema.Types.ObjectId, ref: "product" }],
 
     deleted: {
@@ -59,8 +78,8 @@ const schema = new Schema(
   },
   { timestamps: true }
 );
-const index = { name: 'text'}
-schema.index(index)
+const index = { name: "text" };
+schema.index(index);
 schema.post("find", function(docs) {
   if (docs.length <= 0) return;
   for (let i = 0; i < docs.length; i++) {

@@ -6,7 +6,6 @@ const customers = (state = init, action)=>{
     {
         case Types.GET_CUSTOMERS:
             state = action.customers
-            console.log(state,"1111");
             return state;
         default: 
             return state;

@@ -6,7 +6,6 @@ const user = (state = init, action)=>{
     {
         case Types.GET_USER:
             state = action.user
-            console.log("AAA", state)
             return state;
         default: 
             return state;
