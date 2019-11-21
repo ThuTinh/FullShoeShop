@@ -14,6 +14,32 @@ import "./style.css";
 import { Button, Input } from "@material-ui/core";
 function ProductInfoDetail() {
   const [image, setImage] = useState("");
+  const [data, setData] = useState(new FormData());
+  const [url, setUrl] = useState([]);
+  let fileListAvata;
+  const onChangeImage = e => {
+    const files = Array.from(e.target.files);
+    setUrl([]);
+
+    files.forEach(file => {
+        data.append('images', file, file.name);
+        let reader = new FileReader();
+        reader.onload = () => {
+            const _url = {
+                imagePreviewUrl: reader.result
+            };
+            let __url = url;
+            if (__url.length + 1 < 11) {
+                __url.push(_url);
+                setUrl([...__url]);
+            }
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    setData(data);
+};
   return (
     <div>
       <div>
@@ -79,31 +105,35 @@ function ProductInfoDetail() {
             />
             ;
           </div>
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "20px" }}   onClick={() => fileListAvata.click()}>
             <label>Hình ảnh</label>
             <div>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
+           
+              {url&&url.map((item,index)=> <img src={item.imagePreviewUrl} key={index} className="imgProduct"/>)}
             </div>
           </div>
-          <input
+          {/* <input
             type="file"
+            style={{height:'0px'}}
             onChange={e => {
               setImage(e.target.files[0]);
             }}
-          />
+          /> */}
+
+          <input
+            multiple
+            ref={e => (fileListAvata = e)}
+            type="file"
+            className="d-none"
+            onChange={onChangeImage}
+        />
           <button
             className="outline-button"
             onClick={() => {
-              console.log("llll", image);
-              const data = new FormData();
-              data.append("image", image);
+           
               axios
                 .post(
-                  "http://localhost:1337/api/v1/uploads/images/single",
+                  "http://localhost:1337/api/v1/uploads/images/multiple",
                   data,
                   {
                     // receive two    parameter endpoint url ,form data
