@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -8,12 +8,63 @@ import ProductItem from "./productItem";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { connect } from "react-redux";
 import { atcGetProductsRequest } from "../../../../actions";
-import addImg from "../../../../assets/image/upload.png";
 import axios from "axios";
+import { EditorState, convertToRaw,ContentState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
 import "./style.css";
-import { Button, Input } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import htmlToDraft from "html-to-draftjs";
+import draftToHtml from 'draftjs-to-html';
+
 function ProductInfoDetail() {
-  const [image, setImage] = useState("");
+  const [data, setData] = useState(new FormData());
+  const [url, setUrl] = useState([]);
+  const [discription, setDiscription] = useState(EditorState.createEmpty());
+  const [discHtml, setDiscHtml] = useState("");
+  const [vd, setVd] = useState(EditorState.createEmpty());
+  let fileListAvata;
+  const onChangeImage = e => {
+    const files = Array.from(e.target.files);
+    setUrl([]);
+
+    files.forEach(file => {
+      data.append("images", file, file.name);
+      let reader = new FileReader();
+      reader.onload = () => {
+        const _url = {
+          imagePreviewUrl: reader.result
+        };
+        let __url = url;
+        if (__url.length + 1 < 11) {
+          __url.push(_url);
+          setUrl([...__url]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    setData(data);
+  };
+  // useEffect(()=>{
+  //   console.log("data", data);
+  //   console.log("url", url);
+  // },[data,url])
+
+  const onEditorStateChange=(editorState)=>{
+
+    setDiscription(editorState);
+   let valueHTml= draftToHtml(convertToRaw(editorState.getCurrentContent()))
+
+   setDiscHtml(valueHTml);
+   //chuyển 
+   const blocksFromHtml = htmlToDraft(discHtml);
+   const { contentBlocks, entityMap } = blocksFromHtml;
+   const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+   const editorState1 = EditorState.createWithContent(contentState);
+   setVd(editorState1)
+  }
+
   return (
     <div>
       <div>
@@ -63,47 +114,68 @@ function ProductInfoDetail() {
             <div style={{ width: "100px" }}>Giá bán ra:</div>
             <input type="number" />
           </div>
-          <div style={{display:'flex'}}>
-            <div  style={{ width: "100px" }}>Sale</div>
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "100px" }}>Sale</div>
             <div>
               <input type="number" placeholder="sale.."></input>
             </div>
           </div>
           <div>
             <label>Mô tả:</label>
-            <TextareaAutosize
+            {/* <TextareaAutosize
               aria-label="minimum height"
               rows={15}
               placeholder="viết mô tả..."
               style={{ width: "100%" }}
+            /> */}
+            <Editor
+              editorState={discription}
+              wrapperClassName="demo-wrapper"
+              editorClassName="demo-editor"
+              onEditorStateChange={onEditorStateChange}
             />
-            ;
+          
+            
+              
+        
           </div>
-          <div style={{ marginBottom: "20px" }}>
+          <div
+            style={{ marginBottom: "20px" }}
+            onClick={() => fileListAvata.click()}
+          >
             <label>Hình ảnh</label>
             <div>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
-              <img src={addImg} className="imgProduct"></img>
+              {url &&
+                url.map((item, index) => (
+                  <img
+                    src={item.imagePreviewUrl}
+                    key={index}
+                    className="imgProduct"
+                  />
+                ))}
             </div>
           </div>
-          <input
+          {/* <input
             type="file"
+            style={{height:'0px'}}
             onChange={e => {
               setImage(e.target.files[0]);
             }}
+          /> */}
+
+          <input
+            multiple
+            ref={e => (fileListAvata = e)}
+            type="file"
+            className="d-none"
+            onChange={onChangeImage}
           />
           <button
             className="outline-button"
             onClick={() => {
-              console.log("llll", image);
-              const data = new FormData();
-              data.append("image", image);
               axios
                 .post(
-                  "http://localhost:1337/api/v1/uploads/images/single",
+                  "http://localhost:1337/api/v1/uploads/images/multiple",
                   data,
                   {
                     // receive two    parameter endpoint url ,form data

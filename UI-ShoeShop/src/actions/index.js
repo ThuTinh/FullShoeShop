@@ -76,6 +76,8 @@ export const atcDeleteCustomerRequest = id => {
   };
 };
 
+
+
 export const actCustomer = customers => {
   return {
     type: Types.GET_CUSTOMERS,
@@ -421,21 +423,21 @@ export const atcGetUserByIdRequest = id => {
   };
 };
 
-export const atcGetCurentUserRequest = () => {
+export const atcGetCurentUserRequest = (token) => {
   return dispatch => {
-    return callApi("users/current", "GET")
+    return callApi("users/current-user", "POST", `{"token": "${token}"}`)
       .then(res => {
         res.data.status == 1
-          ? dispatch(atcGetUserById(res.data.payload))
-          : dispatch(atcGetUserById({}));
+          ? dispatch(atcGetCurrentUser(res.data.payload))
+          : dispatch(atcGetCurrentUser({}));
       })
       .catch(err => console.log("err:", err));
   };
 };
 
-export const atcUpdateUserRequest = user => {
+export const atcUpdateUserRequest =( id, user) => {
   return dispatch => {
-    return callApi("users", "PUT", user)
+    return callApi(`users/${id}`, "PUT", user)
       .then(res => {
         console.log("update user", res);
       })
@@ -456,3 +458,10 @@ export const atcGetUserById = user => {
     user: user
   };
 };
+export const atcGetCurrentUser = infoUser => {
+  return {
+    type: Types.GET_CURRENT_USER,
+    infoUser: infoUser
+  };
+};
+

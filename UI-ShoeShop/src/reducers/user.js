@@ -1,4 +1,5 @@
 import  * as Types from '../constants/actionType' 
+import { stat } from 'fs';
 var init = {}
 
 const user = (state = init, action)=>{
@@ -7,6 +8,8 @@ const user = (state = init, action)=>{
         case Types.GET_USER:
             state = action.user
             return state;
+        case Types.GET_CURRENT_USER:
+            state = action.infoUser
         default: 
             return state;
 

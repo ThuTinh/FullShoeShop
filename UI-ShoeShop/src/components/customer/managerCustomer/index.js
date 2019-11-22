@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React,{useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,7 +12,7 @@ import OrderList from "../orderManager/orderList";
 import ProductFavorite from "../productFavorite";
 import avatar from "../../../assets/image/avatar.JPG";
 import { atcGetCurentUserRequest } from "../../../actions";
-import {connect} from "react-redux"
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -57,7 +57,6 @@ const useStyles = makeStyles(theme => ({
   imgInfor: {
     width: "80px",
     height: "80px",
-    borderRadius: "40px",
     marginBottom: "10px",
     marginTop: "10%"
   },
@@ -79,43 +78,79 @@ const useStyles = makeStyles(theme => ({
 function ManagerCustomer(props) {
   const classes = useStyles();
   useEffect(() => {
-    props.getCurrentUser();
+    let token = localStorage.getItem("token");
+    console.log(token);
+    props.getCurrentUser(token);
   }, []);
+
+
+  const [avatar, setAvater] = useState(
+    "http://localhost:1337/images/temp/upload-1574355179631.png"
+  );
+
+  const [currentUser, SetCurrentUser] = useState(props.currentUser);
+
+  useEffect(() => {
+    SetCurrentUser(props.currentUser);
+    console.log("1",props.currentUser);
+  }, [props.currentUser]);
 
   return (
     <div className={classes.container}>
       <div className={classes.navbar}>
         <div className={classes.info}>
-          <img src={avatar} className={classes.imgInfor} alt="image"></img>
+          <div className={classes.imgInfor}>
+            <img
+              src={avatar}
+              style={{ width: "100%", height: "100%", borderRadius: "40px" }}
+              alt="image"
+            />
+          </div>
           <p>Nguyễn Ngọc Như Hoa</p>
         </div>
         <div className={clsx(classes.acount, "action-hover")}>
           <AccountCircleIcon className={classes.icon}></AccountCircleIcon>
-          <Link to="/info/infoDetail" className={classes.link}>
+          <Link
+            to={{
+              pathname: "/my-acount/profile",
+         
+            }}
+            className={classes.link}
+          >
             Tài khoản của tôi
           </Link>
         </div>
         <div className={clsx("action-hover", classes.myOrder)}>
           <DescriptionIcon className={classes.icon}></DescriptionIcon>
-          <Link to="/info/myOrder" className={classes.link}>
-            {" "}
+          <Link
+            to={{
+              pathname: "/my-acount/orders",
+     
+            }}
+            className={classes.link}
+          >
             Đơn mua
           </Link>
         </div>
         <div className={clsx("action-hover", classes.myFavorite)}>
           <FavoriteIcon className={classes.icon}></FavoriteIcon>
-          <Link to="/info/productFavorite" className={classes.link}>
-            {" "}
+          <Link
+            to={{
+              pathname: "/my-acount/products-favorite",
+          
+            }}
+            className={classes.link}
+          >
             Sản phẩm yêu thích
           </Link>
         </div>
       </div>
       <div className={classes.inforCustomer}>
         <Switch>
-          <Route path="/info/infoDetail" component={InforCustomer}></Route>
-          <Route path="/info/myOrder" component={OrderList}></Route>
+          <Route path="/my-acount/profile" component={InforCustomer}></Route>
+          <Route path="/my-acount/orders" component={OrderList}></Route>
           <Route
-            path="/info/productFavorite"
+            path="/my-acount/products-favorite"
             component={ProductFavorite}
           ></Route>
           <Route path="**" component={InforCustomer}></Route>
@@ -131,8 +166,8 @@ const stateMapToProps = (state, props) => {
 };
 const dispatchMapToProps = (dispatch, props) => {
   return {
-    getCurrentUser: () => {
-      dispatch(atcGetCurentUserRequest());
+    getCurrentUser: token => {
+      dispatch(atcGetCurentUserRequest(token));
     }
   };
 };

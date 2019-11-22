@@ -36,6 +36,9 @@ const removeProductItem = async (id, productItem) => {
   );
 };
 
+const getOrderOfUser = async id => {
+  return await Order.find({ userId: mongoose.Types.ObjectId(id) });
+};
 const create = async body => {
   const order = new Order(body);
   return order.save();

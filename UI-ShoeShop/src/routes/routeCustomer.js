@@ -26,7 +26,7 @@ function CustomerRoute(props) {
         />
         {/* <Route path="/product/:id"  component={ProductDetailPage} /> */}
 
-        <Route path="/info" component={ProfilePage} />
+        <Route path="/my-acount" component={ProfilePage} />
         <Route path="/introduce" component={IntroducePage} />
         <Route path="/" component={CustomHomePage} exact={true} />
         <Route path="**" component={CustomHomePage} exact={true} />

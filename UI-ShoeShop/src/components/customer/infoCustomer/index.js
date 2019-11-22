@@ -1,15 +1,16 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import avatar from "../../../assets/image/avatar.JPG";
 import { connect } from "react-redux";
+import { atcGetCurentUserRequest } from "../../../actions";
+import axios from "axios";
+
 const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 350,
-    marginBottom: "-10px"
   },
   containerTextField: {
     display: "flex",
@@ -40,19 +41,67 @@ const useStyles = makeStyles(theme => ({
 }));
 function InforCustomer(props) {
   const classes = useStyles();
-  const [user, setUser] = useState(props.user)
-  const [disName, setdisName]=useState(true)
-  const [disEmail, setdisEmail]=useState(true)
-  const [disPhone, setdisPhone]=useState(true)
-  const [disAddress, setdisAddres]=useState(true)
-  const [disShipAddress, setdisShipAddress]=useState(true)
-  const [name, setName]=useState("")
-  const [email, setEmail]=useState("")
-  const [phone, setPhone]=useState("")
-  const [address, setAddres]=useState("")
-  const [shipAddress, setShipAddress]=useState("")
+  const [user, setUser] = useState(props.user);
+  const [disName, setdisName] = useState(true);
+  const [disEmail, setdisEmail] = useState(true);
+  const [disPhone, setdisPhone] = useState(true);
+  const [disAddress, setdisAddress] = useState(true);
+  const [disShipAddress, setdisShipAddress] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [shipAddress, setShipAddress] = useState("");
 
- 
+  const [data, setData] = useState(new FormData());
+  const [url, setUrl] = useState({});
+  let fileListAvata;
+  const onChangeImage = e => {
+    const file = e.target.files[0];
+    setUrl({});
+    data.append("image", file);
+    data.append("id", "5dbede03a5592c2698f1992d");
+
+    let reader = new FileReader();
+    reader.onload = () => {
+      const _url = {
+        imagePreviewUrl: reader.result
+      };
+      setUrl(_url);
+    };
+    reader.readAsDataURL(file);
+    setData(data);
+    console.log("url", url);
+    console.log("data", data);
+  };
+  const updateUser = () => {
+    let user = {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+      shipAddress: shipAddress
+    };
+    props.updateUser(currentUser._id, user);
+  };
+
+  const [currentUser, setCurrentUser] = useState(props.currentUser);
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    props.getCurrentUser(token);
+  }, []);
+
+  useEffect(() => {
+    setCurrentUser(props.currentUser);
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+    setAddress(currentUser.address);
+    setShipAddress(currentUser.shipAddress);
+    setPhone(currentUser.phone)
+
+  }, [props.currentUser]);
+
   return (
     <div
       style={{
@@ -80,13 +129,21 @@ function InforCustomer(props) {
               className={classes.textField}
               margin="normal"
               style={{ marginTop: "30px" }}
-              disabled = {disName}
-              name = "name"
-              onChange = {(e)=>{setName(e.target.value)}}
+              disabled={disName}
+              name="name"
+              value ={name}
+              onChange={e => {
+                setName(e.target.value);
+              }}
             />
-          
+
             <div className="change-infor">
-              <p className={classes.textChange}>
+              <p
+                className={classes.textChange}
+                onClick={() => {
+                  setdisName(false);
+                }}
+              >
                 <i>Thay đổi</i>
               </p>
             </div>
@@ -97,11 +154,19 @@ function InforCustomer(props) {
               label="Email"
               className={classes.textField}
               margin="normal"
-              disabled = {disEmail}
-              name = "email" onChange = {(e)=>{setEmail(e.target.value)}}
-
+              disabled={disEmail}
+              name="email"
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
             />
-            <div className="change-infor">
+            <div
+              className="change-infor"
+              onClick={() => {
+                setdisEmail(false);
+              }}
+            >
               <p className={classes.textChange}>
                 <i>Thay đổi</i>
               </p>
@@ -113,11 +178,19 @@ function InforCustomer(props) {
               label="Số điện thoại"
               className={classes.textField}
               margin="normal"
-              disabled = {disPhone}
-              name = "phone"
-              onChange = {(e)=>{setPhone(e.target.value)}}
+              disabled={disPhone}
+              name="phone"
+              value = {phone}
+              onChange={e => {
+                setPhone(e.target.value);
+              }}
             />
-            <div className="change-infor">
+            <div
+              className="change-infor"
+              onClick={() => {
+                setdisPhone(true);
+              }}
+            >
               <p className={classes.textChange}>
                 <i>Thay đổi</i>
               </p>
@@ -129,11 +202,19 @@ function InforCustomer(props) {
               label="Địa chỉ"
               className={classes.textField}
               margin="normal"
-              disabled = {disAddress}
-              name = "address"
-              onChange = {(e)=>{setAddres(e.target.value)}}
+              disabled={disAddress}
+              name="address"
+              value = {address}
+              onChange={e => {
+                setAddress(e.target.value);
+              }}
             />
-            <div className="change-infor">
+            <div
+              className="change-infor"
+              onClick={() => {
+                setdisAddress(false);
+              }}
+            >
               <p className={classes.textChange}>
                 <i>Thay đổi</i>
               </p>
@@ -145,17 +226,28 @@ function InforCustomer(props) {
               label="Địa chỉ nhận hàng"
               className={classes.textField}
               margin="normal"
-              disabled = {disShipAddress}
-              onChange = {(e)=>{setShipAddress(e.target.value)}}
               name = "shipAddress"
+              value={shipAddress}
+              disabled={disShipAddress}
+              onChange={e => {
+                setShipAddress(e.target.value);
+              }}
+              name="shipAddress"
             />
-            <div className="change-infor">
+            <div
+              className="change-infor"
+              onClick={() => {
+                setdisShipAddress(false);
+              }}
+            >
               <p className={classes.textChange}>
                 <i>Thay đổi</i>
               </p>
             </div>
           </div>
-          <button className={classes.butonSave}>Lưu</button>
+          <button className={classes.butonSave} onClick={updateUser}>
+            Lưu
+          </button>
         </div>
         <div
           style={{
@@ -167,14 +259,53 @@ function InforCustomer(props) {
             marginLeft: "30px"
           }}
         >
-          <img className={classes.avatar} src={avatar} alt="avatar" />
-          <div>
-            <button className={classes.butonSave}>CHọn ảnh</button>
+          <div
+            style={{ marginBottom: "20px" }}
+            onClick={() => fileListAvata.click()}
+          >
+            <div>
+              {url && <img src={url.imagePreviewUrl} className="imgProduct" />}
+            </div>
           </div>
+          <input
+            ref={e => (fileListAvata = e)}
+            type="file"
+            className="d-none"
+            onChange={onChangeImage}
+          />
+          <button
+            className="outline-button"
+            onClick={() => {
+              axios
+                .post(
+                  "http://localhost:1337/api/v1/uploads/images/avatar",
+                  data,
+                  {
+                    // receive two    parameter endpoint url ,form data
+                  }
+                )
+                .then(res => {
+                  console.log("imageL:", res);
+                });
+            }}
+          >
+            upload
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
-export default InforCustomer;
+const stateMapToProps = (state, props) => {
+  return {
+    currentUser: state.user
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getCurrentUser: token => {
+      dispatch(atcGetCurentUserRequest(token));
+    }
+  };
+};
+export default connect(stateMapToProps, dispatchMapToProps)(InforCustomer);

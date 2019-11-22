@@ -91,6 +91,12 @@ const upDateCartItem = async (id, idItem, quantity) => {
 const updateUser = async (condition, id) =>
   await User.findByIdAndUpdate(id, condition, { new: true });
 
+const getFavoriteProducts = async id => {
+  return await User.findById(id)
+    .select("favoriteProducts")
+    .populate("favoriteProducts");
+};
+
 module.exports = {
   create,
   update,
@@ -103,5 +109,6 @@ module.exports = {
   getCarts,
   removeCart,
   removeCartItem,
-  addToCard
+  addToCard,
+  getFavoriteProducts
 };

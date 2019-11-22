@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 const store = createStore(reducerController, applyMiddleware(thunk));
 const history = createBrowserHistory();
 ReactDOM.render(

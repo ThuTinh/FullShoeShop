@@ -5,6 +5,7 @@ export const ORDER = "ORDER"
 export const GET_CUSTOMERS = "GET_CUSTOMERS"
 export const GET_USER = "GET_USER"
 export const CHANGE_ROLE = "CHANGE_ROLE"
+export const GET_CURRENT_USER="GET_CURRENT_USER"
 
 export const GET_CATEGORYS = "GET_CATEGORYS"
 export const CREATE_CATEGORY = "CREATE_CATEGORY"

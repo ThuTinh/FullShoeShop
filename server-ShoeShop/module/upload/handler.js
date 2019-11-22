@@ -2,6 +2,8 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const User= require('../user/model')
+const mongoose = require("mongoose");
+
 const {ogPath, path200, serverPath} = require('../common/constant')
 const compressAndResize = async (imageUrl,size = 200) => {
   for(let i = 0; i < imageUrl.length; i++) {
@@ -28,7 +30,7 @@ const removeFile = (path) => {
 }
 
 const updateAvatar = async (id,avatar)=>{
-  const user = await User.findById(id)
+  const user = await User.findById(mongoose.Types.ObjectId(id))
   if(!user){
     throw new Error('Not found User')
   }

@@ -13,10 +13,13 @@ const {
   removeCartItem,
   addToCard
 } = require("./handler");
+const { secret } = require("../config").tokenConfig;
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
 const refFields = ["favoriteProducts"];
 const { encrypt, match } = require("../crypto");
+const jwt = require("jsonwebtoken");
+
 const logger = require("../logger");
 
 router.get("/search", async (req, res, next) => {
@@ -171,9 +174,17 @@ router.get("/", async (req, res, next) => {
 //   }
 // });
 
-router.get("current", async (req, res, next) => {
-  const user = await getUserById("5dbedb5ba5592c2698f1992a");
-  res.status(200).json(makeResponse(user));
+router.post("/current-user", async (req, res, next) => {
+  try {
+    if (!req.body) throw new Error("miss body token!");
+    let user = jwt.verify(req.body.token, secret);
+    let email = user.email;
+    let currentUser = await findOne({email: email})
+    res.status(200).json(makeResponse(currentUser));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
+  }
 });
 // /**
 //  * @swagger
@@ -251,6 +262,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+
 // /**
 //  * @swagger
 //  * /api/v1/users/:
@@ -273,7 +285,7 @@ router.post("/", async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.put("/", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const validateBody = body => {
       const validFields = ["name", "phone", "address"];
@@ -291,11 +303,11 @@ router.put("/", async (req, res, next) => {
     validateBody(req.body);
     //If user change theirs phone number, force them verify phone number again
     if (req.body.phone) {
-      const user = await model.findById(req.id).lean();
+      const user = await model.findById(req.params.id).lean();
       // eslint-disable-next-line require-atomic-updates
       if (user.phone !== req.body.phone) req.body.isPhoneVerified = false;
     }
-    const updatedUser = await update(req.id, req.body);
+    const updatedUser = await update(req.params.id, req.body);
     res.json(makeResponse(updatedUser));
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error);
@@ -379,6 +391,7 @@ router.delete("/", async (req, res, next) => {
     res.status(200).json(handleError(error));
   }
 });
+
 
 // /**
 //  * @swagger
