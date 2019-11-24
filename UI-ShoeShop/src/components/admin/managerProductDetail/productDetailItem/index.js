@@ -36,9 +36,19 @@ function ProducDetailtItem(props) {
       <StyledTableCell align="center">
         {props.product.inventory}
       </StyledTableCell>
+      <StyledTableCell align="center">
+        {props.product.amountSold}
+      </StyledTableCell>
       <StyledTableCell align="center" className={classes.detail}>
         {" "}
-        <Link to="/admin/productInforDetail">Chi tiết</Link>
+        <Link
+          to={{
+            pathname: `/admin/product-detail/${props.product._id}`
+          }}
+        >
+          {" "}
+          Chi tiết
+        </Link>
       </StyledTableCell>
       <StyledTableCell align="center">
         {props.product.status ? "Đang hoạt động" : "Ngừng kinh doanh"}

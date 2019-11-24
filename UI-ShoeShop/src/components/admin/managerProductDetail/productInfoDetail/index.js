@@ -5,30 +5,38 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import ProductItem from "./productItem";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { connect } from "react-redux";
-import { atcGetProductsRequest } from "../../../../actions";
+import { atcGetProductRequest } from "../../../../actions";
 import axios from "axios";
-import { EditorState, convertToRaw,ContentState } from "draft-js";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "./style.css";
 import { Button } from "@material-ui/core";
 import htmlToDraft from "html-to-draftjs";
-import draftToHtml from 'draftjs-to-html';
+import draftToHtml from "draftjs-to-html";
+import callApi from "../../../../utils/apiCaller";
 
-function ProductInfoDetail() {
+function ProductInfoDetail(props) {
   const [data, setData] = useState(new FormData());
   const [url, setUrl] = useState([]);
   const [discription, setDiscription] = useState(EditorState.createEmpty());
   const [discHtml, setDiscHtml] = useState("");
   const [vd, setVd] = useState(EditorState.createEmpty());
+
+  // product detail info
+  const [showName, setShowName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [sale, setSale] = useState(0);
+  const [imageName, setImageName] = useState([]);
+  const [isUpdate, SetIsUpdate] = useState(false)
   let fileListAvata;
   const onChangeImage = e => {
     const files = Array.from(e.target.files);
     setUrl([]);
-
+    let arrImg = [];
     files.forEach(file => {
       data.append("images", file, file.name);
+      arrImg.push(file.name);
       let reader = new FileReader();
       reader.onload = () => {
         const _url = {
@@ -43,7 +51,7 @@ function ProductInfoDetail() {
 
       reader.readAsDataURL(file);
     });
-
+    setImageName([...arrImg]);
     setData(data);
   };
   // useEffect(()=>{
@@ -51,20 +59,62 @@ function ProductInfoDetail() {
   //   console.log("url", url);
   // },[data,url])
 
-  const onEditorStateChange=(editorState)=>{
-
+  const onEditorStateChange = editorState => {
     setDiscription(editorState);
-   let valueHTml= draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    let valueHTml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    setDiscHtml(valueHTml);
+    //chuyển
+    const blocksFromHtml = htmlToDraft(discHtml);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(
+      contentBlocks,
+      entityMap
+    );
+    const editorState1 = EditorState.createWithContent(contentState);
+    setVd(editorState1);
+  };
 
-   setDiscHtml(valueHTml);
-   //chuyển 
-   const blocksFromHtml = htmlToDraft(discHtml);
-   const { contentBlocks, entityMap } = blocksFromHtml;
-   const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-   const editorState1 = EditorState.createWithContent(contentState);
-   setVd(editorState1)
-  }
+  const save = async () => {
+    let product = {
+      nameShow: showName,
+      price: price,
+      description: discHtml,
+      sale: sale,
+      images: imageName
+    };
 
+    let reponse = await callApi(
+      `products/${props.match.params.id}`,
+      "PUT",
+      product
+    );
+    console.log("reponse", reponse);
+  };
+
+  useEffect(() => {
+    console.log("id ne", props.match.params.id);
+    props.getProduct(props.match.params.id);
+  }, []);
+
+  useEffect(() => {
+    let product = props.product;
+    console.log("product,", product);
+    setShowName(product.nameShow);
+    setPrice(product.price);
+    setSale(product.sale);
+    setImageName(product.images);
+
+    // html to editorState
+
+    const blocksFromHtml = htmlToDraft("" + product.description);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(
+      contentBlocks,
+      entityMap
+    );
+    const editorState = EditorState.createWithContent(contentState);
+    setDiscription(editorState);
+  }, [props.product]);
   return (
     <div>
       <div>
@@ -81,6 +131,7 @@ function ProductInfoDetail() {
               variant="contained"
               color="primary"
               style={{ backgroundColor: "#512c62" }}
+              onClick={save}
             >
               Lưu
             </Button>
@@ -105,19 +156,35 @@ function ProductInfoDetail() {
         variant="filled"
       /> */}
             <div>
-              <input placeholder="Tên hiển thị" />
+              <input
+                placeholder="Tên hiển thị"
+                name="showName"
+                value={showName}
+                onChange={e => setShowName(e.target.value)}
+              />
             </div>
           </div>
           <div
             style={{ marginTop: "20px", marginBottom: "20px", display: "flex" }}
           >
             <div style={{ width: "100px" }}>Giá bán ra:</div>
-            <input type="number" />
+            <input
+              type="number"
+              name="price"
+              value={price}
+              onChange={e => setPrice(e.target.value)}
+            />
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ width: "100px" }}>Sale</div>
             <div>
-              <input type="number" placeholder="sale.."></input>
+              <input
+                type="number"
+                placeholder="sale.."
+                name="sale"
+                value={sale}
+                onChange={e => setSale(e.target.value)}
+              />
             </div>
           </div>
           <div>
@@ -134,10 +201,6 @@ function ProductInfoDetail() {
               editorClassName="demo-editor"
               onEditorStateChange={onEditorStateChange}
             />
-          
-            
-              
-        
           </div>
           <div
             style={{ marginBottom: "20px" }}
@@ -153,6 +216,7 @@ function ProductInfoDetail() {
                     className="imgProduct"
                   />
                 ))}
+                
             </div>
           </div>
           {/* <input
@@ -237,13 +301,14 @@ function ProductInfoDetail() {
 }
 const stateMapToProps = (state, props) => {
   return {
-    products: state.products
+    product: state.product
   };
 };
 const dispatchMapToProps = (dispatch, props) => {
   return {
-    getProducts: () => {
-      dispatch(atcGetProductsRequest());
+  
+    getProduct: id => {
+      dispatch(atcGetProductRequest(id));
     }
   };
 };

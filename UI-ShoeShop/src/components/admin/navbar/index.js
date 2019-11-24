@@ -224,7 +224,7 @@ function AdminHome(props) {
             <ListItemIcon>
               <DetailsIcon style={{ color: "#d9a128" }}></DetailsIcon>
             </ListItemIcon>
-            <Link to="/admin/managerProductInfoDetail" className={classes.link}>
+            <Link to="/admin/product-detail" className={classes.link}>
               {" "}
               <ListItemText primary="QL chi tiết sản phẩm" />
             </Link>
@@ -329,13 +329,14 @@ function AdminHome(props) {
               component={OrderImport}
             ></Route>
             <Route
-              path="/admin/managerProductInfoDetail"
-              component={ManagerProductDetail}
-            ></Route>
-            <Route
-              path="/admin/productInforDetail"
+              path="/admin/product-detail/:id"
               component={ProductInfoDetail}
             ></Route>
+            <Route
+              path="/admin/product-detail"
+              component={ManagerProductDetail}
+            ></Route>
+
             <Route path="/admin/report" component={Report}></Route>
 
             <Route path="**" component={OrderManager} />

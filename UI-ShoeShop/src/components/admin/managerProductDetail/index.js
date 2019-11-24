@@ -96,10 +96,11 @@ function ManagerProductDetail(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Mã sản phẩm</StyledTableCell>
+            <StyledTableCell>STT</StyledTableCell>
             <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
             <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
             <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
+            <StyledTableCell align="center">Số lượng bán ra</StyledTableCell>
             <StyledTableCell align="center">Chi tiết</StyledTableCell>
             <StyledTableCell align="center">Trạng Thái</StyledTableCell>
           </TableRow>

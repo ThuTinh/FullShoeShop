@@ -36,7 +36,8 @@ const schema = new Schema(
 
     inventory: {
       type: Number,
-      trim: true
+      trim: true,
+      default: 0,
     },
     nameShow: {
       type: String,
