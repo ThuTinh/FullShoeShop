@@ -26,18 +26,29 @@ const useStyles = makeStyles(theme => ({
 
 function ProducDetailtItem(props) {
   const classes = useStyles();
+  let inventory = 0;
+  let amountSold =0;
+  if(props.product.detail &&props.product.detail.length>0){
+    props.product.detail.map((item, index)=>{
+      inventory += parseInt(item.inventory);
+      amountSold += parseInt(item.amountSold);
+    })
+  }
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
         {props.index + 1}
       </StyledTableCell>
       <StyledTableCell align="center">{props.product.name}</StyledTableCell>
-      <StyledTableCell align="center"> Giày nữ > Giày cao got</StyledTableCell>
       <StyledTableCell align="center">
-        {props.product.inventory}
+        {" "}
+        {props.product.categories.parent.name} > {props.product.categories.name}
       </StyledTableCell>
       <StyledTableCell align="center">
-        {props.product.amountSold}
+        {inventory}
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        {amountSold}
       </StyledTableCell>
       <StyledTableCell align="center" className={classes.detail}>
         {" "}

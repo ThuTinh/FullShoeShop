@@ -68,7 +68,7 @@ function DetailSuplier(props) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
-  const [productId, setProductId] = useState("");
+  const [maSanPham, setMaSanPham] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -113,7 +113,7 @@ function DetailSuplier(props) {
     return result;
   };
   const createProduct = () => {
-    props.createProduct(props.suplier._id, productId);
+    props.createProduct(props.suplier._id, maSanPham);
     handleClose();
   };
   useEffect(() => {
@@ -206,8 +206,8 @@ function DetailSuplier(props) {
                 <label className={classes.label}>Tên sản phẩm</label>
                 <select
                   className={classes.input}
-                  value={productId}
-                  onChange={e => setProductId(e.target.value)}
+                  value={maSanPham}
+                  onChange={e => setMaSanPham(e.target.value)}
                 >
                   {renderOption()}
                 </select>

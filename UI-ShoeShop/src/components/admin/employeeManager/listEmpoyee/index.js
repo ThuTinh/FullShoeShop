@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
 import EmployeeItem from "../employeeItem";
 import {
-  actGetCustomerRequest,
+  actGetEmployeeRequest,
   atcSearchUserRequets
 } from "../../../../actions";
 import SearchBar from "material-ui-search-bar";
@@ -40,7 +40,7 @@ function ListEmployee(props) {
 
   const employees = props.employees;
   const search = () => {
-    props.search(filter);
+    props.search(filter, "employee");
   };
 
   const clearSearch = () => {
@@ -50,6 +50,22 @@ function ListEmployee(props) {
   useEffect(() => {
     props.getCustomers();
   }, []);
+  const rendeEmployeeItem = employees => {
+    var result = "";
+
+    if (employees && employees.length > 0) {
+      result = employees.map((employee, index) => {
+        return (
+          <EmployeeItem
+            key={index}
+            employee={employee}
+            role={props.role}
+          ></EmployeeItem>
+        );
+      });
+    }
+    return result;
+  };
   return (
     <>
       <div
@@ -97,16 +113,6 @@ function ListEmployee(props) {
   );
 }
 
-const rendeEmployeeItem = employees => {
-  var result = "";
-
-  if (employees && employees.length > 0) {
-    result = employees.map((employee, index) => {
-      return <EmployeeItem key={index} employee={employee}></EmployeeItem>;
-    });
-  }
-  return result;
-};
 const stateMapToProps = state => {
   return {
     employees: state.customers
@@ -116,10 +122,10 @@ const stateMapToProps = state => {
 const dispatchMapToProps = (dispatch, state) => {
   return {
     getCustomers: () => {
-      dispatch(actGetCustomerRequest());
+      dispatch(actGetEmployeeRequest());
     },
-    search: filter => {
-      dispatch(atcSearchUserRequets(filter));
+    search: (filter, kind) => {
+      dispatch(atcSearchUserRequets(filter, kind));
     }
   };
 };

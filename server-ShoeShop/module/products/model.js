@@ -76,7 +76,7 @@ const schema = new Schema(
       }
     ],
 
-    Detail: [
+    detail: [
       {
         size: {
           type: String,
@@ -132,6 +132,8 @@ const schema = new Schema(
     timestamps: true
   }
 );
+const index = { name: "text" };
+schema.index(index);
 schema.pre("find", function() {
   this.where({ deleted: false });
 });

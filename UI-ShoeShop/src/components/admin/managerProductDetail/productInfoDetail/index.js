@@ -11,9 +11,9 @@ import axios from "axios";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "./style.css";
-import { Button } from "@material-ui/core";
 import htmlToDraft from "html-to-draftjs";
 import draftToHtml from "draftjs-to-html";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import callApi from "../../../../utils/apiCaller";
 
 function ProductInfoDetail(props) {
@@ -26,17 +26,21 @@ function ProductInfoDetail(props) {
   // product detail info
   const [showName, setShowName] = useState("");
   const [price, setPrice] = useState(0);
+  const [prices, setPrices] = useState([]);
   const [sale, setSale] = useState(0);
   const [imageName, setImageName] = useState([]);
-  const [isUpdate, SetIsUpdate] = useState(false)
+  const [isSave, setIsSave] = useState(false);
+  const [sumInventory, setSumInventory] = useState(0);
+  const [imgNameOld, setImgNameOld] = useState(0);
+  const [checkUpdatePrice, setCheckUpdatePrice] = useState(false);
+  const [disable, setDisable] = useState(true);
+
   let fileListAvata;
   const onChangeImage = e => {
     const files = Array.from(e.target.files);
     setUrl([]);
-    let arrImg = [];
     files.forEach(file => {
       data.append("images", file, file.name);
-      arrImg.push(file.name);
       let reader = new FileReader();
       reader.onload = () => {
         const _url = {
@@ -51,14 +55,23 @@ function ProductInfoDetail(props) {
 
       reader.readAsDataURL(file);
     });
-    setImageName([...arrImg]);
     setData(data);
   };
-  // useEffect(()=>{
-  //   console.log("data", data);
-  //   console.log("url", url);
-  // },[data,url])
 
+  const receivePrice = data => {
+    setPrices(data);
+    console.log("w", prices);
+    setCheckUpdatePrice(true);
+  };
+  const removeImage = index => {
+    let arr = url;
+    let arrImgName = imageName;
+    arrImgName.splice(index, 1);
+    console.log("truoc", url.length);
+    arr.splice(index, 1);
+    setUrl([...arr]);
+    console.log("sau", ...url);
+  };
   const onEditorStateChange = editorState => {
     setDiscription(editorState);
     let valueHTml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -75,20 +88,47 @@ function ProductInfoDetail(props) {
   };
 
   const save = async () => {
-    let product = {
+    let imgs = [];
+    if (url.length > 0) {
+      const reponse = await axios.post(
+        "http://localhost:1337/api/v1/uploads/images/multiple",
+        data,
+        {
+          // receive two    parameter endpoint url ,form data
+        }
+      );
+      if (reponse.data.payload && reponse.data.payload.length > 0) {
+        imgs = reponse.data.payload;
+      }
+    }
+    console.log("img ne", imgs);
+
+    const product = {
       nameShow: showName,
       price: price,
       description: discHtml,
       sale: sale,
-      images: imageName
+      images: imgs.concat(imgNameOld)
     };
-
     let reponse = await callApi(
       `products/${props.match.params.id}`,
       "PUT",
       product
     );
-    console.log("reponse", reponse);
+
+    if (checkUpdatePrice) {
+      if (prices.length > 0) {
+        prices.map(async (price, index) => {
+          const res = await callApi(
+            `products/update-price-detail/${props.match.params.id}`,
+            "PUT",
+            `{"id":"${props.product.detail[index]._id}", "price":"${price}"}`
+          );
+          console.log("respapa", res);
+        });
+      }
+    }
+    console.log("reponse save:", reponse);
   };
 
   useEffect(() => {
@@ -98,13 +138,14 @@ function ProductInfoDetail(props) {
 
   useEffect(() => {
     let product = props.product;
-    console.log("product,", product);
+    console.log("product 1234", product);
     setShowName(product.nameShow);
     setPrice(product.price);
     setSale(product.sale);
-    setImageName(product.images);
+    setImgNameOld([...product.images]);
 
     // html to editorState
+    setDiscHtml(product.description);
 
     const blocksFromHtml = htmlToDraft("" + product.description);
     const { contentBlocks, entityMap } = blocksFromHtml;
@@ -114,127 +155,182 @@ function ProductInfoDetail(props) {
     );
     const editorState = EditorState.createWithContent(contentState);
     setDiscription(editorState);
+
+    if (product.detail && product.detail.length > 0) {
+      let sum = 0;
+      let arrPrices = [];
+      product.detail.map((detail, index) => {
+        sum += parseInt(detail.inventory);
+        // const item = {
+        //   id: product._id,
+        //   price: detail.price
+        // };
+        arrPrices.push(detail.price);
+      });
+      setSumInventory(sum);
+      setPrices(arrPrices);
+    }
   }, [props.product]);
+
+  const renderProductItem = () => {
+    return (
+      <ProductItem
+        product={props.product}
+        recive={receivePrice}
+        prices={prices}
+        disable={disable}
+      />
+    );
+  };
+
+  const renderImage = () => {
+    var result = [];
+    console.log("123dfg");
+    if (url.length > 0) {
+      result = url.map((item, index) => {
+        console.log("name", item);
+        return (
+          <div style={{ position: "relative" }} key={item + new Date()}>
+            <img
+              src={item.imagePreviewUrl}
+              key={index}
+              className="imgProduct"
+            />
+            <HighlightOffIcon
+              style={{ position: "absolute", top: 0, right: 0 }}
+              onClick={() => removeImage(index)}
+            />
+          </div>
+        );
+      });
+    }
+    return result;
+  };
+  const renderImageOld = () => {
+    console.log("kkkk", props.product);
+    var result = [];
+    let tempUrl = "http://localhost:1337/images/temp/";
+    if (imgNameOld.length > 0) {
+      result = imgNameOld.map((item, index) => {
+        console.log("name ne", item);
+        return (
+          <div style={{ position: "relative" }}>
+            <img
+              src={tempUrl + item}
+              key={new Date() + item}
+              className="imgProduct"
+            />
+            <HighlightOffIcon
+              style={{ position: "absolute", top: 0, right: 0 }}
+              key={new Date() + item}
+              onClick={() => removeImageOld(item, index)}
+            />
+          </div>
+        );
+      });
+    }
+    return result;
+  };
+
+  const removeImageOld = async (name, index) => {
+    let arr = imgNameOld;
+    arr.splice(index, 1);
+    setImgNameOld([...arr]);
+    let reponse = await callApi(
+      `products/image/${props.product._id}`,
+      "DELETE",
+      `{"name": "${name}"}`
+    );
+  };
   return (
     <div>
       <div>
         <div style={{ marginBottom: "50px" }}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ backgroundColor: "#512c62", marginRight: "10px" }}
-            >
-              Sửa
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ backgroundColor: "#512c62" }}
-              onClick={save}
-            >
+            <button className="outline-button" onClick = {()=> setDisable(false)}>Sửa</button>
+            <button className="outline-button" onClick={save}>
               Lưu
-            </Button>
+            </button>
           </div>
           <h6>PHẦN MÔ TẢ</h6>
-          <div
-            style={{
-              width: "10%",
-              height: "4px",
-              backgroundColor: "#F75F00",
-              marginBottom: "30px"
-            }}
-          ></div>
-          <div style={{ display: "flex" }}>
+
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ width: "100px" }}>Tên Hiển thị : </div>
-            {/* <TextField
-        id="filled-uncontrolled"
-        label="Uncontrolled"
-        defaultValue="foo"
-        className={classes.textField}
-        margin="normal"
-        variant="filled"
-      /> */}
+
             <div>
               <input
                 placeholder="Tên hiển thị"
                 name="showName"
                 value={showName}
+                className="input-name-show"
                 onChange={e => setShowName(e.target.value)}
+                disabled={disable}
               />
             </div>
           </div>
           <div
-            style={{ marginTop: "20px", marginBottom: "20px", display: "flex" }}
+            style={{
+              marginTop: "20px",
+              marginBottom: "20px",
+              display: "flex",
+              alignItems: "center"
+            }}
           >
             <div style={{ width: "100px" }}>Giá bán ra:</div>
             <input
               type="number"
               name="price"
               value={price}
+              className="format-input"
               onChange={e => setPrice(e.target.value)}
+              disabled={disable}
             />
           </div>
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ width: "100px" }}>Sale</div>
             <div>
               <input
                 type="number"
                 placeholder="sale.."
+                className="format-input"
                 name="sale"
                 value={sale}
                 onChange={e => setSale(e.target.value)}
+                disabled={disable}
               />
             </div>
           </div>
-          <div>
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             <label>Mô tả:</label>
-            {/* <TextareaAutosize
-              aria-label="minimum height"
-              rows={15}
-              placeholder="viết mô tả..."
-              style={{ width: "100%" }}
-            /> */}
             <Editor
               editorState={discription}
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
               onEditorStateChange={onEditorStateChange}
+              readOnly = {disable}
             />
           </div>
+          <div style={{ marginBottom: "20px" }}>Hình ảnh hiển thị</div>
+
+          <div style={{ display: "flex" }}>
+            {renderImageOld()}
+            {renderImage()}
+          </div>
           <div
-            style={{ marginBottom: "20px" }}
+            style={{ marginBottom: "20px", marginTop: "20px" }}
             onClick={() => fileListAvata.click()}
           >
-            <label>Hình ảnh</label>
-            <div>
-              {url &&
-                url.map((item, index) => (
-                  <img
-                    src={item.imagePreviewUrl}
-                    key={index}
-                    className="imgProduct"
-                  />
-                ))}
-                
-            </div>
+            <label>Chọn ảnh</label>
           </div>
-          {/* <input
-            type="file"
-            style={{height:'0px'}}
-            onChange={e => {
-              setImage(e.target.files[0]);
-            }}
-          /> */}
-
           <input
             multiple
             ref={e => (fileListAvata = e)}
             type="file"
             className="d-none"
             onChange={onChangeImage}
+            disabled={disable}
           />
-          <button
+          {/* <button
             className="outline-button"
             onClick={() => {
               axios
@@ -251,35 +347,21 @@ function ProductInfoDetail(props) {
             }}
           >
             upload
-          </button>
+          </button> */}
         </div>
         <h6>THÔNG TIN CHI TIẾT SẢN PHẨM</h6>
-        <div
-          style={{
-            width: "10%",
-            height: "4px",
-            backgroundColor: "#F75F00",
-            marginBottom: "30px"
-          }}
-        ></div>
-
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Loại</TableCell>
               <TableCell>Tên sản phẩm</TableCell>
               <TableCell align="center">Màu sắc</TableCell>
               <TableCell align="center">Size</TableCell>
               <TableCell align="center">Giá bán</TableCell>
               <TableCell align="center">Sl tồn kho</TableCell>
-              <TableCell align="center">Sl Nhập về</TableCell>
               <TableCell align="center">Sl bán ra</TableCell>
-              <TableCell align="center">Tình trạng</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <ProductItem></ProductItem>
-          </TableBody>
+          <TableBody>{renderProductItem()}</TableBody>
         </Table>
         <div
           style={{
@@ -292,7 +374,7 @@ function ProductInfoDetail(props) {
         >
           <div>
             {" "}
-            <h5>Tổng tồn kho: 10000</h5>
+            <h5>Tổng tồn kho: {sumInventory}</h5>
           </div>
         </div>
       </div>
@@ -306,7 +388,6 @@ const stateMapToProps = (state, props) => {
 };
 const dispatchMapToProps = (dispatch, props) => {
   return {
-  
     getProduct: id => {
       dispatch(atcGetProductRequest(id));
     }

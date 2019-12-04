@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import OrderList from "../../../customer/orderManager/orderList";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
 import "./style.css";
+import {
+  atcGetUserByIdRequest,
+  atcChangeRoleRequest
+} from "../../../../actions";
 
-function DetailEmployee() {
+function DetailEmployee(props) {
+  const [role, setRole] = useState("");
+  const [user, setUser] = useState(props.user);
+
+  const onChange = e => {
+    setRole(e.target.value);
+  };
+
+  const saveChangeRole = () => {
+    let id = props.match.params.id;
+    props.changeRole(id, role);
+  };
+  useEffect(() => {
+    console.log("id", props.match.params.id);
+    props.getUserById(props.match.params.id);
+  }, []);
+
+  useEffect(() => {
+    //Loi, khong nhan gia tri
+    setUser(props.user);
+    setRole(props.user.role);
+    console.log("role", role);
+    console.log("user", user);
+  }, [props.user]);
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button className="outline-button">Lưu</button>
+        <button className="outline-button" onClick={saveChangeRole}>
+          Lưu
+        </button>
         <button className="outline-button">Sửa</button>
       </div>
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
       </div>
-      <div
-        style={{ width: "10%", height: "4px", backgroundColor: "#F75F00" }}
-      ></div>
       <div
         style={{
           display: "flex",
@@ -27,17 +54,20 @@ function DetailEmployee() {
       >
         <div className="info-customer">
           <label>Tên</label>
-          <h6>Trần Thị Hoa</h6>
+          <h6>{user.name}</h6>
           <label>Địa chỉ</label>
-          <h6>Thôn 3 xã Thị Nghè</h6>
+          <h6>
+            {" "}
+            <h6>{user.address}</h6>
+          </h6>
           <label>Địa chỉ ship</label>
-          <h6>Thủ Đức, TP HCM</h6>
+          <h6>{user.shipAddress}</h6>
         </div>
         <div className="info-customer">
           <label>Email</label>
-          <h6>abc@gmail.com</h6>
+          <h6>{user.email}</h6>
           <label>SDT</label>
-          <h6>098765432</h6>
+          <h6>{user.phone}</h6>
           <label>Tình trạng</label>
           <div>
             <select>
@@ -47,10 +77,15 @@ function DetailEmployee() {
           </div>
           <label>Quyền</label>
           <div>
-            <select>
-              <option>Shipper</option>
-              <option>Saleman</option>
-              <option>customer</option>
+            <select
+              value={role}
+              onChange={onChange}
+              style={{ width: "150px", height: "40px" }}
+            >
+              <option value="customer">Khách hàng</option>
+              <option value="saleman">Nv bán hàng</option>
+              <option value="shipper">Shipper</option>
+              <option value="stocker">Thủ kho</option>
             </select>
           </div>
         </div>
@@ -61,4 +96,20 @@ function DetailEmployee() {
     </div>
   );
 }
-export default DetailEmployee;
+const stateMapToProps = state => {
+  return {
+    user: state.user
+  };
+};
+
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    changeRole: (id, role) => {
+      dispatch(atcChangeRoleRequest(id, role));
+    },
+    getUserById: id => {
+      dispatch(atcGetUserByIdRequest(id));
+    }
+  };
+};
+export default connect(stateMapToProps, dispatchMapToProps)(DetailEmployee);

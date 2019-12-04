@@ -7,9 +7,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import ListEmployee from './listEmpoyee'
-
-
+import ListEmployee from "./listEmpoyee";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,12 +42,11 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: '100%'
+    width: "100%"
   }
 }));
 
-function EmployeeManager() {
-
+function EmployeeManager(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -80,20 +77,19 @@ function EmployeeManager() {
           <Tab label="Shiper" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-        <TabPanel value={value} index={0} dir={theme.direction}>
-         <ListEmployee></ListEmployee>
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-        
-         <ListEmployee></ListEmployee>
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-     
-         <ListEmployee></ListEmployee>
-        
-        </TabPanel>
- 
+      <TabPanel value={value} index={0} dir={theme.direction}>
+        <ListEmployee role="ALL" />
+      </TabPanel>
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <ListEmployee role="saleman" />
+      </TabPanel>
+      <TabPanel value={value} index={2} dir={theme.direction}>
+        <ListEmployee role="stocker" />
+      </TabPanel>
+      <TabPanel value={value} index={3} dir={theme.direction}>
+        <ListEmployee role="shipper" />
+      </TabPanel>
     </div>
   );
 }
-export default  EmployeeManager
+export default EmployeeManager;

@@ -42,25 +42,31 @@ function EmployeeItem(props) {
   const employee = props.employee;
 
   return (
-    <StyledTableRow>
-      <StyledTableCell component="th" scope="row">
-        1122435123{" "}
-      </StyledTableCell>
-      <StyledTableCell align="center">{employee.name}</StyledTableCell>
-      <StyledTableCell align="center">{employee.address}</StyledTableCell>
-      <StyledTableCell align="center">{employee.phone}</StyledTableCell>
-      <StyledTableCell align="center">
-        <Link to="/admin/employeeDetail" className={classes.detail}>
-          {" "}
-          chi tiết
-        </Link>
-      </StyledTableCell>
-      <StyledTableCell align="center">Shiper</StyledTableCell>
-      <StyledTableCell align="center">hoạt động</StyledTableCell>
-      <StyledTableCell align="center">
-        <DeleteIcon className={classes.icon}></DeleteIcon>
-      </StyledTableCell>
-    </StyledTableRow>
+    (props.role == "ALL" || props.role == employee.role) && (
+      <StyledTableRow>
+        <StyledTableCell component="th" scope="row">
+          1122435123{" "}
+        </StyledTableCell>
+        <StyledTableCell align="center">{employee.name}</StyledTableCell>
+        <StyledTableCell align="center">{employee.address}</StyledTableCell>
+        <StyledTableCell align="center">{employee.phone}</StyledTableCell>
+        <StyledTableCell align="center">
+          <Link
+            to={{
+              pathname: `/admin/employees/${employee._id}`
+            }}
+            className={classes.detail}
+          >
+            chi tiết
+          </Link>
+        </StyledTableCell>
+        <StyledTableCell align="center">{employee.role}</StyledTableCell>
+        <StyledTableCell align="center">hoạt động</StyledTableCell>
+        <StyledTableCell align="center">
+          <DeleteIcon className={classes.icon}></DeleteIcon>
+        </StyledTableCell>
+      </StyledTableRow>
+    )
   );
 }
 export default EmployeeItem;

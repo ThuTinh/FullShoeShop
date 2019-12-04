@@ -40,9 +40,7 @@ function DetailCustomer(props) {
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN KHÁCH HÀNG</h6>
       </div>
-      <div
-        style={{ width: "10%", height: "4px", backgroundColor: "#F75F00" }}
-      ></div>
+     
       <div
         style={{
           display: "flex",
@@ -67,7 +65,7 @@ function DetailCustomer(props) {
           <h6>{user.phone}</h6>
           <label>Quyền</label>
           <div>
-            <select value={role} onChange={onChange}>
+            <select value={role} onChange={onChange} style = {{width:'100px', height:'40px'}}>
               <option value="customer">Khách hàng</option>
               <option value="saleman">Nv bán hàng</option>
               <option value="shipper">Shipper</option>

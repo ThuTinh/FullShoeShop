@@ -49,12 +49,22 @@ function ProductItem(props) {
   const getProduct = () => {
     props.getProduct(props.product);
   };
+  console.log("1qaz", props.product);
+  let inventory = 0;
+  if (props.product.detail.length > 0) {
+    props.product.detail.map((detail, index) => {
+      inventory += parseInt(detail.inventory);
+    });
+  }
+
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
         {props.index + 1}
       </StyledTableCell>
-      <StyledTableCell align="center">{props.product.name}</StyledTableCell>
+      <StyledTableCell align="center">
+        {props.product.name ? props.product.name : ""}
+      </StyledTableCell>
       {props.product.categories != null && (
         <StyledTableCell align="center">
           {" "}
@@ -65,20 +75,20 @@ function ProductItem(props) {
       {props.product.categories == null && (
         <StyledTableCell align="center"> update category</StyledTableCell>
       )}
-      <StyledTableCell align="center">100</StyledTableCell>
+      <StyledTableCell align="center">{inventory}</StyledTableCell>
       <StyledTableCell align="center">
         {props.product.status ? "Đang hoạt động" : "Ngừng hoạt động"}
       </StyledTableCell>
 
       <StyledTableCell align="center">
-        <Link
+        {/* <Link
           className={classes.icon}
           to={{
             pathname: `/admin/products/${props.product._id}`,
           }}
         >
           <VisibilityIcon />
-        </Link>
+        </Link> */}
         <DeleteIcon
           className={classes.icon}
           style={{ marginRight: "10px" }}

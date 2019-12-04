@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -12,8 +12,54 @@ const StyledTableRow = withStyles(theme => ({
     width: "100%"
   }
 }))(TableRow);
+
 function RowProduct(props) {
-  const onRecive = (index, content) => {};
+  const [_detailProduct, _setDetailProduct] = useState([
+    {
+      color: "",
+      size: "",
+      price: 0,
+      inventory: 0
+    }
+  ]);
+
+  useEffect(() => {
+    //set detail product
+    if (props.__detailProduct && props.__detailProduct.detail[0].color != "") {
+      _setDetailProduct(props.__detailProduct.detail);
+    } else {
+      var amountProducts = props.product.classification
+        ? props.product.classification.color.length *
+          props.product.classification.size.length
+        : 0;
+      let arr = [];
+      for (let i = 1; i <= amountProducts; i++) {
+        let itemDetail = {
+          color: "",
+          size: "",
+          price: 0,
+          inventory: 0
+        };
+        arr.push(itemDetail);
+      }
+      _setDetailProduct(arr);
+    }
+  }, [props.product]);
+
+  const onRecive = (index, indexColor, indexSize, content) => {
+    let item = {
+      color: props.product.classification.color[indexColor],
+      size: props.product.classification.size[indexSize],
+      price: content.price,
+      inventory: content.inventory
+    };
+
+    let arr = _detailProduct;
+    arr[index] = item;
+    _setDetailProduct(arr);
+
+    props.sendDetailProduct(props.index, _detailProduct);
+  };
 
   const renderProduct = () => {
     var result = [];
@@ -29,7 +75,6 @@ function RowProduct(props) {
     var size = 0;
     var check = 1;
     for (i = 1; i <= rowSpanProductName; i++) {
-      console.log("i", i);
       if (i === 1) {
         let item = (
           <StyledTableRow>
@@ -42,15 +87,18 @@ function RowProduct(props) {
               {props.product.classification.size[0]}
             </TableCell>
             <PriceAndQualityItem
-              key={i}
-              index={props.index}
+              key={i + new Date()}
+              indexColor={0}
+              indexSize={0}
+              index={i - 1}
               onRecive={onRecive}
+              detail={_detailProduct[i - 1]}
             />
           </StyledTableRow>
         );
         result.push(item);
       } else {
-        if (i % rowSpanSize === 1) {
+        if (i % rowSpanSize === 1 || rowSpanSize==1) {
           var item = (
             <StyledTableRow>
               <TableCell align="center" rowSpan={rowSpanSize}>
@@ -62,8 +110,11 @@ function RowProduct(props) {
               </TableCell>
               <PriceAndQualityItem
                 key={i + new Date()}
-                index={props.index}
+                indexColor={color}
+                indexSize={size}
+                index={i - 1}
                 onRecive={onRecive}
+                detail={_detailProduct[i - 1]}
               />
             </StyledTableRow>
           );
@@ -77,8 +128,11 @@ function RowProduct(props) {
               </TableCell>
               <PriceAndQualityItem
                 key={i + new Date()}
-                index={props.index}
+                indexColor={color}
+                indexSize={size}
+                index={i - 1}
                 onRecive={onRecive}
+                detail={_detailProduct[i - 1]}
               />
             </StyledTableRow>
           );

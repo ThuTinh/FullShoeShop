@@ -5,8 +5,10 @@ const mongoose = require("mongoose");
 // const get = async (filter, returnFields, page, numberPerPage) => {
 //   return await User.find(filter).select(userReturnFileds).lean()
 // }
-const search = async text => {
-  return await User.find({ $text: { $search: text } });
+const search = async (text, kind) => {
+  if (kind == "customer")
+    return await User.find({ $text: { $search: text }, role: kind });
+  else return await User.find({ $text: { $search: text }, role: { $ne: "customer" } });
 };
 const findOne = async (filter, returnFields = "") => {
   const conditions = filter || {};
@@ -15,9 +17,14 @@ const findOne = async (filter, returnFields = "") => {
 };
 
 const getUserById = async id => {
-  return await User.findById(mongoose.ObjectId(id));
+  console.log("id", id);
+  return await User.findById(mongoose.Types.ObjectId(id));
 };
 
+const changeRole = async (id, role) => {
+  const tempId = mongoose.Types.ObjectId(id);
+  return await User.findByIdAndUpdate(tempId, { role: role });
+};
 const create = async data => {
   if (data.password) {
     // facebook user is no need password
@@ -32,6 +39,14 @@ const update = async (id, data) => {
     data.password = encrypt(data.password);
   }
   return await User.findByIdAndUpdate(id, data, { new: true });
+};
+
+const getCustomer = async () => {
+  return await User.find({ role: "customer" }).lean();
+};
+
+const getEmployee = async () => {
+  return await User.find({ role: { $ne: "customer" } }).lean();
 };
 
 //Used to add favorite
@@ -110,5 +125,8 @@ module.exports = {
   removeCart,
   removeCartItem,
   addToCard,
-  getFavoriteProducts
+  getFavoriteProducts,
+  getCustomer,
+  getEmployee,
+  changeRole
 };

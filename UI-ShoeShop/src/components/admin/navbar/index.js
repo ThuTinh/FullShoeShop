@@ -296,6 +296,10 @@ function AdminHome(props) {
             <Route path={`${props.match}/orders`} component={OrderManager} />
             <Route path="/admin/products/:id" component={ProductDetail}></Route>
             <Route path="/admin/products" component={ManagerProduct} />
+            <Route
+              path="/admin/employees/:id"
+              component={DetailEmployee}
+            ></Route>
             <Route path="/admin/employees" component={EmployeeManager}></Route>
             <Route
               path="/admin/customers/:id"
@@ -308,10 +312,6 @@ function AdminHome(props) {
               component={DetailSuplier}
             ></Route>
 
-            <Route
-              path="/admin/employeeDetail"
-              component={DetailEmployee}
-            ></Route>
             <Route path="/admin/orderDetail" component={OrderDetail}></Route>
 
             <Route path="/admin/kinds" component={KindManager}></Route>

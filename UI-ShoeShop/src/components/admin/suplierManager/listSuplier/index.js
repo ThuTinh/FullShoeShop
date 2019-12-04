@@ -116,7 +116,6 @@ function ListSuplier(props) {
   const clearSearch = () => {
     setFilter("");
     props.getSupliers();
-    
   };
   useEffect(() => {
     props.getSupliers();
@@ -147,14 +146,15 @@ function ListSuplier(props) {
               margin: "0 auto",
               maxWidth: 400
             }}
-            value = {filter}
+            value={filter}
           />
         </div>
-       
       </div>
       <div>
-          <button className="outline-button" onClick={clearSearch}>Hủy tìm kiếm</button>
-        </div>
+        <button className="outline-button" onClick={clearSearch}>
+          Hủy tìm kiếm
+        </button>
+      </div>
 
       <Table className={classes.table} aria-label="customized table">
         <TableHead>

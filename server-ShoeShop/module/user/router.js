@@ -11,7 +11,10 @@ const {
   getCarts,
   removeCart,
   removeCartItem,
-  addToCard
+  addToCard,
+  getCustomer,
+  getEmployee,
+  changeRole
 } = require("./handler");
 const { secret } = require("../config").tokenConfig;
 const { handleError, makeResponse } = require("../common");
@@ -24,7 +27,7 @@ const logger = require("../logger");
 
 router.get("/search", async (req, res, next) => {
   try {
-    const brands = await search(req.query.q);
+    const brands = await search(req.query.q, req.query.k);
     res.json(makeResponse(brands));
   } catch (error) {
     res.json(handleError(error));
@@ -56,10 +59,37 @@ router.get("/search", async (req, res, next) => {
  *     security:
  *       - bearerAuth: []
  */
+router.get("/customers", async (req, res, next) => {
+  try {
+    const customers = await getCustomer();
+    console.log("customer", customers);
+    res.status(200).json(makeResponse(customers));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
+  }
+});
+
+router.get("/employees", async (req, res, next) => {
+  try {
+    const customers = await getEmployee();
+    console.log("employee", customers);
+    res.status(200).json(makeResponse(customers));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
-  if (req.params.id) {
-    const user = await getUserById(req.params.id);
-    res.status(200).json(makeResponse(user));
+  try {
+    if (req.params.id) {
+      const user = await getUserById(req.params.id);
+      res.status(200).json(makeResponse(user));
+    }
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
   }
 });
 
@@ -179,7 +209,7 @@ router.post("/current-user", async (req, res, next) => {
     if (!req.body) throw new Error("miss body token!");
     let user = jwt.verify(req.body.token, secret);
     let email = user.email;
-    let currentUser = await findOne({email: email})
+    let currentUser = await findOne({ email: email });
     res.status(200).json(makeResponse(currentUser));
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error);
@@ -262,7 +292,6 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-
 // /**
 //  * @swagger
 //  * /api/v1/users/:
@@ -316,9 +345,14 @@ router.put("/:id", async (req, res, next) => {
 });
 
 router.put("/role/:id", async (req, res, next) => {
-  if (req.params.id && req.body) {
-    const user = await model.update(req.id, req.body);
-    res.status(200).json(makeResponse(user));
+  try {
+    if (req.params.id && req.body) {
+      const user = await changeRole(req.params.id, req.body.role)
+      res.status(200).json(makeResponse(user));
+    }
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
   }
 });
 
@@ -391,7 +425,6 @@ router.delete("/", async (req, res, next) => {
     res.status(200).json(handleError(error));
   }
 });
-
 
 // /**
 //  * @swagger

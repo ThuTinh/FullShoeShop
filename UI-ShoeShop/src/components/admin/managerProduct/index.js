@@ -18,8 +18,11 @@ import {
   atcGetCategoryRequest,
   atcCreateProductRequest,
   atcUpdateProductRequest,
-  atcGetProduct
+  atcGetProduct,
+  atcSearchProductRequest
 } from "../../../actions";
+import SnackbarContentWrapper from "../../message";
+import Snackbar from "@material-ui/core/Snackbar";
 import { connect } from "react-redux";
 
 const StyledTableCell = withStyles(theme => ({
@@ -38,6 +41,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     overflowX: "auto"
   },
+
   table: {
     minWidth: 700
   },
@@ -57,6 +61,7 @@ const useStyles = makeStyles(theme => ({
     width: "300px",
     height: "30px"
   },
+
   label: {
     width: "100px"
   }
@@ -73,6 +78,10 @@ function ManagerProduct(props) {
   const [nameProduct, setNameProduct] = useState("");
   const [idUpdate, setIdUpdate] = useState("");
   const [checkUpdate, setCheckUpdate] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
+  const [variantMessage, setVariantMessage] = useState("info");
+  const [filter, setFilter] = useState("");
 
   const atcChooseParent = e => {
     setChooseParent(e.target.value);
@@ -114,27 +123,32 @@ function ManagerProduct(props) {
     return result;
   };
 
-  const setDefaultValue = ()=>{
+  const setDefaultValue = () => {
     setChooseParent("Giày nam");
-    setChildrens([])
-    setCheckUpdate(false)
-    
-  }
+    setChildrens([]);
+    setCheckUpdate(false);
+  };
+
   const createProduct = () => {
     let product = {
       name: nameProduct,
       categories: subParent
     };
-
     if (idUpdate.length > 0) {
-      console.log("productItemUpdate: ", product);
-      setCheckUpdate(false);
-      props.updateProduct(idUpdate, product);
+      try {
+        props.updateProduct(idUpdate, product);
+        showMessage("success", "Cập nhập thành công!");
+      } catch (error) {
+        showMessage("info", "cập nhập không thành công!");
+      }
     } else {
-      console.log("productItemCreate: ", product);
-      props.createProduct(product);
+      try {
+        props.createProduct(product);
+        showMessage("success", "Tạo thành công!");
+      } catch (error) {
+        showMessage("info", "Tạo không thành công!");
+      }
     }
-
     handleClose();
   };
 
@@ -161,7 +175,6 @@ function ManagerProduct(props) {
   };
 
   const handleClose = () => {
-    setCheckUpdate(false);
     setOpen(false);
   };
 
@@ -170,12 +183,10 @@ function ManagerProduct(props) {
     props.getCategories();
   }, []);
 
-  const btnCreate =()=>{
+  const btnCreate = () => {
     setCheckUpdate(false);
     setOpen(true);
-
-
-  }
+  };
 
   const editProduct = product => {
     console.log("AA", product);
@@ -205,7 +216,14 @@ function ManagerProduct(props) {
     }
     handleOpen();
   };
-
+  const deleteProduct = id => {
+    try {
+      props.deleteProduct(id);
+      showMessage("success", "Xóa thành công!");
+    } catch (error) {
+      showMessage("info", "Xóa không thành công!");
+    }
+  };
   const renderProductItem = () => {
     var result = "";
     if (props.products && props.products.length > 0) {
@@ -215,7 +233,7 @@ function ManagerProduct(props) {
             key={index}
             index={index}
             product={product}
-            deleteProduct={props.deleteProduct}
+            deleteProduct={deleteProduct}
             editProduct={editProduct}
             getProduct={props.getProduct}
           ></ProductItem>
@@ -224,13 +242,32 @@ function ManagerProduct(props) {
     }
     return result;
   };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const showMessage = (variant, message) => {
+    setVariantMessage(variant);
+    setMessage(message);
+    setOpenSnackbar(true);
+  };
+  const search = async () => {
+    if (filter !== "") await props.search(filter);
+    console.log("12334", props.products);
+  };
+  const clearSearch = () => {
+    setFilter("");
+    props.getProducts();
+  };
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
-          className = "outline-button"
-          onClick={btnCreate}
-        >
+        <button className="outline-button" onClick={btnCreate}>
           Thêm mới
         </button>
       </div>
@@ -244,30 +281,38 @@ function ManagerProduct(props) {
         <div style={{ width: "400px" }}>
           <SearchBar
             hintText="Tìm kiếm sản phẩm"
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={text => {
+              setFilter(text);
+            }}
+            onRequestSearch={search}
             style={{
               margin: "0 auto",
               maxWidth: 400
             }}
+            value={filter}
           />
         </div>
       </div>
-      <Paper className={classes.root}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>STT</StyledTableCell>
-              <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
-              <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
-              <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
-              <StyledTableCell align="center">Trạng thái</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderProductItem()}</TableBody>
-        </Table>
-      </Paper>
+      <div>
+        <button className="outline-button" onClick={clearSearch}>
+          Hủy tìm kiếm
+        </button>
+      </div>
+
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>STT</StyledTableCell>
+            <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
+            <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
+            <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
+            <StyledTableCell align="center">Trạng thái</StyledTableCell>
+            <StyledTableCell align="center"></StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderProductItem()}</TableBody>
+      </Table>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -330,31 +375,32 @@ function ManagerProduct(props) {
                 <input type="checkbox" className /> Hiện
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleClose}
-                  style={{
-                    backgroundColor: "#512c62",
-                    marginTop: "10px",
-                    marginRight: "10px"
-                  }}
-                >
+                <button className="fill-button" onClick={handleClose}>
                   Hủy
-                </Button>
-                <Button
-                  onClick={createProduct}
-                  variant="contained"
-                  color="primary"
-                  style={{ backgroundColor: "#512c62", marginTop: "10px" }}
-                >
-                  Lưu
-                </Button>
+                </button>
+                <button className="fill-button" onClick={createProduct}>
+                  Hủy
+                </button>
               </div>
             </div>
           </div>
         </Fade>
       </Modal>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={variantMessage}
+          message={message}
+        />
+      </Snackbar>
     </>
   );
 }
@@ -385,10 +431,10 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getProduct: product => {
       dispatch(atcGetProduct(product));
+    },
+    search: filter => {
+      dispatch(atcSearchProductRequest(filter));
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(ManagerProduct);
+export default connect(stateMapToProps, dispatchMapToProps)(ManagerProduct);

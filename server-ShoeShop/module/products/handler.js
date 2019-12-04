@@ -37,8 +37,8 @@ const findOne = async (conditions, returnFields, page, perPage) => {
 
 const findProductById = async id => {
   return await Product.findById(id).populate({
-    path: 'categories',
-    populate:{path:'parent'}
+    path: "categories",
+    populate: { path: "parent" }
   });
 };
 
@@ -86,7 +86,7 @@ const remove = async id => {
 };
 
 const getDetail = async id => {
-  return await Product.findById(mongoose.Types.ObjectId(id)).select("Detail");
+  return await Product.findById(mongoose.Types.ObjectId(id)).select("detail");
 };
 
 const addDetail = async (id, detail) => {
@@ -96,7 +96,7 @@ const addDetail = async (id, detail) => {
     },
     {
       $push: {
-        Detail: detail
+        detail: detail
       }
     }
   );
@@ -106,11 +106,47 @@ const updateDetailItem = async (id, idItem, item) => {
   return await Product.update(
     {
       _id: mongoose.Types.ObjectId(id),
-      "Detail._id": mongoose.Types.ObjectId(idItem)
+      "detail._id": mongoose.Types.ObjectId(idItem)
     },
-    { $inc: { "Detail.$.inventory": item } }
+    { $inc: { "detail.$.inventory": item } }
   );
 };
+
+const updatePriceDetail = async (id, idItem, item) => {
+  return await Product.update(
+    {
+      _id: mongoose.Types.ObjectId(id),
+      "detail._id": mongoose.Types.ObjectId(idItem)
+    },
+    { $set: { "detail.$.price": item } }
+  );
+};
+const search = async text => {
+  try {
+    return await Product.find({ $text: { $search: text } });
+  } catch (error) {
+    console.log("loi j day", error);
+  }
+};
+
+const removeImgName = async (id, name) => {
+  let exist = await Product.find({
+    _id: id
+  });
+  console.log(exist);
+  if (exist.length > 0) {
+    await Product.findById(id, function(err, product) {
+      if (name) {
+        product.images.pull(name);
+      }
+      product.markModified("products");
+      product.save();
+    });
+  } else {
+    throw new Error("productID not  existed !");
+  }
+};
+
 // const update = async (_id, data ,filter, newId) => {
 //   let object ={}
 //   object[filter]=newId
@@ -132,5 +168,8 @@ module.exports = {
   getDetail,
   findProductById,
   addDetail,
-  updateDetailItem
+  updateDetailItem,
+  updatePriceDetail,
+  search,
+  removeImgName
 };

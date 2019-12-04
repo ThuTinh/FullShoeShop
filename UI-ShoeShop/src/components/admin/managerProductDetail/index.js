@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import ProducDetailtItem from "./productDetailItem";
-import { atcGetProductsRequest } from "../../../actions";
+import {
+  atcGetProductsRequest,
+  atcSearchProductRequest
+} from "../../../actions";
 import { connect } from "react-redux";
 import SearchBar from "material-ui-search-bar";
-
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -51,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 function ManagerProductDetail(props) {
   const classes = useStyles();
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     props.getProducts();
@@ -71,6 +73,16 @@ function ManagerProductDetail(props) {
     }
     return result;
   };
+
+  const search = async () => {
+    if (filter !== "") await props.search(filter);
+    console.log("12334", props.products);
+  };
+  const clearSearch = () => {
+    setFilter("");
+    props.getProducts();
+  };
+
   return (
     <>
       <div
@@ -78,14 +90,17 @@ function ManagerProductDetail(props) {
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "flex-start",
-          marginBottom:'20px'
+          marginBottom: "20px"
         }}
       >
         <div style={{ width: "400px" }}>
           <SearchBar
             hintText="Tìm kiếm sản phẩm"
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={text => {
+              setFilter(text);
+            }}
+            onRequestSearch={search}
+            value={filter}
             style={{
               margin: "0 auto",
               maxWidth: 400
@@ -120,6 +135,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
       dispatch(atcGetProductsRequest());
+    },
+    search: filter => {
+      dispatch(atcSearchProductRequest(filter));
     }
   };
 };

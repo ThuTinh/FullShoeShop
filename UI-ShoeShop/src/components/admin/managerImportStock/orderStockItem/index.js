@@ -56,9 +56,7 @@ function OrderStockItem(props) {
         <StyledTableCell component="th" scope="row">
           {props.index + 1}
         </StyledTableCell>
-        <StyledTableCell align="center">
-          {order.suplierId.name}
-        </StyledTableCell>
+        <StyledTableCell align="center">{order.suplierId.name}</StyledTableCell>
 
         <StyledTableCell align="center">
           {order.suplierId.phone}
@@ -67,14 +65,14 @@ function OrderStockItem(props) {
         <StyledTableCell align="center">{order.employee.name}</StyledTableCell>
         <StyledTableCell align="center">{order.status}</StyledTableCell>
         <StyledTableCell align="center">
-          <Link
+          {/* <Link
             to={{
               pathname: `/admin/stock-orders/${order._id}`
             }}
             className={classes.icon}
-          >
-            <VisibilityIcon onClick={showDetailOrder}></VisibilityIcon>
-          </Link>
+          > */}
+          <VisibilityIcon onClick={showDetailOrder}></VisibilityIcon>
+          {/* </Link> */}
           <DeleteIcon
             className={classes.icon}
             onClick={deleteOrderSuplier}

@@ -21,7 +21,6 @@ function KindItem(props) {
   const numberCategorySub = category.children.length;
 
   const remove = id => {
-    console.log("id ne", id);
     props.deleteCategory(id);
   };
   const editCategory = category => {
@@ -82,7 +81,7 @@ function KindItem(props) {
               </EditIcon>
               <DeleteIcon
                 className={classes.icon}
-                onClick={() => remove(data._id)}
+                onClick={() => props.delete(data._id)}
               ></DeleteIcon>
             </TableCell>
           </TableRow>

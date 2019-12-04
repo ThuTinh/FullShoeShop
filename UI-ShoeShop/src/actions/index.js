@@ -39,10 +39,25 @@ export const actSign = sign => {
   };
 };
 
+// export const actGetCustomerRequest = () => {
+//   return dispatch => {
+//     return callApi(
+//       "users?page=&per_page=&_return_fields=email%2Cname%2Cpassword%2CfacebookId%2Croles%2Cphone%2Caddress%2CshipAddresses%2CfavoriteProducts",
+//       "GET"
+//     )
+//       .then(res => {
+//         res.data.status == 1
+//           ? dispatch(actCustomer(res.data.payload))
+//           : dispatch(actCustomer([]));
+//       })
+//       .catch(err => console.log("err:", err));
+//   };
+// };
+
 export const actGetCustomerRequest = () => {
   return dispatch => {
     return callApi(
-      "users?page=&per_page=&_return_fields=email%2Cname%2Cpassword%2CfacebookId%2Croles%2Cphone%2Caddress%2CshipAddresses%2CfavoriteProducts",
+      "users/customers",
       "GET"
     )
       .then(res => {
@@ -54,9 +69,24 @@ export const actGetCustomerRequest = () => {
   };
 };
 
-export const atcSearchUserRequets = filter => {
+export const actGetEmployeeRequest = () => {
   return dispatch => {
-    return callApi(`users/search?q=${filter}`, "GET")
+    return callApi(
+      "users/employees",
+      "GET"
+    )
+      .then(res => {
+        res.data.status == 1
+          ? dispatch(actCustomer(res.data.payload))
+          : dispatch(actCustomer([]));
+      })
+      .catch(err => console.log("err:", err));
+  };
+};
+
+export const atcSearchUserRequets = (filter,kind) => {
+  return dispatch => {
+    return callApi(`users/search?q=${filter}&k=${kind}`, "GET")
       .then(res => {
         res.data.status == 1
           ? dispatch(actCustomer(res.data.payload))
@@ -241,6 +271,18 @@ export const atcGetDetailProduct = detailProduct => {
   return {
     type: Types.GET_DETAIL_PRODUCT,
     detailProduct: detailProduct
+  };
+};
+
+export const atcSearchProductRequest = filter => {
+  return dispatch => {
+    return callApi(`products/search?q=${filter}`, "GET")
+      .then(res => {
+        res.data.status == 1
+          ? dispatch(atcGetProducts(res.data.payload))
+          : dispatch(atcGetProducts([]));
+      })
+      .catch(err => console.log("err:", err));
   };
 };
 export const atcGetSupliers = supliers => {

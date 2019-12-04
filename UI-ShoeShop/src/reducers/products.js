@@ -14,10 +14,10 @@ var initState = [
         _id: "",
         name: ""
       },
-      name: "Giày cao got"
+      name: ""
     },
     rating: [],
-    Detail: []
+    detail: []
   }
 ];
 
@@ -25,6 +25,7 @@ const products = (state = initState, action) => {
   switch (action.type) {
     case Types.GET_PRODUCTS:
       state = action.products.length > 0 ? action.products : state;
+      console.log("state ổducts", state);
       return state;
     default:
       return state;

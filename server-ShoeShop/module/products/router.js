@@ -11,7 +11,10 @@ const {
   getDetail,
   findProductById,
   addDetail,
-  updateDetailItem
+  updateDetailItem,
+  updatePriceDetail,
+  search,
+  removeImgName
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -80,6 +83,18 @@ router.get("/", async (req, res, next) => {
 //     res.json(handleError(error));
 //   }
 // });
+
+router.get("/search", async (req, res, next) => {
+  try {
+    const products = await search(req.query.q);
+    console.log("filter ne", req.query.q);
+    console.log("ppp", products);
+    res.json(makeResponse(products));
+  } catch (error) {
+    res.json(handleError(error));
+    logger.info(`${req.originalUrl}: `, error);
+  }
+});
 
 router.get("/:id", async (req, res, next) => {
   console.log("111", req.params.id);
@@ -216,7 +231,6 @@ router.put("/add-item/:id", async (req, res, next) => {
   }
 });
 
-
 router.delete("/", async (req, res, next) => {
   let id = req.body.id ? req.body.id : 0;
   const product = await remove(id);
@@ -243,7 +257,7 @@ router.put("/add-detail-item/:id", async (req, res, next) => {
 router.put("/update-detail-item/:id", async (req, res, next) => {
   try {
     let id = req.params.id;
-    const update = await updateDetailItem(id,req.body.id ,req.body.inventory);
+    const update = await updateDetailItem(id, req.body.id, req.body.inventory);
     res.status(200).json(makeResponse(update));
   } catch (err) {
     logger.info(`${req.originalUrl}: `, err);
@@ -251,6 +265,30 @@ router.put("/update-detail-item/:id", async (req, res, next) => {
   }
 });
 
+router.put("/update-price-detail/:id", async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const update = await updatePriceDetail(id, req.body.id, req.body.price);
+    res.status(200).json(makeResponse(update));
+  } catch (err) {
+    logger.info(`${req.originalUrl}: `, err);
+    res.json(handleError(err));
+  }
+});
+
+router.delete("/image/:id", async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    let name = req.body.name;
+    if (!id) throw new Error("miss name image");
+    if (!name) throw new Error("miss name image");
+    removeImgName(id, name);
+    res.status(200).json(makeResponse([]));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
+  }
+});
 // router.get("/search", async (req, res, next) => {
 //   let id =  req.params.id;
 //   const details = await getDetail(id);

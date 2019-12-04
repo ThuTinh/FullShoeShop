@@ -11,3 +11,18 @@
     border-radius: 2px !important;
    
 }
+.format-input{
+    border: none;
+    width: 100px;
+    height: 50px;
+
+}
+.input-name-show{
+    border: none;
+    width: 400px;
+    height: 50px;
+}
+
+input{
+    border: none;
+}

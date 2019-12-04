@@ -9,9 +9,12 @@ import {
   atcCreateOrderSuplierRequest,
   atcUpdateProductRequest,
   atcAddDetailItemProductRequets,
+  atcGetCurentUserRequest,
   atcUpdateDetailItemProductRequets
 } from "../../../../actions";
 import { connect } from "react-redux";
+import ProducDetailtItem from "../../managerProductDetail/productDetailItem";
+import { userInfo } from "os";
 
 const useStyles = makeStyles(theme => ({
   btnAddInfo: {
@@ -41,6 +44,20 @@ function OrderImport(props) {
     {
       maSanPham: "",
       classification: { color: ["Màu"], size: [40] }
+    }
+  ]);
+
+  const [_detailProducts, _setDetailProducts] = useState([
+    {
+      maSanPham: "",
+      detail: [
+        {
+          color: "",
+          size: "",
+          price: 0,
+          inventory: 0
+        }
+      ]
     }
   ]);
 
@@ -110,9 +127,14 @@ function OrderImport(props) {
     arrProduct[index] = product;
     setProducts([...arrProduct]);
     props.getDetailProduct(product.maSanPham).then(res => {
-      let arr = detailProducts;
-      arr.push(res.data.payload);
-      setDetailProducts([...arr]);
+      try {
+        let arr = detailProducts;
+        arr.push(res.data.payload);
+        setDetailProducts([...arr]);
+      } catch (error) {
+        console.log("lỗi", error);
+      }
+     
     });
   };
 
@@ -123,125 +145,93 @@ function OrderImport(props) {
   };
   const renderImportStockDetail = () => {
     if (products && products.length > 0) {
-      return <ImportStockDetail products={products} />;
+      return (
+        <ImportStockDetail
+          products={products}
+          _sendDetailProduct={onReciveDetailProduct}
+          _detailProducts={_detailProducts}
+        />
+      );
     }
   };
 
+  const onReciveDetailProduct = detailProduct => {
+    _setDetailProducts(detailProduct);
+    console.log("test detail product", _detailProducts);
+  };
   const saveOrder = () => {
     if (products && products.length > 0) {
       //thực hiện lấu product detail của sản phẩm theo mã sản phẩm
       console.log("huhu", detailProducts);
 
       // thực hiện lưu order vào trong model orderSuplier
-
-      products.map((product, index) => {
-        // Product order là chi tiết 1 sản phẩm trong đơn mua hàng
-        var ProductOrder = {};
-        var detail = [];
-        if (product.classification) {
-          for (var i = 0; i < product.classification.color.length; i++) {
-            for (var j = 0; j < product.classification.size.length; j++) {
-              let detailItem = {
-                color: product.classification.color[i],
-                size: product.classification.size[j],
-                price: 10,
-                quantity: 50
-              };
-              detail.push(detailItem);
-            }
-          }
-        }
-
-        ProductOrder = {
-          productId: product.maSanPham,
-          Detail: detail
-        };
-        let tempProductsOrder = productsOrder;
-        tempProductsOrder.push(ProductOrder);
-
-        setProductsOrder([...tempProductsOrder]);
-      });
-
+      console.log("úuer", props.currenUser)
       let order = {
-        products: productsOrder,
-        totalPrice: 120000,
+        products: _detailProducts,
+        totalPrice: 5000000,
         suplierId: suplier._id,
         employee: "5dbedb5ba5592c2698f1992a"
       };
 
       setOrderSuplier(order);
-      //  props.createOrderSuplier(order);
+      props.createOrderSuplier(order);
 
       var setIndexToAdd = new Set();
       var setIndexToUpdate = new Set();
       //Thực hiện update dữ liệu trong model products
-      if (productsOrder && productsOrder.length > 0) {
+      if (_detailProducts && _detailProducts.length > 0) {
         var tempDetailProducts = detailProducts; // cái này bị null => bug
-        productsOrder.map((productOrderDetail, index) => {
+        _detailProducts.map((productOrderDetail, index) => {
           var k = 0;
           for (k = 0; k < tempDetailProducts.length; k++) {
             if (tempDetailProducts[k]) {
-              if (productOrderDetail.productId == tempDetailProducts[k]._id) {
+              if (productOrderDetail.maSanPham == tempDetailProducts[k]._id) {
                 if (
-                  tempDetailProducts[k].Detail &&
-                  tempDetailProducts[k].Detail.length > 0
+                  tempDetailProducts[k].detail &&
+                  tempDetailProducts[k].detail.length > 0
                 ) {
                   var l = 0;
-                  for (l = 0; l < tempDetailProducts[k].Detail.length; l++) {
+                  for (l = 0; l < tempDetailProducts[k].detail.length; l++) {
                     var n = 0;
-                    for (n = 0; n < productOrderDetail.Detail.length; n++) {
+                    for (n = 0; n < productOrderDetail.detail.length; n++) {
                       if (
-                        tempDetailProducts[k].Detail[l].color ==
-                          productOrderDetail.Detail[n].color &&
-                        tempDetailProducts[k].Detail[l].size ==
-                          productOrderDetail.Detail[n].size
+                        tempDetailProducts[k].detail[l].color ==
+                          productOrderDetail.detail[n].color &&
+                        tempDetailProducts[k].detail[l].size ==
+                          productOrderDetail.detail[n].size
                       ) {
                         //cập nhập lại số lượng của product detail
+
+                        // let quantity = productOrderDetail.detail[n].quantity +  tempDetailProducts[k].detail[l].quantity;
                         props.updateDetailItem(
-                          productOrderDetail.productId,
-                          tempDetailProducts[k].Detail[l]._id,
-                          productOrderDetail.Detail[n].quantity
+                          productOrderDetail.maSanPham,
+                          tempDetailProducts[k].detail[l]._id,
+                          productOrderDetail.detail[n].inventory
                         );
                         setIndexToUpdate.add(n);
                       } else {
-                        // let item = {
-                        //   color: productOrderDetail.Detail[n].color,
-                        //   inventory: 0, //se lam sau
-                        //   price: 10, //se lam sau
-                        //   size: productOrderDetail.Detail[n].size
-                        // };
-                        // props.addDetailProduct(
-                        //   productOrderDetail.productId,
-                        //   item
-                        // );
                         setIndexToAdd.add(n);
-                        console.log("index", n);
                       }
                     }
                   }
 
                   //update detail product trong model products
-                  console.log("set add", setIndexToAdd);
-                  console.log("set update", setIndexToUpdate);
                   let difference = new Set(
                     [...setIndexToAdd].filter(x => !setIndexToUpdate.has(x))
                   );
-                  console.log("dif", difference);
                   let arr = Array.from(difference);
+                  console.log("different:", arr);
                   for (var index = 0; index < arr.length; index++) {
-                    let item = {
-                      color: productOrderDetail.Detail[index].color,
-                      inventory: 0, //se lam sau
-                      price: 10, //se lam sau
-                      size: productOrderDetail.Detail[index].size
-                    };
-                    props.addDetailProduct(productOrderDetail.productId, item);
+                    props.addDetailProduct(
+                      productOrderDetail.maSanPham,
+                      productOrderDetail.detail[arr[index]]
+                    );
                   }
                 } else {
                   let data = {
-                    Detail: productOrderDetail.Detail
+                    detail: productOrderDetail.detail
                   };
-                  props.updateProduct(productOrderDetail.productId, data);
+                  props.updateProduct(productOrderDetail.maSanPham, data);
                 }
 
                 break;
@@ -253,12 +243,11 @@ function OrderImport(props) {
     }
   };
 
-  useEffect(() => {
-    // let arr = detailProducts;
-    // arr.push(props.detailProduct);
-    // setDetailProducts(arr);
-    // console.log("arr", detailProducts);
-  }, [props.detailProduct]);
+  useEffect(()=>{
+    let token = localStorage.getItem('token');
+    console.log("token", token)
+    props.getCurrentUser(token);
+  },[])
   return (
     <div>
       <div className={classes.btnAddInfo} spaceing={4}>
@@ -299,7 +288,8 @@ function OrderImport(props) {
 const stateMapToProps = (state, props) => {
   return {
     supliers: state.supliers,
-    detailProduct: state.detailProduct
+    detailProduct: state.detailProduct,
+    currenUser: state.infoUser
   };
 };
 
@@ -322,6 +312,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     updateDetailItem: (id, idItem, inventory) => {
       dispatch(atcUpdateDetailItemProductRequets(id, idItem, inventory));
+    },
+    getCurrentUser : (token)=>{
+      dispatch(atcGetCurentUserRequest(token))
     }
   };
 };

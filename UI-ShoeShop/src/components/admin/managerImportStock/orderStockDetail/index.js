@@ -13,9 +13,9 @@ function OrderStockDetail(props) {
       var color = new Set();
       var size = new Set();
 
-      for(var m = 0; m<order.products[i].Detail.length; m++){
-        color.add(order.products[i].Detail[m].color);
-        size.add(order.products[i].Detail[m].size);
+      for(var m = 0; m<order.products[i].detail.length; m++){
+        color.add(order.products[i].detail[m].color);
+        size.add(order.products[i].detail[m].size);
       }
       let product = {
         maSanPham: order.products[i]._id,

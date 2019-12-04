@@ -5,15 +5,17 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Button } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import KindItem from "./kindItem";
+import SnackbarContentWrapper from "../../message";
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   atcGetCategoryRequest,
   atcCreateCaregoryRequest,
-  atcUpdateCaregoryRequest
+  atcUpdateCaregoryRequest,
+  atcDeleteCaregoryRequest
 } from "../../../actions";
 import "./style.css";
 import { connect } from "react-redux";
@@ -64,8 +66,16 @@ function KindManager(props) {
   const [parent, setParent] = useState("Giày nam");
   const [nameCategory, setNameCategory] = useState("");
   const [idUpdate, setIdUpdate] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
+  const [variantMessage, setVariantMessage] = useState("info");
 
   const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const openCatelogy = () => {
+    setIdUpdate("");
     setOpen(true);
   };
 
@@ -88,6 +98,7 @@ function KindManager(props) {
             key={index}
             category={category}
             edit={editCategory}
+            delete = {deleteCategory}
           ></KindItem>
         );
       });
@@ -95,8 +106,16 @@ function KindManager(props) {
     return result;
   };
 
+  const deleteCategory  = (id)=>{
+    try {
+      props.deleteCategory(id);
+      showMessage("success", "xóa thành công!");
+    } catch (error) {
+      showMessage("info", "Xóa không thành công!");
+    }
+      
+  }
   const editCategory = categoryedit => {
-    console.log("categoryedit", categoryedit);
     if (props.categories && props.categories.length > 0) {
       props.categories.map((category, index) => {
         if (categoryedit.parent == category._id) {
@@ -124,21 +143,44 @@ function KindManager(props) {
       name: nameCategory
     };
     if (idUpdate.length > 0) {
-      props.updatecategory(idUpdate, category);
+      try {
+        props.updatecategory(idUpdate, category);
+        showMessage("success", "Cập nhập thành công!");
+      } catch (error) {
+        showMessage("info", "Cập nhập không thành công!");
+      }
     } else {
-      props.createCategory(category);
+      try {
+        props.createCategory(category);
+        showMessage("success", "Tạo thành công!");
+      } catch (error) {
+        showMessage("info", "Tạo không thành công!");
+      }
     }
 
     handleClose();
   };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const showMessage = (variant, message) => {
+    setVariantMessage(variant);
+    setMessage(message);
+    setOpenSnackbar(true);
+  };
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button className="outline-button" onClick={handleOpen}>
+        <button className="outline-button" onClick={openCatelogy}>
           Thêm loại
         </button>
       </div>
-
       <div>
         {/* <h6>DANH SÁCH LOẠI</h6>
         <div
@@ -203,17 +245,10 @@ function KindManager(props) {
                 />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button
-                  className = "fill-button"
-                  onClick={handleClose}
-                 
-                >
+                <button className="fill-button" onClick={handleClose}>
                   Hủy
                 </button>
-                <button
-                 className = "fill-button"
-                  onClick={createCategory}
-                >
+                <button className="fill-button" onClick={createCategory}>
                   Lưu
                 </button>
               </div>
@@ -221,6 +256,21 @@ function KindManager(props) {
           </div>
         </Fade>
       </Modal>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={variantMessage}
+          message={message}
+        />
+      </Snackbar>
     </div>
   );
 }
@@ -241,10 +291,10 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     updatecategory: (id, category) => {
       dispatch(atcUpdateCaregoryRequest(id, category));
+    },
+    deleteCategory: id => {
+      dispatch(atcDeleteCaregoryRequest(id));
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(KindManager);
+export default connect(stateMapToProps, dispatchMapToProps)(KindManager);

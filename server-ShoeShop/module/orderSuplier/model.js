@@ -87,12 +87,12 @@ const schema = new Schema(
   {
     products: [
       {
-        productId: {
+        maSanPham: {
           type: Schema.Types.ObjectId,
           required: [true, "is required"],
           ref: "product"
         },
-        Detail: [
+        detail: [
           {
             size: {
               type: Number,
@@ -106,7 +106,7 @@ const schema = new Schema(
               type: Number,
               required: [true, "is required"]
             },
-            quantity: {
+            inventory: {
               type: Number,
               required: [true, "is required"]
             }

@@ -41,7 +41,7 @@ function ListCustomer(props) {
   const [filter, setFilter] = useState("")
 
   const search =()=>{
-    props.search(filter);
+    props.search(filter,"customer");
   }
 
   const clearSearch =()=>{
@@ -127,8 +127,8 @@ const dispatchMapToProps = (dispatch, state) => {
     deleteCustomer: id => {
       dispatch(atcDeleteCustomerRequest(id));
     },
-    search: (filter)=>{
-      dispatch(atcSearchUserRequets(filter));
+    search: (filter,kind)=>{
+      dispatch(atcSearchUserRequets(filter, kind));
     }
   };
 };
