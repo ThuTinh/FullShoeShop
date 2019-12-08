@@ -5,13 +5,15 @@ const {
   update,
   filter,
   validate,
-  findOne
+  findOne,
+  Approved
 } = require("./handler");
-const { makeResponse } = require("../common");
+const logger = require("../logger");
+const { makeResponse,handleError } = require("../common");
 const router = new express.Router();
 
 router.get("/", async (req, res, next) => {
-  console.log("filter: " , req.query.filter);
+  console.log("filter: ", req.query.filter);
   const orders = await filter(req.query.filter);
   res.status(200).json(makeResponse(orders));
 });
@@ -34,6 +36,17 @@ router.put("/", async (req, res, next) => {
   res.status(200).json(makeResponse(orderUpdate));
 });
 
+router.put("/approve/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!req.body.status) throw new Error("miss status");
+    const update = await Approved(id, req.body.status);
+    res.status(200).json(update);
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
+  }
+});
 router.delete("/", async (req, res, next) => {
   const orderDelete = await remove(req.body.id);
   res.status(200).json(makeResponse(orderDelete));

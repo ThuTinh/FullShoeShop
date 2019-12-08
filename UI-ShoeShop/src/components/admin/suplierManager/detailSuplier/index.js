@@ -131,9 +131,9 @@ function DetailSuplier(props) {
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
       </div>
-      <div
+      {/* <div
         style={{ width: "10%", height: "4px", backgroundColor: "#F75F00" }}
-      ></div>
+      ></div> */}
       <div
         style={{
           display: "flex",
@@ -161,9 +161,9 @@ function DetailSuplier(props) {
           DANH SÁCH SẢN PHẨM
         </h6>
       </div>
-      <div
+      {/* <div
         style={{ width: "10%", height: "4px", backgroundColor: "#F75F00" }}
-      ></div>
+      ></div> */}
       <div
         style={{
           display: "flex",

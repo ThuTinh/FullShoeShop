@@ -1,6 +1,6 @@
 const { encrypt } = require("../crypto");
 const User = require("./model");
-const { findProductById } = require("../products");
+const { findProductById, updateCountFavorite } = require("../products");
 const mongoose = require("mongoose");
 // const get = async (filter, returnFields, page, numberPerPage) => {
 //   return await User.find(filter).select(userReturnFileds).lean()
@@ -8,7 +8,11 @@ const mongoose = require("mongoose");
 const search = async (text, kind) => {
   if (kind == "customer")
     return await User.find({ $text: { $search: text }, role: kind });
-  else return await User.find({ $text: { $search: text }, role: { $ne: "customer" } });
+  else
+    return await User.find({
+      $text: { $search: text },
+      role: { $ne: "customer" }
+    });
 };
 const findOne = async (filter, returnFields = "") => {
   const conditions = filter || {};
@@ -58,7 +62,7 @@ const addFavoritedProduct = async (userId, productId) => {
   await User.findByIdAndUpdate(userId, {
     $addToSet: { favoriteProducts: productId }
   });
-  await product.updateCountFavorite(
+  await updateCountFavorite(
     product._id,
     product.favorited ? product.favorited + 1 : 1
   );
@@ -112,6 +116,27 @@ const getFavoriteProducts = async id => {
     .populate("favoriteProducts");
 };
 
+const removeFavoriteProduct = async (userid, productId) => {
+  return await User.findOneAndUpdate(
+    { _id: mongoose.Types.ObjectId(userid) },
+    { $pull: { favoriteProducts: mongoose.Types.ObjectId(productId) } },
+    { new: true, runValidators: true }
+  )
+    .select("favoriteProducts")
+    .populate("favoriteProducts");
+};
+const updateAvatar = async (id, avatar) => {
+  const user = await User.findById(mongoose.Types.ObjectId(id));
+  if (!user) {
+    throw new Error("Not found User");
+  }
+  console.log("avatart", avatar);
+  return await User.findByIdAndUpdate(
+    user._id,
+    { $set: { avatar: avatar } },
+    { new: true }
+  );
+};
 module.exports = {
   create,
   update,
@@ -128,5 +153,7 @@ module.exports = {
   getFavoriteProducts,
   getCustomer,
   getEmployee,
-  changeRole
+  changeRole,
+  updateAvatar,
+  removeFavoriteProduct
 };

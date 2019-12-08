@@ -161,6 +161,7 @@ label:hover {
 }
 .wraper {
   height: 100%;
+  
 }
 .wraper ul {
   list-style: none;
@@ -174,6 +175,7 @@ label:hover {
   color: #000000;
   font-weight: 500;
   font-family: "Anton", sans-serif;
+  padding: 5px;
 }
 
 .wraper ul li:hover {
@@ -186,7 +188,8 @@ label:hover {
   position: absolute;
   background-color: #FFFFFF;
   border-radius: 8px;
-  
+  height: fit-content;
+  width: 250px;
 }
 .wraper ul li:hover > ul {
   display: block;
@@ -204,7 +207,25 @@ label:hover {
  .menu-person{
   list-style: none;
   display: none;
+  position: absolute;
 }
+
 .icon-person:hover > .menu-person{
   display: block
+}
+
+Link:hover{
+  text-decoration: none !important;
+  text-transform: none !important;
+  
+}
+
+.logo{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.logo:hover{
+  cursor: pointer;
 }

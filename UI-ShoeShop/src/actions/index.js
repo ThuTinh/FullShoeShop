@@ -56,10 +56,7 @@ export const actSign = sign => {
 
 export const actGetCustomerRequest = () => {
   return dispatch => {
-    return callApi(
-      "users/customers",
-      "GET"
-    )
+    return callApi("users/customers", "GET")
       .then(res => {
         res.data.status == 1
           ? dispatch(actCustomer(res.data.payload))
@@ -71,10 +68,7 @@ export const actGetCustomerRequest = () => {
 
 export const actGetEmployeeRequest = () => {
   return dispatch => {
-    return callApi(
-      "users/employees",
-      "GET"
-    )
+    return callApi("users/employees", "GET")
       .then(res => {
         res.data.status == 1
           ? dispatch(actCustomer(res.data.payload))
@@ -84,7 +78,7 @@ export const actGetEmployeeRequest = () => {
   };
 };
 
-export const atcSearchUserRequets = (filter,kind) => {
+export const atcSearchUserRequets = (filter, kind) => {
   return dispatch => {
     return callApi(`users/search?q=${filter}&k=${kind}`, "GET")
       .then(res => {
@@ -105,8 +99,6 @@ export const atcDeleteCustomerRequest = id => {
       .catch(err => console.log("err:", err));
   };
 };
-
-
 
 export const actCustomer = customers => {
   return {
@@ -312,6 +304,22 @@ export const atcGetDetailOrderSuplierRequest = id => {
   };
 };
 
+export const atcChangeStatusOrderSuplier = (id, status) => {
+  return dispatch => {
+    return callApi(
+      `order-suplier/approve/${id}`,
+      "PUT",
+      `{"status": "${status}"}`
+    )
+      .then(res => {
+        console.log("update duyet", res.data.payload);
+      })
+      .catch(err => {
+        console.log("err:", err);
+      });
+  };
+};
+
 export const atcGetDetailOrderSuplier = order => {
   return {
     type: Types.GET_DETAIL_ORDER_SUPLIER,
@@ -445,6 +453,80 @@ export const atcDeletProductSuplierRequest = (id, productId) => {
   };
 };
 
+export const atcMakeOrderCustomer = order => {
+  return dispatch => {
+    return callApi("orders", "POST", order).then(res => {
+      console.log("order make", order);
+    });
+  };
+};
+
+export const atcRemoveProductItemInOrderRequest = (orderId, itemId, userId) => {
+  return dispatch => {
+    return callApi(
+      `orders/product-item/${orderId}`,
+      "PUT",
+      `{"idItem":"${itemId}"}`
+    ).then(res => {
+      return dispatch(atcGetOrderCustomersRequest(userId));
+      console.log("order item remove", res);
+    });
+  };
+};
+export const atcGetListOrderRequest = () => {
+  return dispatch => {
+    return callApi("orders", "GET").then(res => {
+      res.data.status == 1
+        ? dispatch(atcGetListOrder(res.data.payload))
+        : dispatch(atcGetListOrder([]));
+    });
+  };
+};
+
+export const atcGetOrderCustomersRequest = id => {
+  return dispatch => {
+    return callApi(`orders/user/${id}`, "GET").then(res => {
+      console.log("res order1111", res);
+      console.log("id nenn", id);
+      res.data.status == 1
+        ? dispatch(atcGetOrderCustomer(res.data.payload))
+        : dispatch(atcGetOrderCustomer([]));
+    });
+  };
+};
+
+export const atcGetOrderRequest = id => {
+  return dispatch => {
+    return callApi(`orders/${id}`, "GET").then(res => {
+      console.log("res order", res);
+      console.log("id nenn", id);
+      res.data.status == 1
+        ? dispatch(atcGetOrder(res.data.payload))
+        : dispatch(atcGetOrder([]));
+    });
+  };
+};
+
+export const atcGetOrderCustomer = orders => {
+  return {
+    type: Types.GET_ORDER_CUSTOMERS,
+    orders: orders
+  };
+};
+
+export const atcGetListOrder = orders => {
+  return {
+    type: Types.GET_ORDERS,
+    orders: orders
+  };
+};
+
+export const atcGetOrder = order => {
+  return {
+    type: Types.GET_ORDER,
+    order: order
+  };
+};
 export const atcChangeRoleRequest = (id, role) => {
   return dispatch => {
     callApi(`users/role/${id}`, "PUT", `{"role": "${role}"}`)
@@ -465,7 +547,7 @@ export const atcGetUserByIdRequest = id => {
   };
 };
 
-export const atcGetCurentUserRequest = (token) => {
+export const atcGetCurentUserRequest = token => {
   return dispatch => {
     return callApi("users/current-user", "POST", `{"token": "${token}"}`)
       .then(res => {
@@ -477,11 +559,12 @@ export const atcGetCurentUserRequest = (token) => {
   };
 };
 
-export const atcUpdateUserRequest =( id, user) => {
+export const atcUpdateUserRequest = (id, user) => {
   return dispatch => {
     return callApi(`users/${id}`, "PUT", user)
       .then(res => {
         console.log("update user", res);
+        console.log("user", user);
       })
       .catch(err => console.log("err:", err));
   };
@@ -507,3 +590,63 @@ export const atcGetCurrentUser = infoUser => {
   };
 };
 
+export const atcAddToCart = count => {
+  return {
+    type: Types.COUNT_CARTS,
+    count: count
+  };
+};
+
+export const atcTotalPrice = price => {
+  return {
+    type: Types.TOTAL_PRICE,
+    price: price
+  };
+};
+
+export const atcAddProductFavourite = data => {
+  return dispatch => {
+    return callApi("users/favorited-product", "PUT", data).then(res => {
+      console.log("faoutite", res);
+    });
+  };
+};
+
+export const atcGetFavoriteProductsRequest = userId => {
+  return dispatch => {
+    return callApi(`users/favorite-products/${userId}`, "GET").then(res => {
+      res.data.status == 1
+        ? dispatch(atcGetFavoriteProducts(res.data.payload))
+        : dispatch(atcGetFavoriteProducts([]));
+    });
+  };
+};
+
+export const atcRemoveFavoriteProduct = (userId, productId) => {
+  return dispatch => {
+    return callApi(
+      `users/favorite-products/${userId}`,
+      "DELETE",
+      `{"productId": "${productId}"}`
+    ).then(res => {
+      res.data.status == 1
+        ? dispatch(atcGetFavoriteProducts(res.data.payload))
+        : dispatch(atcGetFavoriteProducts([]));
+    });
+  };
+};
+export const atcGetFavoriteProducts = favoriteProducts => {
+  return {
+    type: Types.GET_FAVORITE_PRODUCTS,
+    favoriteProducts: favoriteProducts
+  };
+};
+
+export const atcChangeStatusOrderRequest = (orderId, status)=>{
+  return dispatch =>{
+    return callApi(`orders/status/${orderId}`, "PUT", `{"status":"${status}"}`).then(res=>{
+      console.log("sttaus order", res);
+      return dispatch(atcGetListOrderRequest())
+    })
+  }
+}

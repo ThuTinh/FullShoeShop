@@ -5,14 +5,11 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
+import CartResult from "./cartResult"
 import "./style.css";
+import CartItem from "./cartItem";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -23,14 +20,6 @@ const StyledTableCell = withStyles(theme => ({
     fontSize: 14
   }
 }))(TableCell);
-
-const StyledTableRow = withStyles(theme => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.background.default
-    }
-  }
-}))(TableRow);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,13 +34,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Carts() {
+function Carts(props) {
   const classes = useStyles();
   const history = createBrowserHistory();
   const buyProducts = id => {
     history.push("/product/purchase");
   };
+  const [productOrders,setProductOrders]=useState(JSON.parse(localStorage.getItem("ProductOrders")));
   const [customer, setCustomer] = useState(true);
+
+  const removeProductOrder = ()=>{
+    const temp = JSON.parse(localStorage.getItem("ProductOrders"));
+    setProductOrders([...temp])
+  }
+
+  const renderProductItem = () => {
+    var result = [];
+    if(productOrders && productOrders.length>0){
+     result= productOrders.map((product, index)=>{
+      return <CartItem productOrder = {product} key = {index} index = {index} remove = {removeProductOrder} buy = {props.buy} />
+      })
+    }
+    return result;
+  };
   return (
     <>
       <h6>DANH SÁCH SẢN PHẨM</h6>
@@ -75,78 +80,8 @@ function Carts() {
           </TableRow>
         </TableHead>
         <TableBody>
-          <StyledTableRow>
-            {/* List product */}
-            <StyledTableCell component="th" scope="row" align="center">
-              <img
-                alt=""
-                src="http://img.mwc.com.vn/giay-thoi-trang?&w=80&h=80&FileInput=//Upload/2019/10/o1cn01q02zrl2bbuipbvi11-3535558301.jpg"
-                className="img-fluid z-depth-0"
-              />
-            </StyledTableCell>
-            <StyledTableCell align="center">DFGH</StyledTableCell>
-            <StyledTableCell align="center">AAA</StyledTableCell>
-            <StyledTableCell align="center">
-              <label>1</label>
-              <AddIcon
-                className="amount"
-                style={{
-                  color: "#fff",
-                  fontSize: "20px",
-                  backgroundColor: "#c93838",
-                  marginLeft: "5px",
-                  borderBottomLeftRadius: "5px",
-                  borderTopLeftRadius: "5px"
-                }}
-              ></AddIcon>
-              <RemoveIcon
-                className="amount"
-                style={{
-                  color: "#fff",
-                  fontSize: "20px",
-                  backgroundColor: "#c93838",
-                  borderBottomRightRadius: "5px",
-                  borderTopRightRadius: "5px"
-                }}
-              ></RemoveIcon>
-            </StyledTableCell>
-            <StyledTableCell align="center">LLLLLLL</StyledTableCell>
-            <StyledTableCell align="center">
-              <DeleteIcon></DeleteIcon>
-            </StyledTableCell>
-          </StyledTableRow>
-
-          <StyledTableRow>
-            <StyledTableCell colSpan={3}></StyledTableCell>
-            <StyledTableCell
-              align="center"
-              style={{ fontSize: "20px", fontWeight: "600" }}
-            >
-              Tổng tiền
-            </StyledTableCell>
-            <StyledTableCell
-              align="center"
-              style={{ fontSize: "20px", fontWeight: "600" }}
-            >
-              100.000
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              {customer && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ backgroundColor: "#512c62" }}
-                >
-                  <Link
-                    to="/product/purchase"
-                    style={{ color: "#fff", textDecoration: "none" }}
-                  >
-                    Đặt hàng
-                  </Link>
-                </Button>
-              )}
-            </StyledTableCell>
-          </StyledTableRow>
+          {renderProductItem()}
+          <CartResult  productOrders={productOrders} buy = {props.buy}/>
         </TableBody>
       </Table>
     </>

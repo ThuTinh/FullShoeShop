@@ -90,7 +90,7 @@ function ManagerImportStockManager() {
           <Tab label="Tất cả" {...a11yProps(0)} />
           <Tab label="Chờ xác nhận" {...a11yProps(1)} />
           <Tab label="Đang chờ nhận hàng" {...a11yProps(2)} />
-          <Tab label="Thanh toán" {...a11yProps(3)} />
+          <Tab label=" Đã thanh toán" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
 
@@ -101,10 +101,10 @@ function ManagerImportStockManager() {
         <OrderStockList status = "PAID"></OrderStockList>
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        <OrderStockList status = "PAID_RECIVE"></OrderStockList>
+        <OrderStockList status = "ORDERED"></OrderStockList>
       </TabPanel>
       <TabPanel value={value} index={3} dir={theme.direction}>
-        <OrderStockList status = "PAYED"></OrderStockList>
+        <OrderStockList status = "COMPLETED"></OrderStockList>
       </TabPanel>
     </div>
   );

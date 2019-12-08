@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Carts from "../cart";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { atcGetCurentUserRequest } from "../../../actions";
 import "./style.css";
 
 const useStyles = makeStyles(theme => ({
@@ -17,8 +19,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function InfoPurchase() {
+function InfoPurchase(props) {
   const classes = useStyles();
+  const [user, setUser] = useState(props.currentUser);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [shipAddress, setShipAddress] = useState("");
+  const [phone, setPhone] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    props.getCurrentUser(token);
+  }, []);
+
+  useEffect(() => {
+    const temp = props.currentUser;
+    setUser(temp);
+    setName(temp.name);
+    setEmail(temp.email);
+    setPhone(temp.phone);
+    setShipAddress(temp.shipAddress);
+  }, [props.currentUser]);
 
   return (
     <div style={{ marginTop: "180px", width: "100%" }}>
@@ -37,7 +58,14 @@ function InfoPurchase() {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          <div style = {{width: '10%', height: '4px', backgroundColor: "#F75F00", marginBottom: '30px'}}></div>
+          <div
+            style={{
+              width: "10%",
+              height: "4px",
+              backgroundColor: "#F75F00",
+              marginBottom: "30px"
+            }}
+          ></div>
         </Grid>
         <Grid item sm={5}>
           <FormControl style={{ width: "100%" }}>
@@ -47,7 +75,13 @@ function InfoPurchase() {
             >
               Username
             </InputLabel>
-            <Input id="adornment-address" className={classes.width100} />
+            <Input
+              id="adornment-address"
+              className={classes.width100}
+              name="name"
+              value={name}
+              readOnly
+            />
           </FormControl>
           <FormControl style={{ width: "100%" }}>
             <InputLabel
@@ -56,7 +90,13 @@ function InfoPurchase() {
             >
               Địa chỉ nhận
             </InputLabel>
-            <Input id="adornment-userName" className={classes.width100} />
+            <Input
+              id="adornment-userName"
+              className={classes.width100}
+              name="shipAddress"
+              value={shipAddress}
+              readOnly
+            />
           </FormControl>
         </Grid>
         <Grid item sm={5}>
@@ -67,7 +107,13 @@ function InfoPurchase() {
             >
               Email
             </InputLabel>
-            <Input id="adornment-email" className={classes.width100} />
+            <Input
+              id="adornment-email"
+              className={classes.width100}
+              name="email"
+              value={email}
+              readOnly
+            />
           </FormControl>
 
           <FormControl style={{ width: "100%" }}>
@@ -77,7 +123,13 @@ function InfoPurchase() {
             >
               Số điện thoại
             </InputLabel>
-            <Input id="adornment-phone" className={classes.width100} />
+            <Input
+              id="adornment-phone"
+              className={classes.width100}
+              name="phone"
+              value={phone}
+              readOnly
+            />
           </FormControl>
         </Grid>
 
@@ -89,40 +141,25 @@ function InfoPurchase() {
           alignItems="center"
         ></Grid>
         <Grid sm={10} item>
-          <div><b>Phương thức: Thanh toán khi nhận hàng</b></div>
-          <Carts></Carts>
+          <Carts buy={true}></Carts>
+          <div>
+            <b>Phương thức: Thanh toán khi nhận hàng</b>
+          </div>
         </Grid>
       </Grid>
     </div>
-
-    // <div className="container">
-    //   <h4 className="mb-3">Thông tin khách hàng</h4>
-    //   <div className="divid mb-5"></div>
-    //   <div className="row mb-5">
-    //     <div className="col-6">
-    //       <div className="form-group">
-    //         <input placeholder="Họ và tên" className="form-control"></input>
-    //       </div>
-    //       <div className="form-group">
-    //         <input className="form-control" placeholder="Địa chỉ"></input>
-    //       </div>
-    //     </div>
-    //     <div className="col-6">
-    //       <div className="form-group">
-    //         <input placeholder="Email" className="form-control"></input>
-    //       </div>
-    //       <div className="form-group">
-    //         <input className="form-control" placeholder="Số điện thoại"></input>
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <h5 className="mb-3">Danh sách sản phẩm</h5>
-    //   <div className="divid mb-5"></div>
-    //   <div className="row">
-    //     <Carts></Carts>
-    //   </div>
-    // </div>
   );
 }
-
-export default InfoPurchase;
+const stateMapToProps = (state, props) => {
+  return {
+    currentUser: state.user
+  };
+};
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getCurrentUser: token => {
+      dispatch(atcGetCurentUserRequest(token));
+    }
+  };
+};
+export default connect(stateMapToProps, dispatchMapToProps)(InfoPurchase);

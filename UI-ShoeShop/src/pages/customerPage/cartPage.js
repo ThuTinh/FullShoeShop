@@ -1,10 +1,10 @@
 import React from 'react';
 import Carts from '../../components/customer/cart';
 
-function CartPage() {
+function CartPage(props) {
     return (
         <div className = "container">
-          <Carts></Carts>
+          <Carts buy= {false}></Carts>
         </div>
     )
 }

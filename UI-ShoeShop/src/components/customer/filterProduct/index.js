@@ -17,12 +17,11 @@ function FilterProduct(props) {
     props.getCategory();
   }, []);
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+
 
   const renderWomenShoes = () => {
-    var result = "";
+   
+    var result = null;
     if (props.categories && props.categories.length > 0) {
       var i = 0;
       for (i = 0; i < props.categories.length; i++) {
@@ -46,7 +45,7 @@ function FilterProduct(props) {
   };
 
   const renderManShoes = () => {
-    var result = "";
+    var result = null;
     console.log("aaa", props.categories);
     if (props.categories && props.categories.length > 0) {
       var i = 0;

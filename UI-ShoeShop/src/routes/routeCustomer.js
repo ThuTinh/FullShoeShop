@@ -8,6 +8,7 @@ import CartPage from "../pages/customerPage/cartPage";
 import InfoPurchasePage from "../pages/customerPage/inforPurchasePage";
 import ProfilePage from "../pages/customerPage/profilePage";
 import IntroducePage from "../pages/introducePage";
+import productDetail from "../components/customer/productDetail";
 
 function CustomerRoute(props) {
   const [countCarts, setCountCarts] = useState(0);
@@ -18,14 +19,9 @@ function CustomerRoute(props) {
     <div>
       <Navbars countCarts={countCarts}></Navbars>
       <Switch>
-        <Route path="/product/cart" component={CartPage} />
+        <Route path="/cart" component={CartPage} />
         <Route path="/product/purchase" component={InfoPurchasePage} />
-        <Route
-          path="/product/:id"
-          render={props => <ProductDetailPage {...props} numberOfCart={12} />}
-        />
-        {/* <Route path="/product/:id"  component={ProductDetailPage} /> */}
-
+        <Route path="/product-detail/:id" component={ProductDetailPage} />
         <Route path="/my-acount" component={ProfilePage} />
         <Route path="/introduce" component={IntroducePage} />
         <Route path="/" component={CustomHomePage} exact={true} />

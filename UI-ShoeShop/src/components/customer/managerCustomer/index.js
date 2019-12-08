@@ -83,7 +83,6 @@ function ManagerCustomer(props) {
     props.getCurrentUser(token);
   }, []);
 
-
   const [avatar, setAvater] = useState(
     "http://localhost:1337/images/temp/upload-1574355179631.png"
   );
@@ -92,7 +91,11 @@ function ManagerCustomer(props) {
 
   useEffect(() => {
     SetCurrentUser(props.currentUser);
-    console.log("1",props.currentUser);
+    console.log("1", props.currentUser);
+    if (props.currentUser.avatar)
+      setAvater(
+        `http://localhost:1337/images/temp/${props.currentUser.avatar}`
+      );
   }, [props.currentUser]);
 
   return (
@@ -112,8 +115,7 @@ function ManagerCustomer(props) {
           <AccountCircleIcon className={classes.icon}></AccountCircleIcon>
           <Link
             to={{
-              pathname: "/my-acount/profile",
-         
+              pathname: "/my-acount/profile"
             }}
             className={classes.link}
           >
@@ -124,8 +126,7 @@ function ManagerCustomer(props) {
           <DescriptionIcon className={classes.icon}></DescriptionIcon>
           <Link
             to={{
-              pathname: "/my-acount/orders",
-     
+              pathname: "/my-acount/orders"
             }}
             className={classes.link}
           >
@@ -136,8 +137,7 @@ function ManagerCustomer(props) {
           <FavoriteIcon className={classes.icon}></FavoriteIcon>
           <Link
             to={{
-              pathname: "/my-acount/products-favorite",
-          
+              pathname: "/my-acount/products-favorite"
             }}
             className={classes.link}
           >

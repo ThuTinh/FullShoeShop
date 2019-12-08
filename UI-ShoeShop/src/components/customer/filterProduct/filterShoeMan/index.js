@@ -4,7 +4,7 @@ import CheckItem from "../checkItem"
 
 function FilterShoeMan(props) {
   const renderItem = () => {
-    var result = "";
+    var result = [];
     console.log("2222", props.categories);
     const categories = props.categories;
     if (categories && categories.length > 0) {

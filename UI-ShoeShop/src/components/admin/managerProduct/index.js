@@ -379,7 +379,7 @@ function ManagerProduct(props) {
                   Hủy
                 </button>
                 <button className="fill-button" onClick={createProduct}>
-                  Hủy
+                  Lưu
                 </button>
               </div>
             </div>

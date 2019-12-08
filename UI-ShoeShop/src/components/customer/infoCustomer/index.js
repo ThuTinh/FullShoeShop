@@ -3,14 +3,17 @@ import "./style.css";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { atcGetCurentUserRequest } from "../../../actions";
+import {
+  atcGetCurentUserRequest,
+  atcUpdateUserRequest
+} from "../../../actions";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 350,
+    width: 350
   },
   containerTextField: {
     display: "flex",
@@ -52,6 +55,7 @@ function InforCustomer(props) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [shipAddress, setShipAddress] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const [data, setData] = useState(new FormData());
   const [url, setUrl] = useState({});
@@ -83,6 +87,11 @@ function InforCustomer(props) {
       shipAddress: shipAddress
     };
     props.updateUser(currentUser._id, user);
+    setdisAddress(true);
+    setdisEmail(true);
+    setdisName(true);
+    setdisShipAddress(true);
+    setdisPhone(true);
   };
 
   const [currentUser, setCurrentUser] = useState(props.currentUser);
@@ -98,8 +107,12 @@ function InforCustomer(props) {
     setEmail(currentUser.email);
     setAddress(currentUser.address);
     setShipAddress(currentUser.shipAddress);
-    setPhone(currentUser.phone)
-
+    setPhone(currentUser.phone);
+    if (props.currentUser.avatar) {
+      setAvatar(
+        `http://localhost:1337/images/temp/${props.currentUser.avatar}`
+      );
+    }
   }, [props.currentUser]);
 
   return (
@@ -131,7 +144,7 @@ function InforCustomer(props) {
               style={{ marginTop: "30px" }}
               disabled={disName}
               name="name"
-              value ={name}
+              value={name}
               onChange={e => {
                 setName(e.target.value);
               }}
@@ -180,7 +193,7 @@ function InforCustomer(props) {
               margin="normal"
               disabled={disPhone}
               name="phone"
-              value = {phone}
+              value={phone}
               onChange={e => {
                 setPhone(e.target.value);
               }}
@@ -188,7 +201,7 @@ function InforCustomer(props) {
             <div
               className="change-infor"
               onClick={() => {
-                setdisPhone(true);
+                setdisPhone(false);
               }}
             >
               <p className={classes.textChange}>
@@ -204,7 +217,7 @@ function InforCustomer(props) {
               margin="normal"
               disabled={disAddress}
               name="address"
-              value = {address}
+              value={address}
               onChange={e => {
                 setAddress(e.target.value);
               }}
@@ -226,7 +239,7 @@ function InforCustomer(props) {
               label="Địa chỉ nhận hàng"
               className={classes.textField}
               margin="normal"
-              name = "shipAddress"
+              name="shipAddress"
               value={shipAddress}
               disabled={disShipAddress}
               onChange={e => {
@@ -286,6 +299,19 @@ function InforCustomer(props) {
                 )
                 .then(res => {
                   console.log("imageL:", res);
+                  console.log("avater id", currentUser._id);
+                  console.log("aaaxx", res.data.payload);
+                  axios
+                    .put(
+                      `http://localhost:1337/api/v1/users/avatar/${currentUser._id}`,
+                      { avatar: res.data.payload }
+                    )
+                    .then(res => {
+                      console.log("update avatar", res);
+                    });
+                })
+                .catch(err => {
+                  console.log("Loi", err);
                 });
             }}
           >
@@ -305,6 +331,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getCurrentUser: token => {
       dispatch(atcGetCurentUserRequest(token));
+    },
+    updateUser: (id, user) => {
+      dispatch(atcUpdateUserRequest(id, user));
     }
   };
 };

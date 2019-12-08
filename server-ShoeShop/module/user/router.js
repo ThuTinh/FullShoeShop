@@ -14,7 +14,10 @@ const {
   addToCard,
   getCustomer,
   getEmployee,
-  changeRole
+  changeRole,
+  updateAvatar,
+  getFavoriteProducts,
+  removeFavoriteProduct
 } = require("./handler");
 const { secret } = require("../config").tokenConfig;
 const { handleError, makeResponse } = require("../common");
@@ -59,6 +62,28 @@ router.get("/search", async (req, res, next) => {
  *     security:
  *       - bearerAuth: []
  */
+router.get("/favorite-products/:id", async (req, res, next) => {
+  try {
+    const userId = req.params.id ? req.params.id : 0;
+    const favoriteProducts = await getFavoriteProducts(userId);
+    res.status(200).json(makeResponse(favoriteProducts));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
+  }
+});
+
+router.delete("/favorite-products/:id", async (req, res, next) => {
+  try {
+    if (!req.body) throw new Error("miss body");
+    const userId = req.params.id ? req.params.id : 0;
+    const product= await removeFavoriteProduct(userId, req.body.productId);
+    res.status(200).json(makeResponse(product))
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
+  }
+});
 router.get("/customers", async (req, res, next) => {
   try {
     const customers = await getCustomer();
@@ -292,6 +317,21 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.put("/favorited-product", async (req, res, next) => {
+  //Bug  inside, still need fix
+  try {
+    if (!req.body) {
+      throw new Error("Body is empty");
+    }
+    await addFavoritedProduct(req.body.id, req.body.productId);
+    res.json(makeResponse("User favorited product successed"));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
+    console.log("looif", error);
+  }
+});
+
 // /**
 //  * @swagger
 //  * /api/v1/users/:
@@ -317,7 +357,7 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     const validateBody = body => {
-      const validFields = ["name", "phone", "address"];
+      const validFields = ["name", "phone", "address", "email", "shipAddress"];
       if (!body || Object.keys(body).length === 0) {
         throw new Error("Body is empty");
       }
@@ -344,10 +384,22 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/avatar/:id", async (req, res, next) => {
+  try {
+    console.log("req", req.body);
+    let id = req.params.id ? req.params.id : 0;
+    if (!req.body.avatar) throw new Error("miss avatar");
+    const user = await updateAvatar(id, req.body.avatar);
+    res.status(200).json(user);
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.json(handleError(error));
+  }
+});
 router.put("/role/:id", async (req, res, next) => {
   try {
     if (req.params.id && req.body) {
-      const user = await changeRole(req.params.id, req.body.role)
+      const user = await changeRole(req.params.id, req.body.role);
       res.status(200).json(makeResponse(user));
     }
   } catch (error) {
@@ -379,19 +431,6 @@ router.put("/role/:id", async (req, res, next) => {
 //  *     security:
 //  *       - bearerAuth: []
 //  */
-router.put("/favorited-product", async (req, res, next) => {
-  //Bug  inside, still need fix
-  try {
-    if (!req.body || Object.keys(req.body).length === 0) {
-      throw new Error("Body is empty");
-    }
-    await addFavoritedProduct(req.id, req.body.productId);
-    res.json(makeResponse("User favorited product successed"));
-  } catch (error) {
-    logger.info(`${req.originalUrl}: `, error);
-    res.json(handleError(error));
-  }
-});
 
 // /**
 //  * @swagger

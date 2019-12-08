@@ -42,6 +42,15 @@ const findProductById = async id => {
   });
 };
 
+const updateCountFavorite = async (id, count) => {
+  return await Product.findByIdAndUpdate(mongoose.Types.ObjectId(id), {
+    $set: { favorited: count }
+  });
+};
+//   product._id,
+//   product.favorited ? product.favorited + 1 : 1
+// );
+
 const addItem = async (_id, filter, newId) => {
   let object = {};
   object[filter] = newId;
@@ -171,5 +180,6 @@ module.exports = {
   updateDetailItem,
   updatePriceDetail,
   search,
-  removeImgName
+  removeImgName,
+  updateCountFavorite
 };

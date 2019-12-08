@@ -12,6 +12,12 @@ import ordersSuplier from "./ordersSuplier"
 import detailOrderSuplier from "./detailOrderSuplier"
 import user from "./user"
 import product from './product'
+import countCart from './countCart'
+import totalPrice from './totalPrice'
+import orderCustomer from './orderCutomer'
+import orders from './orders' 
+import order from './order'
+import favoriteProducts from './favoriteProducts'
 const reducerControler = combineReducers({
     login,
     sign,
@@ -25,8 +31,13 @@ const reducerControler = combineReducers({
     detailProduct,
     ordersSuplier,
     detailOrderSuplier,
-    user
-
+    user,
+    countCart,
+    totalPrice,
+    orderCustomer,
+    orders,
+    order,
+    favoriteProducts
 });
 
 export default reducerControler;

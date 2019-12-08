@@ -65,14 +65,14 @@ function OrderStockItem(props) {
         <StyledTableCell align="center">{order.employee.name}</StyledTableCell>
         <StyledTableCell align="center">{order.status}</StyledTableCell>
         <StyledTableCell align="center">
-          {/* <Link
+          <Link
             to={{
               pathname: `/admin/stock-orders/${order._id}`
             }}
             className={classes.icon}
-          > */}
+          >
           <VisibilityIcon onClick={showDetailOrder}></VisibilityIcon>
-          {/* </Link> */}
+          </Link>
           <DeleteIcon
             className={classes.icon}
             onClick={deleteOrderSuplier}

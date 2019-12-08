@@ -6,6 +6,9 @@ import Badge from "@material-ui/core/Badge";
 import PersonIcon from "@material-ui/icons/Person";
 import { connect } from "react-redux";
 import { atcGetCategoryRequest } from "../../../actions";
+import { Link } from "react-router-dom";
+import logo from "../../../assets/image/logo.jpg";
+import { Redirect } from "react-router-dom";
 import "./style.css";
 
 const StyledBadge1 = withStyles(theme => ({
@@ -22,7 +25,8 @@ class Navbars extends React.Component {
     this.state = {
       prevScrollpos: window.pageYOffset,
       visible: true,
-      visibleSearch: true
+      visibleSearch: true,
+      redirect: false
     };
   }
 
@@ -64,7 +68,7 @@ class Navbars extends React.Component {
           ) {
             result = this.props.categories[i].children.map(
               (children, index) => {
-                return <li >{children.name}</li>;
+                return <li>{children.name}</li>;
               }
             );
           }
@@ -100,17 +104,28 @@ class Navbars extends React.Component {
   };
 
   render() {
-    
     // return focus to the button when we transitioned from !open -> open
     return (
-      
       <div className="menu-container">
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
+          <div style={{ position: "absolute", left: "10px" }}>
+            <img
+              className="logo"
+              src={logo}
+              alt="logo"
+              onClick={() => {
+                this.setState({
+                  redirect: !this.state.redirect
+                });
+              }}
+            />
+            {this.state.redirect && <Redirect to="/" />}
+          </div>
           <div className="wraper">
             <ul>
               <li>
                 Giày nữ
-                <ul >{this.renderWomenCategory()}</ul>
+                <ul>{this.renderWomenCategory()}</ul>
               </li>
               <li>
                 Giày nam
@@ -119,30 +134,36 @@ class Navbars extends React.Component {
               <li>Bán chạy</li>
               <li>Khuyến mãi</li>
               <li>Giới thiệu shop</li>
+              <li>
+                <PersonIcon className="icon-person"></PersonIcon>
+                <ul className="menu-person">
+                  <li>
+                    <Link to="/my-acount"> Tài khoản của tôi</Link>
+                  </li>
+                  <li>
+                    {" "}
+                    <Link to="/my-acount/orders">Đơn mua</Link>
+                  </li>
+                  <li>Đăng Xuất</li>
+                </ul>
+              </li>
+              <li>
+                <StyledBadge1
+                  badgeContent={this.props.count} // chỗ này ko nhận dc
+                  color="primary"
+                  className="shopping-cart"
+                >
+                  <ShoppingCartIcon className="menu-cart" />
+                </StyledBadge1>
+              </li>
             </ul>
           </div>
-         
-          <div className="menu-cart-search">
-            <StyledBadge1
-              badgeContent= {this.props.countCarts}
-              color="primary"
-              className="shopping-cart"
-            >
-              <ShoppingCartIcon className="menu-cart" />
-            </StyledBadge1>
 
+          <div className="menu-cart-search">
             <SearchIcon
               className="menu-search"
               onClick={this.onIconSearchClick}
             />
-          </div>
-          <div>
-            <PersonIcon className="icon-person">
-              <ul className="menu-person">
-                <li>Tài khoản của tôi</li>
-                <li>Đăng cuất</li>
-              </ul>
-            </PersonIcon>
           </div>
         </nav>
         <div
@@ -170,7 +191,8 @@ class Navbars extends React.Component {
 
 const stateMapToProps = (state, props) => {
   return {
-    categories: state.categories
+    categories: state.categories,
+    count: state.countCart // chỗ này get ó nè
   };
 };
 const dispatchMapToProps = (dispatch, props) => {
@@ -180,7 +202,4 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(Navbars);
+export default connect(stateMapToProps, dispatchMapToProps)(Navbars);

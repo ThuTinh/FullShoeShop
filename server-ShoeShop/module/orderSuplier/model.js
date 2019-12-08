@@ -124,7 +124,7 @@ const schema = new Schema(
     },
     status: {
       type: String,
-      enum: [STATUS.PAID, STATUS.ORDERED, STATUS.CANCEL],
+      // enum: [STATUS.PAID, STATUS.ORDERED, STATUS.COMPLETED],
       default: STATUS.PAID,
       required: [true, "is required"]
     },

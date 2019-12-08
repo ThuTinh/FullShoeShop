@@ -73,10 +73,6 @@ function ImportStockDetail(props) {
   };
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        {" "}
-        <button className="outline-button">Lưu chi tiết đơn hàng</button>
-      </div>
       <Table aria-label="simple table">
         <TableHead style={{ backgroundColor: "#F5F5F5" }}>
           <TableRow>

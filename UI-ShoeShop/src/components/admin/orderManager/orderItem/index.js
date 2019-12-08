@@ -32,23 +32,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function OrderItem() {
+function OrderItem(props) {
   const classes = useStyles();
+  const order = props.order;
   return (
-    <StyledTableRow>
-      <StyledTableCell component="th" scope="row">
-        1122435{" "}
-      </StyledTableCell>
-      <StyledTableCell align="center">Ngọc</StyledTableCell>
-      <StyledTableCell align="center">Thủ đức TPHCM</StyledTableCell>
-      <StyledTableCell align="center">0981853641</StyledTableCell>
-      <StyledTableCell align="center">12:00 15/10/2019</StyledTableCell>
-      <StyledTableCell align="center" className={classes.detail}>
-        {/* <Link to="/admin/orderDetail">Chi tiết</Link> */}
-        <Link to="/admin/orderDetail">Chi tiết</Link>
-      </StyledTableCell>
-      <StyledTableCell align="center">Duyệt</StyledTableCell>
-    </StyledTableRow>
+   ( props.status == "ALL" || props.status== order.status) && (
+      <StyledTableRow>
+        <StyledTableCell component="th" scope="row">
+          {props.index + 1}
+        </StyledTableCell>
+        <StyledTableCell align="center">{order.name}</StyledTableCell>
+        <StyledTableCell align="center">{order.shipAddress}</StyledTableCell>
+        <StyledTableCell align="center">{order.phone}</StyledTableCell>
+        <StyledTableCell align="center">{order.updatedAt}</StyledTableCell>
+        <StyledTableCell align="center" className={classes.detail}>
+          {/* <Link to="/admin/orderDetail">Chi tiết</Link> */}
+          <Link to={{
+            pathname:`/admin/order-detail/${order._id}`
+          }}>Chi tiết</Link>
+        </StyledTableCell>
+        <StyledTableCell align="center">{order.status}</StyledTableCell>
+      </StyledTableRow>
+    )
   );
 }
 export default OrderItem;

@@ -89,7 +89,6 @@ const schema = new Schema(
       {
         productId: {
           type: Schema.Types.ObjectId,
-
           ref: "product"
         },
         size: {
@@ -116,11 +115,11 @@ const schema = new Schema(
     },
     status: {
       type: String,
-      enum: [STATUS.PAID, STATUS.ORDERED, STATUS.CANCEL],
-      default: STATUS.ORDERED,
+      // enum: [STATUS.PAID, STATUS.ORDERED, STATUS.CANCEL],
+      default: STATUS.PAID,
       required: [true, "is required"]
     },
-    fullname: {
+    name: {
       type: String,
       required: [true, "is required"]
     },

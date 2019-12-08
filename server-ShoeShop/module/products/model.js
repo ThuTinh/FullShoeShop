@@ -9,7 +9,7 @@ const rating = new Schema(
       type: String,
       required: true
     },
-    
+
     rate: {
       type: Number,
       max: [5, "max rate is 5"],
@@ -37,7 +37,7 @@ const schema = new Schema(
     inventory: {
       type: Number,
       trim: true,
-      default: 0,
+      default: 0
     },
     nameShow: {
       type: String,
@@ -55,6 +55,11 @@ const schema = new Schema(
     sale: {
       type: Number,
       trim: true
+    },
+    favorited: {
+      type: Number,
+      trim: true,
+      default: 0
     },
     categories: {
       type: Schema.Types.ObjectId,
@@ -124,8 +129,7 @@ const schema = new Schema(
     deleted: {
       type: Boolean,
       select: false,
-      default: false,
-      
+      default: false
     }
   },
   {

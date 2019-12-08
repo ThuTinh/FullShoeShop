@@ -312,7 +312,7 @@ function AdminHome(props) {
               component={DetailSuplier}
             ></Route>
 
-            <Route path="/admin/orderDetail" component={OrderDetail}></Route>
+            <Route path="/admin/order-detail/:id" component={OrderDetail}></Route>
 
             <Route path="/admin/kinds" component={KindManager}></Route>
             <Route

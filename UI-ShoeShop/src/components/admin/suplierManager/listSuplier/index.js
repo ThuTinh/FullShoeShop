@@ -224,26 +224,12 @@ function ListSuplier(props) {
                 />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleClose}
-                  style={{
-                    backgroundColor: "#512c62",
-                    marginTop: "10px",
-                    marginRight: "10px"
-                  }}
-                >
+                <button className="fill-button" onClick={handleClose}>
                   Hủy
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={createSuplier}
-                  style={{ backgroundColor: "#512c62", marginTop: "10px" }}
-                >
+                </button>
+                <button className="fill-button" onClick={createSuplier}>
                   Lưu
-                </Button>
+                </button>
               </div>
             </div>
           </div>

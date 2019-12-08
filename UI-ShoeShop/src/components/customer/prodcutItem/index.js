@@ -3,13 +3,16 @@ import Rating from "@material-ui/lab/Rating";
 import shoe from "../../../assets/image/shoe.jpg";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Paper from "@material-ui/core/Paper";
+import {connect} from 'react-redux'
 import "./style.css";
 
-function ProductItem() {
+function ProductItem(props) {
   const [value, setValue] = useState(2);
   const [show, setShow] = useState(false);
+  const product = props.product;
+
   return (
     <Paper>
       <div
@@ -26,12 +29,16 @@ function ProductItem() {
           />
         </div>
         <div className="card-item-body">
-          <Link to="/product/:id" className="tilte">
-            Giày convert chính hàng mua từ hàn quốc giá rẻ
-       
+          <Link
+            to={{
+              pathname: `/product-detail/${product._id}`
+            }}
+            className="tilte"
+          >
+            {product.nameShow || product.name}
           </Link>
-          <p style={{ color: "#FFB700", }}>
-            <b>120.000đ</b>
+          <p style={{ color: "#FFB700" }}>
+            <b>{product.price} đ</b>
           </p>
           <div
             style={{
@@ -64,13 +71,21 @@ function ProductItem() {
                 </div>
                 <div>
                   {" "}
-                  <FavoriteBorderIcon className="favorite-icon"></FavoriteBorderIcon>
+                  <FavoriteBorderIcon className="favorite-icon" onClick={()=> {props.addFavourite(product._id)}}/>
                 </div>
               </div>
             </div>
           </div>
-          <div style = {{display:'flex', justifyContent:'flex-end', marginRight:"20px"}}>
-            <i style = {{color:"#00000", fontSize:'12px', fontWeight:'500'}}>120 đã bán</i>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "20px"
+            }}
+          >
+            <i style={{ color: "#00000", fontSize: "12px", fontWeight: "500" }}>
+              120 đã bán
+            </i>
           </div>
         </div>
       </div>

@@ -8,7 +8,6 @@ const validate = data => {
 };
 
 const filter = async filter => {
-
   const reg = new RegExp(filter, "i");
   return OrderSuplier.find()
     .populate({ path: "suplierId", match: { _id: { $exists: true } } })
@@ -25,13 +24,13 @@ const filter = async filter => {
 
   //   select: "name"
   // });
-
 };
 
 const findOne = async id => {
   return await OrderSuplier.findById(id)
     .populate("suplierId")
-    .populate("employee");
+    .populate("employee")
+    .populate("products.maSanPham");
 };
 
 const create = async data => {
@@ -51,4 +50,22 @@ const remove = async id => {
   );
 };
 
-module.exports = { validate, create, update, remove, filter, findOne };
+const Approved = async (id, status) => {
+  try {
+    return await OrderSuplier.findByIdAndUpdate(mongoose.Types.ObjectId(id), {
+      status: status
+    });
+  } catch (error) {
+    console.log("lỗi", error);
+    return null;
+  }
+};
+module.exports = {
+  validate,
+  create,
+  update,
+  remove,
+  filter,
+  findOne,
+  Approved
+};

@@ -6,21 +6,6 @@ import callApi from "../../../../../utils/apiCaller";
 function ProductItem(props) {
   var prices = [];
   const [arrPrice, setArrPrince] = useState([]);
-  useEffect(() => {
-    if (props.isSave) {
-      // prices.map(async (price, index) => {
-      //   let reponse = await callApi(
-      //     `products/update-price-detail/${props.product._id}`,
-      //     "PUT",
-      //     price
-      //   );
-      //   console.log("12345", reponse);
-      // });
-
-      console.log("alalal", props.prices);
-    }
-  }, [props.isSave]);
-
   let sColor = new Set();
 
   let sizes = [];
@@ -146,112 +131,12 @@ function ProductItem(props) {
       }
     }
 
-    // const colors = Array.from(sColor);
-    // const sizes = Array.from(sSize);
-    // let result = [];
-
-    // for (var i = 0; i < colors.length; i++) {
-    //   for (var j = 0; j < sizes.length; j++) {
-    //     if (i == 0 && j == 0) {
-    //       let index = 0;
-    //       for (let k = 0; k < props.product.detail.length; k++) {
-    //         if (
-    //           colors[0] == props.product.detail[k].color &&
-    //           sizes[0] == props.product.detail[0].size
-    //         ) {
-    //           index = k;
-    //           break;
-    //         }
-    //       }
-    //       console.log("index", index);
-    //       let item = (
-    //         <TableRow>
-    //           <TableCell rowSpan={span}>{props.product.name}</TableCell>
-    //           <TableCell align="center" rowSpan={sizes.length}>
-    //             {colors[i]}
-    //           </TableCell>
-    //           <TableCell align="center">{sizes[j]}</TableCell>
-    //           <TableCell align="center">
-    //             {props.product.detail[index].price}
-    //           </TableCell>
-    //           <TableCell align="center">
-    //             {props.product.detail[index].inventory}
-    //           </TableCell>
-    //           <TableCell align="center">
-    //             {props.product.detail[index].amountSold}
-    //           </TableCell>
-    //         </TableRow>
-    //       );
-    //       result.push(item);
-    //     } else {
-    //       if (j == 0) {
-    //         let item = (
-    //           <TableRow>
-    //             <TableCell align="center" rowSpan={sizes.length}>
-    //               {colors[i]}
-    //             </TableCell>
-    //             <TableCell align="center">{sizes[j]}</TableCell>
-    //             <TableCell align="center">100.000</TableCell>
-    //             <TableCell align="center">50</TableCell>
-    //             <TableCell align="center">50</TableCell>
-    //           </TableRow>
-    //         );
-    //         result.push(item);
-    //       } else {
-    //         let item = (
-    //           <TableRow>
-    //             <TableCell align="center">{sizes[j]}</TableCell>
-    //             <TableCell align="center">100.000</TableCell>
-    //             <TableCell align="center">10</TableCell>
-    //             <TableCell align="center">40</TableCell>
-    //           </TableRow>
-    //         );
-    //         result.push(item);
-    //       }
-    //     }
-    //   }
-    // }
+  
     return result;
   };
   return (
     <>
-      {/* <TableRow>
-        <TableCell rowSpan={4}>Giày nữ> giày cao got</TableCell>
-        <TableCell rowSpan={4}>SP A</TableCell>
-        <TableCell align="center" rowSpan={2}>
-          Màu Hổng
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">100.000</TableCell>
-        <TableCell align="center">100</TableCell>
-        <TableCell align="center">200</TableCell>
-        <TableCell align="center">100</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">100.000</TableCell>
-        <TableCell align="center">200</TableCell>
-        <TableCell align="center">300</TableCell>
-        <TableCell align="center">100</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell align="center" rowSpan={2}>
-          Màu đỏ
-        </TableCell>
-        <TableCell align="center">39</TableCell>
-        <TableCell align="center">100.000</TableCell>
-        <TableCell align="center">50</TableCell>
-        <TableCell align="center">100</TableCell>
-        <TableCell align="center">50</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align="center">40</TableCell>
-        <TableCell align="center">100.000</TableCell>
-        <TableCell align="center">10</TableCell>
-        <TableCell align="center">50</TableCell>
-        <TableCell align="center">40</TableCell>
-      </TableRow> */}
+     
       {renderRow()}
     </>
   );
