@@ -44,7 +44,7 @@ function OrderItem(props) {
         <StyledTableCell align="center">{order.name}</StyledTableCell>
         <StyledTableCell align="center">{order.shipAddress}</StyledTableCell>
         <StyledTableCell align="center">{order.phone}</StyledTableCell>
-        <StyledTableCell align="center">{order.updatedAt}</StyledTableCell>
+        <StyledTableCell align="center">{ new Date(order.updatedAt).toDateString("yyyy-MM-dd")}</StyledTableCell>
         <StyledTableCell align="center" className={classes.detail}>
           {/* <Link to="/admin/orderDetail">Chi tiết</Link> */}
           <Link to={{

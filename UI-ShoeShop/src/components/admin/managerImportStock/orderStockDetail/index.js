@@ -169,9 +169,7 @@ function OrderStockDetail(props) {
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div>
           {order.status == "PAID" && <label>Duyệt</label>}
-          {(order.status == "ORDERED" || order.status == "COMPLETED") && (
-            <label>Complteted</label>
-          )}
+          {order.status == "ORDERED" && <label>Hoàn thành</label>}
 
           <Switch checked={duyet} onChange={e => approved(e)} value="duyet" />
         </div>

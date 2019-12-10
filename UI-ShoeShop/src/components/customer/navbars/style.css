@@ -228,4 +228,6 @@ Link:hover{
 }
 .logo:hover{
   cursor: pointer;
+  background-color: transparent;
+  text-transform: none;
 }

@@ -77,7 +77,7 @@ function ProductItem(props) {
       )}
       <StyledTableCell align="center">{inventory}</StyledTableCell>
       <StyledTableCell align="center">
-        {props.product.status ? "Đang hoạt động" : "Ngừng hoạt động"}
+        {props.product.status ? "Đang hoạt động" : "Tạm ngưng"}
       </StyledTableCell>
 
       <StyledTableCell align="center">
@@ -89,12 +89,12 @@ function ProductItem(props) {
         >
           <VisibilityIcon />
         </Link> */}
+        <EditIcon className={classes.icon} onClick={editProduct}></EditIcon>
         <DeleteIcon
           className={classes.icon}
           style={{ marginRight: "10px" }}
           onClick={deleteProduct}
-        ></DeleteIcon>{" "}
-        <EditIcon className={classes.icon} onClick={editProduct}></EditIcon>
+        ></DeleteIcon>
       </StyledTableCell>
     </StyledTableRow>
   );

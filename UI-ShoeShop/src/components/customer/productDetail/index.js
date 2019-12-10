@@ -38,6 +38,7 @@ function ProductDetail(props) {
   const [message, setMessage] = useState("");
   const [variantMessage, setVariantMessage] = useState("info");
   const [user, setUser] = useState(props.currentUser);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   // const history = createBrowserHistory();
   const classes = useStyles();
@@ -92,6 +93,7 @@ function ProductDetail(props) {
     }
     setColor([...Array.from(colorSet)]);
     setSize([...Array.from(sizeSet)]);
+    //const total = localStorage.getItem('total')? parseInt(localStorage.getItem('total')):0;
   }, [props.product]);
 
   useEffect(() => {
@@ -175,6 +177,12 @@ function ProductDetail(props) {
         productOrders.push(productOrder);
         localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
       }
+
+      let total = localStorage.getItem("total")
+        ? parseInt(localStorage.getItem("total"))
+        : 0;
+      total += parseInt(product.price) * parseInt(quanlity);
+      localStorage.setItem("total", total);
       showMessage("info", "Thêm sản phẩm thành công!");
 
       //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
@@ -204,6 +212,11 @@ function ProductDetail(props) {
         productOrders.push(productOrder);
         localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
       }
+      let total = localStorage.getItem("total")
+        ? parseInt(localStorage.getItem("total"))
+        : 0;
+      total += parseInt(product.price) * parseInt(quanlity);
+      localStorage.setItem("total", total);
       props.addToCart(1);
     }
   };

@@ -11,9 +11,10 @@ function getSteps() {
 
 function OrderItem(props) {
   const [activeStep, setActiveStep] = useState(3);
-  const orderItem = props.orderItem;
+  const [orderItem, setOrderItem] = useState(props.orderItem);
+  const [hideCancel, setHidecancel] = useState(true);
   const steps = getSteps();
-
+  console.log("oeeritem nẻ", orderItem);
   useEffect(() => {
     switch (props.status) {
       case "PAID":
@@ -22,6 +23,7 @@ function OrderItem(props) {
         break;
       case "SHIPPING":
         setActiveStep(1);
+        setHidecancel(false);
         break;
       case "PAYED":
         setActiveStep(3);
@@ -30,11 +32,15 @@ function OrderItem(props) {
         setActiveStep(0);
 
         break;
-    } 
+    }
   }, []);
-const CancelOrderItem = ()=>{
-  props.cancelProductOrderItem(props.orderId, props.orderItem._id);
-}
+
+  useEffect(() => {
+    setOrderItem(props.orderItem);
+  }, [props.orderItem]);
+  const CancelOrderItem = () => {
+    props.cancelProductOrderItem(props.orderId, props.orderItem._id);
+  };
   return (
     <div className="container-order">
       <div className="container-order-item">
@@ -47,10 +53,21 @@ const CancelOrderItem = ()=>{
             />
           </Grid>
           <Grid sm={3} item>
-            <h6> {orderItem.productId.nameShow || orderItem.productId.name}</h6>
+            <h6> {1111}</h6>
             <p> Số lượng: {orderItem.quantity}</p>
-            <p>Ngày mua: 2-2-2019</p>
-            <button className="fill-button" onClick = {()=>{CancelOrderItem()}}>Hủy</button>
+            <p>
+              Ngày mua: {new Date(props.updatedAt).toDateString("yyyy-MM-dd")}
+            </p>
+            {hideCancel && (
+              <button
+                className="fill-button"
+                onClick={() => {
+                  CancelOrderItem();
+                }}
+              >
+                Hủy
+              </button>
+            )}
           </Grid>
 
           <Grid sm={6} item>

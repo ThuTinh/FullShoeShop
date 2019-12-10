@@ -14,7 +14,8 @@ const {
   updateDetailItem,
   updatePriceDetail,
   search,
-  removeImgName
+  removeImgName,
+  UpdateAmountSold
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -274,6 +275,16 @@ router.put("/update-price-detail/:id", async (req, res, next) => {
     logger.info(`${req.originalUrl}: `, err);
     res.json(handleError(err));
   }
+});
+
+router.put("/amount-sold/:id", async (req, res, next) => {
+  const id = req.params.id ? req.params.id : 0;
+  console.log("body ne", req.body)
+  if (!req.body.color || !req.body.size || !req.body.quantity) {
+    throw new Error("Miss body!!");
+  }
+  const product = await UpdateAmountSold(id, req.body.color, req.body.size, req.body.quantity);
+  res.status(200).json(makeResponse(product));
 });
 
 router.delete("/image/:id", async (req, res, next) => {

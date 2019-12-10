@@ -650,3 +650,11 @@ export const atcChangeStatusOrderRequest = (orderId, status)=>{
     })
   }
 }
+
+export const atcUpdateAmountSold = (productId, color, size, quantity)=>{
+ return dispatch =>{
+   return callApi( `products/amount-sold/${productId}`, "PUT", `{"color": "${color}","size": "${size}", "quantity":"${quantity}" }`).then(res=>{
+     console.log("aiji",res);
+   })
+ } 
+}

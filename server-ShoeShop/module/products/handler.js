@@ -165,6 +165,17 @@ const removeImgName = async (id, name) => {
 //   throw new Error(filter + ' existed')
 // }
 
+const UpdateAmountSold = async (productId, color, size, quantity) => {
+  return await Product.update(
+    {
+      _id: mongoose.Types.ObjectId(productId),
+      "detail.color": color,
+      "detail.size": size
+    },
+    { $inc: { "detail.$.amountSold": parseInt(quantity), "detail.$.inventory": -parseInt(quantity)  } }
+  );
+};
+
 module.exports = {
   validateReqBody,
   findAll,
@@ -181,5 +192,6 @@ module.exports = {
   updatePriceDetail,
   search,
   removeImgName,
-  updateCountFavorite
+  updateCountFavorite,
+  UpdateAmountSold
 };

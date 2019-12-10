@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Paper from "@material-ui/core/Paper";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import "./style.css";
 
 function ProductItem(props) {
   const [value, setValue] = useState(2);
   const [show, setShow] = useState(false);
   const product = props.product;
-
+  const addToCart = () => {};
   return (
     <Paper>
       <div
@@ -67,11 +67,17 @@ function ProductItem(props) {
                       fontSize: "35px",
                       marginBottom: "10px"
                     }}
-                  ></ShoppingCartIcon>
+                    onClick={addToCart}
+                  />
                 </div>
                 <div>
                   {" "}
-                  <FavoriteBorderIcon className="favorite-icon" onClick={()=> {props.addFavourite(product._id)}}/>
+                  <FavoriteBorderIcon
+                    className="favorite-icon"
+                    onClick={() => {
+                      props.addFavourite(product._id);
+                    }}
+                  />
                 </div>
               </div>
             </div>

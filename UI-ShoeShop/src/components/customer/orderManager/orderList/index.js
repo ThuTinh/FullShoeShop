@@ -30,10 +30,8 @@ function OrderList(props) {
   const renderOrderItem = () => {
     let result = [];
     if (orders && orders.length > 0) {
-      console.log("length", orders.length);
       orders.map((order, index) => {
         if (order.products && order.products.length > 0) {
-          console.log("lengh1", order.products.length);
           order.products.map((item, ind) => {
             const orderItem = (
               <OrderItem
@@ -42,6 +40,7 @@ function OrderList(props) {
                 status={order.status}
                 orderId={order._id}
                 cancelProductOrderItem={cancelProductOrderItem}
+                updatedAt = {order.updatedAt}
               />
             );
             result.push(orderItem);

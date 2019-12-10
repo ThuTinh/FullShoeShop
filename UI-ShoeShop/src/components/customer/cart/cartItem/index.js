@@ -6,7 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import "./style.css";
-import { atcTotalPrice } from "../../../../actions";
+import { atcTotalPrice, atcAddToCart } from "../../../../actions";
 import { connect } from "react-redux";
 
 const StyledTableRow = withStyles(theme => ({
@@ -40,26 +40,45 @@ function CartItem(props) {
     parseInt(props.productOrder.price) * parseInt(props.productOrder.quantity)
   );
   const addQuanlityProduct = count => {
+    const temp = quantity + count;
+    var total = localStorage.getItem("total")
+      ? parseInt(localStorage.getItem("total"))
+      : 0;
     if (count < 0) {
       if (quantity > 1) {
-        setQuanlity(quantity + count);
+        setQuanlity(temp);
         props.calculateTotalPrice(-parseInt(productOrder.price));
+        props.addToCart(-1);
+        total -= parseInt(productOrder.price);
       }
     } else {
-      setQuanlity(quantity + count);
+      setQuanlity(temp);
       props.calculateTotalPrice(parseInt(productOrder.price));
+      total += parseInt(productOrder.price);
+      props.addToCart(1);
     }
-    let productOrders = JSON.parse(localStorage.getItem("ProductOrders"));
-    if (productOrders && productOrders.length > 0) {
-      productOrders[props.index].quantity = quantity;
-      localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
+    if (temp > 0) {
+      let productOrders = JSON.parse(localStorage.getItem("ProductOrders"));
+      if (productOrders && productOrders.length > 0) {
+        productOrders[props.index].quantity = temp;
+        localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
+      }
+      setTotalPrice(parseInt(productOrder.price) * parseInt(temp));
+      localStorage.setItem("total", total);
     }
-    setTotalPrice(parseInt(productOrder.price) * parseInt(quantity));
   };
 
   const removeProductOrder = () => {
     let productOrders = JSON.parse(localStorage.getItem("ProductOrders"));
     if (productOrders && productOrders.length > 0) {
+      const price =
+        parseInt(productOrders[props.index].price) *
+        parseInt(productOrders[props.index].quantity);
+      const total = parseInt(localStorage.getItem("total")) - price;
+      props.calculateTotalPrice(-price);
+      props.addToCart(-parseInt(productOrders[props.index].quantity));
+
+      localStorage.setItem("total", total);
       productOrders.splice(props.index, 1);
       localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
       props.remove();
@@ -82,7 +101,7 @@ function CartItem(props) {
       <StyledTableCell align="center">{productOrder.price}</StyledTableCell>
       <StyledTableCell align="center">
         <label>{quantity}</label>
-        {!props.buy  && (
+        {!props.buy && (
           <>
             {" "}
             <AddIcon
@@ -113,7 +132,7 @@ function CartItem(props) {
       </StyledTableCell>
       <StyledTableCell align="center">{totalPrice}</StyledTableCell>
       <StyledTableCell align="center">
-        {!props.buy && <DeleteIcon onClick={removeProductOrder} />} 
+        {!props.buy && <DeleteIcon onClick={removeProductOrder} />}
       </StyledTableCell>
     </StyledTableRow>
   );
@@ -138,6 +157,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     calculateTotalPrice: price => {
       dispatch(atcTotalPrice(price));
+    },
+    addToCart: count => {
+      dispatch(atcAddToCart(count));
     }
   };
 };

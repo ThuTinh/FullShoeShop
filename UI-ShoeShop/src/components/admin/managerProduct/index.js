@@ -82,6 +82,7 @@ function ManagerProduct(props) {
   const [message, setMessage] = useState("");
   const [variantMessage, setVariantMessage] = useState("info");
   const [filter, setFilter] = useState("");
+  const [status, setStatus] = useState(false);
 
   const atcChooseParent = e => {
     setChooseParent(e.target.value);
@@ -132,7 +133,8 @@ function ManagerProduct(props) {
   const createProduct = () => {
     let product = {
       name: nameProduct,
-      categories: subParent
+      categories: subParent,
+      status: status
     };
     if (idUpdate.length > 0) {
       try {
@@ -194,6 +196,7 @@ function ManagerProduct(props) {
     console.log("update", checkUpdate);
     setIdUpdate(product._id);
     setNameProduct(product.name);
+    setStatus(product.status);
     if (product.categories != null) {
       setChooseParent(product.categories.parent.name);
       console.log("setCHooo", product.categories.parent.name);
@@ -368,11 +371,19 @@ function ManagerProduct(props) {
               <div>
                 <label
                   className={classes.label}
-                  style={{ marginRight: "30px" }}
+                  style={{ marginRight: "50px" }}
                 >
                   Trạng thái
                 </label>
-                <input type="checkbox" className /> Hiện
+                <input
+                  type="checkbox"
+                  checked={status}
+                  onChange={e => {
+                    setStatus(e.target.checked);
+                      console.log("ahihi", e.target.checked);
+                  }}
+                />{" "}
+                Hoạt động
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <button className="fill-button" onClick={handleClose}>

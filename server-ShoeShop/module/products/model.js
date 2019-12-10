@@ -34,11 +34,11 @@ const schema = new Schema(
       index: true
     },
 
-    inventory: {
-      type: Number,
-      trim: true,
-      default: 0
-    },
+    // inventory: {
+    //   type: Number,
+    //   trim: true,
+    //   default: 0
+    // },
     nameShow: {
       type: String,
       trim: true
@@ -107,11 +107,11 @@ const schema = new Schema(
         }
       }
     ],
-    amountSold: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
+    // amountSold: {
+    //   type: Number,
+    //   default: 0,
+    //   min: 0
+    // },
     //status: true: đang hoạt đông
     //status: false: ngừng hoạt động
     status: {
@@ -119,12 +119,6 @@ const schema = new Schema(
       select: true,
       default: true,
       required: true
-    },
-
-    favorited: {
-      type: Number,
-      default: 0,
-      min: 0
     },
     deleted: {
       type: Boolean,

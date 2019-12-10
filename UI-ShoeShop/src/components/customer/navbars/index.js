@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import PersonIcon from "@material-ui/icons/Person";
 import { connect } from "react-redux";
-import { atcGetCategoryRequest } from "../../../actions";
+import { atcGetCategoryRequest, atcAddToCart } from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
 import { Redirect } from "react-router-dom";
@@ -34,6 +34,15 @@ class Navbars extends React.Component {
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
     console.log(this.state.visible);
+    const orderOlds = JSON.parse(localStorage.getItem("ProductOrders"));
+    if (orderOlds && orderOlds.length > 0) {
+      let count = 0;
+      for (let i = 0; i < orderOlds.length; i++) {
+        console.log("count",  count);
+        count += parseInt(orderOlds[i].quantity);
+      }
+      this.props.addToCart(count);
+    }
   }
 
   // Remove the event listener when the component is unmount.
@@ -153,7 +162,9 @@ class Navbars extends React.Component {
                   color="primary"
                   className="shopping-cart"
                 >
-                  <ShoppingCartIcon className="menu-cart" />
+                  <Link to="/cart" style={{ color: "black" }}>
+                    <ShoppingCartIcon className="menu-cart" />
+                  </Link>
                 </StyledBadge1>
               </li>
             </ul>
@@ -199,6 +210,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getCategory: () => {
       dispatch(atcGetCategoryRequest());
+    },
+    addToCart: count => {
+      dispatch(atcAddToCart(count));
     }
   };
 };

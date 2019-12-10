@@ -4,11 +4,13 @@ import TableRow from "@material-ui/core/TableRow";
 import { Link } from "react-router-dom";
 import TableCell from "@material-ui/core/TableCell";
 import { connect } from "react-redux";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 import {
   atcTotalPrice,
   atcGetCurentUserRequest,
-  atcMakeOrderCustomer
+  atcMakeOrderCustomer,
+  atcAddToCart,
+  atcUpdateAmountSold
 } from "../../../../actions";
 
 const StyledTableRow = withStyles(theme => ({
@@ -33,14 +35,32 @@ function CartResult(props) {
   const [user, setUser] = useState(props.currentUser);
   const [ordered, setOrdered] = useState(false);
   useEffect(() => {
-    const productOrders = props.productOrders;
-    let total = 0;
-    if (productOrders && productOrders.length > 0) {
-      productOrders.map((productOrder, index) => {
-        total += parseInt(productOrder.price) * parseInt(productOrder.quantity);
-      });
+    // const productOrders = props.productOrders;
+    // if (productOrders && productOrders.length > 0) {
+    //   productOrders.map((productOrder, index) => {
+    //     total += parseInt(productOrder.price) * parseInt(productOrder.quantity);
+    //   });
 
+    //
+    // }
+
+    if (props.totalPrice == 0) {
+      let total = parseInt(localStorage.getItem("total"))
+        ? parseInt(localStorage.getItem("total"))
+        : 0;
       props.calculateTotalPrice(total);
+    } else {
+      const productOrders = props.productOrders;
+
+      if (productOrders && productOrders.length > 0) {
+        let total = 0;
+        productOrders.map((productOrder, index) => {
+          total +=
+            parseInt(productOrder.price) * parseInt(productOrder.quantity);
+        });
+
+        props.calculateTotalPrice(total - props.totalPrice);
+      }
     }
 
     const token = localStorage.getItem("token");
@@ -55,7 +75,8 @@ function CartResult(props) {
     const temp = JSON.parse(localStorage.getItem("ProductOrders"));
     let products = [];
     if (temp && temp.length > 0) {
-      products = temp.map((item, index) => {
+      products = temp.map( (item, index) => {
+        props.updateAmountSold(item.productId,item.color, item.size, item.quantity);
         return {
           productId: item.productId,
           color: item.color,
@@ -76,6 +97,9 @@ function CartResult(props) {
     };
     props.makeOrderCumtomer(order);
     localStorage.removeItem("ProductOrders");
+    localStorage.removeItem("total");
+    props.addToCart(-props.count);
+    props.calculateTotalPrice(-props.totalPrice);
     setOrdered(true);
     console.log("order", order);
   };
@@ -110,7 +134,7 @@ function CartResult(props) {
             Đặt hàng
           </button>
         )}
-        {ordered && <Redirect to='/my-acount/orders' />}
+        {ordered && <Redirect to="/my-acount/orders" />}
       </StyledTableCell>
     </StyledTableRow>
   );
@@ -119,7 +143,8 @@ function CartResult(props) {
 const stateMapToProps = (state, props) => {
   return {
     totalPrice: state.totalPrice,
-    currentUser: state.user
+    currentUser: state.user,
+    count: state.countCart
   };
 };
 const dispatchMapToProps = (dispatch, props) => {
@@ -132,6 +157,12 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     makeOrderCumtomer: order => {
       dispatch(atcMakeOrderCustomer(order));
+    },
+    addToCart: count => {
+      dispatch(atcAddToCart(count));
+    },
+    updateAmountSold: (productId, color, size, quantity)=>{
+      dispatch(atcUpdateAmountSold(productId, color, size, quantity))
     }
   };
 };

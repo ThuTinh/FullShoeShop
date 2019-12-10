@@ -31,30 +31,26 @@ const removeProductItem = async (id, productItemId) => {
   try {
     const order = await Order.findById(id);
     let total = parseInt(order.totalPrice);
-
-    for (let i = 0; i < order.products.length; i++) {
-      if (order.products[i]._id == productItemId) {
-        total =
-          parseInt(order.totalPrice) -
-          parseInt(order.products[i].price) *
-            parseInt(order.products[i].quantity);
-        console.log(
-          "total ne",
-          total,
-          order.totalPrice,
-          order.products[i].price,
-          order.products[i].quantity
-        );
-        return await Order.findOneAndUpdate(
-          { _id: id },
-          {
-            $pull: {
-              products: { _id: mongoose.Types.ObjectId(productItemId) }
+    if (order.products.length == 1 && order.products[0]._id == productItemId) {
+      return await Order.findByIdAndDelete(id);
+    } else {
+      for (let i = 0; i < order.products.length; i++) {
+        if (order.products[i]._id == productItemId) {
+          total =
+            parseInt(order.totalPrice) -
+            parseInt(order.products[i].price) *
+              parseInt(order.products[i].quantity);
+          return await Order.findOneAndUpdate(
+            { _id: id },
+            {
+              $pull: {
+                products: { _id: mongoose.Types.ObjectId(productItemId) }
+              },
+              totalPrice: total
             },
-            totalPrice: total
-          },
-          { new: true, runValidators: true }
-        );
+            { new: true, runValidators: true }
+          );
+        }
       }
     }
     return order;

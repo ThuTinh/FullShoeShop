@@ -85,7 +85,7 @@ function ListOrder(props) {
       </div>
 
       <Box pt={3}>
-        <h5>0 đơn hàng</h5>
+        <h5>{orders.length} đơn hàng</h5>
       </Box>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
