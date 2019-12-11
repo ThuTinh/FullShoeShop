@@ -149,11 +149,11 @@ function ListSuplier(props) {
             value={filter}
           />
         </div>
-      </div>
-      <div>
-        <button className="outline-button" onClick={clearSearch}>
-          Hủy tìm kiếm
-        </button>
+        <div>
+          <button className="cancel-search" onClick={clearSearch}>
+            Hủy tìm kiếm
+          </button>
+        </div>
       </div>
 
       <Table className={classes.table} aria-label="customized table">

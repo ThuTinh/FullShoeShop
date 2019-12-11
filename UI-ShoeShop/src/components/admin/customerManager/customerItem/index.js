@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": { color: "#f75f00", cursor: "pointer" }
   },
   icon: {
-    color: "#512C62",
+    color: "#D9A128",
     "&:hover": {
       color: "#f75f00",
       cursor: "pointer"

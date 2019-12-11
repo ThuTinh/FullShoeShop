@@ -26,7 +26,7 @@ const StyledTableRow = withStyles(theme => ({
 const useStyles = makeStyles(theme => ({
   detail: { "&:hover": { color: "#f75f00", cursor: "pointer" } },
   icon: {
-    color: "#512C62",
+    color: "#D9A128",
     marginRight: "10px",
     "&:hover": {
       color: "#f75f00",

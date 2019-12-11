@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 function OrderStockList(props) {
   const classes = useStyles();
-  const [filter, setFilter] =useState("");
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     props.getOrdersSuplier("An");
@@ -52,7 +52,7 @@ function OrderStockList(props) {
     var orders = props.ordersSuplier;
     if (orders && orders.length > 0) {
       result = orders.map((order, index) => {
-        if(order.suplierId!=null){
+        if (order.suplierId != null) {
           return (
             <OrderStockItem
               order={order}
@@ -60,32 +60,33 @@ function OrderStockList(props) {
               key={index}
               getDetailOrderSuplier={props.getDetailOrderSuplier}
               deleteOrderSuplier={props.deleteOrderSuplier}
-              status = {props.status}
+              status={props.status}
             />
           );
+        } else {
+          return null;
         }
-        else{
-          return null
-        }
-        
       });
     }
     return result;
   };
-
+  const clearSearch = () => {
+    // setFilter("");
+    // props.getProducts();
+  };
   return (
     <>
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           justifyContent: "flex-start",
           marginBottom: "20px"
         }}
       >
         <div style={{ width: "400px" }}>
           <SearchBar
-            hintText="Tìm kiếm sản phẩm"
+            hintText="Tìm kiếm đơn hàng"
             onChange={() => console.log("onChange")}
             onRequestSearch={() => console.log("onRequestSearch")}
             style={{
@@ -93,6 +94,11 @@ function OrderStockList(props) {
               maxWidth: 400
             }}
           />
+        </div>
+        <div>
+          <button className="cancel-search" onClick={clearSearch}>
+            Hủy tìm kiếm
+          </button>
         </div>
       </div>
       <Table className={classes.table} aria-label="customized table">
@@ -106,7 +112,7 @@ function OrderStockList(props) {
             <StyledTableCell align="center">
               Trạng thái đơn hàng
             </StyledTableCell>
-            <StyledTableCell align="center">Chi tiết đơn hàng</StyledTableCell>
+            <StyledTableCell align="center">Tác vụ</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderOrderStockItem()}</TableBody>
@@ -123,7 +129,7 @@ const stateMapToProps = (state, props) => {
 
 const dispatchMapToProps = (dispatch, props) => {
   return {
-    getOrdersSuplier: (filter) => {
+    getOrdersSuplier: filter => {
       dispatch(atcGetOrderSuplierRequest(filter));
     },
     getDetailOrderSuplier: order => {

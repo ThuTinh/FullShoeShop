@@ -17,10 +17,7 @@ function FilterProduct(props) {
     props.getCategory();
   }, []);
 
-
-
   const renderWomenShoes = () => {
-   
     var result = null;
     if (props.categories && props.categories.length > 0) {
       var i = 0;
@@ -71,8 +68,8 @@ function FilterProduct(props) {
   return (
     <div>
       <FilterShoePrice />
-      {renderWomenShoes()}
-      {renderManShoes()}
+      <div>{renderWomenShoes()}</div>
+      <div>{renderManShoes()}</div>
     </div>
   );
 }

@@ -277,8 +277,9 @@ function ManagerProduct(props) {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "flex-start"
+          alignItems: "center",
+          justifyContent: "flex-start",
+          marginBottom:'20px'
         }}
       >
         <div style={{ width: "400px" }}>
@@ -295,12 +296,13 @@ function ManagerProduct(props) {
             value={filter}
           />
         </div>
-      </div>
-      <div>
-        <button className="outline-button" onClick={clearSearch}>
+        <div>
+        <button className="cancel-search" onClick={clearSearch}>
           Hủy tìm kiếm
         </button>
       </div>
+      </div>
+      
 
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -310,7 +312,7 @@ function ManagerProduct(props) {
             <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
             <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
             <StyledTableCell align="center">Trạng thái</StyledTableCell>
-            <StyledTableCell align="center"></StyledTableCell>
+            <StyledTableCell align="center">Tác vụ</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderProductItem()}</TableBody>

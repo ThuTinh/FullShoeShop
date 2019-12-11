@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rating from "@material-ui/lab/Rating";
 import shoe from "../../../assets/image/shoe.jpg";
 import { Link } from "react-router-dom";
@@ -11,7 +11,18 @@ import "./style.css";
 function ProductItem(props) {
   const [value, setValue] = useState(2);
   const [show, setShow] = useState(false);
-  const product = props.product;
+  const [amoutSold, setAmountSold] = useState(0);
+  const [product, setProduct] = useState(props.product);
+  useEffect(() => {
+    setProduct(props.product);
+    if (props.product.detail && props.product.detail.length > 0) {
+      let tempAmountSold =0;
+      props.product.detail.map((item, index) => {
+        tempAmountSold += parseInt(item.amountSold);
+      });
+      setAmountSold(tempAmountSold);
+    }
+  }, [props.product]);
   const addToCart = () => {};
   return (
     <Paper>
@@ -90,7 +101,7 @@ function ProductItem(props) {
             }}
           >
             <i style={{ color: "#00000", fontSize: "12px", fontWeight: "500" }}>
-              120 đã bán
+              {amoutSold} đã bán
             </i>
           </div>
         </div>

@@ -27,7 +27,7 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 const useStyles = makeStyles(theme => ({
   icon: {
-    color: "#512C62",
+    color: "#D9A128",
     marginRight: "5px",
     "&:hover": {
       color: "#f75f00",
@@ -77,7 +77,7 @@ function OrderStockItem(props) {
             className={classes.icon}
             onClick={deleteOrderSuplier}
           ></DeleteIcon>{" "}
-          <EditIcon className={classes.icon}></EditIcon>
+          {/* <EditIcon className={classes.icon}></EditIcon> */}
         </StyledTableCell>
       </StyledTableRow>
     )

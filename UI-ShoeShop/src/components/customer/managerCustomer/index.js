@@ -12,6 +12,7 @@ import OrderList from "../orderManager/orderList";
 import ProductFavorite from "../productFavorite";
 import avatar from "../../../assets/image/avatar.JPG";
 import { atcGetCurentUserRequest } from "../../../actions";
+import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
@@ -53,6 +54,11 @@ const useStyles = makeStyles(theme => ({
   myFavorite: {
     marginLeft: "20px",
     marginRight: "20px"
+  },
+  myAdmin: {
+    marginTop: "20px",
+    marginLeft: "20px",
+    marginRight: "20px",
   },
   imgInfor: {
     width: "80px",
@@ -142,6 +148,17 @@ function ManagerCustomer(props) {
             className={classes.link}
           >
             Sản phẩm yêu thích
+          </Link>
+        </div>
+        <div className={clsx("action-hover", classes.myAdmin)}>
+          <BusinessCenterIcon className={classes.icon}></BusinessCenterIcon>
+          <Link
+            to={{
+              pathname: "/admin"
+            }}
+            className={classes.link}
+          >
+            Đi tới trang admin
           </Link>
         </div>
       </div>

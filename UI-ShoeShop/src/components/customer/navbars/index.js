@@ -147,11 +147,11 @@ class Navbars extends React.Component {
                 <PersonIcon className="icon-person"></PersonIcon>
                 <ul className="menu-person">
                   <li>
-                    <Link to="/my-acount"> Tài khoản của tôi</Link>
+                    <Link to="/my-acount" className="format-link"> Tài khoản của tôi</Link>
                   </li>
                   <li>
                     {" "}
-                    <Link to="/my-acount/orders">Đơn mua</Link>
+                    <Link to="/my-acount/orders" className="format-link">Đơn mua</Link>
                   </li>
                   <li>Đăng Xuất</li>
                 </ul>

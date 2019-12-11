@@ -38,16 +38,16 @@ const useStyles = makeStyles(theme => ({
 function ListCustomer(props) {
   const classes = useStyles();
   const customers = props.customers;
-  const [filter, setFilter] = useState("")
+  const [filter, setFilter] = useState("");
 
-  const search =()=>{
-    props.search(filter,"customer");
-  }
+  const search = () => {
+    props.search(filter, "customer");
+  };
 
-  const clearSearch =()=>{
+  const clearSearch = () => {
     props.getCustomers();
     setFilter("");
-  }
+  };
   useEffect(() => {
     props.getCustomers();
   }, []);
@@ -71,10 +71,10 @@ function ListCustomer(props) {
   };
   return (
     <>
-     <div
+      <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           justifyContent: "flex-start",
           marginBottom: "20px"
         }}
@@ -82,20 +82,22 @@ function ListCustomer(props) {
         <div style={{ width: "400px" }}>
           <SearchBar
             hintText="Tìm kiếm nhà cung cấp"
-            onChange={(text) => setFilter(text)}
+            onChange={text => setFilter(text)}
             onRequestSearch={search}
             style={{
               margin: "0 auto",
               maxWidth: 400
             }}
-            value = {filter}
+            value={filter}
           />
         </div>
-       
-      </div>
-      <div>
-          <button className="outline-button" onClick={clearSearch}>Hủy</button>
+        <div>
+          <button className="cancel-search" onClick={clearSearch}>
+            Hủy tìm kiếm
+          </button>
         </div>
+      </div>
+
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -104,12 +106,12 @@ function ListCustomer(props) {
             <StyledTableCell align="center">Địa chỉ</StyledTableCell>
             <StyledTableCell align="center">SDT</StyledTableCell>
             <StyledTableCell align="center">Chi tiết</StyledTableCell>
-            <StyledTableCell align="center">Edit</StyledTableCell>
+            <StyledTableCell align="center">Xóa</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>{rendeCustomerItem(customers)}</TableBody>
       </Table>
-      </>
+    </>
   );
 }
 
@@ -127,12 +129,9 @@ const dispatchMapToProps = (dispatch, state) => {
     deleteCustomer: id => {
       dispatch(atcDeleteCustomerRequest(id));
     },
-    search: (filter,kind)=>{
+    search: (filter, kind) => {
       dispatch(atcSearchUserRequets(filter, kind));
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(ListCustomer);
+export default connect(stateMapToProps, dispatchMapToProps)(ListCustomer);

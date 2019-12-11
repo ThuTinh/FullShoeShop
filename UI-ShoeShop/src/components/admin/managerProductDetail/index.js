@@ -88,7 +88,7 @@ function ManagerProductDetail(props) {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           justifyContent: "flex-start",
           marginBottom: "20px"
         }}
@@ -107,6 +107,11 @@ function ManagerProductDetail(props) {
             }}
           />
         </div>
+        <div>
+        <button className="cancel-search" onClick={clearSearch}>
+          Hủy tìm kiếm
+        </button>
+      </div>
       </div>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>

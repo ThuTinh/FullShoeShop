@@ -45,6 +45,8 @@ import ReportIcon from "@material-ui/icons/Report";
 import ExtensionIcon from "@material-ui/icons/Extension";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import "./style.css";
 
 const drawerWidth = 240;
@@ -134,6 +136,11 @@ function AdminHome(props) {
     setOpen(false);
   };
 
+  const handleClick = event => {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -164,7 +171,36 @@ function AdminHome(props) {
             <Typography variant="h6" noWrap style={{ color: "#fff" }}>
               QUẢN LÝ SHOE SHOP
             </Typography>
-            <PersonIcon></PersonIcon>
+            {/* <Breadcrumbs aria-label="breadcrumb">
+              <Link href="/" onClick={handleClick} className= "link">
+                Material-UI
+              </Link>
+              <Link
+              className= "link"
+                href="/getting-started/installation/"
+                onClick={handleClick}
+              >
+                Core
+              </Link>
+              <Link
+               className= "link"
+                href="/components/breadcrumbs/"
+                onClick={handleClick}
+                aria-current="page"
+              >
+                Breadcrumb
+              </Link>
+            </Breadcrumbs> */}
+            <div>
+              {/* <PersonIcon className="person"></PersonIcon> */}
+              <Link to ='/' style = {{color:'#ffffff'}}>
+                <ExitToAppIcon></ExitToAppIcon>
+              </Link>
+              {/* <ul className="menu-admin">
+                <li>Tới trang chủ</li>
+                <li>Đăng xuất</li>
+              </ul> */}
+            </div>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -312,7 +348,10 @@ function AdminHome(props) {
               component={DetailSuplier}
             ></Route>
 
-            <Route path="/admin/order-detail/:id" component={OrderDetail}></Route>
+            <Route
+              path="/admin/order-detail/:id"
+              component={OrderDetail}
+            ></Route>
 
             <Route path="/admin/kinds" component={KindManager}></Route>
             <Route

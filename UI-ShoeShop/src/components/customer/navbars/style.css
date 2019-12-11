@@ -1,8 +1,8 @@
 .menu {
   display: flex;
   height: 80px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
-  background-color: #FFFFFF;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
   width: 85%;
   margin-top: 20px;
   position: fixed;
@@ -19,8 +19,8 @@
 .menu-scroll {
   display: flex;
   height: 80px;
-  background-color:#FFFFFF;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width: 100%;
   margin-top: 0;
   position: fixed;
@@ -50,7 +50,7 @@
   color: #000000;
 }
 
-.menu-search:hover{
+.menu-search:hover {
   cursor: pointer;
   color: #5d1451;
 }
@@ -155,13 +155,11 @@ label:hover {
 }
 
 .btn-search {
-  width:10%;
-  background-color: #5A3D6C;
-
+  width: 10%;
+  background-color: #5a3d6c;
 }
 .wraper {
   height: 100%;
-  
 }
 .wraper ul {
   list-style: none;
@@ -186,7 +184,7 @@ label:hover {
 .wraper ul ul {
   display: none;
   position: absolute;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 8px;
   height: fit-content;
   width: 250px;
@@ -196,38 +194,44 @@ label:hover {
   cursor: pointer;
 }
 
-.shopping-cart{
+.shopping-cart {
   color: #000000;
 }
-.shopping-cart:hover{
+.shopping-cart:hover {
   color: #5d1451;
   cursor: pointer;
 }
 
- .menu-person{
+.menu-person {
   list-style: none;
   display: none;
   position: absolute;
 }
 
-.icon-person:hover > .menu-person{
-  display: block
+.icon-person:hover > .menu-person {
+  display: block;
 }
 
-Link:hover{
+link:hover {
   text-decoration: none !important;
   text-transform: none !important;
-  
 }
 
-.logo{
+.logo {
   width: 50px;
   height: 50px;
   object-fit: cover;
   border-radius: 50%;
 }
-.logo:hover{
+.logo:hover {
   cursor: pointer;
   background-color: transparent;
   text-transform: none;
+}
+.format-link {
+  text-decoration: none !important;
+  color: #000000;
+}
+.format-link:hover {
+  color: #5d1451;
 }

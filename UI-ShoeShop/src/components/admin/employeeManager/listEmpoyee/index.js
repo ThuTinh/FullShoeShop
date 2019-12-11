@@ -71,7 +71,7 @@ function ListEmployee(props) {
       <div
         style={{
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
           justifyContent: "flex-start",
           marginBottom: "20px"
         }}
@@ -88,12 +88,13 @@ function ListEmployee(props) {
             value={filter}
           />
         </div>
-      </div>
-      <div>
-        <button className="outline-button" onClick={clearSearch}>
-          Hủy
+        <div>
+        <button className="cancel-search" onClick={clearSearch}>
+          Hủy tìm kiếm
         </button>
       </div>
+      </div>
+     
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>

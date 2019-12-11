@@ -75,7 +75,7 @@ function DetailCustomer(props) {
         </div>
       </div>
       <div>
-        <OrderList></OrderList>
+        <OrderList userId ={user._id}></OrderList>
       </div>
     </div>
   );

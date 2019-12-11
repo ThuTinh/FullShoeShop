@@ -8,7 +8,7 @@ import { atcDeleteCaregoryRequest } from "../../../../actions";
 import { connect } from "react-redux";
 const usestyles = makeStyles(theme => ({
   icon: {
-    color: "#512C62",
+    color: "#D9A128",
     "&:hover": {
       color: "#F75F00",
       cursor: "pointer"
