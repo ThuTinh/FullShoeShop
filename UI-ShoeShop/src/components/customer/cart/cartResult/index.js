@@ -35,15 +35,6 @@ function CartResult(props) {
   const [user, setUser] = useState(props.currentUser);
   const [ordered, setOrdered] = useState(false);
   useEffect(() => {
-    // const productOrders = props.productOrders;
-    // if (productOrders && productOrders.length > 0) {
-    //   productOrders.map((productOrder, index) => {
-    //     total += parseInt(productOrder.price) * parseInt(productOrder.quantity);
-    //   });
-
-    //
-    // }
-
     if (props.totalPrice == 0) {
       let total = parseInt(localStorage.getItem("total"))
         ? parseInt(localStorage.getItem("total"))
@@ -82,7 +73,7 @@ function CartResult(props) {
           color: item.color,
           size: item.size,
           price: item.price,
-          quantity: item.quantity
+          inventory: item.quantity
         };
       });
     }
@@ -101,7 +92,7 @@ function CartResult(props) {
     props.addToCart(-props.count);
     props.calculateTotalPrice(-props.totalPrice);
     setOrdered(true);
-    console.log("order", order);
+    console.log("order da order ne", order);
   };
   return (
     <StyledTableRow>
@@ -120,8 +111,9 @@ function CartResult(props) {
       </StyledTableCell>
       <StyledTableCell align="center">
         {!props.buy && (
-          <button className="fill-button">
+          <button className="red-button" >
             <Link
+            disabled = {props.totalPrice==0?true:false}
               to="/product/purchase"
               style={{ color: "#fff", textDecoration: "none" }}
             >
@@ -130,7 +122,7 @@ function CartResult(props) {
           </button>
         )}
         {props.buy && (
-          <button className="fill-button" onClick={makePurchase}>
+          <button className="red-button" onClick={makePurchase}>
             Đặt hàng
           </button>
         )}

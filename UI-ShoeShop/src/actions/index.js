@@ -70,6 +70,7 @@ export const actGetEmployeeRequest = () => {
   return dispatch => {
     return callApi("users/employees", "GET")
       .then(res => {
+        console.log("employee ne ban res", res)
         res.data.status == 1
           ? dispatch(actCustomer(res.data.payload))
           : dispatch(actCustomer([]));
@@ -375,6 +376,17 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
+export const atcGetSuplierByIdRequest = (id) => {
+  return dispatch => {
+    return callApi( `brands/${id}`, "GET")
+      .then(res => {
+        res.data.status == 1
+          ? dispatch(atcGetSuplier(res.data.payload))
+          : dispatch(atcGetSuplier([]));
+      })
+      .catch(err => console.log("err:", err));
+  };
+};
 export const atcSearchSuplierRequest = filter => {
   return dispatch => {
     return callApi(`brands/search?q=${filter}`, "GET")
@@ -468,8 +480,11 @@ export const atcRemoveProductItemInOrderRequest = (orderId, itemId, userId) => {
       "PUT",
       `{"idItem":"${itemId}"}`
     ).then(res => {
+      console.log("remove order item", res);
       return dispatch(atcGetOrderCustomersRequest(userId));
-      console.log("order item remove", res);
+    
+    }).catch(err=>{
+      console.log(" catch remove order item", err);
     });
   };
 };
@@ -483,6 +498,13 @@ export const atcGetListOrderRequest = () => {
   };
 };
 
+export const atcDeleteOrder = (id)=>{
+  return dispatch =>{
+    return callApi(`orders/${id}`,"DELETE").then(res=>{
+      dispatch(atcGetListOrderRequest());
+    })
+  }
+}
 export const atcGetOrderCustomersRequest = id => {
   return dispatch => {
     return callApi(`orders/user/${id}`, "GET").then(res => {

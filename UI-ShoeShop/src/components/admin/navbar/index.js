@@ -193,7 +193,7 @@ function AdminHome(props) {
             </Breadcrumbs> */}
             <div>
               {/* <PersonIcon className="person"></PersonIcon> */}
-              <Link to ='/' style = {{color:'#ffffff'}}>
+              <Link to="/" style={{ color: "#ffffff" }}>
                 <ExitToAppIcon></ExitToAppIcon>
               </Link>
               {/* <ul className="menu-admin">
@@ -256,7 +256,7 @@ function AdminHome(props) {
               <ListItemText primary="QL sản phẩm" />
             </Link>
           </ListItem>
-          <ListItem button key="QL chi tiết sản phẩm">
+          {/* <ListItem button key="QL chi tiết sản phẩm">
             <ListItemIcon>
               <DetailsIcon style={{ color: "#d9a128" }}></DetailsIcon>
             </ListItemIcon>
@@ -264,7 +264,7 @@ function AdminHome(props) {
               {" "}
               <ListItemText primary="QL chi tiết sản phẩm" />
             </Link>
-          </ListItem>
+          </ListItem> */}
           <ListItem button key="QL kho">
             <ListItemIcon>
               <BookIcon style={{ color: "#d9a128" }}></BookIcon>
@@ -342,11 +342,8 @@ function AdminHome(props) {
               component={DetailCustomer}
             ></Route>
             <Route path="/admin/customers" component={CustomerManager}></Route>
+            <Route path="/admin/supliers/:id" component={DetailSuplier}></Route>
             <Route path="/admin/supliers" component={SuplierManager}></Route>
-            <Route
-              path="/admin/suplierDetail"
-              component={DetailSuplier}
-            ></Route>
 
             <Route
               path="/admin/order-detail/:id"

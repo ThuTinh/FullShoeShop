@@ -12,6 +12,11 @@ import {
 } from "../../../actions";
 import { connect } from "react-redux";
 import SearchBar from "material-ui-search-bar";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -82,10 +87,78 @@ function ManagerProductDetail(props) {
     setFilter("");
     props.getProducts();
   };
-
+  const columns = [
+    {
+      name: "name",
+      label: "Tên sản phẩm"
+    },
+    {
+      name: "categories.parent.name",
+      label: "Loại cha"
+    },
+    {
+      name: "categories.name",
+      label: "Loại con"
+    },
+    {
+      name: "inventory",
+      label: "Số lượng tồn kho"
+    },
+    {
+      name: "amoutSold",
+      label: "Số lượng bán ra"
+    },
+    {
+      name: "favorited",
+      label: "Trạng thái"
+    }
+  ];
+  const renderDataTable = products => {
+    console.log("product-detail", products);
+    if (products && products.length > 0) {
+      products.map((product, index) => {
+        if (product.detail && product.detail.length > 0) {
+          let inventory = 0;
+          let amountSold = 0;
+          product.detail.map((item, index) => {
+            inventory += parseInt(item.inventory);
+            amountSold += parseInt(item.amountSold);
+          });
+          products[index].inventory = inventory;
+          products[index].amoutSold = amountSold;
+        }
+      });
+    }
+    return (
+      <ReactMUIDatatable
+        data={products}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+                console.log("Xóa nè 2", row);
+              }}
+            >
+              <Link
+                to={{
+                  pathname: `/admin/product-detail/${row._id}`
+                }}
+                style = {{color:'#6c6c6c'}}
+                
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            
+          </React.Fragment>
+        )}
+      />
+    );
+  };
   return (
     <>
-      <div
+      {/* <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -126,7 +199,9 @@ function ManagerProductDetail(props) {
           </TableRow>
         </TableHead>
         <TableBody>{renderProductItem()}</TableBody>
-      </Table>
+      </Table> */}
+
+      <div>{renderDataTable(props.products)}</div>
     </>
   );
 }

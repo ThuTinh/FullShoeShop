@@ -132,6 +132,12 @@ function ImportStockItem(props) {
     return result;
   };
 
+  useEffect(()=>{
+    if(props.suplierProducts && props.suplierProducts.length>0){
+      setIdSanPham(props.suplierProducts[0]._id);
+    }
+  },[props.suplierProducts])
+
   const confirmInfoProductDetail = ()=>{
     let product = {
       maSanPham: idSanPham,

@@ -90,14 +90,7 @@ function OrderDetail(props) {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          <div
-            style={{
-              width: "10%",
-              height: "4px",
-              backgroundColor: "#F75F00",
-              marginBottom: "30px"
-            }}
-          ></div>
+          
         </Grid>
         <Grid container direction="row" justify="center" alignItems="center">
           <Grid item sm={5}>

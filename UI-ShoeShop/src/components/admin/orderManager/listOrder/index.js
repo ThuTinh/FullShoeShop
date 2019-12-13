@@ -8,8 +8,13 @@ import TableRow from "@material-ui/core/TableRow";
 import OrderItem from "../orderItem";
 import { Box } from "@material-ui/core";
 import SearchBar from "material-ui-search-bar";
-import { atcGetListOrderRequest } from "../../../../actions";
+import { atcGetListOrderRequest,atcDeleteOrder } from "../../../../actions";
 import { connect } from "react-redux";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -37,7 +42,7 @@ function ListOrder(props) {
   const [orders, setOrders] = useState(props.orders);
 
   useEffect(() => {
-    setOrders(props.orders);
+    setOrders([...props.orders]);
   }, [props.orders]);
 
   useEffect(() => {
@@ -62,9 +67,68 @@ function ListOrder(props) {
     }
     return result;
   };
+
+  const columns = [
+    {
+      name: "name",
+      label: "Tên khách hàng"
+    },
+    {
+      name: "shipAddress",
+      label: "Địa chỉ"
+    },
+    {
+      name: "updatedAt",
+      label: "Thời gian"
+    },
+    {
+      name: "status",
+      label: "Trạng thái"
+    }
+  ];
+  const RenderDataTable = () => {
+    console.log("order-detail", orders);
+    let data = [];
+    if (orders && orders.length > 0) {
+      data = orders.filter(
+        order => props.status == order.status || props.status == "ALL"
+      );
+    }
+    return (
+      <ReactMUIDatatable
+        data={data}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+                console.log("Xóa nè 2", row);
+              }}
+            >
+              <Link
+                to={{
+                  pathname: `/admin/order-detail/${row._id}`
+                }}
+                style={{ color: "#6c6c6c" }}
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                props.deleteOrder(row._id);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+    );
+  };
   return (
     <div>
-      <div
+      {/* <div
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -102,7 +166,8 @@ function ListOrder(props) {
           </TableRow>
         </TableHead>
         <TableBody>{renderOrderItem()}</TableBody>
-      </Table>
+      </Table> */}
+      <RenderDataTable/>
     </div>
   );
 }
@@ -115,6 +180,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getOrders: () => {
       dispatch(atcGetListOrderRequest());
+    },
+    deleteOrder: id => {
+      dispatch(atcDeleteOrder(id));
     }
   };
 };

@@ -24,6 +24,13 @@ import {
 import SnackbarContentWrapper from "../../message";
 import Snackbar from "@material-ui/core/Snackbar";
 import { connect } from "react-redux";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+
+import { Link } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -81,15 +88,10 @@ function ManagerProduct(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
   const [variantMessage, setVariantMessage] = useState("info");
-  const [filter, setFilter] = useState("");
   const [status, setStatus] = useState(false);
 
   const atcChooseParent = e => {
     setChooseParent(e.target.value);
-    console.log("e.target.value", e.target.value);
-    console.log("chooseParent", chooseParent);
-    console.log("catelogyProps", props.categories);
-
     if (props.categories && props.categories.length > 0) {
       var lsChildren = [];
       props.categories.map((category, index) => {
@@ -167,7 +169,6 @@ function ManagerProduct(props) {
                 return children;
               });
               setChildrens(lsChildren);
-              console.log("lsChildrenChuUpdate", lsChildren);
             }
           }
         });
@@ -191,15 +192,12 @@ function ManagerProduct(props) {
   };
 
   const editProduct = product => {
-    console.log("AA", product);
     setCheckUpdate(true);
-    console.log("update", checkUpdate);
     setIdUpdate(product._id);
     setNameProduct(product.name);
     setStatus(product.status);
     if (product.categories != null) {
       setChooseParent(product.categories.parent.name);
-      console.log("setCHooo", product.categories.parent.name);
       if (props.categories && props.categories.length > 0) {
         var lsChildren = [];
         props.categories.map((category, index) => {
@@ -209,7 +207,6 @@ function ManagerProduct(props) {
                 return children;
               });
               setChildrens(lsChildren);
-              console.log("lsChildren", lsChildren);
             }
           }
         });
@@ -227,24 +224,6 @@ function ManagerProduct(props) {
       showMessage("info", "Xóa không thành công!");
     }
   };
-  const renderProductItem = () => {
-    var result = "";
-    if (props.products && props.products.length > 0) {
-      result = props.products.map((product, index) => {
-        return (
-          <ProductItem
-            key={index}
-            index={index}
-            product={product}
-            deleteProduct={deleteProduct}
-            editProduct={editProduct}
-            getProduct={props.getProduct}
-          ></ProductItem>
-        );
-      });
-    }
-    return result;
-  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -259,13 +238,90 @@ function ManagerProduct(props) {
     setMessage(message);
     setOpenSnackbar(true);
   };
-  const search = async () => {
-    if (filter !== "") await props.search(filter);
-    console.log("12334", props.products);
-  };
-  const clearSearch = () => {
-    setFilter("");
-    props.getProducts();
+
+  const columns = [
+    {
+      name: "name",
+      label: "Tên sản phẩm"
+    },
+    {
+      name: "categories.parent.name",
+      label: "Loại cha"
+    },
+    {
+      name: "categories.name",
+      label: "Loại con"
+    },
+    {
+      name: "inventory",
+      label: "Số lượng tồn kho"
+    },
+    {
+      name: "amountSold",
+      label: "Số lượng bán ra"
+    },
+    {
+      name: "favorited",
+      label: "Trạng thái"
+    }
+  ];
+
+  const RenderDataTable = () => {
+    const products = props.products;
+    if (products && products.length > 0) {
+      products.map((product, index) => {
+        if (product.detail && product.detail.length > 0) {
+          let inventory = 0;
+          let amountSold = 0;
+          product.detail.map((item, index) => {
+            inventory += parseInt(item.inventory);
+            amountSold += parseInt(item.amountSold);
+          });
+          products[index].inventory = inventory;
+          products[index].amountSold = amountSold;
+        }
+        else{
+          products[index].inventory = 0;
+          products[index].amountSold = 0;
+        }
+      });
+    }
+    
+    console.log("ahihi", products);
+    return (
+      <ReactMUIDatatable
+        data={products}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+                console.log("Xóa nè 2", row);
+              }}
+            >
+              <Link
+                to={{
+                  pathname: `/admin/product-detail/${row._id}`
+                }}
+                style={{ color: "#6c6c6c" }}
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton onClick={() => editProduct(row)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                deleteProduct(row._id);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+    );
   };
   return (
     <>
@@ -274,50 +330,7 @@ function ManagerProduct(props) {
           Thêm mới
         </button>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          marginBottom:'20px'
-        }}
-      >
-        <div style={{ width: "400px" }}>
-          <SearchBar
-            hintText="Tìm kiếm sản phẩm"
-            onChange={text => {
-              setFilter(text);
-            }}
-            onRequestSearch={search}
-            style={{
-              margin: "0 auto",
-              maxWidth: 400
-            }}
-            value={filter}
-          />
-        </div>
-        <div>
-        <button className="cancel-search" onClick={clearSearch}>
-          Hủy tìm kiếm
-        </button>
-      </div>
-      </div>
-      
-
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>STT</StyledTableCell>
-            <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
-            <StyledTableCell align="center"> Loại sản phẩm</StyledTableCell>
-            <StyledTableCell align="center">Số lượng tồn kho</StyledTableCell>
-            <StyledTableCell align="center">Trạng thái</StyledTableCell>
-            <StyledTableCell align="center">Tác vụ</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderProductItem()}</TableBody>
-      </Table>
-
+      <RenderDataTable />
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -382,7 +395,7 @@ function ManagerProduct(props) {
                   checked={status}
                   onChange={e => {
                     setStatus(e.target.checked);
-                      console.log("ahihi", e.target.checked);
+                    console.log("ahihi", e.target.checked);
                   }}
                 />{" "}
                 Hoạt động

@@ -11,7 +11,8 @@ const {
   removeProductItem,
   create,
   getOrderOfUser,
-  UpdateStatusOrder
+  UpdateStatusOrder,
+  deleteOrder
 } = require("./handler");
 const router = new express.Router();
 
@@ -78,4 +79,10 @@ router.put("/status/:id", async (req, res, next) => {
   const order = await UpdateStatusOrder(id, req.body.status);
   res.status(200).json(makeResponse(order));
 });
+
+router.delete('/:id', async(req, res,next)=>{
+  const id = req.params.id?req.params.id:0;
+  const order =  await deleteOrder(id);
+  res.status(200).json(order);
+})
 module.exports = router;

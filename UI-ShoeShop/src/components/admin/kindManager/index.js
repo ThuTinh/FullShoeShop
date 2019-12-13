@@ -196,7 +196,7 @@ function KindManager(props) {
             <TableRow>
               <StyledTableCell align="center">Loại con</StyledTableCell>
               <StyledTableCell align="center">Loại cha</StyledTableCell>
-              <StyledTableCell align="center">Tác vụ</StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>{renderCategoryItem(props.categories)}</TableBody>

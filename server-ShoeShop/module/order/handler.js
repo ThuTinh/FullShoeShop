@@ -1,4 +1,5 @@
 const Order = require("./model");
+const productHandler = require("../products/handler");
 const { STATUS } = require("../common/constant");
 const mongoose = require("mongoose");
 
@@ -29,17 +30,40 @@ const addProductItem = async (id, productItem) => {
 
 const removeProductItem = async (id, productItemId) => {
   try {
+    console.log("vo ko", id, productItemId);
     const order = await Order.findById(id);
+    console.log("totalproce ne", order, order.totalPrice);
     let total = parseInt(order.totalPrice);
+    //props.updateAmountSold(item.productId,item.color, item.size, item.quantity);
+
+    if (order && order.products) {
+      const temp = order.products;
+      for (let k = 0; k < temp.length; k++) {
+        if (temp[k]._id == productItemId) {
+          await productHandler.UpdateInventory(
+            temp[k].productId,
+            temp[k].color,
+            temp[k].size,
+            temp[k].inventory
+          );
+          break;
+        }
+      }
+    }
+
     if (order.products.length == 1 && order.products[0]._id == productItemId) {
+      console.log("chi tiet1", order.totalPrice, productItemId);
       return await Order.findByIdAndDelete(id);
     } else {
       for (let i = 0; i < order.products.length; i++) {
+        console.log("for ne", productItemId, order.products[i]._id);
         if (order.products[i]._id == productItemId) {
           total =
             parseInt(order.totalPrice) -
             parseInt(order.products[i].price) *
-              parseInt(order.products[i].quantity);
+              parseInt(order.products[i].inventory);
+
+          console.log("chi tiet", order.totalPrice, order.products[i].price);
           return await Order.findOneAndUpdate(
             { _id: id },
             {
@@ -50,9 +74,12 @@ const removeProductItem = async (id, productItemId) => {
             },
             { new: true, runValidators: true }
           );
+        } else {
+          console.log("elde ne");
         }
       }
     }
+
     return order;
   } catch (error) {
     console.log("err", error);
@@ -75,7 +102,11 @@ const create = async order => {
   const orderSave = new Order(order);
   return await orderSave.save();
 };
-
+const deleteOrder = async id => {
+  return await Order.findByIdAndUpdate(mongoose.Types.ObjectId(id), {
+    deleted: true
+  });
+};
 module.exports = {
   findAll,
   validate,
@@ -85,5 +116,6 @@ module.exports = {
   removeProductItem,
   create,
   getOrderOfUser,
-  UpdateStatusOrder
+  UpdateStatusOrder,
+  deleteOrder
 };

@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
+// import Table from "@material-ui/core/Table";
+// import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+// import TableHead from "@material-ui/core/TableHead";
+// import TableRow from "@material-ui/core/TableRow";
 import CustomerItem from "../customerItem";
 import { connect } from "react-redux";
-import SearchBar from "material-ui-search-bar";
+// import SearchBar from "material-ui-search-bar";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
 
 import {
   actGetCustomerRequest,
@@ -36,21 +41,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ListCustomer(props) {
-  const classes = useStyles();
-  const customers = props.customers;
-  const [filter, setFilter] = useState("");
-
-  const search = () => {
-    props.search(filter, "customer");
-  };
-
-  const clearSearch = () => {
-    props.getCustomers();
-    setFilter("");
-  };
   useEffect(() => {
     props.getCustomers();
   }, []);
+
   const rendeCustomerItem = customers => {
     var result = "";
 
@@ -69,9 +63,58 @@ function ListCustomer(props) {
     }
     return result;
   };
+
+  const columns = [
+    {
+      name: "name",
+      label: "Tên khách hàng"
+    },
+    {
+      name: "address",
+      label: "Địa chỉ"
+    },
+    {
+      name: "phone",
+      label: "Số điện thoại"
+    }
+  ];
+
+  const RenderDataTable = () => {
+    return (
+      <ReactMUIDatatable
+        data={props.customers}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+                console.log("Xóa nè 2", row);
+              }}
+            >
+              <Link
+                to={{
+                  pathname: `/admin/employees/${row._id}`
+                }}
+                style={{ color: "#6c6c6c" }}
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                console.log("Xóa nè 1", row);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+    );
+  };
   return (
     <>
-      <div
+      {/* <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -110,7 +153,8 @@ function ListCustomer(props) {
           </TableRow>
         </TableHead>
         <TableBody>{rendeCustomerItem(customers)}</TableBody>
-      </Table>
+      </Table> */}
+      <RenderDataTable />
     </>
   );
 }

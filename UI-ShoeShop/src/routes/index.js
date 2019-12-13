@@ -8,6 +8,7 @@ import SignPage from '../pages/SignPage'
 import { Route, Switch } from 'react-router-dom';
 
 import 'react-id-swiper/lib/styles/css/swiper.css';
+import NotFoundPage from '../pages/notFound';
 
 
 
@@ -20,6 +21,7 @@ function App() {
       <Route path="/sign" component={SignPage} />
       <Route path="/" component={CustomerRoute} />
       <Route path="**" component={CustomerRoute} />
+      <Route path ="" component={NotFoundPage}/>
     </Switch>
 
 

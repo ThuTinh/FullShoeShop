@@ -39,13 +39,10 @@ function ProductDetail(props) {
   const [variantMessage, setVariantMessage] = useState("info");
   const [user, setUser] = useState(props.currentUser);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [checkAddOrBuy, setCheckAddOrBuy] = useState(false);
 
   // const history = createBrowserHistory();
   const classes = useStyles();
-  const buyProducts = id => {
-    // history.push("/product/cart");
-    // history.goForward();
-  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -155,7 +152,7 @@ function ProductDetail(props) {
     return result;
   };
   const addProduct = () => {
-    if (chooseColor == "" && chooseSize == "") {
+    if (chooseColor == "" || chooseSize == "") {
       setCheckChoose(true);
     } else {
       const productOrder = {
@@ -170,7 +167,25 @@ function ProductDetail(props) {
       props.addToCart(1);
       let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
       if (tempRoductOrder) {
-        tempRoductOrder.push(productOrder);
+        let check = false;
+        for (var i = 0; i < tempRoductOrder.length; i++) {
+          if (
+            tempRoductOrder[i].color == productOrder.color &&
+            tempRoductOrder[i].size == productOrder.size
+          ) {
+            tempRoductOrder[i].quantity =
+              parseInt(tempRoductOrder[i].quantity) + 1;
+            check = true;
+            console.log(
+              " tempRoductOrder[i].quanlity",
+              i,
+              tempRoductOrder[i],
+              tempRoductOrder[i].quantity
+            );
+            break;
+          }
+        }
+        if (!check) tempRoductOrder.push(productOrder);
         localStorage.setItem("ProductOrders", JSON.stringify(tempRoductOrder));
       } else {
         const productOrders = [];
@@ -183,6 +198,8 @@ function ProductDetail(props) {
         : 0;
       total += parseInt(product.price) * parseInt(quanlity);
       localStorage.setItem("total", total);
+      setChooseColor("");
+      setChooseSize("");
       showMessage("info", "Thêm sản phẩm thành công!");
 
       //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
@@ -193,31 +210,52 @@ function ProductDetail(props) {
     if (chooseColor == "" && chooseSize == "") {
       setCheckChoose(true);
     } else {
-      const productOrder = {
-        productId: product._id,
-        color: chooseColor,
-        size: chooseSize,
-        price: product.price,
-        quantity: quanlity,
-        img: product.images.length > 0 ? product.images[0] : "",
-        name: product.nameShow != "" ? product.nameShow : product.name
-      };
-      let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
-      showMessage("info", "Thêm sản phẩm thành công!");
-      if (tempRoductOrder) {
-        tempRoductOrder.push(productOrder);
-        localStorage.setItem("ProductOrders", JSON.stringify(tempRoductOrder));
-      } else {
-        const productOrders = [];
-        productOrders.push(productOrder);
-        localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
+      if (!checkAddOrBuy) {
+        const productOrder = {
+          productId: product._id,
+          color: chooseColor,
+          size: chooseSize,
+          price: product.price,
+          quantity: quanlity,
+          img: product.images.length > 0 ? product.images[0] : "",
+          name: product.nameShow != "" ? product.nameShow : product.name
+        };
+        let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
+        showMessage("info", "Thêm sản phẩm thành công!");
+        if (tempRoductOrder) {
+          let check = false;
+          for (let i = 0; i < tempRoductOrder.length; i++) {
+            if (
+              tempRoductOrder[i].color == productOrder.color &&
+              tempRoductOrder[i].size == productOrder.size
+            ) {
+              tempRoductOrder[i].quantity =
+                parseInt(tempRoductOrder[i].quantity) + 1;
+              console.log(
+                "tempRoductOrder[i].quanlity",
+                tempRoductOrder[i].quantity
+              );
+              check = true;
+              break;
+            }
+          }
+          if (!check) tempRoductOrder.push(productOrder);
+          localStorage.setItem(
+            "ProductOrders",
+            JSON.stringify(tempRoductOrder)
+          );
+        } else {
+          const productOrders = [];
+          productOrders.push(productOrder);
+          localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
+        }
+        let total = localStorage.getItem("total")
+          ? parseInt(localStorage.getItem("total"))
+          : 0;
+        total += parseInt(product.price) * parseInt(quanlity);
+        localStorage.setItem("total", total);
+        props.addToCart(1);
       }
-      let total = localStorage.getItem("total")
-        ? parseInt(localStorage.getItem("total"))
-        : 0;
-      total += parseInt(product.price) * parseInt(quanlity);
-      localStorage.setItem("total", total);
-      props.addToCart(1);
     }
   };
   const renderInventory = () => {
@@ -233,7 +271,30 @@ function ProductDetail(props) {
             break;
           }
         }
-        return <p>Có {inventory} sản phẩm có sẳn</p>;
+        const productOrders = JSON.parse(localStorage.getItem("ProductOrders"));
+        console.log("productOrders", productOrders);
+        if (productOrders && productOrders.length > 0) {
+          for (let j = 0; j < productOrders.length; j++) {
+            console.log(
+              "productOrders for",
+              productOrders[j],
+              productOrders[j].color,
+              productOrders[j].size
+            );
+
+            if (
+              productOrders[j].color == chooseColor &&
+              productOrders[j].size == chooseSize
+            ) {
+              inventory -= parseInt(productOrders[j].quantity);
+              console.log("if =", inventory);
+            }
+          }
+        }
+        if ((inventory <= 0)) {
+          setCheckAddOrBuy(true);
+        }
+        return <p>Có {inventory <= 0 ? 0 : inventory} sản phẩm có sẳn</p>;
       }
     }
   };
@@ -245,35 +306,36 @@ function ProductDetail(props) {
         </div>
         <div className="col-7">
           <div className="title mt-4">
-            <h4>
+            <h3>
               {/* {product.nameShow || product.name} */}
               {product.nameShow}
-            </h4>
+            </h3>
             <div style={{ display: "flex" }}>
               <div>
                 <Rating
                   name="simple-controlled"
                   value={value}
                   readOnly
+                  style={{ fontSize: "18px" }}
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
                 />
               </div>
-              <div style={{ marginLeft: "2%" }}>100 đánh giá</div>
+              {/* <div style={{ marginLeft: "2%" }}>100 đánh giá</div> */}
             </div>
           </div>
-          <div className="flex mt-4">
+          <div className="flex mt-2">
             <div className="money">{product.price}đ</div>
             <div className="rate-own">
-              <label style={{ marginRight: "10px" }}>Đánh giá:</label>
+              {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
               <Rating
                 name="simple-controlled"
                 value={rating}
                 onChange={(event, newValue) => {
                   setRating(newValue);
                 }}
-              />
+              /> */}
             </div>
           </div>
           <div className="color">
@@ -290,12 +352,21 @@ function ProductDetail(props) {
                 <i>Bạn chưa chọn phân loại hàng</i>
               </Box>
             )}
+            {checkAddOrBuy && (
+              <Box color="#FF0000">
+                <i>Sản phẩm đã hết hàng, xin hãy chọn sản phẩm khác !</i>
+              </Box>
+            )}
           </div>
           <div className=" quanlity d-flex">
             <h6 className="mr-5">Số lượng</h6>
             <input
               type="number"
-              style={{ width: "40px", backgroundColor: "#FFFFFF" }}
+              style={{
+                width: "40px",
+                border: "1px solid #d9a128",
+                borderRadius: "5px"
+              }}
               value={quanlity}
               name="quanlity"
               onChange={e => setQuanlity(e.target.value)}
@@ -306,18 +377,21 @@ function ProductDetail(props) {
           <div className="buy d-flex">
             <Button
               variant="contained"
-              color="secondary"
               className={classes.button}
-              style={{ backgroundColor: "#ff0000" }}
+              color="secondary"
+              style={{ backgroundColor: "#9d0b0b" }}
               onClick={() => addProduct()}
             >
               Thêm vào giỏ hàng
             </Button>
+            {/* <button>
+            Thêm vào giỏ hàng
+            </button> */}
             <Button
               variant="contained"
               color="secondary"
               className={classes.button}
-              style={{ backgroundColor: "#ff0000" }}
+              style={{ backgroundColor: "#9d0b0b" }}
               onClick={() => buyProduct()}
             >
               <Link
@@ -325,26 +399,27 @@ function ProductDetail(props) {
                   pathname: "/cart",
                   buy: true
                 }}
+                className="buy-product"
               >
                 Mua hàng
               </Link>
             </Button>
-            <Button
+            {/* <Button
               variant="contained"
               className={classes.button}
               color="secondary"
               style={{ backgroundColor: "#ff0000" }}
             >
               Book
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
       <div className="row">
-        <div className="dive"></div>
+        {/* <div className="dive"></div> */}
         <div style={{}}>
           <div>
-            <h5 className="mb-4">CHI TIẾT SẢN PHẨM</h5>
+            <h5 className="mb-4 ml-4">CHI TIẾT SẢN PHẨM</h5>
             <Editor
               toolbarClassName="demo-toolbar-absolute"
               wrapperClassName="demo-wrapper"

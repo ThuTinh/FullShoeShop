@@ -136,6 +136,9 @@ const remove = async(id)=>{
   });
 }
 
+const findBrandById = async(id)=>{
+  return await Brand.findById(mongoose.Types.ObjectId(id));
+}
 
 
 module.exports = {
@@ -149,5 +152,6 @@ module.exports = {
   getNameBrand,
   getProductIds,
   remove,
-  search
+  search,
+  findBrandById
 };

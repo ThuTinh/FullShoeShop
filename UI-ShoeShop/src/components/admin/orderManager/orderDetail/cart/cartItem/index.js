@@ -32,9 +32,9 @@ function CartItemAdmin(props) {
       <StyledTableCell align="center">{productOrder.size}</StyledTableCell>
       <StyledTableCell align="center">{productOrder.price}</StyledTableCell>
       <StyledTableCell align="center">
-        <label>{productOrder.quantity}</label>
+        <label>{productOrder.inventory}</label>
       </StyledTableCell>
-      <StyledTableCell align="center">{parseInt(productOrder.quantity) * parseInt(productOrder.price)}</StyledTableCell>
+      <StyledTableCell align="center">{(parseInt(productOrder.inventory) * parseInt(productOrder.price))||0}</StyledTableCell>
       <StyledTableCell align="center"></StyledTableCell>
     </StyledTableRow>
   );

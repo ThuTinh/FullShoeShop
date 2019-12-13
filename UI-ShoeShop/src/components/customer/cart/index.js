@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
-import CartResult from "./cartResult"
+import CartResult from "./cartResult";
 import "./style.css";
 import CartItem from "./cartItem";
 
@@ -40,51 +40,76 @@ function Carts(props) {
   const buyProducts = id => {
     history.push("/product/purchase");
   };
-  const [productOrders,setProductOrders]=useState(JSON.parse(localStorage.getItem("ProductOrders")));
+  const [productOrders, setProductOrders] = useState(
+    JSON.parse(localStorage.getItem("ProductOrders"))
+  );
   const [customer, setCustomer] = useState(true);
 
-  const removeProductOrder = ()=>{
+  const removeProductOrder = () => {
     const temp = JSON.parse(localStorage.getItem("ProductOrders"));
-    setProductOrders([...temp])
-  }
+    setProductOrders([...temp]);
+  };
 
   const renderProductItem = () => {
     var result = [];
-    if(productOrders && productOrders.length>0){
-     result= productOrders.map((product, index)=>{
-      return <CartItem productOrder = {product} key = {index} index = {index} remove = {removeProductOrder} buy = {props.buy} />
-      })
+    if (productOrders && productOrders.length > 0) {
+      result = productOrders.map((product, index) => {
+        return (
+          <CartItem
+            productOrder={product}
+            key={index}
+            index={index}
+            remove={removeProductOrder}
+            buy={props.buy}
+          />
+        );
+      });
     }
     return result;
   };
   return (
-    <>
-      <h6>DANH SÁCH SẢN PHẨM</h6>
-      <div
+    <div>
+      <h6 style={{ marginTop: "20px" }}>DANH SÁCH SẢN PHẨM</h6>
+      {/* <div
         style={{
           width: "10%",
           height: "4px",
           backgroundColor: "#F75F00",
           marginBottom: "30px"
         }}
-      ></div>
+      ></div> */}
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <StyledTableCell align="center"></StyledTableCell>
-            <StyledTableCell align="center">SẢN PHẨM</StyledTableCell>
-            <StyledTableCell align="center">GÍA</StyledTableCell>
-            <StyledTableCell align="center">SỐ LƯỢNG</StyledTableCell>
-            <StyledTableCell align="center">TỔNG CỘNG</StyledTableCell>
+            <StyledTableCell align="center">
+              {" "}
+              <b>SẢN PHẨM</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>GIÁ</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>MÀU</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>SIZE</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>SỐ LƯỢNG</b>
+            </StyledTableCell>
+            <StyledTableCell align="center">
+              <b>TỔNG CỘNG</b>
+            </StyledTableCell>
             <StyledTableCell align="center"></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {renderProductItem()}
-          <CartResult  productOrders={productOrders} buy = {props.buy}/>
+          <CartResult productOrders={productOrders} buy={props.buy} />
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }
 

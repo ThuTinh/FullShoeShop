@@ -26,6 +26,7 @@ function OrderItem(props) {
         setHidecancel(false);
         break;
       case "PAYED":
+        setHidecancel(false);
         setActiveStep(3);
         break;
       default:
@@ -54,7 +55,7 @@ function OrderItem(props) {
           </Grid>
           <Grid sm={3} item>
             <h6> {1111}</h6>
-            <p> Số lượng: {orderItem.quantity}</p>
+            <p> Số lượng: {orderItem.inventory}</p>
             <p>
               Ngày mua: {new Date(props.updatedAt).toDateString("yyyy-MM-dd")}
             </p>
@@ -90,7 +91,7 @@ function OrderItem(props) {
               }}
             >
               <h5 style={{ color: "#d9a128" }}>
-                Tổng tiền: {parseInt(orderItem.price * orderItem.quantity)}
+                Tổng tiền: {parseInt(orderItem.price * orderItem.inventory)}
               </h5>
             </div>
           </Grid>

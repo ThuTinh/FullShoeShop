@@ -16,7 +16,8 @@ import {
   atcGetProductsRequest,
   atcCreateProdctSuplierRequest,
   atcGetProductSuplierRequest,
-  atcDeletProductSuplierRequest
+  atcDeletProductSuplierRequest,
+  atcGetSuplierByIdRequest
 } from "../../../../actions";
 import Item from "./item";
 
@@ -117,10 +118,14 @@ function DetailSuplier(props) {
     handleClose();
   };
   useEffect(() => {
+    const id = props.match.params.id;
+    props.getSuplierById(id);
     props.getProducts();
-    props.getProductSupliers(props.suplier._id);
-    console.log("supliertest", props.suplier);
   }, []);
+
+  useEffect(() => {
+    props.getProductSupliers(props.suplier._id);
+  }, [props.suplier]);
 
   return (
     <div>
@@ -175,16 +180,16 @@ function DetailSuplier(props) {
           Thêm sản phẩm
         </button>
       </div>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">STT</StyledTableCell>
-              <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
-              <StyledTableCell align="center">Edit</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{renderItemProduct()}</TableBody>
-        </Table>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell align="center">STT</StyledTableCell>
+            <StyledTableCell align="center">Tên sản phẩm</StyledTableCell>
+            <StyledTableCell align="center">Edit</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderItemProduct()}</TableBody>
+      </Table>
 
       <Modal
         aria-labelledby="transition-modal-title"
@@ -213,7 +218,7 @@ function DetailSuplier(props) {
                 </select>
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
+                {/* <Button
                   variant="contained"
                   color="primary"
                   onClick={handleClose}
@@ -224,15 +229,19 @@ function DetailSuplier(props) {
                   }}
                 >
                   Hủy
-                </Button>
-                <Button
+                </Button> */}
+                <button className="fill-button">Hủy</button>
+                {/* <Button
                   onClick={createProduct}
                   variant="contained"
                   color="primary"
                   style={{ backgroundColor: "#512c62", marginTop: "10px" }}
                 >
                   Lưu
-                </Button>
+                </Button> */}
+                <button className="fill-button" onClick={createProduct}>
+                  Lưu
+                </button>
               </div>
             </div>
           </div>
@@ -264,10 +273,10 @@ const dispatchMapToProps = (dispatch, props) => {
     deleteProductSuplier: (id, productId) => {
       console.log("ppppp", id + "= " + productId);
       dispatch(atcDeletProductSuplierRequest(id, productId));
+    },
+    getSuplierById: id => {
+      dispatch(atcGetSuplierByIdRequest(id));
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(DetailSuplier);
+export default connect(stateMapToProps, dispatchMapToProps)(DetailSuplier);

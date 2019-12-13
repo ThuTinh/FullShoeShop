@@ -40,7 +40,7 @@ function CarouselProduct() {
     }
   }, [gallerySwiper, thumbnailSwiper]);
   return (
-    <div>
+    <div style={{ marginTop: "20px" }}>
       <Swiper {...gallerySwiperParams}>
         <div className="swiper-slide">
           <img style={{ width: "100%", height: "100%" }} src={slide1}></img>
@@ -58,17 +58,20 @@ function CarouselProduct() {
           <img style={{ width: "100%", height: "100%" }} src={slide5}></img>
         </div>
       </Swiper>
-      <Swiper {...thumbnailSwiperParams}>
-        <img className="slide-under swiper-slide " src={slide1}></img>
+      <div style={{ height: "120px" }}>
+        {" "}
+        <Swiper {...thumbnailSwiperParams}>
+          <img className="slide-under swiper-slide " src={slide1}></img>
 
-        <img className="slide-under swiper-slide " src={slide2}></img>
+          <img className="slide-under swiper-slide " src={slide2}></img>
 
-        <img className="slide-under swiper-slide " src={slide3}></img>
+          <img className="slide-under swiper-slide " src={slide3}></img>
 
-        <img className="slide-under swiper-slide " src={slide4}></img>
+          <img className="slide-under swiper-slide " src={slide4}></img>
 
-        <img className="slide-under swiper-slide " src={slide5}></img>
-      </Swiper>
+          <img className="slide-under swiper-slide " src={slide5}></img>
+        </Swiper>
+      </div>
     </div>
   );
 }

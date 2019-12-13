@@ -1,5 +1,5 @@
 .container {
-  background-color: #f9f9f9;
+  background-color: white !important;
 }
 .flex {
   display: flex;
@@ -17,7 +17,7 @@
 }
 .color {
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
 }
@@ -27,7 +27,7 @@
 }
 
 .quanlity {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .dive {
   width: 60%;
@@ -48,11 +48,11 @@
   border: none !important;
 }
 
-.demo-editor{
-border: none !important;
+.demo-editor {
+  border: none !important;
 }
 
-.rdw-editor-main{
+.rdw-editor-main {
   overflow: hidden !important;
 }
 .rdw-editor-toolbar {
@@ -63,7 +63,19 @@ border: none !important;
   margin-bottom: 20px;
   border-radius: 5px;
   padding: 8px 20px;
-  background-color: #FF0000;
+  background-color: #da2d2d;
   color: #f9f9f9;
   margin-right: 5px;
+}
+
+.buy-product {
+  color: white;
+}
+.buy-product:hover {
+  text-decoration: none !important;
+  color: white;
+}
+
+.rdw-editor-main {
+  margin-left: 2% !important;
 }

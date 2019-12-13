@@ -16,7 +16,7 @@ function ProductItem(props) {
   useEffect(() => {
     setProduct(props.product);
     if (props.product.detail && props.product.detail.length > 0) {
-      let tempAmountSold =0;
+      let tempAmountSold = 0;
       props.product.detail.map((item, index) => {
         tempAmountSold += parseInt(item.amountSold);
       });
@@ -70,19 +70,22 @@ function ProductItem(props) {
             <div className="add-to-cart">
               <div className={`action-item ${show ? "d-block" : "d-none"}`}>
                 <div>
-                  {" "}
-                  <ShoppingCartIcon
-                    className="cart"
-                    style={{
-                      color: "#5E3D6E",
-                      fontSize: "35px",
-                      marginBottom: "10px"
+                  <Link
+                    to={{
+                      pathname: `/product-detail/${product._id}`
                     }}
-                    onClick={addToCart}
-                  />
+                  >
+                    <ShoppingCartIcon
+                      className="cart"
+                      style={{
+                        color: "#5E3D6E",
+                        fontSize: "35px",
+                        marginBottom: "10px"
+                      }}
+                    />
+                  </Link>
                 </div>
                 <div>
-                  {" "}
                   <FavoriteBorderIcon
                     className="favorite-icon"
                     onClick={() => {

@@ -13,6 +13,11 @@ import {
   atcGetDetailOrderSuplier,
   atcDeleteOrderSuplier
 } from "../../../../actions/";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -47,36 +52,96 @@ function OrderStockList(props) {
     console.log("ordersSuplier ne", props.ordersSuplier);
   }, [props.ordersSuplier]);
 
-  const renderOrderStockItem = () => {
-    var result = "";
-    var orders = props.ordersSuplier;
-    if (orders && orders.length > 0) {
-      result = orders.map((order, index) => {
-        if (order.suplierId != null) {
-          return (
-            <OrderStockItem
-              order={order}
-              index={index}
-              key={index}
-              getDetailOrderSuplier={props.getDetailOrderSuplier}
-              deleteOrderSuplier={props.deleteOrderSuplier}
-              status={props.status}
-            />
-          );
-        } else {
-          return null;
-        }
-      });
+  // const renderOrderStockItem = () => {
+  //   var result = "";
+  //   var orders = props.ordersSuplier;
+  //   if (orders && orders.length > 0) {
+  //     result = orders.map((order, index) => {
+  //       if (order.suplierId != null) {
+  //         return (
+  //           <OrderStockItem
+  //             order={order}
+  //             index={index}
+  //             key={index}
+  //             getDetailOrderSuplier={props.getDetailOrderSuplier}
+  //             deleteOrderSuplier={props.deleteOrderSuplier}
+  //             status={props.status}
+  //           />
+  //         );
+  //       } else {
+  //         return null;
+  //       }
+  //     });
+  //   }
+  //   return result;
+  // };
+  // const clearSearch = () => {
+  //   // setFilter("");
+  //   // props.getProducts();
+  // };
+  const columns = [
+    {
+      name: "suplierId.name",
+      label: "Nhà cung cấp"
+    },
+    {
+      name: "suplierId.phone",
+      label: "Số điện thoại"
+    },
+    {
+      name: "totalPrice",
+      label: "Tổng giá trị"
+    },
+    {
+      name: "employee.name",
+      label: "Người tạo"
+    },
+    {
+      name: "status",
+      label: "Trạng thái"
     }
-    return result;
-  };
-  const clearSearch = () => {
-    // setFilter("");
-    // props.getProducts();
+  ];
+  const RenderDataTable = () => {
+    
+    let data = [];
+    console.log("status",props.status)
+    if (props.ordersSuplier && props.ordersSuplier.length > 0) {
+      data = props.ordersSuplier.filter(
+        order => order.status == props.status || props.status == "ALL"
+      );
+    }
+    console.log("stockorder",data);
+    return (
+      <ReactMUIDatatable
+        data={data}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton onClick={() => {}}>
+              <Link
+                to={{
+                  pathname: `/admin/stock-orders/${row._id}`
+                }}
+                style={{ color: "#6c6c6c" }}
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                props.deleteOrderSuplier(row._id);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+    );
   };
   return (
     <>
-      <div
+      {/* <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -116,7 +181,8 @@ function OrderStockList(props) {
           </TableRow>
         </TableHead>
         <TableBody>{renderOrderStockItem()}</TableBody>
-      </Table>
+      </Table> */}
+      <RenderDataTable />
     </>
   );
 }

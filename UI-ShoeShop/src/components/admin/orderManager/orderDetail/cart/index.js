@@ -55,14 +55,6 @@ function CartAdmin(props) {
   return (
     <>
       <h6>DANH SÁCH SẢN PHẨM</h6>
-      <div
-        style={{
-          width: "10%",
-          height: "4px",
-          backgroundColor: "#F75F00",
-          marginBottom: "30px"
-        }}
-      ></div>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>

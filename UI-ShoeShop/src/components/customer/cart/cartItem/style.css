@@ -17,3 +17,9 @@
     height: 150px;
     object-fit: cover;
 }
+.icon-delete{
+    color: #eb8242
+}
+.icon-delete:hover{
+    cursor: pointer;
+}

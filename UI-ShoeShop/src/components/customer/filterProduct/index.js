@@ -67,9 +67,9 @@ function FilterProduct(props) {
   };
   return (
     <div>
-      <FilterShoePrice />
       <div>{renderWomenShoes()}</div>
       <div>{renderManShoes()}</div>
+      <FilterShoePrice />
     </div>
   );
 }

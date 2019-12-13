@@ -6,7 +6,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
-import { Button } from "@material-ui/core";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { Link } from "react-router-dom";
 import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
@@ -110,16 +114,64 @@ function ListSuplier(props) {
     return result;
   };
 
-  const search = () => {
-    if (filter !== "") props.search(filter);
-  };
-  const clearSearch = () => {
-    setFilter("");
-    props.getSupliers();
-  };
+
   useEffect(() => {
     props.getSupliers();
   }, []);
+
+  const columns = [
+    {
+      name: "name",
+      label: "Tên nhà cung cấp"
+    },
+    {
+      name: "address",
+      label: "Địa chỉ"
+    },
+    {
+      name: "phone",
+      label: "Số điện thoại"
+    },
+    {
+      name: "email",
+      label: "Email"
+    }
+  ];
+
+  const RenderDataTable = () => {
+    return (
+      <ReactMUIDatatable
+        data={props.supliers}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+              }}
+            >
+              <Link
+                to={{
+                  pathname: `/admin/supliers/${row._id}`
+                }}
+                style = {{color:'#6c6c6c'}}
+
+                
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                props.deleteSuplier(row._id);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+    );
+  };
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -127,50 +179,8 @@ function ListSuplier(props) {
           Thêm mới
         </button>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          marginBottom: "20px"
-        }}
-      >
-        <div style={{ width: "400px" }}>
-          <SearchBar
-            hintText="Tìm kiếm nhà cung cấp"
-            onChange={text => {
-              setFilter(text);
-            }}
-            onRequestSearch={search}
-            style={{
-              margin: "0 auto",
-              maxWidth: 400
-            }}
-            value={filter}
-          />
-        </div>
-        <div>
-          <button className="cancel-search" onClick={clearSearch}>
-            Hủy tìm kiếm
-          </button>
-        </div>
-      </div>
-
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">STT</StyledTableCell>
-            <StyledTableCell align="center">Tên nhà cung cấp</StyledTableCell>
-            <StyledTableCell align="center">Địa chỉ</StyledTableCell>
-            <StyledTableCell align="center">SDT</StyledTableCell>
-            <StyledTableCell align="center">email</StyledTableCell>
-            <StyledTableCell align="center">Sản phẩm</StyledTableCell>
-            <StyledTableCell align="center"> Xóa</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderSuplierItem()}</TableBody>
-      </Table>
-
+  
+      <RenderDataTable/>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -259,9 +269,6 @@ const dispatchMapToProps = (dispatch, state) => {
     deleteSuplier: id => {
       dispatch(atcDeleteSuplierRequest(id));
     },
-    search: filter => {
-      dispatch(atcSearchSuplierRequest(filter));
-    }
   };
 };
 

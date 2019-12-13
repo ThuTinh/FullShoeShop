@@ -49,6 +49,7 @@ function InfoPurchase(props) {
         justify="center"
         alignItems="center"
         spacing={2}
+        
       >
         <Grid
           item
@@ -58,14 +59,14 @@ function InfoPurchase(props) {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          <div
+          {/* <div
             style={{
               width: "10%",
               height: "4px",
               backgroundColor: "#F75F00",
               marginBottom: "30px"
             }}
-          ></div>
+          ></div> */}
         </Grid>
         <Grid item sm={5}>
           <FormControl style={{ width: "100%" }}>

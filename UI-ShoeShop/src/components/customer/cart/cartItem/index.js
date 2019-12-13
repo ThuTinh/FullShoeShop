@@ -99,6 +99,8 @@ function CartItem(props) {
       </StyledTableCell>
       <StyledTableCell align="center">{productOrder.name}</StyledTableCell>
       <StyledTableCell align="center">{productOrder.price}</StyledTableCell>
+      <StyledTableCell align="center">{productOrder.color}</StyledTableCell>
+      <StyledTableCell align="center">{productOrder.size}</StyledTableCell>
       <StyledTableCell align="center">
         <label>{quantity}</label>
         {!props.buy && (
@@ -132,7 +134,7 @@ function CartItem(props) {
       </StyledTableCell>
       <StyledTableCell align="center">{totalPrice}</StyledTableCell>
       <StyledTableCell align="center">
-        {!props.buy && <DeleteIcon onClick={removeProductOrder} />}
+        {!props.buy && <DeleteIcon  className = "icon-delete" onClick={removeProductOrder} />}
       </StyledTableCell>
     </StyledTableRow>
   );

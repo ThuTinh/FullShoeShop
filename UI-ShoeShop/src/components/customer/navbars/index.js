@@ -5,7 +5,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import PersonIcon from "@material-ui/icons/Person";
 import { connect } from "react-redux";
-import { atcGetCategoryRequest, atcAddToCart } from "../../../actions";
+import {
+  atcGetCategoryRequest,
+  atcAddToCart,
+  atcGetCurentUserRequest
+} from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
 import { Redirect } from "react-router-dom";
@@ -22,6 +26,10 @@ class Navbars extends React.Component {
   constructor(props) {
     super(props);
     props.getCategory();
+    const token = localStorage.getItem("token");
+    if (token) {
+      props.getCurrentUser(token);
+    }
     this.state = {
       prevScrollpos: window.pageYOffset,
       visible: true,
@@ -38,7 +46,7 @@ class Navbars extends React.Component {
     if (orderOlds && orderOlds.length > 0) {
       let count = 0;
       for (let i = 0; i < orderOlds.length; i++) {
-        console.log("count",  count);
+        console.log("count", count);
         count += parseInt(orderOlds[i].quantity);
       }
       this.props.addToCart(count);
@@ -87,7 +95,10 @@ class Navbars extends React.Component {
     }
     return result;
   };
-
+  signnOut = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
   renderManCategory = () => {
     var result = "";
     console.log("aaa", this.props.categories);
@@ -134,11 +145,11 @@ class Navbars extends React.Component {
             <ul>
               <li>
                 Giày nữ
-                <ul>{this.renderWomenCategory()}</ul>
+                <ul className="catelogy">{this.renderWomenCategory()}</ul>
               </li>
               <li>
                 Giày nam
-                <ul>{this.renderManCategory()}</ul>
+                <ul className="catelogy">{this.renderManCategory()}</ul>
               </li>
               <li>Bán chạy</li>
               <li>Khuyến mãi</li>
@@ -146,14 +157,43 @@ class Navbars extends React.Component {
               <li>
                 <PersonIcon className="icon-person"></PersonIcon>
                 <ul className="menu-person">
-                  <li>
-                    <Link to="/my-acount" className="format-link"> Tài khoản của tôi</Link>
-                  </li>
-                  <li>
-                    {" "}
-                    <Link to="/my-acount/orders" className="format-link">Đơn mua</Link>
-                  </li>
-                  <li>Đăng Xuất</li>
+                  {this.props.currentUser._id && (
+                    <>
+                      <li>
+                        <Link to="/my-acount" className="format-link">
+                          {" "}
+                          Tài khoản của tôi
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/my-acount/orders" className="format-link">
+                          Đơn mua
+                        </Link>
+                      </li>
+                      <li onClick={this.signnOut}>Đăng Xuất</li>
+                      {this.props.currentUser.role != "customer" && (
+                        <li>
+                          <Link to="/admin" className="format-link">
+                            Trang admin
+                          </Link>
+                        </li>
+                      )}
+                    </>
+                  )}
+                  {!this.props.currentUser._id > 0 && (
+                    <>
+                      <li>
+                        <Link to="/login" className="format-link">
+                          Đăng nhập
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/sign" className="format-link">
+                          Đăng kí
+                        </Link>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </li>
               <li>
@@ -203,7 +243,8 @@ class Navbars extends React.Component {
 const stateMapToProps = (state, props) => {
   return {
     categories: state.categories,
-    count: state.countCart // chỗ này get ó nè
+    count: state.countCart, // chỗ này get ó nè
+    currentUser: state.user
   };
 };
 const dispatchMapToProps = (dispatch, props) => {
@@ -213,6 +254,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     addToCart: count => {
       dispatch(atcAddToCart(count));
+    },
+    getCurrentUser: token => {
+      dispatch(atcGetCurentUserRequest(token));
     }
   };
 };

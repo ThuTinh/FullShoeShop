@@ -23,7 +23,7 @@ function ProductFavoriteItem(props) {
                 <h6 style={{ color: "#d9a128" }}> {props.product.price} đ</h6>
               </div>
               <div>
-                <DeleteIcon
+                <DeleteIcon className = "icon-delete"
                   onClick={() => {
                     props.removeProduct(props.product._id);
                     console.log("pid", props.product._id);

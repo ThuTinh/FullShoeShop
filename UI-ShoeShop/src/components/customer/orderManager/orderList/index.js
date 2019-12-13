@@ -24,6 +24,7 @@ function OrderList(props) {
   }, []);
 
   const cancelProductOrderItem = (orderId, productOrderId) => {
+    console.log("test", orderId, productOrderId, props.currentUser._id )
     props.cancelProductOrderItem(orderId, productOrderId,props.currentUser._id );
    
   };

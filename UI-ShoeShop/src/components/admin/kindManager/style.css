@@ -17,6 +17,16 @@
   margin-right: 5px;
 
 }
+.red-button{
+  background-color: #9d0b0b;
+  border-radius: 5px;
+  padding: 8px 20px;
+  color: #f5f5f5;
+  border: none;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 5px;
+}
 
 .cancel-search {
  

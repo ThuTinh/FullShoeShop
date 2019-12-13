@@ -1,116 +1,96 @@
+import { connect } from "react-redux";
+import TableCell from "@material-ui/core/TableCell";
+import { IconButton } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import { connect } from "react-redux";
-import EmployeeItem from "../employeeItem";
 import {
   actGetEmployeeRequest,
   atcSearchUserRequets
 } from "../../../../actions";
-import SearchBar from "material-ui-search-bar";
+import { ReactMUIDatatable } from "react-material-ui-datatable";
+import { Link } from "react-router-dom";
 
-const StyledTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: "#f5f5f5",
-    color: theme.palette.common.black
-  },
-  body: {
-    fontSize: 14
-  }
-}))(TableCell);
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing(3),
-    overflowX: "auto"
-  },
-  table: {
-    minWidth: 700
-  }
-}));
 
 function ListEmployee(props) {
-  const classes = useStyles();
-  const [filter, setFilter] = useState("");
+  const [dataSource, setDataSource] = useState([]);
 
-  const employees = props.employees;
-  const search = () => {
-    props.search(filter, "employee");
-  };
-
-  const clearSearch = () => {
-    props.getCustomers();
-    setFilter("");
-  };
-  useEffect(() => {
-    props.getCustomers();
+  useEffect( ()=> {
+      props.getCustomers();
   }, []);
-  const rendeEmployeeItem = employees => {
-    var result = "";
 
-    if (employees && employees.length > 0) {
-      result = employees.map((employee, index) => {
-        return (
-          <EmployeeItem
-            key={index}
-            employee={employee}
-            role={props.role}
-          ></EmployeeItem>
-        );
-      });
+  useEffect(() => {
+    setDataSource([...props.employees]);
+  }, [props.employees]);
+
+  
+  const columns = [
+    {
+      name: "name",
+      label: "Tên khách hàng"
+    },
+    {
+      name: "address",
+      label: "Địa chỉ"
+    },
+    {
+      name: "phone",
+      label: "Số điện thoại"
+    },
+    {
+      name: "role",
+      label: "Quyền"
     }
-    return result;
+  ];
+
+  const RenderDataTable = () => {
+    let arr = [];
+    if (dataSource && dataSource.length > 0) {
+      arr = dataSource.filter(
+        employee => (props.role == employee.role || props.role == "ALL")
+      );
+    }
+    {console.log(arr)}
+    return (
+      <>
+      <ReactMUIDatatable
+        data={arr}
+        columns={columns}
+        rowActions={({ row, rowIndex }) => (
+          <React.Fragment>
+            <IconButton
+              onClick={() => {
+              }}
+            >
+             
+              <Link
+                to={{
+                  pathname: `/admin/employees/${row._id}`
+                }}
+                style = {{color:'#6c6c6c'}}
+              >
+                <VisibilityIcon />
+              </Link>
+            </IconButton>
+            <IconButton
+              onClick={() => {
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </React.Fragment>
+        )}
+      />
+      </>
+    );
   };
+
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          marginBottom: "20px"
-        }}
-      >
-        <div style={{ width: "400px" }}>
-          <SearchBar
-            hintText="Tìm kiếm nhân viên"
-            onChange={text => setFilter(text)}
-            onRequestSearch={search}
-            style={{
-              margin: "0 auto",
-              maxWidth: 400
-            }}
-            value={filter}
-          />
-        </div>
-        <div>
-        <button className="cancel-search" onClick={clearSearch}>
-          Hủy tìm kiếm
-        </button>
-      </div>
-      </div>
-     
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Mã nhân viên</StyledTableCell>
-            <StyledTableCell align="center">Tên nhân viên</StyledTableCell>
-            <StyledTableCell align="center">Địa chỉ</StyledTableCell>
-            <StyledTableCell align="center">SDT</StyledTableCell>
-            <StyledTableCell align="center">Chi tiết việc làm</StyledTableCell>
-            <StyledTableCell align="center">Quyền</StyledTableCell>
-            <StyledTableCell align="center">Tình trạng</StyledTableCell>
-            <StyledTableCell align="center"> Xóa</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{rendeEmployeeItem(employees)}</TableBody>
-      </Table>
-    </>
+    <div>
+     <RenderDataTable/>
+    </div>
   );
 }
 

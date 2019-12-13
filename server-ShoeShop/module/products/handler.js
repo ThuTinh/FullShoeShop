@@ -47,9 +47,6 @@ const updateCountFavorite = async (id, count) => {
     $set: { favorited: count }
   });
 };
-//   product._id,
-//   product.favorited ? product.favorited + 1 : 1
-// );
 
 const addItem = async (_id, filter, newId) => {
   let object = {};
@@ -156,15 +153,6 @@ const removeImgName = async (id, name) => {
   }
 };
 
-// const update = async (_id, data ,filter, newId) => {
-//   let object ={}
-//   object[filter]=newId
-//   const user= await User.findById(_id).lean()
-//   if(!user[filter] || user[filter].filter(item=>item==newId).length===0)
-//     return await User.findByIdAndUpdate(_id, {'$addToSet': object},{new: true})
-//   throw new Error(filter + ' existed')
-// }
-
 const UpdateAmountSold = async (productId, color, size, quantity) => {
   return await Product.update(
     {
@@ -172,10 +160,34 @@ const UpdateAmountSold = async (productId, color, size, quantity) => {
       "detail.color": color,
       "detail.size": size
     },
-    { $inc: { "detail.$.amountSold": parseInt(quantity), "detail.$.inventory": -parseInt(quantity)  } }
+    {
+      $inc: {
+        "detail.$.amountSold": parseInt(quantity),
+        "detail.$.inventory": -parseInt(quantity)
+      }
+    }
   );
 };
 
+const UpdateInventory = async (productId, color, size, quantity) => {
+  return await Product.update(
+    {
+      _id: mongoose.Types.ObjectId(productId),
+      "detail.color": color,
+      "detail.size": size
+    },
+    {
+      $inc: {
+        "detail.$.amountSold": -parseInt(quantity),
+        "detail.$.inventory": parseInt(quantity)
+      }
+    }
+  );
+};
+
+// const filterProductByCondition =  async(conditions)=>{
+
+// }
 module.exports = {
   validateReqBody,
   findAll,
@@ -193,5 +205,6 @@ module.exports = {
   search,
   removeImgName,
   updateCountFavorite,
-  UpdateAmountSold
+  UpdateAmountSold,
+  UpdateInventory
 };

@@ -100,7 +100,7 @@ const schema = new Schema(
         price: {
           type: Number
         },
-        quantity: {
+        inventory: {
           type: Number
         }
       }

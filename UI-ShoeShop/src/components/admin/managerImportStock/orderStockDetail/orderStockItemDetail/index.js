@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { atcGetDetailOrderSuplierRequest } from "../../../../../actions";
 
 function OrderStockItemDetail(props) {
-  console.log("ppppp", props.product);
+  console.log("product cu tru", props.product);
   let sColor = new Set();
 
   let sizes = [];
@@ -27,7 +27,7 @@ function OrderStockItemDetail(props) {
   }
 
   const renderRow = () => {
-    console.log("products", props.product);
+    console.log("products ne nha", props.product);
     let span = 0;
     let result = [];
     for (let i = 0; i < sizes.length; i++) {
@@ -52,7 +52,7 @@ function OrderStockItemDetail(props) {
                 {props.product.detail[index].price}
               </TableCell>
               <TableCell align="center">
-                {props.product.detail[index].quantity}
+                {props.product.detail[index].inventory}
               </TableCell>
               <TableCell align="center">
                 {props.product.detail[index].amountSold}
@@ -73,7 +73,7 @@ function OrderStockItemDetail(props) {
                   {props.product.detail[index].price}
                 </TableCell>
                 <TableCell align="center">
-                  {props.product.detail[index].quantity}
+                  {props.product.detail[index].inventory}
                 </TableCell>
                 <TableCell align="center">
                   {props.product.detail[index].amountSold}
@@ -93,7 +93,7 @@ function OrderStockItemDetail(props) {
                   {props.product.detail[index].price}
                 </TableCell>
                 <TableCell align="center">
-                  {props.product.detail[index].quantity}
+                  {props.product.detail[index].inventory}
                 </TableCell>
                 <TableCell align="center">
                   {props.product.detail[index].amountSold}

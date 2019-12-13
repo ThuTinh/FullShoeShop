@@ -76,11 +76,13 @@ function OrderStockDetail(props) {
     const order = props.order;
     if (order.products && order.products.length > 0) {
       ressult = order.products.map((product, index) => {
+        console.log("product test", product);
         return (
           <OrderStockItemDetail
             product={product}
             key={index}
-            name={product.maSanPham.name}
+             name={product.maSanPham.name? product.maSanPham.name: "undifine"}
+            
           />
         );
       });
@@ -209,7 +211,7 @@ function OrderStockDetail(props) {
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Thời gian: </div>
             <p>
-              <b>{order.createdAt} </b>
+              <b>{ new Date(order.createdAt).toDateString("yyyy-MM-dd")} </b>
             </p>
           </div>
           <div style={{ display: "flex" }}>

@@ -24,18 +24,18 @@ const leave =()=>{
   return (
     <>
       <TableCell align="center">
-        {" "}
+       
         <Input
         type="number"
           value={content.price}
           style={{ width: "150px" }}
           name="price"
           onChange={e => onChange(e)}
-          onMouseLeave = {leave}
+          onBlur = {leave}
         />
       </TableCell>
       <TableCell align="center">
-        {" "}
+ 
         <Input
         onMouseMove={leave}
          type="number"

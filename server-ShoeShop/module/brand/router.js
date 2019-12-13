@@ -11,7 +11,8 @@ const {
   getNameBrand,
   getProductIds,
   remove,
-  search
+  search,
+  findBrandById
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -74,25 +75,35 @@ router.get("/search", async (req, res, next) => {
 //  *         description: Success
 //  */
 
-router.get("/:name", async (req, res, next) => {
+// router.get("/:name", async (req, res, next) => {
+//   try {
+//     const conditions = { name: req.params.name };
+//     const filter = { name: 1 };
+//     const page = Number(req.query.page) ? Number(req.query.page) : undefined;
+//     const perPage = Number(req.query.per_page)
+//       ? Number(req.query.per_page)
+//       : undefined;
+//     const brand = await findOne(conditions, filter, page, perPage);
+//     const mongoose = require("mongoose");
+//     console.log(brand instanceof mongoose.Document);
+//     if (!brand) throw new Error("Unable to find brand name " + req.params.name);
+//     res.json(makeResponse(brand));
+//   } catch (error) {
+//     logger.info(`${req.originalUrl}: `, error);
+//     res.json(handleError(error));
+//   }
+// });
+
+router.get("/:id", async (req, res, next) => {
   try {
-    const conditions = { name: req.params.name };
-    const filter = { name: 1 };
-    const page = Number(req.query.page) ? Number(req.query.page) : undefined;
-    const perPage = Number(req.query.per_page)
-      ? Number(req.query.per_page)
-      : undefined;
-    const brand = await findOne(conditions, filter, page, perPage);
-    const mongoose = require("mongoose");
-    console.log(brand instanceof mongoose.Document);
-    if (!brand) throw new Error("Unable to find brand name " + req.params.name);
-    res.json(makeResponse(brand));
+    const id = req.params.id ? req.params.id : 0;
+    const brand = await findBrandById(id);
+    res.status(200).json(makeResponse(brand));
   } catch (error) {
     logger.info(`${req.originalUrl}: `, error);
-    res.json(handleError(error));
+    res.status(200).json(handleError(error));
   }
 });
-
 router.get("/list-product/:id", async (req, res, next) => {
   const list = await getProductIds(req.params.id);
   res.status(200).json(makeResponse(list));

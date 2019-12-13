@@ -7,9 +7,7 @@ function ProductItem(props) {
   var prices = [];
   const [arrPrice, setArrPrince] = useState([]);
   let sColor = new Set();
-
   let sizes = [];
-  console.log("aaqqqqqqqq", props.prices[2]);
 
   if (props.product.detail && props.product.detail.length > 0) {
     props.product.detail.map((item, index) => {
