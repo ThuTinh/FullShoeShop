@@ -9,11 +9,15 @@ function ProductFavoriteItem(props) {
       <div className="container-order">
         <div className="container-order-item">
           <div style={{ width: "100%", display: "flex" }}>
-            <div style={{ width: "25%" }}>
+            <div style={{ width: "150px" }}>
               <img
                 style={{ width: "100", height: "100px" }}
                 alt="example"
-                src={shoe}
+                src={
+                  props.product.images && props.product.images[0]
+                    ? `http://localhost:1337/images/temp/${props.product.images[0]}`
+                    : shoe
+                }
               />
             </div>
             <div style={{ width: "25%" }}>
@@ -23,7 +27,8 @@ function ProductFavoriteItem(props) {
                 <h6 style={{ color: "#d9a128" }}> {props.product.price} đ</h6>
               </div>
               <div>
-                <DeleteIcon className = "icon-delete"
+                <DeleteIcon
+                  className="icon-delete"
                   onClick={() => {
                     props.removeProduct(props.product._id);
                     console.log("pid", props.product._id);

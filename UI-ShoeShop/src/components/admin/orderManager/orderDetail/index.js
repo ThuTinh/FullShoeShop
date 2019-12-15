@@ -8,7 +8,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Switch from "@material-ui/core/Switch";
 import { Container } from "@material-ui/core";
 import { connect } from "react-redux";
-import { atcGetOrderRequest, atcChangeStatusOrderRequest } from "../../../../actions";
+import {
+  atcGetOrderRequest,
+  atcChangeStatusOrderRequest
+} from "../../../../actions";
 import CartAdmin from "./cart";
 
 const useStyles = makeStyles(theme => ({
@@ -22,11 +25,24 @@ const useStyles = makeStyles(theme => ({
 function OrderDetail(props) {
   const classes = useStyles();
   const [duyet, setDuyet] = useState(false);
-
+  const [isAccess, setIsAccess] = useState(false);
   const [order, setOrder] = useState({});
   useEffect(() => {
     console.log("order ne em", props.order);
     setOrder(props.order);
+    console.log("usser role", props.currentUser.role, props.order.status);
+    if (
+      (props.order.status == "PAID" && props.currentUser.role == "saleman") ||
+      (props.order.status == "ORDERED" &&
+        props.currentUser.role == "stocker") ||
+      (props.order.status == "SHIPPING" &&
+        props.currentUser.role == "shipper") ||
+      props.currentUser.role == "admin"
+    ) {
+      setIsAccess(true);
+    } else {
+      setIsAccess(false);
+    }
   }, [props.order]);
   useEffect(() => {
     const id = props.match.params.id;
@@ -44,9 +60,9 @@ function OrderDetail(props) {
         case "ORDERED":
           status = "SHIPPING";
           break;
-          case "SHIPPING":
-            status = "PAYED";
-            break;
+        case "SHIPPING":
+          status = "PAYED";
+          break;
         default:
           status = "PAID";
           break;
@@ -59,9 +75,9 @@ function OrderDetail(props) {
         case "SHIPPING":
           status = "ORDERED";
           break;
-          case "PAYED":
-            status = "SHIPPING";
-            break;
+        case "PAYED":
+          status = "SHIPPING";
+          break;
         default:
           status = "PAID";
           break;
@@ -78,7 +94,15 @@ function OrderDetail(props) {
           {order.status == "ORDERED" && <label>Shipping</label>}
           {order.status == "SHIPPING" && <label>Hoàn thành</label>}
           {order.status == "CANCEL" && <label>Đã hủy</label>}
-          <Switch checked={duyet} onChange={e => approved(e)} value="duyet" />
+          {order.status !== "PAYED" && (
+            <Switch
+              checked={duyet}
+              onChange={e => approved(e)}
+              value="duyet"
+              disabled={!isAccess}
+            />
+          )}
+          {order.status == "PAYED" && <h6>Đã thanh toán</h6>}
         </div>
       </div>
       <Grid>
@@ -90,7 +114,6 @@ function OrderDetail(props) {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          
         </Grid>
         <Grid container direction="row" justify="center" alignItems="center">
           <Grid item sm={5}>
@@ -102,7 +125,7 @@ function OrderDetail(props) {
                 Username
               </InputLabel>
               <Input
-                id="adornment-address"
+                id="adornment-userName"
                 className={classes.width100}
                 readOnly
                 value={order.name}
@@ -116,7 +139,7 @@ function OrderDetail(props) {
                 Địa chỉ
               </InputLabel>
               <Input
-                id="adornment-userName"
+                id="adornment-address"
                 className={classes.width100}
                 readOnly
                 value={order.shipAddress}
@@ -168,7 +191,8 @@ function OrderDetail(props) {
 }
 const stateMapToProps = (state, props) => {
   return {
-    order: state.order
+    order: state.order,
+    currentUser: state.user
   };
 };
 const dispatchMapToProps = (dispatch, props) => {
@@ -176,7 +200,7 @@ const dispatchMapToProps = (dispatch, props) => {
     getOrder: id => {
       dispatch(atcGetOrderRequest(id));
     },
-    changeStatus: (orderId, status)=>{
+    changeStatus: (orderId, status) => {
       dispatch(atcChangeStatusOrderRequest(orderId, status));
     }
   };

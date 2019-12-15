@@ -43,10 +43,12 @@ import DetailsIcon from "@material-ui/icons/Details";
 import ReportIcon from "@material-ui/icons/Report";
 import ExtensionIcon from "@material-ui/icons/Extension";
 import Container from "@material-ui/core/Container";
-import {Grid, Box}from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { connect } from "react-redux";
 import { atcGetCurentUserRequest } from "../../../actions";
+import HomeIcon from "@material-ui/icons/Home";
+import { Redirect } from "react-router-dom";
 import "./style.css";
 
 const drawerWidth = 240;
@@ -128,6 +130,7 @@ function AdminHome(props) {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [role, setRole] = useState("");
+  const [isLogout, setIsLogout] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -154,6 +157,11 @@ function AdminHome(props) {
     }
     console.log("curent user", props.currentuser);
   }, [props.currentuser]);
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsLogout(true);
+    window.location.reload();
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -206,14 +214,19 @@ function AdminHome(props) {
             </Breadcrumbs> */}
             <div>
               {/* <PersonIcon className="person"></PersonIcon> */}
-          <Box display = "inline" fontSize={18} marginRight={4}>Xin chào {props.currentuser.name}</Box>
-              <Link to="/" style={{ color: "#ffffff" }}>
-                <ExitToAppIcon></ExitToAppIcon>
+              <Box display="inline" fontSize={18} marginRight={4}>
+                Xin chào {props.currentuser.name}
+              </Box>
+              <Link to="/" style={{ color: "#ffffff", marginRight: "10px" }}>
+                <HomeIcon />
               </Link>
-              {/* <ul className="menu-admin">
-                <li>Tới trang chủ</li>
-                <li>Đăng xuất</li>
-              </ul> */}
+              <ExitToAppIcon
+                className="logout"
+                onClick={() => {
+                  logout();
+                }}
+              />
+              {isLogout && <Redirect to="/" />}
             </div>
           </Grid>
         </Toolbar>

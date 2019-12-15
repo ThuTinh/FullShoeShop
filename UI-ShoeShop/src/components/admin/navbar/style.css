@@ -28,3 +28,6 @@
     cursor: pointer;
     color: #512c62;
 }
+.logout:hover{
+    cursor: pointer;
+}

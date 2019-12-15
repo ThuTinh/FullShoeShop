@@ -138,7 +138,7 @@ function ManagerProduct(props) {
       categories: subParent,
       status: status
     };
-    if (idUpdate.length > 0) {
+    if (checkUpdate) {
       try {
         props.updateProduct(idUpdate, product);
         showMessage("success", "Cập nhập thành công!");
@@ -158,21 +158,19 @@ function ManagerProduct(props) {
 
   const handleOpen = () => {
     //Chưa ở trạng thái update
-    console.log(checkUpdate);
-    if (!checkUpdate) {
-      if (props.categories && props.categories.length > 0) {
-        var lsChildren = [];
-        props.categories.map((category, index) => {
-          if (chooseParent == category.name) {
-            if (category.children && category.children.length > 0) {
-              lsChildren = category.children.map((children, index) => {
-                return children;
-              });
-              setChildrens(lsChildren);
-            }
+    setCheckUpdate(false);
+    if (props.categories && props.categories.length > 0) {
+      var lsChildren = [];
+      props.categories.map((category, index) => {
+        if (chooseParent == category.name) {
+          if (category.children && category.children.length > 0) {
+            lsChildren = category.children.map((children, index) => {
+              return children;
+            });
+            setChildrens(lsChildren);
           }
-        });
-      }
+        }
+      });
     }
     setOpen(true);
   };
@@ -187,8 +185,7 @@ function ManagerProduct(props) {
   }, []);
 
   const btnCreate = () => {
-    setCheckUpdate(false);
-    setOpen(true);
+    handleOpen();
   };
 
   const editProduct = product => {
@@ -214,7 +211,7 @@ function ManagerProduct(props) {
 
       setSubParent(product.categories._id);
     }
-    handleOpen();
+    setOpen(true);
   };
   const deleteProduct = id => {
     try {
@@ -279,14 +276,13 @@ function ManagerProduct(props) {
           });
           products[index].inventory = inventory;
           products[index].amountSold = amountSold;
-        }
-        else{
+        } else {
           products[index].inventory = 0;
           products[index].amountSold = 0;
         }
       });
     }
-    
+
     console.log("ahihi", products);
     return (
       <ReactMUIDatatable
@@ -395,9 +391,8 @@ function ManagerProduct(props) {
                   checked={status}
                   onChange={e => {
                     setStatus(e.target.checked);
-                    console.log("ahihi", e.target.checked);
                   }}
-                />{" "}
+                />
                 Hoạt động
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
