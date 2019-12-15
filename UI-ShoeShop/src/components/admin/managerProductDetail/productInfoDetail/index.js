@@ -21,7 +21,7 @@ function ProductInfoDetail(props) {
   const [url, setUrl] = useState([]);
   const [discription, setDiscription] = useState(EditorState.createEmpty());
   const [discHtml, setDiscHtml] = useState("");
-  const [vd, setVd] = useState(EditorState.createEmpty());
+  // const [vd, setVd] = useState(EditorState.createEmpty());
 
   // product detail info
   const [showName, setShowName] = useState("");
@@ -77,14 +77,14 @@ function ProductInfoDetail(props) {
     let valueHTml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setDiscHtml(valueHTml);
     //chuyển
-    const blocksFromHtml = htmlToDraft(discHtml);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(
-      contentBlocks,
-      entityMap
-    );
-    const editorState1 = EditorState.createWithContent(contentState);
-    setVd(editorState1);
+    // const blocksFromHtml = htmlToDraft(discHtml);
+    // const { contentBlocks, entityMap } = blocksFromHtml;
+    // const contentState = ContentState.createFromBlockArray(
+    //   contentBlocks,
+    //   entityMap
+    // );
+    // const editorState1 = EditorState.createWithContent(contentState);
+    // setVd(editorState1);
   };
 
   const save = async () => {
@@ -147,14 +147,16 @@ function ProductInfoDetail(props) {
     // html to editorState
     setDiscHtml(product.description);
 
-    const blocksFromHtml = htmlToDraft("" + product.description);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(
-      contentBlocks,
-      entityMap
-    );
-    const editorState = EditorState.createWithContent(contentState);
-    setDiscription(editorState);
+    if (product.description && product.description.length > 0) {
+      const blocksFromHtml = htmlToDraft("" + product.description);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(
+        contentBlocks,
+        entityMap
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      setDiscription(editorState);
+    }
 
     if (product.detail && product.detail.length > 0) {
       let sum = 0;
@@ -247,13 +249,46 @@ function ProductInfoDetail(props) {
       <div>
         <div style={{ marginBottom: "50px" }}>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button className="outline-button" onClick = {()=> setDisable(false)}>Sửa</button>
+            <button
+              className="outline-button"
+              onClick={() => setDisable(false)}
+            >
+              Sửa
+            </button>
             <button className="outline-button" onClick={save}>
               Lưu
             </button>
           </div>
           <h6>PHẦN MÔ TẢ</h6>
 
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "20px",
+              marginTop: "20px"
+            }}
+          >
+            <div style={{ width: "100px" }}>Loại: </div>
+            <div>
+              <input
+                value={`${props.product.categories.parent.name}/ ${props.product.categories.name}`}
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "20px"
+            }}
+          >
+            <div style={{ width: "100px" }}>Tên sản phẩm : </div>
+            <div>
+              <input value={props.product.name} disabled />
+            </div>
+          </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ width: "100px" }}>Tên Hiển thị : </div>
 
@@ -307,7 +342,7 @@ function ProductInfoDetail(props) {
               wrapperClassName="demo-wrapper"
               editorClassName="demo-editor"
               onEditorStateChange={onEditorStateChange}
-              readOnly = {disable}
+              readOnly={disable}
             />
           </div>
           <div style={{ marginBottom: "20px" }}>Hình ảnh hiển thị</div>

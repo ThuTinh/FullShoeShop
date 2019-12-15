@@ -1,15 +1,21 @@
 import React from "react";
 import { Box } from "@material-ui/core";
-import CheckItem from "../checkItem"
+import CheckItem from "../checkItem";
 
 function FilterShoeMan(props) {
-  const renderItem = () => {
+  const RenderItem = () => {
     var result = [];
-    console.log("2222", props.categories);
     const categories = props.categories;
     if (categories && categories.length > 0) {
       result = categories.map((categogy, index) => {
-        return <CheckItem key={index + new Date()} categogy={categogy.name} />;
+        return (
+          <CheckItem
+            key={index + new Date() + "man"}
+            categogy={categogy.name}
+            categogyId={categogy._id}
+            filter={props.filter}
+          />
+        );
       });
     }
     return result;
@@ -34,7 +40,7 @@ function FilterShoeMan(props) {
         >
           GIÀY NAM
         </Box>
-        {renderItem()}
+       <RenderItem/>
       </Box>
     </>
   );

@@ -15,9 +15,8 @@ function DetailCustomer(props) {
   };
 
   const saveChangeRole = () => {
-    let id = props.match.params.id
-    props.changeRole(id,role);
-
+    let id = props.match.params.id;
+    props.changeRole(id, role);
   };
 
   useEffect(() => {
@@ -40,7 +39,7 @@ function DetailCustomer(props) {
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN KHÁCH HÀNG</h6>
       </div>
-     
+
       <div
         style={{
           display: "flex",
@@ -63,26 +62,35 @@ function DetailCustomer(props) {
           <h6>{user.email}</h6>
           <label>SDT</label>
           <h6>{user.phone}</h6>
-          <label>Quyền</label>
-          <div>
-            <select value={role} onChange={onChange} style = {{width:'100px', height:'40px'}}>
-              <option value="customer">Khách hàng</option>
-              <option value="saleman">Nv bán hàng</option>
-              <option value="shipper">Shipper</option>
-              <option value="stocker">Thủ kho</option>
-            </select>
-          </div>
+          {props.currentUser.role === "admin" && (
+            <>
+              <label>Quyền</label>
+              <div>
+                <select
+                  value={role}
+                  onChange={onChange}
+                  style={{ width: "100px", height: "40px" }}
+                >
+                  <option value="customer">Khách hàng</option>
+                  <option value="saleman">Nv bán hàng</option>
+                  <option value="shipper">Shipper</option>
+                  <option value="stocker">Thủ kho</option>
+                </select>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div>
-        <OrderList userId ={user._id}></OrderList>
+        <OrderList userId={user._id}></OrderList>
       </div>
     </div>
   );
 }
 const stateMapToProps = state => {
   return {
-    user: state.user
+    user: state.customer,
+    currentUser: state.user
   };
 };
 

@@ -1,23 +1,40 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { atcGetCategoryRequest } from "../../../actions";
+import { atcGetCategoryRequest,actGetProductByFilter } from "../../../actions";
 import { connect } from "react-redux";
 import FilterShoeMan from "./filterShoeMan";
 import FilterShoeWomen from "./filterShoeWomen";
 import FilterShoePrice from "./filterShoePrice";
 
 function FilterProduct(props) {
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-    checkedF: true
-  });
+  const [filterCatelogy, setFilterCatelogy] = useState([]);
+  const [filterPrice, setFilterPrice] = useState([]);
 
   useEffect(() => {
     props.getCategory();
   }, []);
 
-  const renderWomenShoes = () => {
+  const filter = (kind, value) => {
+    let index = -1;
+    if (kind == "category") {
+      let tempCategory = filterCatelogy;
+      index = tempCategory.indexOf(value);
+
+      if (index !== -1) {
+        tempCategory.splice(index, 1);
+      } else {
+        tempCategory.push(value);
+      }
+      setFilterCatelogy(tempCategory);
+    } else {
+      setFilterPrice(value);
+    }
+
+    console.log("test filter", filterPrice, filterCatelogy);
+    props.filterProduct(filterCatelogy.join(','), filterPrice.join(','));
+  };
+
+  const RenderWomenShoes = () => {
     var result = null;
     if (props.categories && props.categories.length > 0) {
       var i = 0;
@@ -29,8 +46,9 @@ function FilterProduct(props) {
           ) {
             return (
               <FilterShoeWomen
-                key={new Date()}
+                key={new Date() + "women"}
                 categories={props.categories[i].children}
+                filter={filter}
               />
             );
           }
@@ -41,7 +59,7 @@ function FilterProduct(props) {
     return result;
   };
 
-  const renderManShoes = () => {
+  const RenderManShoes = () => {
     var result = null;
     console.log("aaa", props.categories);
     if (props.categories && props.categories.length > 0) {
@@ -54,8 +72,9 @@ function FilterProduct(props) {
           ) {
             result = (
               <FilterShoeMan
-                key={new Date()}
+                key={new Date() + "man"}
                 categories={props.categories[i].children}
+                filter={filter}
               />
             );
           }
@@ -67,9 +86,9 @@ function FilterProduct(props) {
   };
   return (
     <div>
-      <div>{renderWomenShoes()}</div>
-      <div>{renderManShoes()}</div>
-      <FilterShoePrice />
+      <RenderWomenShoes />
+      <RenderManShoes />
+      <FilterShoePrice filter={filter} />
     </div>
   );
 }
@@ -83,6 +102,9 @@ const dispatchMapToProps = (dispatch, props) => {
   return {
     getCategory: () => {
       dispatch(atcGetCategoryRequest());
+    },
+    filterProduct : (categories, price)=>{
+      dispatch(actGetProductByFilter(categories, price));
     }
   };
 };

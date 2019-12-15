@@ -46,15 +46,19 @@ function OrderItem(props) {
     <div className="container-order">
       <div className="container-order-item">
         <Grid container style={{ width: "100%" }}>
-          <Grid sm={3} item>
+          <Grid sm={2} item>
             <img
-              style={{ width: "75%", height: "75%" }}
+              style={{ width: "90%", height: "80%" }}
               alt="example"
-              src={shoe}
+              src={
+                orderItem.productId.images && orderItem.productId.images[0]
+                  ? `http://localhost:1337/images/temp/${orderItem.productId.images[0]}`
+                  : shoe
+              }
             />
           </Grid>
-          <Grid sm={3} item>
-            <h6> {1111}</h6>
+          <Grid sm={4} item>
+            <h6> {orderItem.productId.nameShow}</h6>
             <p> Số lượng: {orderItem.inventory}</p>
             <p>
               Ngày mua: {new Date(props.updatedAt).toDateString("yyyy-MM-dd")}

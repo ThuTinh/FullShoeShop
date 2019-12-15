@@ -5,8 +5,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -121,6 +119,7 @@ function DetailSuplier(props) {
     const id = props.match.params.id;
     props.getSuplierById(id);
     props.getProducts();
+    console.log("Lỗi j đây");
   }, []);
 
   useEffect(() => {

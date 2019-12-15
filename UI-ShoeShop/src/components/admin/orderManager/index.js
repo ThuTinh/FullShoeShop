@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -63,6 +63,9 @@ function OrderManager() {
     setValue(index);
   };
 
+  useEffect(() => {
+    console.log("huhuhuh");
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">

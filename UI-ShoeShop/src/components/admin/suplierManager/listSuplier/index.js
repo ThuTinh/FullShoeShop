@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
 import { ReactMUIDatatable } from "react-material-ui-datatable";
 import { IconButton } from "@material-ui/core";
@@ -16,7 +12,6 @@ import {
   atcCreateSuplierRequest,
   atcDeleteSuplierRequest,
   atcGetSuplier,
-  atcSearchSuplierRequest
 } from "../../../../actions";
 import SearchBar from "material-ui-search-bar";
 import SuplierItem from "../suplierItem";
@@ -114,7 +109,6 @@ function ListSuplier(props) {
     return result;
   };
 
-
   useEffect(() => {
     props.getSupliers();
   }, []);
@@ -145,17 +139,12 @@ function ListSuplier(props) {
         columns={columns}
         rowActions={({ row, rowIndex }) => (
           <React.Fragment>
-            <IconButton
-              onClick={() => {
-              }}
-            >
+            <IconButton onClick={() => {}}>
               <Link
                 to={{
                   pathname: `/admin/supliers/${row._id}`
                 }}
-                style = {{color:'#6c6c6c'}}
-
-                
+                style={{ color: "#6c6c6c" }}
               >
                 <VisibilityIcon />
               </Link>
@@ -179,8 +168,8 @@ function ListSuplier(props) {
           Thêm mới
         </button>
       </div>
-  
-      <RenderDataTable/>
+
+      <RenderDataTable />
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -268,7 +257,7 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     deleteSuplier: id => {
       dispatch(atcDeleteSuplierRequest(id));
-    },
+    }
   };
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomHomePage from "../pages/customerPage";
 import { Route, Switch } from "react-router-dom";
 import ProductDetailPage from "../pages/customerPage/productDetailPage";
@@ -8,22 +8,40 @@ import CartPage from "../pages/customerPage/cartPage";
 import InfoPurchasePage from "../pages/customerPage/inforPurchasePage";
 import ProfilePage from "../pages/customerPage/profilePage";
 import IntroducePage from "../pages/introducePage";
-import productDetail from "../components/customer/productDetail";
+import { connect } from "react-redux";
 
 function CustomerRoute(props) {
   const [countCarts, setCountCarts] = useState(0);
-  const addToCart = () => {
-    setCountCarts(countCarts + 1);
-  };
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    if (props.curentUser) {
+      // setUser(props.curentUser);
+      // const temp = rules[props.curentUser.role];
+      // if (temp && temp.routes.length > 0)
+      // {
+      //   setRoutes([...temp.routes]);
+      //   console.log("test role", temp.routes);
+      // }
+      // console.log("test role n", temp);
+      setRole(props.curentUser.role);
+    }
+    console.log("role", role);
+  }, [props.curentUser]);
   return (
     <div>
       <Navbars countCarts={countCarts}></Navbars>
       <Switch>
-        <Route path="/cart" component={CartPage} />
-        <Route path="/product/purchase" component={InfoPurchasePage} />
+        <Route path="/cart" component={CartPage} />}
+        {role && (
+          <Route path="/product/purchase" component={InfoPurchasePage} />
+        )}
         <Route path="/product-detail/:id" component={ProductDetailPage} />
-        <Route path="/my-acount" component={ProfilePage} />
-        <Route path="/introduce" component={IntroducePage} />
+        {role && <Route path="/my-acount" component={ProfilePage} />}
+        {role && <Route path="/introduce" component={IntroducePage} />}
+        {/* { _routes && _routes.map((route, index) => 
+           <Route path={route.url} component={route.component} />
+        )} */}
         <Route path="/" component={CustomHomePage} exact={true} />
         <Route path="**" component={CustomHomePage} exact={true} />
       </Switch>
@@ -34,4 +52,9 @@ function CustomerRoute(props) {
   );
 }
 
-export default CustomerRoute;
+const stateMapToProps = (state, props) => {
+  return {
+    curentUser: state.user
+  };
+};
+export default connect(stateMapToProps, null)(CustomerRoute);

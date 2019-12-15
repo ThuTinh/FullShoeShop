@@ -93,7 +93,7 @@ function ListCustomer(props) {
             >
               <Link
                 to={{
-                  pathname: `/admin/employees/${row._id}`
+                  pathname: `/admin/customers/${row._id}`
                 }}
                 style={{ color: "#6c6c6c" }}
               >

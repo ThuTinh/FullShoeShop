@@ -18,6 +18,7 @@ import orderCustomer from './orderCutomer'
 import orders from './orders' 
 import order from './order'
 import favoriteProducts from './favoriteProducts'
+import customer from './customer'
 const reducerControler = combineReducers({
     login,
     sign,
@@ -37,7 +38,8 @@ const reducerControler = combineReducers({
     orderCustomer,
     orders,
     order,
-    favoriteProducts
+    favoriteProducts,
+    customer
 });
 
 export default reducerControler;

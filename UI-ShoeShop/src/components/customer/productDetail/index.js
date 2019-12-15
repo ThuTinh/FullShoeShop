@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
+import {Button,Divider} from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import CarouselProduct from "../carousel/carouseProduct";
@@ -17,6 +17,11 @@ import { Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import SnackbarContentWrapper from "../../message";
 import Snackbar from "@material-ui/core/Snackbar";
+import { Redirect } from "react-router-dom";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import PhoneInTalkIcon from "@material-ui/icons/PhoneInTalk";
+import FlipCameraAndroidIcon from "@material-ui/icons/FlipCameraAndroid";
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1)
@@ -40,6 +45,8 @@ function ProductDetail(props) {
   const [user, setUser] = useState(props.currentUser);
   const [totalPrice, setTotalPrice] = useState(0);
   const [checkAddOrBuy, setCheckAddOrBuy] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+ 
 
   // const history = createBrowserHistory();
   const classes = useStyles();
@@ -64,9 +71,16 @@ function ProductDetail(props) {
     props.getProduct(id);
     const token = localStorage.getItem("token");
     console.log("token111", token);
-    if (token && token.length > 0) {
-      console.log("token", token);
-      props.getCurentUser(token);
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      window.scrollTo(0, 0);
     }
   }, []);
   useEffect(() => {
@@ -152,65 +166,10 @@ function ProductDetail(props) {
     return result;
   };
   const addProduct = () => {
-    if (chooseColor == "" || chooseSize == "") {
-      setCheckChoose(true);
-    } else {
-      const productOrder = {
-        productId: product._id,
-        color: chooseColor,
-        size: chooseSize,
-        price: product.price,
-        quantity: quanlity,
-        img: product.images.length > 0 ? product.images[0] : "",
-        name: product.nameShow != "" ? product.nameShow : product.name
-      };
-      props.addToCart(1);
-      let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
-      if (tempRoductOrder) {
-        let check = false;
-        for (var i = 0; i < tempRoductOrder.length; i++) {
-          if (
-            tempRoductOrder[i].color == productOrder.color &&
-            tempRoductOrder[i].size == productOrder.size
-          ) {
-            tempRoductOrder[i].quantity =
-              parseInt(tempRoductOrder[i].quantity) + 1;
-            check = true;
-            console.log(
-              " tempRoductOrder[i].quanlity",
-              i,
-              tempRoductOrder[i],
-              tempRoductOrder[i].quantity
-            );
-            break;
-          }
-        }
-        if (!check) tempRoductOrder.push(productOrder);
-        localStorage.setItem("ProductOrders", JSON.stringify(tempRoductOrder));
+    if (props.currentUser) {
+      if (chooseColor == "" || chooseSize == "") {
+        setCheckChoose(true);
       } else {
-        const productOrders = [];
-        productOrders.push(productOrder);
-        localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
-      }
-
-      let total = localStorage.getItem("total")
-        ? parseInt(localStorage.getItem("total"))
-        : 0;
-      total += parseInt(product.price) * parseInt(quanlity);
-      localStorage.setItem("total", total);
-      setChooseColor("");
-      setChooseSize("");
-      showMessage("info", "Thêm sản phẩm thành công!");
-
-      //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
-    }
-  };
-
-  const buyProduct = () => {
-    if (chooseColor == "" && chooseSize == "") {
-      setCheckChoose(true);
-    } else {
-      if (!checkAddOrBuy) {
         const productOrder = {
           productId: product._id,
           color: chooseColor,
@@ -220,22 +179,24 @@ function ProductDetail(props) {
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
         };
+        props.addToCart(1);
         let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
-        showMessage("info", "Thêm sản phẩm thành công!");
         if (tempRoductOrder) {
           let check = false;
-          for (let i = 0; i < tempRoductOrder.length; i++) {
+          for (var i = 0; i < tempRoductOrder.length; i++) {
             if (
               tempRoductOrder[i].color == productOrder.color &&
               tempRoductOrder[i].size == productOrder.size
             ) {
               tempRoductOrder[i].quantity =
                 parseInt(tempRoductOrder[i].quantity) + 1;
+              check = true;
               console.log(
-                "tempRoductOrder[i].quanlity",
+                " tempRoductOrder[i].quanlity",
+                i,
+                tempRoductOrder[i],
                 tempRoductOrder[i].quantity
               );
-              check = true;
               break;
             }
           }
@@ -249,13 +210,84 @@ function ProductDetail(props) {
           productOrders.push(productOrder);
           localStorage.setItem("ProductOrders", JSON.stringify(productOrders));
         }
+
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
         total += parseInt(product.price) * parseInt(quanlity);
         localStorage.setItem("total", total);
-        props.addToCart(1);
+        setChooseColor("");
+        setChooseSize("");
+        showMessage("info", "Thêm sản phẩm thành công!");
+
+        //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
       }
+    } else {
+      setIsLogin(false);
+    }
+  };
+
+  const buyProduct = () => {
+    if (props.currentUser) {
+      if (chooseColor == "" && chooseSize == "") {
+        setCheckChoose(true);
+      } else {
+        if (!checkAddOrBuy) {
+          const productOrder = {
+            productId: product._id,
+            color: chooseColor,
+            size: chooseSize,
+            price: product.price,
+            quantity: quanlity,
+            img: product.images.length > 0 ? product.images[0] : "",
+            name: product.nameShow != "" ? product.nameShow : product.name
+          };
+          let tempRoductOrder = JSON.parse(
+            localStorage.getItem("ProductOrders")
+          );
+          showMessage("info", "Thêm sản phẩm thành công!");
+          if (tempRoductOrder) {
+            let check = false;
+            for (let i = 0; i < tempRoductOrder.length; i++) {
+              if (
+                tempRoductOrder[i].color == productOrder.color &&
+                tempRoductOrder[i].size == productOrder.size
+              ) {
+                tempRoductOrder[i].quantity =
+                  parseInt(tempRoductOrder[i].quantity) + 1;
+                console.log(
+                  "tempRoductOrder[i].quanlity",
+                  tempRoductOrder[i].quantity
+                );
+                check = true;
+                break;
+              }
+            }
+            if (!check) tempRoductOrder.push(productOrder);
+            localStorage.setItem(
+              "ProductOrders",
+              JSON.stringify(tempRoductOrder)
+            );
+          } else {
+            const productOrders = [];
+            productOrders.push(productOrder);
+            localStorage.setItem(
+              "ProductOrders",
+              JSON.stringify(productOrders)
+            );
+          }
+          let total = localStorage.getItem("total")
+            ? parseInt(localStorage.getItem("total"))
+            : 0;
+          total += parseInt(product.price) * parseInt(quanlity);
+          localStorage.setItem("total", total);
+          setChooseColor("");
+          setChooseSize("");
+          props.addToCart(1);
+        }
+      }
+    } else {
+      setIsLogin(false);
     }
   };
   const renderInventory = () => {
@@ -291,7 +323,7 @@ function ProductDetail(props) {
             }
           }
         }
-        if ((inventory <= 0)) {
+        if (inventory <= 0) {
           setCheckAddOrBuy(true);
         }
         return <p>Có {inventory <= 0 ? 0 : inventory} sản phẩm có sẳn</p>;
@@ -300,9 +332,10 @@ function ProductDetail(props) {
   };
   return (
     <div className="container">
+      {console.log("lalalhh", product.images)}
       <div className="row">
         <div className="col-5">
-          <CarouselProduct></CarouselProduct>
+          <CarouselProduct imgs={product.images} />
         </div>
         <div className="col-7">
           <div className="title mt-4">
@@ -325,10 +358,12 @@ function ProductDetail(props) {
               {/* <div style={{ marginLeft: "2%" }}>100 đánh giá</div> */}
             </div>
           </div>
-          <div className="flex mt-2">
-            <div className="money">{product.price}đ</div>
-            <div className="rate-own">
-              {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
+          <div className="row">
+            <div className="col-7">
+              <div className="flex mt-2">
+                <div className="money">{product.price}đ</div>
+                <div className="rate-own">
+                  {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
               <Rating
                 name="simple-controlled"
                 value={rating}
@@ -336,90 +371,143 @@ function ProductDetail(props) {
                   setRating(newValue);
                 }}
               /> */}
+                </div>
+              </div>
+              <div className="color">
+                <h6 className="mr-5">Màu</h6>
+                {renderColor()}
+              </div>
+              <div className="size">
+                <h6 className="mr-5">Size</h6>
+                {renderSize()}
+              </div>
+              <div>
+                {checkChoose && (
+                  <Box color="#FF0000">
+                    <i>Bạn chưa chọn phân loại hàng</i>
+                  </Box>
+                )}
+                {checkAddOrBuy && (
+                  <Box color="#FF0000">
+                    <i>Sản phẩm đã hết hàng, xin hãy chọn sản phẩm khác !</i>
+                  </Box>
+                )}
+              </div>
+              <div className=" quanlity d-flex">
+                <h6 className="mr-5">Số lượng</h6>
+                <input
+                  type="number"
+                  style={{
+                    width: "40px",
+                    border: "1px solid #d9a128",
+                    borderRadius: "5px",
+                    textAlign:'center'
+                  }}
+                  value={quanlity}
+                  name="quanlity"
+                  onChange={e => setQuanlity(e.target.value)}
+                  min={1}
+                />
+                {renderInventory()}
+              </div>
+              <div className="buy d-flex">
+                {!isLogin && <Redirect to="/login" />}
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  color="secondary"
+                  style={{ backgroundColor: "#9d0b0b" }}
+                  onClick={() => addProduct()}
+                >
+                  Thêm vào giỏ hàng
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  style={{ backgroundColor: "#9d0b0b" }}
+                  onClick={() => buyProduct()}
+                >
+                  {true && (
+                    <Link
+                      to={{
+                        pathname: "/cart",
+                        buy: true
+                      }}
+                      className="buy-product"
+                    >
+                      Mua hàng
+                    </Link>
+                  )}
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="color">
-            <h6 className="mr-5">Màu</h6>
-            {renderColor()}
-          </div>
-          <div className="size">
-            <h6 className="mr-5">Size</h6>
-            {renderSize()}
-          </div>
-          <div>
-            {checkChoose && (
-              <Box color="#FF0000">
-                <i>Bạn chưa chọn phân loại hàng</i>
-              </Box>
-            )}
-            {checkAddOrBuy && (
-              <Box color="#FF0000">
-                <i>Sản phẩm đã hết hàng, xin hãy chọn sản phẩm khác !</i>
-              </Box>
-            )}
-          </div>
-          <div className=" quanlity d-flex">
-            <h6 className="mr-5">Số lượng</h6>
-            <input
-              type="number"
-              style={{
-                width: "40px",
-                border: "1px solid #d9a128",
-                borderRadius: "5px"
-              }}
-              value={quanlity}
-              name="quanlity"
-              onChange={e => setQuanlity(e.target.value)}
-              min={1}
-            />
-            {renderInventory()}
-          </div>
-          <div className="buy d-flex">
-            <Button
-              variant="contained"
-              className={classes.button}
-              color="secondary"
-              style={{ backgroundColor: "#9d0b0b" }}
-              onClick={() => addProduct()}
-            >
-              Thêm vào giỏ hàng
-            </Button>
-            {/* <button>
-            Thêm vào giỏ hàng
-            </button> */}
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              style={{ backgroundColor: "#9d0b0b" }}
-              onClick={() => buyProduct()}
-            >
-              <Link
-                to={{
-                  pathname: "/cart",
-                  buy: true
-                }}
-                className="buy-product"
-              >
-                Mua hàng
-              </Link>
-            </Button>
-            {/* <Button
-              variant="contained"
-              className={classes.button}
-              color="secondary"
-              style={{ backgroundColor: "#ff0000" }}
-            >
-              Book
-            </Button> */}
+            <div className="col-5">
+              <div style = {{width:'100%', display:"flex",flexDirection:'column',alignItems:'center'}}>
+                <div><h6><b>SẼ CÓ TẠI NHÀ BẠN</b></h6></div>
+                <Box fontSize={14}>Từ 1 đến 5 ngày</Box>
+              </div>
+             <Divider style = {{margin:'10px 0'}}/>
+              <div>
+                <Box display="inline" marginRight={1}>
+                  <LocalShippingIcon style={{ color: "#EAB628" }} />
+                </Box>
+                <Box display="inline" fontSize={14}>
+                  <b>PHÍ VẬN CHUYỂN</b> trên toàn quốc
+                </Box>
+              </div>
+              <Divider style = {{margin:'10px 0'}}/>
+              <div style={{ display: "flex" }}>
+                <Box display="inline" marginRight={1}>
+                  <FlipCameraAndroidIcon style={{ color: "#EAB628" }} />
+                </Box>
+                <Box display="inline" fontSize={14}>
+                  <Box><b>ĐỔI TRẢ MIỄN PHÍ</b></Box>
+                  <Box>
+                    Đổi size, sản phẩm bị lỗi miễn phí trong vòng 3 đến 5 ngày
+                  </Box>
+                </Box>
+              </div>
+              <Divider style = {{margin:'10px 0'}}/>
+              <div style={{ display: "flex" }}>
+                <Box marginRight={1}>
+                  <MonetizationOnIcon style={{ color: "#EAB628" }} />
+                </Box>
+                <Box fontSize={14}>
+                  <Box><b>THANH TOÁN</b></Box>
+                  <Box>Thanh toán khi nhận hàng</Box>
+                </Box>
+              </div>
+              <Divider style = {{margin:'10px 0'}}/>
+              <div style={{ display: "flex" }}>
+                <Box marginRight={1}>
+                  <PhoneInTalkIcon style={{ color: "#EAB628" }} />
+                </Box>
+                <Box fontSize={14}>
+                  <Box><b>HỖ TRỢ MUA NHANH</b></Box>
+                  <Box>0981853641</Box>
+                  <Box>từ 8h đên 21h mỗi ngày</Box>
+                </Box>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row ">
         {/* <div className="dive"></div> */}
-        <div style={{}}>
-          <div>
-            <h5 className="mb-4 ml-4">CHI TIẾT SẢN PHẨM</h5>
+        <div>
+          <div className="detail">
+            <div
+              style={{
+                width: "100%",
+                backgroundColor: "rgba(217, 161, 40,0.7)",
+                height: "60px",
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
+              <h5 style={{ paddingLeft: "15px" }}>CHI TIẾT SẢN PHẨM</h5>
+            </div>
             <Editor
               toolbarClassName="demo-toolbar-absolute"
               wrapperClassName="demo-wrapper"

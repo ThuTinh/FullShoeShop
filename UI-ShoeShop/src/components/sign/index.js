@@ -57,9 +57,11 @@ function Sign(props) {
   const [redirect, setRedirect] = useState(false)
 useEffect(()=>{
 console.log(props.resSign,'yeu tinh')
+
   if(props.resSign.email)
   { 
     setRedirect(true);
+
   }
 },[props.resSign])
 

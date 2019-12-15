@@ -8,7 +8,8 @@ import { connect } from "react-redux";
 import {
   atcGetCategoryRequest,
   atcAddToCart,
-  atcGetCurentUserRequest
+  atcGetCurentUserRequest,
+  actGetProductByFilter
 } from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
@@ -34,7 +35,8 @@ class Navbars extends React.Component {
       prevScrollpos: window.pageYOffset,
       visible: true,
       visibleSearch: true,
-      redirect: false
+      redirect: false,
+      isLogout: false
     };
   }
 
@@ -85,7 +87,16 @@ class Navbars extends React.Component {
           ) {
             result = this.props.categories[i].children.map(
               (children, index) => {
-                return <li>{children.name}</li>;
+                return (
+                  <li
+                    key={index}
+                    onClick={e => {
+                      this.filter(e, children._id);
+                    }}
+                  >
+                    {children.name}
+                  </li>
+                );
               }
             );
           }
@@ -97,7 +108,14 @@ class Navbars extends React.Component {
   };
   signnOut = () => {
     localStorage.removeItem("token");
+    this.setState({
+      isLogout: !this.state.isLogout
+    });
     window.location.reload();
+  };
+  filter = (e, id) => {
+    console.log("e, id", e, id);
+    this.props.filterProduct(id);
   };
   renderManCategory = () => {
     var result = "";
@@ -112,7 +130,16 @@ class Navbars extends React.Component {
           ) {
             result = this.props.categories[i].children.map(
               (children, index) => {
-                return <li>{children.name}</li>;
+                return (
+                  <li
+                    key={index + new Date()}
+                    onClick={e => {
+                      this.filter(e, children._id);
+                    }}
+                  >
+                    {children.name}
+                  </li>
+                );
               }
             );
           }
@@ -127,6 +154,7 @@ class Navbars extends React.Component {
     // return focus to the button when we transitioned from !open -> open
     return (
       <div className="menu-container">
+        {this.state.isLogout && <Redirect to="/" />}
         <nav className={this.state.visible ? "menu" : "menu-scroll"}>
           <div style={{ position: "absolute", left: "10px" }}>
             <img
@@ -202,7 +230,10 @@ class Navbars extends React.Component {
                   color="primary"
                   className="shopping-cart"
                 >
-                  <Link to="/cart" style={{ color: "black" }}>
+                  <Link
+                    to={localStorage.getItem("token") ? "/cart" : "/login"}
+                    style={{ color: "black" }}
+                  >
                     <ShoppingCartIcon className="menu-cart" />
                   </Link>
                 </StyledBadge1>
@@ -257,6 +288,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getCurrentUser: token => {
       dispatch(atcGetCurentUserRequest(token));
+    },
+    filterProduct: category => {
+      dispatch(actGetProductByFilter(category, null));
     }
   };
 };

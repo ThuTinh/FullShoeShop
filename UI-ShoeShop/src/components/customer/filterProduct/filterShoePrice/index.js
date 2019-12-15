@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Checkbox, Box, Typography, Divider } from "@material-ui/core";
 
 function FilterShoePrice(props) {
+
   return (
     <>
        <Box
@@ -23,23 +24,23 @@ function FilterShoePrice(props) {
           GIÁ
         </Box>
         <Box>
-          <Checkbox  /> 0-200
+          <Checkbox onChange = {()=>{props.filter("price",[0, 200000])}} /> 0-200.000
           <Divider />
         </Box>
         <Box>
-          <Checkbox /> 200-400
+          <Checkbox  onChange = {()=>{props.filter("price",[200000, 400000])}} /> 200.000-400.000
           <Divider />
         </Box>
         <Box>
-          <Checkbox /> 400-600
+          <Checkbox  onChange = {()=>{props.filter("price",[400000, 600000])}} /> 400.000-600.000
           <Divider />
         </Box>
         <Box>
-          <Checkbox /> 600-1000
+          <Checkbox  onChange = {()=>{props.filter("price",[600000, 1000000])}} /> 600.000-1000.000
           <Divider />
         </Box>
         <Box>
-          <Checkbox /> >1000
+          <Checkbox  onChange = {()=>{props.filter("price",[1000000])}} /> >1000.000
           <Divider />
         </Box>
       </Box>

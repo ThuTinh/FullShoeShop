@@ -98,7 +98,7 @@ function DetailEmployee(props) {
 }
 const stateMapToProps = state => {
   return {
-    user: state.user
+    user: state.customer
   };
 };
 

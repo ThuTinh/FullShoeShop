@@ -15,18 +15,32 @@ function OrderList(props) {
   }, [props.currentUser]);
 
   useEffect(() => {
-    setOrders( [...props.orderCustomer]);
+    setOrders([...props.orderCustomer]);
   }, [props.orderCustomer]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    props.getCurrentUser(token);
+    // const token = localStorage.getItem("token");
+    // props.getCurrentUser(token);
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   const cancelProductOrderItem = (orderId, productOrderId) => {
-    console.log("test", orderId, productOrderId, props.currentUser._id )
-    props.cancelProductOrderItem(orderId, productOrderId,props.currentUser._id );
-   
+    console.log("test", orderId, productOrderId, props.currentUser._id);
+    props.cancelProductOrderItem(
+      orderId,
+      productOrderId,
+      props.currentUser._id
+    );
   };
   const renderOrderItem = () => {
     let result = [];
@@ -41,7 +55,7 @@ function OrderList(props) {
                 status={order.status}
                 orderId={order._id}
                 cancelProductOrderItem={cancelProductOrderItem}
-                updatedAt = {order.updatedAt}
+                updatedAt={order.updatedAt}
               />
             );
             result.push(orderItem);
@@ -74,7 +88,9 @@ const dispatchMapToProps = (dispatch, props) => {
       dispatch(atcGetCurentUserRequest(token));
     },
     cancelProductOrderItem: (orderId, productOrderId, userId) => {
-      dispatch(atcRemoveProductItemInOrderRequest(orderId, productOrderId, userId));
+      dispatch(
+        atcRemoveProductItemInOrderRequest(orderId, productOrderId, userId)
+      );
     }
   };
 };

@@ -70,7 +70,7 @@ export const actGetEmployeeRequest = () => {
   return dispatch => {
     return callApi("users/employees", "GET")
       .then(res => {
-        console.log("employee ne ban res", res)
+        console.log("employee ne ban res", res);
         res.data.status == 1
           ? dispatch(actCustomer(res.data.payload))
           : dispatch(actCustomer([]));
@@ -221,6 +221,52 @@ export const atcGetProductsRequest = () => {
   };
 };
 
+export const actGetProductByFilter = (categories, price) => {
+  return dispatch => {
+    console.log("categories1", categories);
+    if (categories && price) {
+      console.log("categories2", categories);
+      return callApi(`products/filter?categories=${categories}&price=${price}`)
+        .then(res => {
+          res.data.status == 1
+            ? dispatch(atcGetProducts(res.data.payload))
+            : dispatch(atcGetProducts([]));
+        })
+        .catch(err => {
+          dispatch(atcGetProductsRequest());
+        });
+    } else {
+      if (categories) {
+        console.log("categories3", categories);
+        return callApi(`products/filter?categories=${categories}`)
+          .then(res => {
+            res.data.status == 1
+              ? dispatch(atcGetProducts(res.data.payload))
+              : dispatch(atcGetProducts([]));
+          })
+          .catch(err => {
+            dispatch(atcGetProductsRequest());
+          });
+      } else {
+        if (price) {
+          console.log("categories4", categories);
+          return callApi(`products/filter?price=${price}`)
+            .then(res => {
+              res.data.status == 1
+                ? dispatch(atcGetProducts(res.data.payload))
+                : dispatch(atcGetProducts([]));
+            })
+            .catch(err => {
+              dispatch(atcGetProductsRequest());
+            });
+        } else {
+          console.log("categories5", categories);
+          dispatch(atcGetProductsRequest());
+        }
+      }
+    }
+  };
+};
 export const atcCreateProductRequest = product => {
   console.log("product:", product);
   return dispatch => {
@@ -376,9 +422,9 @@ export const atcGetSuplierRequest = () => {
   };
 };
 
-export const atcGetSuplierByIdRequest = (id) => {
+export const atcGetSuplierByIdRequest = id => {
   return dispatch => {
-    return callApi( `brands/${id}`, "GET")
+    return callApi(`brands/${id}`, "GET")
       .then(res => {
         res.data.status == 1
           ? dispatch(atcGetSuplier(res.data.payload))
@@ -479,13 +525,14 @@ export const atcRemoveProductItemInOrderRequest = (orderId, itemId, userId) => {
       `orders/product-item/${orderId}`,
       "PUT",
       `{"idItem":"${itemId}"}`
-    ).then(res => {
-      console.log("remove order item", res);
-      return dispatch(atcGetOrderCustomersRequest(userId));
-    
-    }).catch(err=>{
-      console.log(" catch remove order item", err);
-    });
+    )
+      .then(res => {
+        console.log("remove order item", res);
+        return dispatch(atcGetOrderCustomersRequest(userId));
+      })
+      .catch(err => {
+        console.log(" catch remove order item", err);
+      });
   };
 };
 export const atcGetListOrderRequest = () => {
@@ -498,13 +545,13 @@ export const atcGetListOrderRequest = () => {
   };
 };
 
-export const atcDeleteOrder = (id)=>{
-  return dispatch =>{
-    return callApi(`orders/${id}`,"DELETE").then(res=>{
+export const atcDeleteOrder = id => {
+  return dispatch => {
+    return callApi(`orders/${id}`, "DELETE").then(res => {
       dispatch(atcGetListOrderRequest());
-    })
-  }
-}
+    });
+  };
+};
 export const atcGetOrderCustomersRequest = id => {
   return dispatch => {
     return callApi(`orders/user/${id}`, "GET").then(res => {
@@ -664,19 +711,27 @@ export const atcGetFavoriteProducts = favoriteProducts => {
   };
 };
 
-export const atcChangeStatusOrderRequest = (orderId, status)=>{
-  return dispatch =>{
-    return callApi(`orders/status/${orderId}`, "PUT", `{"status":"${status}"}`).then(res=>{
+export const atcChangeStatusOrderRequest = (orderId, status) => {
+  return dispatch => {
+    return callApi(
+      `orders/status/${orderId}`,
+      "PUT",
+      `{"status":"${status}"}`
+    ).then(res => {
       console.log("sttaus order", res);
-      return dispatch(atcGetListOrderRequest())
-    })
-  }
-}
+      return dispatch(atcGetListOrderRequest());
+    });
+  };
+};
 
-export const atcUpdateAmountSold = (productId, color, size, quantity)=>{
- return dispatch =>{
-   return callApi( `products/amount-sold/${productId}`, "PUT", `{"color": "${color}","size": "${size}", "quantity":"${quantity}" }`).then(res=>{
-     console.log("aiji",res);
-   })
- } 
-}
+export const atcUpdateAmountSold = (productId, color, size, quantity) => {
+  return dispatch => {
+    return callApi(
+      `products/amount-sold/${productId}`,
+      "PUT",
+      `{"color": "${color}","size": "${size}", "quantity":"${quantity}" }`
+    ).then(res => {
+      console.log("aiji", res);
+    });
+  };
+};

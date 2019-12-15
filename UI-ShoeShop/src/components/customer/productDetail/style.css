@@ -52,10 +52,10 @@
   border: none !important;
 }
 
-.rdw-editor-main {
+.detail .rdw-editor-main {
   overflow: hidden !important;
 }
-.rdw-editor-toolbar {
+.detail .rdw-editor-toolbar {
   height: 0px !important;
 }
 

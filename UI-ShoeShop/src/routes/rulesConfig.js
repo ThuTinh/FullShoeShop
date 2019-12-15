@@ -1,4 +1,4 @@
-export const rules = {
+const  rules = {
   customer: {
     routes: [
       {
@@ -32,3 +32,5 @@ export const rules = {
     ]
   }
 };
+
+export default rules;

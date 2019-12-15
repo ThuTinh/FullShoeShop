@@ -36,7 +36,9 @@ function ProductItem(props) {
             className="image-item"
             style={{ width: "100%", height: "200px" }}
             alt="example"
-            src={shoe}
+            src={
+              `http://localhost:1337/images/temp/${product.images[0]}` || shoe
+            }
           />
         </div>
         <div className="card-item-body">
@@ -49,7 +51,7 @@ function ProductItem(props) {
             {product.nameShow || product.name}
           </Link>
           <p style={{ color: "#FFB700" }}>
-            <b>{product.price} đ</b>
+            <b>{product.price || 0} đ</b>
           </p>
           <div
             style={{

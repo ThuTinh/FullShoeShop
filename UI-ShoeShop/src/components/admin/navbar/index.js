@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -35,7 +35,6 @@ import ProductInfoDetail from "../managerProductDetail/productInfoDetail";
 import SuplierManager from "../suplierManager";
 import Report from "../report";
 import DetailSuplier from "../suplierManager/detailSuplier";
-import PersonIcon from "@material-ui/icons/Person";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
@@ -44,9 +43,10 @@ import DetailsIcon from "@material-ui/icons/Details";
 import ReportIcon from "@material-ui/icons/Report";
 import ExtensionIcon from "@material-ui/icons/Extension";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import {Grid, Box}from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { connect } from "react-redux";
+import { atcGetCurentUserRequest } from "../../../actions";
 import "./style.css";
 
 const drawerWidth = 240;
@@ -126,7 +126,8 @@ const useStyles = makeStyles(theme => ({
 function AdminHome(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [role, setRole] = useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -141,6 +142,18 @@ function AdminHome(props) {
     console.info("You clicked a breadcrumb.");
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      props.getCurentUser(token);
+    }
+  }, []);
+  useEffect(() => {
+    if (props.currentuser) {
+      setRole(props.currentuser.role);
+    }
+    console.log("curent user", props.currentuser);
+  }, [props.currentuser]);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -193,6 +206,7 @@ function AdminHome(props) {
             </Breadcrumbs> */}
             <div>
               {/* <PersonIcon className="person"></PersonIcon> */}
+          <Box display = "inline" fontSize={18} marginRight={4}>Xin chào {props.currentuser.name}</Box>
               <Link to="/" style={{ color: "#ffffff" }}>
                 <ExitToAppIcon></ExitToAppIcon>
               </Link>
@@ -229,33 +243,38 @@ function AdminHome(props) {
         </div>
         <Divider />
         <List>
-          <ListItem button key="QL đơn hàng">
-            <ListItemIcon>
-              <AccessAlarmIcon style={{ color: "#d9a128" }}></AccessAlarmIcon>
-            </ListItemIcon>
-            <Link to="/admin/orders" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL đơn hàng" />
-            </Link>
-          </ListItem>
-          <ListItem button key="QL danh mục">
-            <ListItemIcon>
-              <CategoryIcon style={{ color: "#d9a128" }}></CategoryIcon>
-            </ListItemIcon>
-            <Link to="/admin/kinds" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL danh mục" />
-            </Link>
-          </ListItem>
-          <ListItem button key="QL sản phẩm">
-            <ListItemIcon>
-              <ExtensionIcon style={{ color: "#d9a128" }}></ExtensionIcon>
-            </ListItemIcon>
-            <Link to="/admin/products" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL sản phẩm" />
-            </Link>
-          </ListItem>
+          {role && role !== "customer" && (
+            <ListItem button key="QL đơn hàng">
+              <ListItemIcon>
+                <AccessAlarmIcon style={{ color: "#d9a128" }}></AccessAlarmIcon>
+              </ListItemIcon>
+              <Link to="/admin/orders" className={classes.link}>
+                {" "}
+                <ListItemText primary="QL đơn hàng" />
+              </Link>
+            </ListItem>
+          )}
+          {role && (role === "saleman" || role === "admin") && (
+            <>
+              <ListItem button key="QL danh mục">
+                <ListItemIcon>
+                  <CategoryIcon style={{ color: "#d9a128" }}></CategoryIcon>
+                </ListItemIcon>
+                <Link to="/admin/kinds" className={classes.link}>
+                  <ListItemText primary="QL danh mục" />
+                </Link>
+              </ListItem>
+              <ListItem button key="QL sản phẩm">
+                <ListItemIcon>
+                  <ExtensionIcon style={{ color: "#d9a128" }}></ExtensionIcon>
+                </ListItemIcon>
+                <Link to="/admin/products" className={classes.link}>
+                  <ListItemText primary="QL sản phẩm" />
+                </Link>
+              </ListItem>
+            </>
+          )}
+
           {/* <ListItem button key="QL chi tiết sản phẩm">
             <ListItemIcon>
               <DetailsIcon style={{ color: "#d9a128" }}></DetailsIcon>
@@ -265,56 +284,62 @@ function AdminHome(props) {
               <ListItemText primary="QL chi tiết sản phẩm" />
             </Link>
           </ListItem> */}
-          <ListItem button key="QL kho">
-            <ListItemIcon>
-              <BookIcon style={{ color: "#d9a128" }}></BookIcon>
-            </ListItemIcon>
-            <Link to="/admin/stock-orders" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL kho" />
-            </Link>
-          </ListItem>
-          <ListItem button key="QL nhà cung cấp">
-            <ListItemIcon>
-              <AccountBalanceIcon
-                style={{ color: "#d9a128" }}
-              ></AccountBalanceIcon>
-            </ListItemIcon>
-            <Link to="/admin/supliers" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL nhà cung cấp" />
-            </Link>
-          </ListItem>
-          <ListItem button key="QL Nhân viên">
-            <ListItemIcon>
-              <SupervisedUserCircleIcon
-                style={{ color: "#d9a128" }}
-              ></SupervisedUserCircleIcon>
-            </ListItemIcon>
-            <Link to="/admin/employees" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL nhân viên" />
-            </Link>
-          </ListItem>
+          {role && (role === "stocker" || role === "admin") && (
+            <>
+              <ListItem button key="QL kho">
+                <ListItemIcon>
+                  <BookIcon style={{ color: "#d9a128" }}></BookIcon>
+                </ListItemIcon>
+                <Link to="/admin/stock-orders" className={classes.link}>
+                  {" "}
+                  <ListItemText primary="QL kho" />
+                </Link>
+              </ListItem>
+              <ListItem button key="QL nhà cung cấp">
+                <ListItemIcon>
+                  <AccountBalanceIcon
+                    style={{ color: "#d9a128" }}
+                  ></AccountBalanceIcon>
+                </ListItemIcon>
+                <Link to="/admin/supliers" className={classes.link}>
+                  {" "}
+                  <ListItemText primary="QL nhà cung cấp" />
+                </Link>
+              </ListItem>
+            </>
+          )}
+          {role && role == "admin" && (
+            <ListItem button key="QL Nhân viên">
+              <ListItemIcon>
+                <SupervisedUserCircleIcon
+                  style={{ color: "#d9a128" }}
+                ></SupervisedUserCircleIcon>
+              </ListItemIcon>
+              <Link to="/admin/employees" className={classes.link}>
+                {" "}
+                <ListItemText primary="QL nhân viên" />
+              </Link>
+            </ListItem>
+          )}
 
-          <ListItem button key="QL Khách hàng">
-            <ListItemIcon>
-              <SupervisedUserCircleIcon
-                style={{ color: "#d9a128" }}
-              ></SupervisedUserCircleIcon>
-            </ListItemIcon>
-            <Link to="/admin/customers" className={classes.link}>
-              {" "}
-              <ListItemText primary="QL Khách hàng" />
-            </Link>
-          </ListItem>
+          {role && (role == "saleman" || role == "admin") && (
+            <ListItem button key="QL Khách hàng">
+              <ListItemIcon>
+                <SupervisedUserCircleIcon
+                  style={{ color: "#d9a128" }}
+                ></SupervisedUserCircleIcon>
+              </ListItemIcon>
+              <Link to="/admin/customers" className={classes.link}>
+                <ListItemText primary="QL Khách hàng" />
+              </Link>
+            </ListItem>
+          )}
 
           <ListItem button key="Báo cáo">
             <ListItemIcon>
               <ReportIcon style={{ color: "#d9a128" }}></ReportIcon>
             </ListItemIcon>
             <Link to="/admin/report" className={classes.link}>
-              {" "}
               <ListItemText primary="Báo cáo" />
             </Link>
           </ListItem>
@@ -329,51 +354,148 @@ function AdminHome(props) {
         <div className={classes.toolbar} />
         <Container fixed>
           <Switch>
-            <Route path={`${props.match}/orders`} component={OrderManager} />
-            <Route path="/admin/products/:id" component={ProductDetail}></Route>
-            <Route path="/admin/products" component={ManagerProduct} />
-            <Route
-              path="/admin/employees/:id"
-              component={DetailEmployee}
+            {/* <Route
+              path={`${props.match}/orders`}
+              component={OrderManager}
             ></Route>
-            <Route path="/admin/employees" component={EmployeeManager}></Route>
-            <Route
-              path="/admin/customers/:id"
-              component={DetailCustomer}
-            ></Route>
-            <Route path="/admin/customers" component={CustomerManager}></Route>
-            <Route path="/admin/supliers/:id" component={DetailSuplier}></Route>
-            <Route path="/admin/supliers" component={SuplierManager}></Route>
-
+            <Route path="/admin/report" component={Report}></Route>
             <Route
               path="/admin/order-detail/:id"
               component={OrderDetail}
             ></Route>
 
-            <Route path="/admin/kinds" component={KindManager}></Route>
-            <Route
-              path="/admin/stock-orders/:id"
-              component={OrderStockDetail}
-            ></Route>
-            <Route
-              path="/admin/stock-orders"
-              component={ManagerImportStockManager}
-            ></Route>
+            {role && (role == "saleman" || role == "admin") && (
+              <>
+                <Route
+                  path="/admin/products/:id"
+                  component={ProductDetail}
+                ></Route>
+                <Route path="/admin/products" component={ManagerProduct} />
+                <Route
+                  path="/admin/customers/:id"
+                  component={DetailCustomer}
+                ></Route>
+                <Route
+                  path="/admin/customers"
+                  component={CustomerManager}
+                ></Route>
+                <Route path="/admin/kinds" component={KindManager}></Route>
+                <Route
+                  path="/admin/product-detail/:id"
+                  component={ProductInfoDetail}
+                ></Route>
+                <Route
+                  path="/admin/product-detail"
+                  component={ManagerProductDetail}
+                ></Route>
+              </>
+            )}
+            {role && role == "admin" && (
+              <>
+                <Route
+                  path="/admin/employees/:id"
+                  component={DetailEmployee}
+                ></Route>
+                <Route
+                  path="/admin/employees"
+                  component={EmployeeManager}
+                ></Route>
+              </>
+            )}
+            {role && (role == "stocker" || role == "admin") && (
+              <>
+                <Route
+                  path="/admin/supliers/:id"
+                  component={DetailSuplier}
+                ></Route>
+                <Route
+                  path="/admin/supliers"
+                  component={SuplierManager}
+                ></Route>
+                <Route
+                  path="/admin/stock-orders/:id"
+                  component={OrderStockDetail}
+                ></Route>
+                <Route
+                  path="/admin/stock-orders"
+                  component={ManagerImportStockManager}
+                ></Route>
 
-            <Route
-              path="/admin/makeImportStock"
-              component={OrderImport}
-            ></Route>
-            <Route
-              path="/admin/product-detail/:id"
-              component={ProductInfoDetail}
-            ></Route>
-            <Route
-              path="/admin/product-detail"
-              component={ManagerProductDetail}
-            ></Route>
+                <Route
+                  path="/admin/makeImportStock"
+                  component={OrderImport}
+                ></Route>
+              </>
+            )}
 
-            <Route path="/admin/report" component={Report}></Route>
+            <Route path="**" component={OrderManager} /> */}
+
+            {role && role !== "customer" && (
+              <Route path={`${props.match}/orders`} component={OrderManager} />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route path="/admin/products/:id" component={ProductDetail} />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route path="/admin/products" component={ManagerProduct} />
+            )}
+            {role && role === "admin" && (
+              <Route path="/admin/employees/:id" component={DetailEmployee} />
+            )}
+            {role && role === "admin" && (
+              <Route path="/admin/employees" component={EmployeeManager} />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route path="/admin/customers/:id" component={DetailCustomer} />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route path="/admin/customers" component={CustomerManager} />
+            )}
+
+            {role && (role === "stocker" || role === "admin") && (
+              <Route path="/admin/supliers/:id" component={DetailSuplier} />
+            )}
+            {role && (role === "stocker" || role === "admin") && (
+              <Route path="/admin/supliers" component={SuplierManager} />
+            )}
+            {role && (
+              <Route path="/admin/order-detail/:id" component={OrderDetail} />
+            )}
+
+            {role && (role === "saleman" || role === "admin") && (
+              <Route path="/admin/kinds" component={KindManager} />
+            )}
+            {role && (role === "stocker" || role === "admin") && (
+              <Route
+                path="/admin/stock-orders/:id"
+                component={OrderStockDetail}
+              />
+            )}
+            {role && (role === "stocker" || role === "admin") && (
+              <Route
+                path="/admin/stock-orders"
+                component={ManagerImportStockManager}
+              />
+            )}
+            {role && (role === "stocker" || role === "admin") && (
+              <Route path="/admin/makeImportStock" component={OrderImport} />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route
+                path="/admin/product-detail/:id"
+                component={ProductInfoDetail}
+              />
+            )}
+            {role && (role === "saleman" || role === "admin") && (
+              <Route
+                path="/admin/product-detail"
+                component={ManagerProductDetail}
+              />
+            )}
+
+            {role && role === "stocker" && (
+              <Route path="/admin/report" component={Report} />
+            )}
 
             <Route path="**" component={OrderManager} />
           </Switch>
@@ -382,4 +504,17 @@ function AdminHome(props) {
     </div>
   );
 }
-export default AdminHome;
+
+const dispatchMapToProps = (dispatch, props) => {
+  return {
+    getCurentUser: token => {
+      dispatch(atcGetCurentUserRequest(token));
+    }
+  };
+};
+const stateMapToProps = (state, props) => {
+  return {
+    currentuser: state.user
+  };
+};
+export default connect(stateMapToProps, dispatchMapToProps)(AdminHome);

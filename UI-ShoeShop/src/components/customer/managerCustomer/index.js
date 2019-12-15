@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   myAdmin: {
     marginTop: "20px",
     marginLeft: "20px",
-    marginRight: "20px",
+    marginRight: "20px"
   },
   imgInfor: {
     width: "80px",
@@ -84,9 +84,20 @@ const useStyles = makeStyles(theme => ({
 function ManagerCustomer(props) {
   const classes = useStyles();
   useEffect(() => {
-    let token = localStorage.getItem("token");
-    console.log(token);
-    props.getCurrentUser(token);
+    // let token = localStorage.getItem("token");
+    // console.log(token);
+    // props.getCurrentUser(token);
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   const [avatar, setAvater] = useState(
@@ -115,7 +126,7 @@ function ManagerCustomer(props) {
               alt="image"
             />
           </div>
-          <p>Nguyễn Ngọc Như Hoa</p>
+          <p>{props.currentUser.name}</p>
         </div>
         <div className={clsx(classes.acount, "action-hover")}>
           <AccountCircleIcon className={classes.icon}></AccountCircleIcon>

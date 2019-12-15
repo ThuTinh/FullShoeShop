@@ -1,20 +1,14 @@
-import  * as Types from '../constants/actionType' 
-import { stat } from 'fs';
-var init = {}
+import * as Types from "../constants/actionType";
+import { stat } from "fs";
+var init = {};
 
-const user = (state = init, action)=>{
-    switch(action.type)
-    {
-        case Types.GET_USER:
-            state = action.user
-            return state;
-        case Types.GET_CURRENT_USER:
-            state = action.infoUser
-        default: 
-            return state;
+const user = (state = init, action) => {
+  switch (action.type) {
+    case Types.GET_CURRENT_USER:
+      state = action.infoUser;
+    default:
+      return state;
+  }
+};
 
-    }
-
-} 
-
-export default user
+export default user;

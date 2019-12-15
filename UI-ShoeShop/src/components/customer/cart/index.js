@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -67,8 +67,21 @@ function Carts(props) {
     }
     return result;
   };
+  useEffect(() => {
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      window.scrollTo(0, 0);
+    }
+  }, []);
   return (
-    <div>
+    <div style={{ paddingTop: "10px" }}>
       <h6 style={{ marginTop: "20px" }}>DANH SÁCH SẢN PHẨM</h6>
       {/* <div
         style={{

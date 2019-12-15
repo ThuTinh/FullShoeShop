@@ -7,10 +7,12 @@ import {
   atcGetCurentUserRequest,
   atcAddProductFavourite
 } from "../../../actions/index";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function ProductList(props) {
   const [user, setUser] = useState(props.currentUser);
-  const renderProductList = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const RenderProductList = () => {
     console.log("ls products", props.products);
     var result = [];
     const products = props.products;
@@ -31,7 +33,7 @@ function ProductList(props) {
       productId: productId,
       id: user._id
     };
-    console.log("body",body);
+    console.log("body", body);
     props.addFaccvourite(body);
   };
   useEffect(() => {
@@ -45,11 +47,25 @@ function ProductList(props) {
   }, []);
 
   useEffect(() => {
-    setUser(props.currentUser);
-    console.log("oaoaooa",props.currentUser);
+    if (props.products && props.products.length > 0) {
+      setIsLoading(false);
+    }
+  }, [props.products]);
 
+  useEffect(() => {
+    setUser(props.currentUser);
+    console.log("oaoaooa", props.currentUser);
   }, [props.currentUser]);
-  return <div className="row ">{renderProductList()}</div>;
+  return (
+    <>
+      {isLoading && (
+        <div style = {{width: '100%', textAlign:'center'}}>
+          <CircularProgress style = {{width:'100px', height:'100px', color:'#5A3D6C'}} />
+        </div>
+      )}
+      <div className="row ">{!isLoading && <RenderProductList />}</div>
+    </>
+  );
 }
 const stateMapToProps = (state, props) => {
   return {
@@ -65,7 +81,7 @@ const dispatchMapToProps = (dispatch, props) => {
     getCurentUser: token => {
       dispatch(atcGetCurentUserRequest(token));
     },
-    addFaccvourite: data =>{
+    addFaccvourite: data => {
       dispatch(atcAddProductFavourite(data));
     }
   };

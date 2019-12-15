@@ -79,9 +79,6 @@ function Login(props) {
     event.preventDefault();
   };
 
-  const sign = () => {
-    <Redirect to="/admin" />;
-  };
   return (
     <div>
       <div className="background"> </div>
@@ -92,7 +89,7 @@ function Login(props) {
           justify="flex-start"
           alignItems="center"
         >
-          {redirect && <Redirect to="/admin" />}
+          {redirect && <Redirect to="/" />}
           <div style={{ marginTop: "8%" }}>
             <h4 className="title-login">WELCOME TO SHOE </h4>
             <h1 className="title-login">SHOP</h1>

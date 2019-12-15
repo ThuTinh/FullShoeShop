@@ -20,6 +20,49 @@ const {
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
 const model = require("./model");
+
+router.get("/filter", async (req, res, next) => {
+  try {
+    const externalFields = ["q"];
+    const conditions = Object.keys(req.query)
+      .filter(k => externalFields.indexOf(k) === -1)
+      .reduce(async (acc, key) => {
+        const rs = await acc;
+
+        if (key === "price") {
+          rs["price"] = {
+            $gte: Number(req.query[key].split(",")[0]) || 0,
+            $lte: Number(req.query[key].split(",")[1]) || 1000000000
+          };
+        } else if (key == "categories") {
+          const categories = req.query[key].split(",");
+
+          rs["categories"] = {
+            $in: categories
+          };
+        }
+
+        return rs;
+      }, Promise.resolve({}));
+    const products = req.query.q
+      ? // query search
+      await model
+        .find(
+          { $text: { $search: req.query.q }, ...(await conditions) },
+          { score: { $meta: "textScore" } }
+        )
+        .sort({ score: { $meta: "textScore" } })
+        .lean()
+      : //not query search
+      await model.find(await conditions).lean();
+
+    res.status(200).json(makeResponse(products));
+  } catch (error) {
+    logger.info(`${req.originalUrl}: `, error);
+    res.status(200).json(handleError(error));
+  }
+});
+
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger
@@ -279,11 +322,16 @@ router.put("/update-price-detail/:id", async (req, res, next) => {
 
 router.put("/amount-sold/:id", async (req, res, next) => {
   const id = req.params.id ? req.params.id : 0;
-  console.log("body ne", req.body)
+  console.log("body ne", req.body);
   if (!req.body.color || !req.body.size || !req.body.quantity) {
     throw new Error("Miss body!!");
   }
-  const product = await UpdateAmountSold(id, req.body.color, req.body.size, req.body.quantity);
+  const product = await UpdateAmountSold(
+    id,
+    req.body.color,
+    req.body.size,
+    req.body.quantity
+  );
   res.status(200).json(makeResponse(product));
 });
 
@@ -305,4 +353,5 @@ router.delete("/image/:id", async (req, res, next) => {
 //   const details = await getDetail(id);
 //   res.status(200).json(makeResponse(details));
 // });
+
 module.exports = router;

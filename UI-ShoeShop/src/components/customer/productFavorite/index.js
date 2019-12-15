@@ -11,6 +11,20 @@ function ProductFavorite(props) {
   );
 
   useEffect(() => {
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      window.scrollTo(0, 0);
+    }
+    props.getFavoriteProducts(props.currentUser._id);
+  }, []);
+  useEffect(() => {
     console.log("ooaoaid", props.currentUser._id);
     props.getFavoriteProducts(props.currentUser._id);
   }, [props.currentUser]);
@@ -21,15 +35,21 @@ function ProductFavorite(props) {
     console.log("fav", props.favoriteProducts.favoriteProducts);
   }, [props.favoriteProducts]);
 
-  const removeProduct = (productId)=>{
+  const removeProduct = productId => {
     props.removeFavoriteProduct(props.currentUser._id, productId);
-  //  props.getFavoriteProducts(props.currentUser._id);
-  }
+    //  props.getFavoriteProducts(props.currentUser._id);
+  };
   const renderFavoriteProducts = () => {
     var result = [];
     if (favoriteProducts && favoriteProducts.length > 0) {
       result = favoriteProducts.map((product, index) => {
-        return <ProductFavoriteItem product={product} removeProduct= {removeProduct} key = {index} />;
+        return (
+          <ProductFavoriteItem
+            product={product}
+            removeProduct={removeProduct}
+            key={index}
+          />
+        );
       });
     }
     return result;
@@ -61,8 +81,8 @@ const dispatchMapToProps = (dispatch, props) => {
     getFavoriteProducts: userId => {
       dispatch(atcGetFavoriteProductsRequest(userId));
     },
-    removeFavoriteProduct :(userId, productId)=>{
-      dispatch(atcRemoveFavoriteProduct(userId,productId));
+    removeFavoriteProduct: (userId, productId) => {
+      dispatch(atcRemoveFavoriteProduct(userId, productId));
     }
   };
 };
