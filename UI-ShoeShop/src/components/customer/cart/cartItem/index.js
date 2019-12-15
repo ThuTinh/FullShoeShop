@@ -35,12 +35,14 @@ function CartItem(props) {
     }
   }));
   const [productOrder, setProductOrder] = useState(props.productOrder);
-  const [quantity, setQuanlity] = useState(props.productOrder.quantity);
+  const [quantity, setQuanlity] = useState(
+    parseInt(props.productOrder.quantity)
+  );
   const [totalPrice, setTotalPrice] = useState(
     parseInt(props.productOrder.price) * parseInt(props.productOrder.quantity)
   );
   const addQuanlityProduct = count => {
-    const temp = quantity + count;
+    const temp = parseInt(quantity + count);
     var total = localStorage.getItem("total")
       ? parseInt(localStorage.getItem("total"))
       : 0;
@@ -84,7 +86,7 @@ function CartItem(props) {
       props.remove();
     }
   };
-  
+
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row" align="center">
@@ -97,7 +99,7 @@ function CartItem(props) {
           }
           className="img-fluid z-depth-0 img-product"
         />
-        {console.log("Bạn H",productOrder )}
+        {console.log("Bạn H", productOrder)}
       </StyledTableCell>
       <StyledTableCell align="center">{productOrder.name}</StyledTableCell>
       <StyledTableCell align="center">{productOrder.price}</StyledTableCell>
@@ -136,7 +138,9 @@ function CartItem(props) {
       </StyledTableCell>
       <StyledTableCell align="center">{totalPrice}</StyledTableCell>
       <StyledTableCell align="center">
-        {!props.buy && <DeleteIcon  className = "icon-delete" onClick={removeProductOrder} />}
+        {!props.buy && (
+          <DeleteIcon className="icon-delete" onClick={removeProductOrder} />
+        )}
       </StyledTableCell>
     </StyledTableRow>
   );

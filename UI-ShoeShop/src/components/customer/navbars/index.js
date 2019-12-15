@@ -51,7 +51,7 @@ class Navbars extends React.Component {
         console.log("count", count);
         count += parseInt(orderOlds[i].quantity);
       }
-      this.props.addToCart(count);
+      if (this.props.count !== count) this.props.addToCart(count);
     }
   }
 
