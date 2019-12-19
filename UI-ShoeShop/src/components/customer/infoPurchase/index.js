@@ -49,7 +49,6 @@ function InfoPurchase(props) {
         justify="center"
         alignItems="center"
         spacing={2}
-        
       >
         <Grid
           item
@@ -143,9 +142,6 @@ function InfoPurchase(props) {
         ></Grid>
         <Grid sm={10} item>
           <Carts buy={true}></Carts>
-          <div>
-            <b>Phương thức: Thanh toán khi nhận hàng</b>
-          </div>
         </Grid>
       </Grid>
     </div>

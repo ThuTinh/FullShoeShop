@@ -69,7 +69,11 @@ function CartAdmin(props) {
         </TableHead>
         <TableBody>
           {renderProductItem()}
-          <CartResultAdmin totalPrice={props.totalPrice} />
+          <CartResultAdmin
+            totalPrice={parseInt(props.totalPrice)
+              .toFixed(2)
+              .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+          />
         </TableBody>
       </Table>
     </>

@@ -27,8 +27,7 @@ function App(props) {
         <Route path="/login" component={loginPage} />
         <Route path="/sign" component={SignPage} />
         <Route path="/" component={CustomerRoute} />
-        <Route path="**" component={CustomerRoute} />
-        <Route path="" component={NotFoundPage} />
+        <Route path="**" component={NotFoundPage} />
       </Switch>
     </>
   );

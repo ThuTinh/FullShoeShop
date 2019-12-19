@@ -174,6 +174,27 @@ export const atcGetProduct = product => {
   };
 };
 
+export const atcGetProductByCategoryMan = () => {
+  return dispatch => {
+    return callApi("products/product-man", "GET").then(res => {
+      console.log("tesst product man", res);
+      res.data.status == 1
+        ? dispatch(atcGetProducts(res.data.payload))
+        : dispatch(atcGetProducts([]));
+    });
+  };
+};
+
+export const atcGetProductByCategoryWomen = () => {
+  return dispatch => {
+    return callApi("products/product-women", "GET").then(res => {
+      console.log("tesst product wwoment", res);
+      res.data.status == 1
+        ? dispatch(atcGetProducts(res.data.payload))
+        : dispatch(atcGetProducts([]));
+    });
+  };
+};
 export const atcGetProductRequest = id => {
   return dispatch => {
     return callApi(`products/${id}`, "GET")
@@ -334,8 +355,12 @@ export const atcGetSupliers = supliers => {
 export const atcCreateOrderSuplierRequest = order => {
   return dispatch => {
     return callApi("order-suplier", "POST", order)
-      .then(res => {})
-      .catch(err => console.log("err:", err));
+      .then(res => {
+        res.data.status == 1
+          ? dispatch(atcSuccess("Tạo hóa đơn thành công!"))
+          : dispatch(atcFail("Tạo đơn hàng không thành công!"));
+      })
+      .catch(err => dispatch(atcFail("Tạo đơn hàng không thành công!")));
   };
 };
 
@@ -733,5 +758,35 @@ export const atcUpdateAmountSold = (productId, color, size, quantity) => {
     ).then(res => {
       console.log("aiji", res);
     });
+  };
+};
+
+export const atcSuccess = message => {
+  return {
+    type: Types.SUCCESS,
+    message: {
+      status: true,
+      message: message
+    }
+  };
+};
+
+export const atcFail = message => {
+  return {
+    type: Types.FAIL,
+    message: {
+      status: true,
+      message: message
+    }
+  };
+};
+
+export const atcPriceAndInventoryAll = (priceAll, inventoryAll) => {
+  return {
+    type: Types.PRICEANDINVENTORYALL,
+    priceAndInventoryAll: {
+      priceAll: priceAll,
+      inventoryAll: inventoryAll
+    }
   };
 };

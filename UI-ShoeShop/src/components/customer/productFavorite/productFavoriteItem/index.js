@@ -20,7 +20,7 @@ function ProductFavoriteItem(props) {
                 }
               />
             </div>
-            <div style={{ width: "25%" }}>
+            <div style={{ width: "70%" }}>
               <h6> {props.product.nameShow || props.product.name}</h6>
 
               <div>

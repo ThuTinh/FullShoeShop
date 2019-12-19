@@ -9,12 +9,15 @@ import {
   atcGetCategoryRequest,
   atcAddToCart,
   atcGetCurentUserRequest,
-  actGetProductByFilter
+  actGetProductByFilter,
+  atcGetProductByCategoryMan,
+  atcGetProductByCategoryWomen
 } from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
 import { Redirect } from "react-router-dom";
 import "./style.css";
+import { Box } from "@material-ui/core";
 
 const StyledBadge1 = withStyles(theme => ({
   badge: {
@@ -111,7 +114,6 @@ class Navbars extends React.Component {
     this.setState({
       isLogout: !this.state.isLogout
     });
-    window.location.reload();
   };
   filter = (e, id) => {
     console.log("e, id", e, id);
@@ -171,16 +173,21 @@ class Navbars extends React.Component {
           </div>
           <div className="wraper">
             <ul>
+              <li onClick = {()=>{this.props.filterProduct(null)}}>Tất cả</li>
               <li>
-                Giày nữ
+                <Box onClick={() => {this.props.getProductByCategoryWomen(); console.log("ahihi")}}>
+                  {" "}
+                  Giày nữ{" "}
+                </Box>
+
                 <ul className="catelogy">{this.renderWomenCategory()}</ul>
               </li>
-              <li>
+              <li onClick={() => this.props.getProductByCategoryMan()}>
                 Giày nam
                 <ul className="catelogy">{this.renderManCategory()}</ul>
               </li>
               <li>Bán chạy</li>
-              <li>Khuyến mãi</li>
+              {/* <li>Khuyến mãi</li> */}
               <li>Giới thiệu shop</li>
               <li>
                 <PersonIcon className="icon-person"></PersonIcon>
@@ -291,6 +298,12 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     filterProduct: category => {
       dispatch(actGetProductByFilter(category, null));
+    },
+    getProductByCategoryWomen: () => {
+      dispatch(atcGetProductByCategoryWomen());
+    },
+    getProductByCategoryMan: () => {
+      dispatch(atcGetProductByCategoryMan());
     }
   };
 };

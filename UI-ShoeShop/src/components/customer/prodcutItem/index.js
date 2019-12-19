@@ -51,7 +51,12 @@ function ProductItem(props) {
             {product.nameShow || product.name}
           </Link>
           <p style={{ color: "#FFB700" }}>
-            <b>{product.price || 0} đ</b>
+            <b>
+              {(product.price || 0)
+                .toFixed(2)
+                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+              đ
+            </b>
           </p>
           <div
             style={{

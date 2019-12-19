@@ -9,8 +9,6 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
 
-
-
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -63,21 +61,40 @@ function ListOrder(props) {
       label: "Địa chỉ"
     },
     {
-      name: "updatedAt",
-      label: "Thời gian"
+      name: "createdAt",
+      label: "Thời gian tao"
     },
     {
       name: "status",
       label: "Trạng thái"
     }
   ];
+  const compare = (a, b) => {
+    // Use toUpperCase() to ignore character casing
+    const orderA = a.createdAt.toUpperCase();
+    const orderB = b.createdAt.toUpperCase();
+
+    let comparison = 0;
+    if (orderA < orderB) {
+      comparison = 1;
+    } else if (orderA >= orderB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
   const RenderDataTable = () => {
     console.log("order-detail", orders);
     let data = [];
     if (orders && orders.length > 0) {
-      data = orders.filter(
-        order => props.status == order.status || props.status == "ALL"
-      );
+      data = orders
+        .filter(order => props.status == order.status || props.status == "ALL")
+        .sort(compare)
+        .map((order, index) => {
+          order.createdAt = new Date(order.createdAt).toDateString(
+            "yyyy-MM-dd"
+          );
+          return order;
+        });
     }
     return (
       <ReactMUIDatatable

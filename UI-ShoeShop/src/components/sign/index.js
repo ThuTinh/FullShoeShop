@@ -32,14 +32,14 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: "5%",
     // boxShadow: "-2px 4px 20px 2px rgba(87,70,11,0.7)",
     width: "600px",
-    marginTop: "8%"
+    marginTop: "5%"
   },
   tilte: {
     width: "100%",
     textAlign: "center",
     marginTop: "10px",
     marginBottom: "10px",
-    color: "#5d1451",
+    color: "#F75F00",
     fontWeight: 600
   }
 }));
@@ -213,7 +213,7 @@ console.log(props.resSign,'yeu tinh')
                 variant="contained"
                 color="secondary"
                 className={classes.width400}
-                style={{ backgroundColor: "#5d1451" }}
+                style={{ backgroundColor: "#F75F00" }}
                 onClick={()=>{props.sign({name, email, address, shipAddress, password, phone})
               }}
               >

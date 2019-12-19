@@ -66,8 +66,13 @@ function CartResult(props) {
     const temp = JSON.parse(localStorage.getItem("ProductOrders"));
     let products = [];
     if (temp && temp.length > 0) {
-      products = temp.map( (item, index) => {
-        props.updateAmountSold(item.productId,item.color, item.size, item.quantity);
+      products = temp.map((item, index) => {
+        props.updateAmountSold(
+          item.productId,
+          item.color,
+          item.size,
+          item.quantity
+        );
         return {
           productId: item.productId,
           color: item.color,
@@ -96,10 +101,17 @@ function CartResult(props) {
   };
   return (
     <StyledTableRow>
-      <StyledTableCell colSpan={3}></StyledTableCell>
+      <StyledTableCell colSpan={2}>
+        <button className="red-button">
+          <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
+            Trở về home
+          </Link>
+        </button>
+      </StyledTableCell>
       <StyledTableCell
         align="center"
         style={{ fontSize: "20px", fontWeight: "600" }}
+        colSpan={3}
       >
         Tổng tiền
       </StyledTableCell>
@@ -107,13 +119,15 @@ function CartResult(props) {
         align="center"
         style={{ fontSize: "20px", fontWeight: "600" }}
       >
-        {props.totalPrice}
+        {parseInt(props.totalPrice)
+          .toFixed(2)
+          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
       </StyledTableCell>
-      <StyledTableCell align="center">
+      <StyledTableCell align="center" >
         {!props.buy && (
-          <button className="red-button" >
+          <button className="red-button">
             <Link
-            disabled = {props.totalPrice==0?true:false}
+              disabled={props.totalPrice == 0 ? true : false}
               to="/product/purchase"
               style={{ color: "#fff", textDecoration: "none" }}
             >
@@ -153,8 +167,8 @@ const dispatchMapToProps = (dispatch, props) => {
     addToCart: count => {
       dispatch(atcAddToCart(count));
     },
-    updateAmountSold: (productId, color, size, quantity)=>{
-      dispatch(atcUpdateAmountSold(productId, color, size, quantity))
+    updateAmountSold: (productId, color, size, quantity) => {
+      dispatch(atcUpdateAmountSold(productId, color, size, quantity));
     }
   };
 };

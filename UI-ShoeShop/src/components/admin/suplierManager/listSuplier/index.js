@@ -11,7 +11,7 @@ import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
   atcDeleteSuplierRequest,
-  atcGetSuplier,
+  atcGetSuplier
 } from "../../../../actions";
 import SearchBar from "material-ui-search-bar";
 import SuplierItem from "../suplierItem";
@@ -50,9 +50,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3)
   },
   input: {
-    marginLeft: "50px",
+    marginLeft: "10px",
     width: "300px",
-    height: "30px"
+    height: "30px",
+    border: "1px solid #000000"
   },
   label: {
     width: "100px"
@@ -186,50 +187,62 @@ function ListSuplier(props) {
           <div className={classes.paper}>
             <h3 id="transition-modal-title">Thông tin nhà cung cấp</h3>
             <div id="transition-modal-description">
-              <div>
-                <label className={classes.label}>Tên NCC</label>
-                <input
-                  className={classes.input}
-                  name="name"
-                  value={suplier.name}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>Địa chỉ</label>
-                <input
-                  className={classes.input}
-                  name="address"
-                  value={suplier.address}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>SDT</label>
-                <input
-                  className={classes.input}
-                  name="phone"
-                  value={suplier.phone}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>Email</label>
-                <input
-                  className={classes.input}
-                  name="email"
-                  value={suplier.email}
-                  onChange={onChange}
-                />
-              </div>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button className="fill-button" onClick={handleClose}>
-                  Hủy
-                </button>
-                <button className="fill-button" onClick={createSuplier}>
-                  Lưu
-                </button>
-              </div>
+              <form>
+                <div>
+                  <label className={classes.label}>Tên NCC</label>
+                  <input
+                    className={classes.input}
+                    name="name"
+                    value={suplier.name}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>Địa chỉ</label>
+                  <input
+                    className={classes.input}
+                    name="address"
+                    value={suplier.address}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>SDT</label>
+                  <input
+                    type="tel"
+                    className={classes.input}
+                    name="phone"
+                    value={suplier.phone}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>Email</label>
+                  <input
+                    className={classes.input}
+                    name="email"
+                    type="email"
+                    value={suplier.email}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <button className="fill-button" onClick={handleClose}>
+                    Hủy
+                  </button>
+                  <button
+                    className="fill-button"
+                    onClick={createSuplier}
+                    type="submit"
+                  >
+                    Lưu
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </Fade>

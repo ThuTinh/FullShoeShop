@@ -142,7 +142,7 @@ function ProductInfoDetail(props) {
     setShowName(product.nameShow);
     setPrice(product.price);
     setSale(product.sale);
-    setImgNameOld([...product.images]);
+    setImgNameOld(product.images);
 
     // html to editorState
     setDiscHtml(product.description);
@@ -216,15 +216,15 @@ function ProductInfoDetail(props) {
       result = imgNameOld.map((item, index) => {
         console.log("name ne", item);
         return (
-          <div style={{ position: "relative" }}>
+          <div  key={new Date() + item} style={{ position: "relative" }}>
             <img
               src={tempUrl + item}
-              key={new Date() + item}
+             
               className="imgProduct"
             />
             <HighlightOffIcon
               style={{ position: "absolute", top: 0, right: 0 }}
-              key={new Date() + item}
+             
               onClick={() => removeImageOld(item, index)}
             />
           </div>

@@ -15,7 +15,9 @@ const {
   updatePriceDetail,
   search,
   removeImgName,
-  UpdateAmountSold
+  UpdateAmountSold,
+  getProductBuyCategoryMan,
+  getProductBuyCategoryWomen
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -63,6 +65,15 @@ router.get("/filter", async (req, res, next) => {
   }
 });
 
+router.get("/product-man", async(req, res, next)=>{
+  const products = await getProductBuyCategoryMan();
+  res.status(200).json(makeResponse(products));
+})
+
+router.get("/product-women", async(req, res, next)=>{
+  const products = await getProductBuyCategoryWomen();
+  res.status(200).json(makeResponse(products));
+})
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger

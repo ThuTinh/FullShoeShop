@@ -506,7 +506,7 @@ function AdminHome(props) {
               />
             )}
 
-            {role && role === "stocker" && (
+            {role && role === "admin" && (
               <Route path="/admin/report" component={Report} />
             )}
 

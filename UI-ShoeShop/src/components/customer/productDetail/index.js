@@ -46,6 +46,7 @@ function ProductDetail(props) {
   const [isBuy, setIsBuy] = useState(false);
   const [checkAddOrBuy, setCheckAddOrBuy] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [priceBuy, setPriceBuy] = useState(0);
 
   // const history = createBrowserHistory();
   const classes = useStyles();
@@ -104,6 +105,7 @@ function ProductDetail(props) {
     setColor([...Array.from(colorSet)]);
     setSize([...Array.from(sizeSet)]);
     //const total = localStorage.getItem('total')? parseInt(localStorage.getItem('total')):0;
+    setPriceBuy(props.product.price);
   }, [props.product]);
 
   useEffect(() => {
@@ -169,11 +171,12 @@ function ProductDetail(props) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
+        const tempPrice = renderPrice();
         const productOrder = {
           productId: product._id,
           color: chooseColor,
           size: chooseSize,
-          price: product.price,
+          price: tempPrice,
           quantity: quanlity,
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
@@ -213,7 +216,7 @@ function ProductDetail(props) {
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
-        total += parseInt(product.price) * parseInt(quanlity);
+        total += parseInt(tempPrice) * parseInt(quanlity);
         localStorage.setItem("total", total);
         setChooseColor("");
         setChooseSize("");
@@ -330,6 +333,22 @@ function ProductDetail(props) {
       }
     }
   };
+
+  const renderPrice = () => {
+    if (chooseSize != "" && chooseColor != "") {
+      if (product.detail && product.detail.length > 0) {
+        for (let i = 0; i < product.detail.length; i++) {
+          if (
+            product.detail[i].color == chooseColor &&
+            product.detail[i].size == chooseSize
+          ) {
+            return product.detail[i].price;
+          }
+        }
+      }
+    }
+    return priceBuy;
+  };
   return (
     <div className="container">
       {console.log("lalalhh", product.images)}
@@ -361,7 +380,12 @@ function ProductDetail(props) {
           <div className="row">
             <div className="col-7">
               <div className="flex mt-2">
-                <div className="money">{product.price}đ</div>
+                <div className="money">
+                  {parseInt(renderPrice())
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  đ
+                </div>
                 <div className="rate-own">
                   {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
               <Rating
@@ -566,13 +590,13 @@ function ProductDetail(props) {
     </div>
   );
 }
-
 const stateMapToProps = (state, props) => {
   return {
     product: state.product,
     currentUser: state.user
   };
 };
+
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProduct: id => {
@@ -586,4 +610,5 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
+
 export default connect(stateMapToProps, dispatchMapToProps)(ProductDetail);

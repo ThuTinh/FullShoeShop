@@ -102,14 +102,17 @@ function CartItem(props) {
         {console.log("Bạn H", productOrder)}
       </StyledTableCell>
       <StyledTableCell align="center">{productOrder.name}</StyledTableCell>
-      <StyledTableCell align="center">{productOrder.price}</StyledTableCell>
+      <StyledTableCell align="center">
+        {parseInt(productOrder.price)
+          .toFixed(2)
+          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+      </StyledTableCell>
       <StyledTableCell align="center">{productOrder.color}</StyledTableCell>
       <StyledTableCell align="center">{productOrder.size}</StyledTableCell>
       <StyledTableCell align="center">
         <label>{quantity}</label>
         {!props.buy && (
           <>
-            {" "}
             <AddIcon
               onClick={() => addQuanlityProduct(1)}
               className="amount"
@@ -136,7 +139,11 @@ function CartItem(props) {
           </>
         )}
       </StyledTableCell>
-      <StyledTableCell align="center">{totalPrice}</StyledTableCell>
+      <StyledTableCell align="center">
+        {parseInt(totalPrice)
+          .toFixed(2)
+          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+      </StyledTableCell>
       <StyledTableCell align="center">
         {!props.buy && (
           <DeleteIcon className="icon-delete" onClick={removeProductOrder} />

@@ -25,7 +25,15 @@ function ProductList(props) {
         );
       });
     }
-    return result;
+    if (result.length > 0) {
+      return result;
+    } else {
+      return (
+        <div>
+          <h2>Không có sản phẩm nào được tìm thấy!!</h2>
+        </div>
+      );
+    }
   };
 
   const addFaccvourite = productId => {
@@ -59,8 +67,10 @@ function ProductList(props) {
   return (
     <>
       {isLoading && (
-        <div style = {{width: '100%', textAlign:'center'}}>
-          <CircularProgress style = {{width:'100px', height:'100px', color:'#5A3D6C'}} />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <CircularProgress
+            style={{ width: "100px", height: "100px", color: "#5A3D6C" }}
+          />
         </div>
       )}
       <div className="row ">{!isLoading && <RenderProductList />}</div>

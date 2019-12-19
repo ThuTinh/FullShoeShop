@@ -34,11 +34,12 @@ function CartItemAdmin(props) {
       <StyledTableCell align="center">
         <label>{productOrder.inventory}</label>
       </StyledTableCell>
-      <StyledTableCell align="center">{(parseInt(productOrder.inventory) * parseInt(productOrder.price))||0}</StyledTableCell>
+      <StyledTableCell align="center">{((parseInt(productOrder.inventory) * parseInt(productOrder.price))||0).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</StyledTableCell>
       <StyledTableCell align="center"></StyledTableCell>
     </StyledTableRow>
   );
 }
+
 
 const dispatchMapToProps = (dispatch, props) => {
   return {};
