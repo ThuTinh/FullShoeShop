@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Badge from "@material-ui/core/Badge";
 import PersonIcon from "@material-ui/icons/Person";
 import { connect } from "react-redux";
+import MenuIcon from "@material-ui/icons/Menu";
 import {
   atcGetCategoryRequest,
   atcAddToCart,
@@ -39,7 +40,8 @@ class Navbars extends React.Component {
       visible: true,
       visibleSearch: true,
       redirect: false,
-      isLogout: false
+      isLogout: false,
+      showMenu: false
     };
   }
 
@@ -155,29 +157,163 @@ class Navbars extends React.Component {
   render() {
     // return focus to the button when we transitioned from !open -> open
     return (
-      <div className="menu-container">
-        {this.state.isLogout && <Redirect to="/" />}
-        <nav className={this.state.visible ? "menu" : "menu-scroll"}>
-          <div style={{ position: "absolute", left: "10px" }}>
-            <img
-              className="logo"
-              src={logo}
-              alt="logo"
-              onClick={() => {
-                this.setState({
-                  redirect: !this.state.redirect
-                });
-              }}
-            />
-            {this.state.redirect && <Redirect to="/" />}
+      <div>
+        <div className="menu-container">
+          {this.state.isLogout && <Redirect to="/" />}
+          <nav className={this.state.visible ? "menu" : "menu-scroll"}>
+            <div style={{ position: "absolute", left: "10px" }}>
+              <img
+                className="logo"
+                src={logo}
+                alt="logo"
+                onClick={() => {
+                  this.setState({
+                    redirect: !this.state.redirect
+                  });
+                }}
+              />
+              {this.state.redirect && <Redirect to="/" />}
+            </div>
+            <div className="wraper">
+              <ul>
+                <li
+                  onClick={() => {
+                    this.props.filterProduct(null);
+                  }}
+                >
+                  Tất cả
+                </li>
+                <li>
+                  <Box
+                    onClick={() => {
+                      this.props.getProductByCategoryWomen();
+                      console.log("ahihi");
+                    }}
+                  >
+                    {" "}
+                    Giày nữ{" "}
+                  </Box>
+
+                  <ul className="catelogy">{this.renderWomenCategory()}</ul>
+                </li>
+                <li onClick={() => this.props.getProductByCategoryMan()}>
+                  Giày nam
+                  <ul className="catelogy">{this.renderManCategory()}</ul>
+                </li>
+                <li>Bán chạy</li>
+                {/* <li>Khuyến mãi</li> */}
+                <li>Giới thiệu shop</li>
+                <li>
+                  <PersonIcon className="icon-person"></PersonIcon>
+                  <ul className="menu-person">
+                    {this.props.currentUser._id && (
+                      <>
+                        <li>
+                          <Link to="/my-acount" className="format-link">
+                            {" "}
+                            Tài khoản của tôi
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/my-acount/orders" className="format-link">
+                            Đơn mua
+                          </Link>
+                        </li>
+                        <li onClick={this.signnOut}>Đăng Xuất</li>
+                        {this.props.currentUser.role != "customer" && (
+                          <li>
+                            <Link to="/admin" className="format-link">
+                              Trang admin
+                            </Link>
+                          </li>
+                        )}
+                      </>
+                    )}
+                    {!this.props.currentUser._id > 0 && (
+                      <>
+                        <li>
+                          <Link to="/login" className="format-link">
+                            Đăng nhập
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/sign" className="format-link">
+                            Đăng kí
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </li>
+                <li>
+                  <StyledBadge1
+                    badgeContent={this.props.count} // chỗ này ko nhận dc
+                    color="primary"
+                    className="shopping-cart"
+                  >
+                    <Link
+                      to={localStorage.getItem("token") ? "/cart" : "/login"}
+                      style={{ color: "black" }}
+                    >
+                      <ShoppingCartIcon className="menu-cart" />
+                    </Link>
+                  </StyledBadge1>
+                </li>
+              </ul>
+            </div>
+
+            <div className="menu-cart-search">
+              <SearchIcon
+                className="menu-search"
+                onClick={this.onIconSearchClick}
+              />
+            </div>
+          </nav>
+          <div
+            className={this.state.visible ? "search" : "search-croll"}
+            style={{ visibility: this.state.visibleSearch ? "hidden" : "" }}
+          >
+            <form>
+              <div style={{ display: "flex" }}>
+                <input
+                  type="text"
+                  className="control-input"
+                  id="search_input"
+                  placeholder="Search Here"
+                />
+                <button type="submit" className="btn-search">
+                  Tìm kiếm
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="wraper">
+        </div>
+        <div className="menu-container-min">
+          <div className="icon-menu">
+            <MenuIcon
+              style={{ fontSize: "40px", marginTop: "10px" }}
+              onClick={() => console.log("ahihihiji")}
+            />
+          </div>
+        </div>
+        <div className="content-menu">
+          <ul>
             <ul>
-              <li onClick = {()=>{this.props.filterProduct(null)}}>Tất cả</li>
+              <li
+                onClick={() => {
+                  this.props.filterProduct(null);
+                }}
+              >
+                Tất cả
+              </li>
               <li>
-                <Box onClick={() => {this.props.getProductByCategoryWomen(); console.log("ahihi")}}>
-                  {" "}
-                  Giày nữ{" "}
+                <Box
+                  onClick={() => {
+                    this.props.getProductByCategoryWomen();
+                    console.log("ahihi");
+                  }}
+                >
+                  Giày nữ
                 </Box>
 
                 <ul className="catelogy">{this.renderWomenCategory()}</ul>
@@ -189,7 +325,7 @@ class Navbars extends React.Component {
               <li>Bán chạy</li>
               {/* <li>Khuyến mãi</li> */}
               <li>Giới thiệu shop</li>
-              <li>
+              {/* <li>
                 <PersonIcon className="icon-person"></PersonIcon>
                 <ul className="menu-person">
                   {this.props.currentUser._id && (
@@ -244,34 +380,9 @@ class Navbars extends React.Component {
                     <ShoppingCartIcon className="menu-cart" />
                   </Link>
                 </StyledBadge1>
-              </li>
+              </li> */}
             </ul>
-          </div>
-
-          <div className="menu-cart-search">
-            <SearchIcon
-              className="menu-search"
-              onClick={this.onIconSearchClick}
-            />
-          </div>
-        </nav>
-        <div
-          className={this.state.visible ? "search" : "search-croll"}
-          style={{ visibility: this.state.visibleSearch ? "hidden" : "" }}
-        >
-          <form>
-            <div style={{ display: "flex" }}>
-              <input
-                type="text"
-                className="control-input"
-                id="search_input"
-                placeholder="Search Here"
-              />
-              <button type="submit" className="btn-search">
-                Tìm kiếm
-              </button>
-            </div>
-          </form>
+          </ul>
         </div>
       </div>
     );

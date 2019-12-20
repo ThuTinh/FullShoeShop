@@ -8,6 +8,7 @@ import {
   atcAddProductFavourite
 } from "../../../actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Grid } from "@material-ui/core";
 
 function ProductList(props) {
   const [user, setUser] = useState(props.currentUser);
@@ -19,9 +20,9 @@ function ProductList(props) {
     if (products && products.length > 0) {
       result = products.map((product, index) => {
         return (
-          <div className="col-4" key={index}>
+          <Grid item md={4} xs={6} key={index}>
             <ProductItem product={product} addFavourite={addFaccvourite} />
-          </div>
+          </Grid>
         );
       });
     }
@@ -73,7 +74,8 @@ function ProductList(props) {
           />
         </div>
       )}
-      <div className="row ">{!isLoading && <RenderProductList />}</div>
+      <Grid container spacing={2}>{!isLoading && <RenderProductList />}</Grid>
+    
     </>
   );
 }

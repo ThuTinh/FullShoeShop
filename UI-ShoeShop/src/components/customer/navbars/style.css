@@ -6,7 +6,6 @@
   width: 85%;
   margin-top: 20px;
   position: fixed;
-  z-index: 1000;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -179,7 +178,6 @@ label:hover {
 .wraper ul li:hover {
   color: #5d1451 !important;
   cursor: pointer;
-
 }
 
 .wraper ul ul {
@@ -189,13 +187,13 @@ label:hover {
   border-radius: 8px;
   height: fit-content;
   width: 250px;
-  top: 50px
+  top: 50px;
 }
 .wraper ul li:hover > ul {
   display: block;
   cursor: pointer;
   animation-name: zoomIn;
-  animation-duration: 0.5s
+  animation-duration: 0.5s;
 }
 
 .shopping-cart {
@@ -246,7 +244,7 @@ link:hover {
   padding-left: 35px !important;
   transition: padding-left 0.5s;
 }
-.menu-person li{
+.menu-person li {
   padding-left: 25px !important;
 }
 ul {
@@ -257,12 +255,9 @@ ul {
   width: 100%;
   padding-left: 35px !important;
   transition: padding-left 0.5s;
-  
 }
-.catelogy li{
+.catelogy li {
   padding-left: 25px !important;
-  
-
 }
 
 @keyframes zoomIn {
@@ -273,4 +268,52 @@ ul {
   50% {
     opacity: 1;
   }
+}
+
+@media (max-width: 768px) {
+  .menu-container-min {
+    width: 100%;
+    background-color: #ffffff;
+    height: 60px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    z-index: 1001;
+  }
+  .menu-container {
+    display: none;
+  }
+  .icon-menu {
+    display: block !important
+  }
+  .content-menu{
+    /* display: block !important */
+  }
+}
+
+/* .icon-menu:hover .content-menu{
+  display: block !important;
+  left: 0 !important;
+} */
+.icon-menu {
+  color: #d9a128 !important;
+  width: 20px;
+  display: none;
+}
+
+.icon-menu:hover {
+  cursor: pointer !important;
+  color: #5d1451;
+}
+.content-menu {
+  position: fixed;
+  /* left: -600px; */
+  /* display: none; */
+  z-index: 1000;
+  background-color: #ffffff;
+  padding: 0 40px;
+  height: 100%;
+  top: 60px;
+}
+ul {
+  list-style: none;
 }

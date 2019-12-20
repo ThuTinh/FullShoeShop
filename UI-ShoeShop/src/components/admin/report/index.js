@@ -75,7 +75,12 @@ function Report() {
           </div>
         </div>
 
-        <div>
+        <div
+          style={{
+            marginLeft: "40px",
+           marginTop:'20px'
+          }}
+        >
           <button className="outline-button">Xuất báo cáo</button>
         </div>
       </div>
