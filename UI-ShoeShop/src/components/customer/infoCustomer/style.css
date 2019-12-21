@@ -15,3 +15,18 @@ label + .MuiInput-formControl {
     font-weight: 500;
     text-decoration: underline
 }
+
+@media (max-width: 768px) {
+    .upload-img{
+        display: none;
+    }
+    .container-profile{
+        margin-left: 10px !important;   
+    }
+}
+.container-profile{
+    margin-left: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px;
+}

@@ -20,7 +20,7 @@ function ProductList(props) {
     if (products && products.length > 0) {
       result = products.map((product, index) => {
         return (
-          <Grid item md={4} xs={6} key={index}>
+          <Grid item md={3} xs={6} key={index}>
             <ProductItem product={product} addFavourite={addFaccvourite} />
           </Grid>
         );

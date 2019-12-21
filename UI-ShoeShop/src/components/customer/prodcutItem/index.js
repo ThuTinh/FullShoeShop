@@ -33,8 +33,7 @@ function ProductItem(props) {
       >
         <div className="card-item-image">
           <img
-            className="image-item"
-            style={{ width: "100%", height: "200px" }}
+            className="image-item product-item-img"
             alt="example"
             src={
               `http://localhost:1337/images/temp/${product.images[0]}` || shoe
@@ -46,18 +45,18 @@ function ProductItem(props) {
             to={{
               pathname: `/product-detail/${product._id}`
             }}
-            className="tilte"
+            className="tilte showMore"
           >
             {product.nameShow || product.name}
           </Link>
-          <p style={{ color: "#FFB700" }}>
+          <div style={{ color: "#DFAF48" }}>
             <b>
               {(product.price || 0)
                 .toFixed(2)
                 .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
               đ
             </b>
-          </p>
+          </div>
           <div
             style={{
               display: "flex",
@@ -66,6 +65,7 @@ function ProductItem(props) {
           >
             <div>
               <Rating
+                className="rating-home"
                 name="simple-controlled"
                 readOnly
                 value={value}
@@ -107,7 +107,10 @@ function ProductItem(props) {
             style={{
               display: "flex",
               justifyContent: "flex-end",
-              marginRight: "20px"
+              marginRight: "20px",
+              position: "absolute",
+              bottom: 8,
+              right: 8
             }}
           >
             <i style={{ color: "#00000", fontSize: "12px", fontWeight: "500" }}>

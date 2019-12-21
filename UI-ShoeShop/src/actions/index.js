@@ -469,6 +469,14 @@ export const atcSearchSuplierRequest = filter => {
       .catch(err => console.log("err:", err));
   };
 };
+
+export const atcUpdateSuplierRequest = (id, data) => {
+  return dispatch => {
+    return callApi(`brands/${id}`, "PUT", data).then(res => {
+      dispatch(atcGetSuplierRequest());
+    });
+  };
+};
 export const atcCreateSuplierRequest = suplier => {
   return dispatch => {
     return callApi("brands", "POST", suplier)

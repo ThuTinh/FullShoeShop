@@ -7,14 +7,14 @@ import { IconButton } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
 import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
   atcDeleteSuplierRequest,
-  atcGetSuplier
+  atcGetSuplier,
+  atcUpdateSuplierRequest
 } from "../../../../actions";
-import SearchBar from "material-ui-search-bar";
-import SuplierItem from "../suplierItem";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -71,7 +71,8 @@ function ListSuplier(props) {
     address: ""
   });
 
-  const [filter, setFilter] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [idUpdate, setIdUpdate] = useState("");
   const handleOpen = () => {
     setOpen(true);
   };
@@ -85,31 +86,41 @@ function ListSuplier(props) {
       ...suplier,
       [event.target.name]: event.target.value
     });
-    console.log(suplier);
   };
 
   const createSuplier = () => {
-    props.createSuplier(suplier);
+    if (isUpdate) {
+      props.updateSUplier(idUpdate, suplier);
+      setIsUpdate(false);
+      setIdUpdate(null);
+      const temp = {
+        name: "",
+        email: "",
+        phone: "",
+        address: ""
+      };
+
+      setSuplier(temp);
+    } else {
+      props.createSuplier(suplier);
+    }
+
     handleClose();
   };
-  const renderSuplierItem = () => {
-    var result = "";
-    if (supliers && supliers.length > 0) {
-      result = supliers.map((suplier, index) => {
-        return (
-          <SuplierItem
-            key={index}
-            suplier={suplier}
-            index={index}
-            deleteSuplier={props.deleteSuplier}
-            getSuplier={props.getSuplier}
-          ></SuplierItem>
-        );
-      });
-    }
-    return result;
-  };
 
+  const updateSuplier = suplier => {
+    setIsUpdate(true);
+    console.log("supliertrrr", suplier);
+    setIdUpdate(suplier._id);
+    const temp = {
+      name: suplier.name,
+      email: suplier.email,
+      phone: suplier.phone,
+      address: suplier.address
+    };
+    setSuplier(temp);
+    setOpen(true);
+  };
   useEffect(() => {
     props.getSupliers();
   }, []);
@@ -156,6 +167,13 @@ function ListSuplier(props) {
               }}
             >
               <DeleteIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                updateSuplier(row);
+              }}
+            >
+              <EditIcon />
             </IconButton>
           </React.Fragment>
         )}
@@ -231,7 +249,7 @@ function ListSuplier(props) {
                   />
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <button className="fill-button" onClick={handleClose}>
+                  <button className="fill-button" onClick={()=> setOpen(false)}>
                     Hủy
                   </button>
                   <button
@@ -270,6 +288,9 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     deleteSuplier: id => {
       dispatch(atcDeleteSuplierRequest(id));
+    },
+    updateSUplier: (id, data) => {
+      dispatch(atcUpdateSuplierRequest(id, data));
     }
   };
 };

@@ -178,12 +178,13 @@ router.post("/", async (req, res, next) => {
 //  *       - bearerAuth: []
 //  */
 
-router.put("/:name", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
       throw new Error("Body is empty");
     }
-    const updatedBrand = await update(req.id, req.body);
+    const id = req.params.id ? req.params.id : 0;
+    const updatedBrand = await update(id, req.body);
     logger.info("Brand edited");
     res.status(200).json(makeResponse(updatedBrand));
   } catch (error) {

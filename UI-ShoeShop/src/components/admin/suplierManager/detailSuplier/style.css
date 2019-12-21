@@ -5,10 +5,10 @@
 h6 {
   font-weight: 550 !important;
 }
-
+/* 
 input:invalid {
   background: #f0decb;
-}
+} */
 
 /* 
 input:valid {
