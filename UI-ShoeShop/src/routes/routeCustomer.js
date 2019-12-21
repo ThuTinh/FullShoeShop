@@ -9,6 +9,7 @@ import InfoPurchasePage from "../pages/customerPage/inforPurchasePage";
 import ProfilePage from "../pages/customerPage/profilePage";
 import IntroducePage from "../pages/introducePage";
 import { connect } from "react-redux";
+import NotFoundPage from "../pages/notFound";
 
 function CustomerRoute(props) {
   const [countCarts, setCountCarts] = useState(0);
@@ -43,7 +44,7 @@ function CustomerRoute(props) {
            <Route path={route.url} component={route.component} />
         )} */}
         <Route path="/" component={CustomHomePage} exact={true} />
-        <Route path="**" component={CustomHomePage} exact={true} />
+        <Route path="**" component={NotFoundPage}  />
       </Switch>
       <div className="mt-2">
         <Footer></Footer>

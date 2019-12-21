@@ -258,7 +258,7 @@ function ManagerProduct(props) {
       label: "Số lượng bán ra"
     },
     {
-      name: "favorited",
+      name: "status",
       label: "Trạng thái"
     }
   ];
@@ -267,6 +267,9 @@ function ManagerProduct(props) {
     const products = props.products;
     if (products && products.length > 0) {
       products.map((product, index) => {
+        if (product.status) {
+          products[index].status = "Hoạt động";
+        } else products[index].status = "Ngưng";
         if (product.detail && product.detail.length > 0) {
           let inventory = 0;
           let amountSold = 0;

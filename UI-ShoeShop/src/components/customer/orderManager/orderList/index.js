@@ -10,15 +10,15 @@ import {
 
 function OrderList(props) {
   const [orders, setOrders] = useState(props.orders);
-  useEffect(() => {
-    props.getOrderCumtomers(props.currentUser._id);
-  }, [props.currentUser]);
 
   useEffect(() => {
-    setOrders([...props.orderCustomer]);
+    setOrders(props.orderCustomer);
   }, [props.orderCustomer]);
 
   useEffect(() => {
+    if (props.isManager) props.getOrderCumtomers(props.userId);
+    else props.getOrderCumtomers(props.currentUser._id);
+
     // const token = localStorage.getItem("token");
     // props.getCurrentUser(token);
     try {
@@ -35,7 +35,6 @@ function OrderList(props) {
   }, []);
 
   const cancelProductOrderItem = (orderId, productOrderId) => {
-    console.log("test", orderId, productOrderId, props.currentUser._id);
     props.cancelProductOrderItem(
       orderId,
       productOrderId,
@@ -84,9 +83,9 @@ const dispatchMapToProps = (dispatch, props) => {
     getOrderCumtomers: id => {
       dispatch(atcGetOrderCustomersRequest(id));
     },
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     cancelProductOrderItem: (orderId, productOrderId, userId) => {
       dispatch(
         atcRemoveProductItemInOrderRequest(orderId, productOrderId, userId)

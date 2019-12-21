@@ -42,14 +42,13 @@ function InfoPurchase(props) {
   }, [props.currentUser]);
 
   return (
-    <div style={{ marginTop: "180px", width: "100%" }}>
+    <div className ="container-purchase" >
       <Grid
         container
         direction="row"
         justify="center"
         alignItems="center"
         spacing={2}
-        
       >
         <Grid
           item
@@ -59,16 +58,8 @@ function InfoPurchase(props) {
           alignItems="center"
         >
           <h6>THÔNG TIN KHÁCH HÀNG</h6>
-          {/* <div
-            style={{
-              width: "10%",
-              height: "4px",
-              backgroundColor: "#F75F00",
-              marginBottom: "30px"
-            }}
-          ></div> */}
         </Grid>
-        <Grid item sm={5}>
+        <Grid item sm={5} xs={12} className="infor-purchase">
           <FormControl style={{ width: "100%" }}>
             <InputLabel
               htmlFor="adornment-userName"
@@ -100,7 +91,7 @@ function InfoPurchase(props) {
             />
           </FormControl>
         </Grid>
-        <Grid item sm={5}>
+        <Grid item sm={5} xs={12} className="infor-purchase">
           <FormControl style={{ width: "100%" }}>
             <InputLabel
               htmlFor="adornment-emial"
@@ -137,14 +128,14 @@ function InfoPurchase(props) {
         <Grid
           item
           sm={10}
+          xs={12}
           direction="column"
           justify="flex-start"
           alignItems="center"
         ></Grid>
-        <Grid sm={10} item>
-          <Carts buy={true}></Carts>
-          <div>
-            <b>Phương thức: Thanh toán khi nhận hàng</b>
+        <Grid sm={10}  xs={12} item>
+          <div style={{ overflowX: "auto" }}>
+            <Carts buy={true}></Carts>
           </div>
         </Grid>
       </Grid>

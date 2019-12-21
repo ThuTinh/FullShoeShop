@@ -9,10 +9,10 @@ const validateReqBody = body => {
     throw new Error("'Name' is required");
   }
 };
-const filter = {
-  name: 1,
-  images: 1
-};
+// const filter = {
+//   name: 1,
+//   images: 1
+// };
 
 const findAll = async () => {
   return await Product.find().populate({
@@ -185,6 +185,26 @@ const UpdateInventory = async (productId, color, size, quantity) => {
   );
 };
 
+const getProductBuyCategoryMan = async () => {
+  return await Product.find().populate({
+    path: "categories",
+    populate: {
+      path: "parent"
+    }
+  });
+};
+
+const getProductBuyCategoryWomen = async () => {
+  return await Product.find().populate({
+    path: "categories",
+    populate: {
+      path: "parent",
+
+      name: "Giày nữ"
+    }
+  });
+};
+
 // const filterProductByCondition =  async(conditions)=>{
 
 // }
@@ -206,5 +226,7 @@ module.exports = {
   removeImgName,
   updateCountFavorite,
   UpdateAmountSold,
-  UpdateInventory
+  UpdateInventory,
+  getProductBuyCategoryMan,
+  getProductBuyCategoryWomen
 };

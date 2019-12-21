@@ -8,6 +8,7 @@ import {
   atcAddProductFavourite
 } from "../../../actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Grid } from "@material-ui/core";
 
 function ProductList(props) {
   const [user, setUser] = useState(props.currentUser);
@@ -19,13 +20,21 @@ function ProductList(props) {
     if (products && products.length > 0) {
       result = products.map((product, index) => {
         return (
-          <div className="col-4" key={index}>
+          <Grid item md={3} xs={6} key={index}>
             <ProductItem product={product} addFavourite={addFaccvourite} />
-          </div>
+          </Grid>
         );
       });
     }
-    return result;
+    if (result.length > 0) {
+      return result;
+    } else {
+      return (
+        <div>
+          <h2>Không có sản phẩm nào được tìm thấy!!</h2>
+        </div>
+      );
+    }
   };
 
   const addFaccvourite = productId => {
@@ -59,11 +68,14 @@ function ProductList(props) {
   return (
     <>
       {isLoading && (
-        <div style = {{width: '100%', textAlign:'center'}}>
-          <CircularProgress style = {{width:'100px', height:'100px', color:'#5A3D6C'}} />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <CircularProgress
+            style={{ width: "100px", height: "100px", color: "#5A3D6C" }}
+          />
         </div>
       )}
-      <div className="row ">{!isLoading && <RenderProductList />}</div>
+      <Grid container spacing={2}>{!isLoading && <RenderProductList />}</Grid>
+    
     </>
   );
 }

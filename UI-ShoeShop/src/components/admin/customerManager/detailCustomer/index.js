@@ -82,7 +82,7 @@ function DetailCustomer(props) {
         </div>
       </div>
       <div>
-        <OrderList userId={user._id}></OrderList>
+        <OrderList userId={props.match.params.id} isManager={true} ></OrderList>
       </div>
     </div>
   );

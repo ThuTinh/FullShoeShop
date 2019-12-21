@@ -24,7 +24,7 @@ var initState = [
 const products = (state = initState, action) => {
   switch (action.type) {
     case Types.GET_PRODUCTS:
-      state = action.products.length > 0 ? action.products : state;
+      state =  action.products
       console.log("state ổducts", state);
       return state;
     default:

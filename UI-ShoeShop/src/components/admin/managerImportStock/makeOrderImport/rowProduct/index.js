@@ -44,6 +44,7 @@ function RowProduct(props) {
       }
       _setDetailProduct(arr);
     }
+    console.log("test", props.product);
   }, [props.product]);
 
   const onRecive = (index, indexColor, indexSize, content) => {
@@ -74,11 +75,22 @@ function RowProduct(props) {
     var color = 0;
     var size = 0;
     var check = 1;
+    console.log("llalla", props.suplierProducts, props.product.maSanPham);
+    var nameProduct = "demo";
+    if (props.suplierProducts && props.suplierProducts.length > 0) {
+      for (let i = 0; i < props.suplierProducts.length; i++) {
+        if (props.suplierProducts[i]._id == props.product.maSanPham) {
+          nameProduct = props.suplierProducts[i].name;
+          break;
+        }
+      }
+    }
+
     for (i = 1; i <= rowSpanProductName; i++) {
       if (i === 1) {
         let item = (
           <StyledTableRow>
-            <TableCell rowSpan={rowSpanProductName}>SP A</TableCell>
+            <TableCell rowSpan={rowSpanProductName}>{nameProduct}</TableCell>
             <TableCell align="center" rowSpan={rowSpanSize}>
               {props.product.classification.color[0]}
             </TableCell>
@@ -98,7 +110,7 @@ function RowProduct(props) {
         );
         result.push(item);
       } else {
-        if (i % rowSpanSize === 1 || rowSpanSize==1) {
+        if (i % rowSpanSize === 1 || rowSpanSize == 1) {
           var item = (
             <StyledTableRow>
               <TableCell align="center" rowSpan={rowSpanSize}>

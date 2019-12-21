@@ -81,8 +81,7 @@ function OrderStockDetail(props) {
           <OrderStockItemDetail
             product={product}
             key={index}
-             name={product.maSanPham.name? product.maSanPham.name: "undifine"}
-            
+            name={product.maSanPham.name ? product.maSanPham.name : "undifine"}
           />
         );
       });
@@ -187,13 +186,6 @@ function OrderStockDetail(props) {
       >
         <div style={{ width: "50%" }}>
           <div style={{ display: "flex" }}>
-            <div style={{ width: "150px" }}>Mã đơn hàng :</div>
-            <p>
-              {" "}
-              <b>ABC11122</b>
-            </p>
-          </div>
-          <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Nhà cung cấp:</div>
             <p>
               {" "}
@@ -206,14 +198,14 @@ function OrderStockDetail(props) {
               <b>{order.employee.name}</b>
             </p>
           </div>
-        </div>
-        <div style={{ width: "50%" }}>
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Thời gian: </div>
             <p>
-              <b>{ new Date(order.createdAt).toDateString("yyyy-MM-dd")} </b>
+              <b>{new Date(order.createdAt).toDateString("yyyy-MM-dd")} </b>
             </p>
           </div>
+        </div>
+        <div style={{ width: "50%" }}>
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Trạng thái:</div>
             <p>
@@ -223,7 +215,7 @@ function OrderStockDetail(props) {
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Tổng công:</div>
             <p>
-              <b>{order.totalPrice}</b>
+              <b>{order.totalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</b>
             </p>
           </div>
         </div>

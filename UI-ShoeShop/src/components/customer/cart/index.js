@@ -81,47 +81,41 @@ function Carts(props) {
     }
   }, []);
   return (
-    <div style={{ paddingTop: "10px" }}>
+    <div style={{ paddingTop: "20px" }}>
       <h6 style={{ marginTop: "20px" }}>DANH SÁCH SẢN PHẨM</h6>
-      {/* <div
-        style={{
-          width: "10%",
-          height: "4px",
-          backgroundColor: "#F75F00",
-          marginBottom: "30px"
-        }}
-      ></div> */}
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center"></StyledTableCell>
-            <StyledTableCell align="center">
-              {" "}
-              <b>SẢN PHẨM</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>GIÁ</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>MÀU</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>SIZE</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>SỐ LƯỢNG</b>
-            </StyledTableCell>
-            <StyledTableCell align="center">
-              <b>TỔNG CỘNG</b>
-            </StyledTableCell>
-            <StyledTableCell align="center"></StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {renderProductItem()}
-          <CartResult productOrders={productOrders} buy={props.buy} />
-        </TableBody>
-      </Table>
+      <div style={{overflowX:'auto'}}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                {" "}
+                <b>SẢN PHẨM</b>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <b>GIÁ</b>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <b>MÀU</b>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <b>SIZE</b>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <b>SỐ LƯỢNG</b>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <b>TỔNG CỘNG</b>
+              </StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {renderProductItem()}
+            <CartResult productOrders={productOrders} buy={props.buy} />
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

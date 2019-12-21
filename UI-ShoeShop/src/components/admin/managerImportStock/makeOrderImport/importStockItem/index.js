@@ -144,7 +144,8 @@ function ImportStockItem(props) {
       classification: {
         color: colors,
         size: sizes
-      }
+      },
+      
     };
     props.reciveProduct(props.index, product);
   }
@@ -153,17 +154,17 @@ function ImportStockItem(props) {
     setIdSanPham(e.target.value);
   }
   return (
-    <div style={{ marginBottom: "100px", marginLeft: "15%" }}>
+    <div style={{ marginBottom: "100px", paddingLeft: "15%" , border:'1px solid #C4C4C4', backgroundColor:'#F0F0F0', paddingTop:'10px'}}>
       <Grid container>
         <Grid
           container
           xs={12}
-          md={9}
           direction="row"
           justify="space-between"
-          alignItems="center"
+          alignItems="flex-start"
+         
         >
-          <Grid item>
+          <Grid item >
             <div style={{ marginBottom: "30px" }}>
               <label
                 style={{
@@ -179,7 +180,7 @@ function ImportStockItem(props) {
               </select>
             </div>
           </Grid>
-          <Grid item>
+          <Grid item style={{marginTop:'-10px'}}>
             <div>
               <HighlightOffIcon
                 onClick={onRemove}

@@ -41,6 +41,7 @@ function ImportStockDetail(props) {
       arr.push(item);
     }
     _setDetailProduct(arr);
+    console.log("kiem tra",props.products)
   }, [props.products]);
 
   const onreciveProduct = (index, details) => {
@@ -56,6 +57,7 @@ function ImportStockDetail(props) {
 
   const renderRowProduct = () => {
     var result = "";
+    console.log("check",props._detailProducts[0], )
     if (products && products.length > 0) {
       result = products.map((product, index) => {
         return (
@@ -65,6 +67,7 @@ function ImportStockDetail(props) {
             index={index}
             sendDetailProduct={onreciveProduct}
             __detailProduct={props._detailProducts[index]}
+            suplierProducts={props.suplierProducts}
           />
         );
       });
@@ -86,12 +89,12 @@ function ImportStockDetail(props) {
         <TableBody>
           {renderRowProduct()}
           <TableRow>
-            <TableCell
+            {/* <TableCell
               colSpan={5}
               style={{ textAlign: "end", fontSize: "25px", color: "#2a1a5e" }}
             >
               Tổng cộng: 1000000000
-            </TableCell>
+            </TableCell> */}
           </TableRow>
         </TableBody>
       </Table>

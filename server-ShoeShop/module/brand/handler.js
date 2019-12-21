@@ -123,7 +123,7 @@ const create = async data => {
 };
 
 const update = async (id, data) => {
-  return await Brand.findByIdAndUpdate(id, data, {
+  return await Brand.findByIdAndUpdate(mongoose.Types.ObjectId(id), data, {
     new: true,
     runValidators: true
   });

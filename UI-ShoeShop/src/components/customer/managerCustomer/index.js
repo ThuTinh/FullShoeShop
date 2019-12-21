@@ -117,7 +117,7 @@ function ManagerCustomer(props) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.navbar}>
+      <div className={classes.navbar} className="navabar-customer">
         <div className={classes.info}>
           <div className={classes.imgInfor}>
             <img

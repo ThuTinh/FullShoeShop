@@ -10,11 +10,14 @@ import {
   atcUpdateProductRequest,
   atcAddDetailItemProductRequets,
   atcGetCurentUserRequest,
-  atcUpdateDetailItemProductRequets
+  atcUpdateDetailItemProductRequets,
+  atcPriceAndInventoryAll
 } from "../../../../actions";
 import { connect } from "react-redux";
-import ProducDetailtItem from "../../managerProductDetail/productDetailItem";
-import { userInfo } from "os";
+import SnackbarContentWrapper from "../../../message";
+import Snackbar from "@material-ui/core/Snackbar";
+import { Redirect } from "react-router-dom";
+import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   btnAddInfo: {
@@ -36,9 +39,9 @@ function OrderImport(props) {
   const classes = useStyles();
   useEffect(() => {
     props.getSupliers();
-    let token = localStorage.getItem("token");
-    console.log("token", token);
-    props.getCurrentUser(token);
+    // let token = localStorage.getItem("token");
+    // console.log("token", token);
+    // props.getCurrentUser(token);
   }, []);
 
   const [suplier, setSuplier] = useState({});
@@ -48,7 +51,9 @@ function OrderImport(props) {
       classification: { color: ["Màu"], size: [40] }
     }
   ]);
-
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
+  const [variantMessage, setVariantMessage] = useState("info");
   const [_detailProducts, _setDetailProducts] = useState([
     {
       maSanPham: "",
@@ -63,6 +68,9 @@ function OrderImport(props) {
     }
   ]);
 
+  const [saveSucess, setSaveSuccess] = useState(false);
+  const [priceAll, setPriceAll] = useState(0);
+  const [inventoryAll, setInventoryAll] = useState(0);
   //Danh sách detail của sản phẩm trong model products
   // const [detailProducts, setDetailProducts] = useState([]);
 
@@ -74,6 +82,19 @@ function OrderImport(props) {
 
   const supliers = props.supliers;
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const showMessage = (variant, message) => {
+    setVariantMessage(variant);
+    setMessage(message);
+    setOpenSnackbar(true);
+  };
   const renderOptionSuplier = () => {
     var result = "";
     if (supliers && supliers.length > 0) {
@@ -150,6 +171,9 @@ function OrderImport(props) {
           products={products}
           _sendDetailProduct={onReciveDetailProduct}
           _detailProducts={_detailProducts}
+          suplierProducts={suplier.products}
+          priceAll={priceAll}
+          inventoryAll={inventoryAll}
         />
       );
     }
@@ -159,7 +183,7 @@ function OrderImport(props) {
     _setDetailProducts(detailProduct);
     console.log("test detail product", _detailProducts);
   };
-  const saveOrder = () => {
+  const saveOrder = async () => {
     if (products && products.length > 0) {
       // thực hiện lưu order vào trong model orderSuplier
       let total = 0;
@@ -175,17 +199,42 @@ function OrderImport(props) {
         products: _detailProducts,
         totalPrice: total,
         suplierId: suplier._id,
-        employee:  props.currenUser._id?props.currenUser._id:"5dbedb5ba5592c2698f1992a"
+        employee: props.currenUser._id
+          ? props.currenUser._id
+          : "5dbedb5ba5592c2698f1992a"
       };
       console.log("user", props.currenUser);
       setOrderSuplier(order);
-      props.createOrderSuplier(order);
+      await props.createOrderSuplier(order);
+      if (props.message.status) {
+        // showMessage("success", "Thêm thành thành công!");
+        // //setSaveSuccess(true);
+      }
     }
   };
 
-  useEffect(() => {}, [props.currenUser]);
+  useEffect(() => {
+    // console.log("messqge", props.message);
+    // if ( props.message.status == true) {
+    //   setTimeout(() => {
+    //     showMessage("success", "Thêm thành thành công!");
+    //     setTimeout(() => {
+    //       setSaveSuccess(true);
+    //     }, 1000);
+    //   }, 100);
+    // } else {
+    //   if (props.message.status == false)
+    //     showMessage("info", "Thêm không thành thành công!");
+    // }
+
+  }, [props.message]);
+
+  const ApDung = () => {
+    props.makePriceAndInventoryAll(priceAll, inventoryAll);
+  };
   return (
     <div>
+      {saveSucess && <Redirect to="/admin/stock-orders" />}
       <div className={classes.btnAddInfo} spaceing={4}>
         <button onClick={addCatelogyElement} className="outline-button">
           Thêm
@@ -215,8 +264,49 @@ function OrderImport(props) {
         <div>
           <h5>Chi tiết đơn hàng</h5>
         </div>
+        <div>
+          <Box>Áp dụng cho Tất cả</Box>
+          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex" }}>
+              <div>Giá</div>
+              <input
+                className="format-input"
+                placeholder="gia"
+                value={priceAll}
+                onChange={e => setPriceAll(e.target.value)}
+              />
+            </div>
+            <div style={{ display: "flex" }}>
+              <div>So luong</div>
+              <input
+                className="format-input"
+                placeholder="so luong"
+                value={inventoryAll}
+                onChange={e => setInventoryAll(e.target.value)}
+              />
+            </div>
+            <button className="outline-button" onClick={ApDung}>
+              Áp dụng
+            </button>
+          </div>
+        </div>
         {renderImportStockDetail()}
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={variantMessage}
+          message={message}
+        />
+      </Snackbar>
     </div>
   );
 }
@@ -225,7 +315,8 @@ const stateMapToProps = (state, props) => {
   return {
     supliers: state.supliers,
     detailProduct: state.detailProduct,
-    currenUser: state.user
+    currenUser: state.user,
+    message: state.message
   };
 };
 
@@ -251,6 +342,12 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getCurrentUser: token => {
       dispatch(atcGetCurentUserRequest(token));
+    },
+    makePriceAndInventoryAll: (priceAll, inventoryAll) => {
+      dispatch(atcPriceAndInventoryAll(priceAll, inventoryAll));
+    },
+    setStatusMessage:(status)=>{
+      // dispatch()
     }
   };
 };

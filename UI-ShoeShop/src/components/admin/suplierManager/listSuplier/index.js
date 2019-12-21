@@ -7,14 +7,14 @@ import { IconButton } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
 import {
   atcGetSuplierRequest,
   atcCreateSuplierRequest,
   atcDeleteSuplierRequest,
   atcGetSuplier,
+  atcUpdateSuplierRequest
 } from "../../../../actions";
-import SearchBar from "material-ui-search-bar";
-import SuplierItem from "../suplierItem";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -50,9 +50,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3)
   },
   input: {
-    marginLeft: "50px",
+    marginLeft: "10px",
     width: "300px",
-    height: "30px"
+    height: "30px",
+    border: "1px solid #000000"
   },
   label: {
     width: "100px"
@@ -70,7 +71,8 @@ function ListSuplier(props) {
     address: ""
   });
 
-  const [filter, setFilter] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [idUpdate, setIdUpdate] = useState("");
   const handleOpen = () => {
     setOpen(true);
   };
@@ -84,31 +86,41 @@ function ListSuplier(props) {
       ...suplier,
       [event.target.name]: event.target.value
     });
-    console.log(suplier);
   };
 
   const createSuplier = () => {
-    props.createSuplier(suplier);
+    if (isUpdate) {
+      props.updateSUplier(idUpdate, suplier);
+      setIsUpdate(false);
+      setIdUpdate(null);
+      const temp = {
+        name: "",
+        email: "",
+        phone: "",
+        address: ""
+      };
+
+      setSuplier(temp);
+    } else {
+      props.createSuplier(suplier);
+    }
+
     handleClose();
   };
-  const renderSuplierItem = () => {
-    var result = "";
-    if (supliers && supliers.length > 0) {
-      result = supliers.map((suplier, index) => {
-        return (
-          <SuplierItem
-            key={index}
-            suplier={suplier}
-            index={index}
-            deleteSuplier={props.deleteSuplier}
-            getSuplier={props.getSuplier}
-          ></SuplierItem>
-        );
-      });
-    }
-    return result;
-  };
 
+  const updateSuplier = suplier => {
+    setIsUpdate(true);
+    console.log("supliertrrr", suplier);
+    setIdUpdate(suplier._id);
+    const temp = {
+      name: suplier.name,
+      email: suplier.email,
+      phone: suplier.phone,
+      address: suplier.address
+    };
+    setSuplier(temp);
+    setOpen(true);
+  };
   useEffect(() => {
     props.getSupliers();
   }, []);
@@ -156,6 +168,13 @@ function ListSuplier(props) {
             >
               <DeleteIcon />
             </IconButton>
+            <IconButton
+              onClick={() => {
+                updateSuplier(row);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
           </React.Fragment>
         )}
       />
@@ -186,50 +205,62 @@ function ListSuplier(props) {
           <div className={classes.paper}>
             <h3 id="transition-modal-title">Thông tin nhà cung cấp</h3>
             <div id="transition-modal-description">
-              <div>
-                <label className={classes.label}>Tên NCC</label>
-                <input
-                  className={classes.input}
-                  name="name"
-                  value={suplier.name}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>Địa chỉ</label>
-                <input
-                  className={classes.input}
-                  name="address"
-                  value={suplier.address}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>SDT</label>
-                <input
-                  className={classes.input}
-                  name="phone"
-                  value={suplier.phone}
-                  onChange={onChange}
-                />
-              </div>
-              <div>
-                <label className={classes.label}>Email</label>
-                <input
-                  className={classes.input}
-                  name="email"
-                  value={suplier.email}
-                  onChange={onChange}
-                />
-              </div>
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button className="fill-button" onClick={handleClose}>
-                  Hủy
-                </button>
-                <button className="fill-button" onClick={createSuplier}>
-                  Lưu
-                </button>
-              </div>
+              <form>
+                <div>
+                  <label className={classes.label}>Tên NCC</label>
+                  <input
+                    className={classes.input}
+                    name="name"
+                    value={suplier.name}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>Địa chỉ</label>
+                  <input
+                    className={classes.input}
+                    name="address"
+                    value={suplier.address}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>SDT</label>
+                  <input
+                    type="tel"
+                    className={classes.input}
+                    name="phone"
+                    value={suplier.phone}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={classes.label}>Email</label>
+                  <input
+                    className={classes.input}
+                    name="email"
+                    type="email"
+                    value={suplier.email}
+                    onChange={onChange}
+                    required
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <button className="fill-button" onClick={()=> setOpen(false)}>
+                    Hủy
+                  </button>
+                  <button
+                    className="fill-button"
+                    onClick={createSuplier}
+                    type="submit"
+                  >
+                    Lưu
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </Fade>
@@ -257,6 +288,9 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     deleteSuplier: id => {
       dispatch(atcDeleteSuplierRequest(id));
+    },
+    updateSUplier: (id, data) => {
+      dispatch(atcUpdateSuplierRequest(id, data));
     }
   };
 };

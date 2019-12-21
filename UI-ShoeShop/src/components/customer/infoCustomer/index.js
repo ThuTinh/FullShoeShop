@@ -116,14 +116,7 @@ function InforCustomer(props) {
   }, [props.currentUser]);
 
   return (
-    <div
-      style={{
-        marginLeft: "40px",
-        width: "100%",
-        backgroundColor: "#ffffff",
-        padding: "20px"
-      }}
-    >
+    <div className="container-profile">
       <h5 style={{ marginTop: "10px", color: "#2b2b28" }}>HỒ SƠ CỦA TÔI</h5>
       <div
         style={{
@@ -262,61 +255,65 @@ function InforCustomer(props) {
             Lưu
           </button>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyItems: "center",
-            width: 200,
-            alignItems: "end",
-            marginLeft: "30px"
-          }}
-        >
+        <div className="upload-img">
           <div
-            style={{ marginBottom: "20px" }}
-            onClick={() => fileListAvata.click()}
-          >
-            <div>
-              {url && <img src={url.imagePreviewUrl} className="imgProduct" />}
-            </div>
-          </div>
-          <input
-            ref={e => (fileListAvata = e)}
-            type="file"
-            className="d-none"
-            onChange={onChangeImage}
-          />
-          <button
-            className="outline-button"
-            onClick={() => {
-              axios
-                .post(
-                  "http://localhost:1337/api/v1/uploads/images/avatar",
-                  data,
-                  {
-                    // receive two    parameter endpoint url ,form data
-                  }
-                )
-                .then(res => {
-                  console.log("imageL:", res);
-                  console.log("avater id", currentUser._id);
-                  console.log("aaaxx", res.data.payload);
-                  axios
-                    .put(
-                      `http://localhost:1337/api/v1/users/avatar/${currentUser._id}`,
-                      { avatar: res.data.payload }
-                    )
-                    .then(res => {
-                      console.log("update avatar", res);
-                    });
-                })
-                .catch(err => {
-                  console.log("Loi", err);
-                });
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyItems: "center",
+              width: 200,
+              alignItems: "end",
+              marginLeft: "30px"
             }}
           >
-            upload
-          </button>
+            <div
+              style={{ marginBottom: "20px" }}
+              onClick={() => fileListAvata.click()}
+            >
+              <div>
+                {url && (
+                  <img src={url.imagePreviewUrl} className="imgProduct" />
+                )}
+              </div>
+            </div>
+            <input
+              ref={e => (fileListAvata = e)}
+              type="file"
+              className="d-none"
+              onChange={onChangeImage}
+            />
+            <button
+              className="outline-button"
+              onClick={() => {
+                axios
+                  .post(
+                    "http://localhost:1337/api/v1/uploads/images/avatar",
+                    data,
+                    {
+                      // receive two    parameter endpoint url ,form data
+                    }
+                  )
+                  .then(res => {
+                    console.log("imageL:", res);
+                    console.log("avater id", currentUser._id);
+                    console.log("aaaxx", res.data.payload);
+                    axios
+                      .put(
+                        `http://localhost:1337/api/v1/users/avatar/${currentUser._id}`,
+                        { avatar: res.data.payload }
+                      )
+                      .then(res => {
+                        console.log("update avatar", res);
+                      });
+                  })
+                  .catch(err => {
+                    console.log("Loi", err);
+                  });
+              }}
+            >
+              upload
+            </button>
+          </div>
         </div>
       </div>
     </div>

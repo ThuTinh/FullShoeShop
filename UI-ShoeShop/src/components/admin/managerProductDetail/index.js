@@ -109,7 +109,7 @@ function ManagerProductDetail(props) {
       label: "Số lượng bán ra"
     },
     {
-      name: "favorited",
+      name: "status",
       label: "Trạng thái"
     }
   ];

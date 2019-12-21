@@ -93,6 +93,10 @@ function OrderStockList(props) {
       label: "Tổng giá trị"
     },
     {
+      name: "createdAt",
+      label: "Thời gian tạo"
+    },
+    {
       name: "employee.name",
       label: "Người tạo"
     },
@@ -101,16 +105,36 @@ function OrderStockList(props) {
       label: "Trạng thái"
     }
   ];
-  const RenderDataTable = () => {
-    
-    let data = [];
-    console.log("status",props.status)
-    if (props.ordersSuplier && props.ordersSuplier.length > 0) {
-      data = props.ordersSuplier.filter(
-        order => order.status == props.status || props.status == "ALL"
-      );
+  const compare = (a, b) => {
+    // Use toUpperCase() to ignore character casing
+    const orderA = a.createdAt.toUpperCase();
+    const orderB = b.createdAt.toUpperCase();
+
+    let comparison = 0;
+    if (orderA < orderB) {
+      comparison = 1;
+    } else if (orderA >= orderB) {
+      comparison = -1;
     }
-    console.log("stockorder",data);
+    return comparison;
+  };
+
+  const RenderDataTable = () => {
+    let data = [];
+    console.log("status", props.status);
+    if (props.ordersSuplier && props.ordersSuplier.length > 0) {
+      data = props.ordersSuplier
+        .filter(order => order.status == props.status || props.status == "ALL")
+        .sort(compare)
+        .map((order, index) => {
+          order.createdAt = new Date(order.createdAt).toDateString(
+            "yyyy-MM-dd"
+          );
+          order.totalPrice = parseInt(order.totalPrice).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+          return order;
+        });
+    }
+    console.log("stockorder", data);
     return (
       <ReactMUIDatatable
         data={data}
@@ -141,47 +165,6 @@ function OrderStockList(props) {
   };
   return (
     <>
-      {/* <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          marginBottom: "20px"
-        }}
-      >
-        <div style={{ width: "400px" }}>
-          <SearchBar
-            hintText="Tìm kiếm đơn hàng"
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
-            style={{
-              margin: "0 auto",
-              maxWidth: 400
-            }}
-          />
-        </div>
-        <div>
-          <button className="cancel-search" onClick={clearSearch}>
-            Hủy tìm kiếm
-          </button>
-        </div>
-      </div>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>STT</StyledTableCell>
-            <StyledTableCell align="center">Nhà cung cấp</StyledTableCell>
-            <StyledTableCell align="center">Số điện thoại</StyledTableCell>
-            <StyledTableCell align="center">Tổng giá trị</StyledTableCell>
-            <StyledTableCell align="center">Người tạo</StyledTableCell>
-            <StyledTableCell align="center">
-              Trạng thái đơn hàng
-            </StyledTableCell>
-            <StyledTableCell align="center">Tác vụ</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{renderOrderStockItem()}</TableBody>
-      </Table> */}
       <RenderDataTable />
     </>
   );

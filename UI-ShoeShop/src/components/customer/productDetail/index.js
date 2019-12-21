@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Button,Divider} from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import { makeStyles } from "@material-ui/core/styles";
 import CarouselProduct from "../carousel/carouseProduct";
@@ -43,10 +43,10 @@ function ProductDetail(props) {
   const [message, setMessage] = useState("");
   const [variantMessage, setVariantMessage] = useState("info");
   const [user, setUser] = useState(props.currentUser);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [isBuy, setIsBuy] = useState(false);
   const [checkAddOrBuy, setCheckAddOrBuy] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
- 
+  const [priceBuy, setPriceBuy] = useState(0);
 
   // const history = createBrowserHistory();
   const classes = useStyles();
@@ -105,6 +105,7 @@ function ProductDetail(props) {
     setColor([...Array.from(colorSet)]);
     setSize([...Array.from(sizeSet)]);
     //const total = localStorage.getItem('total')? parseInt(localStorage.getItem('total')):0;
+    setPriceBuy(props.product.price);
   }, [props.product]);
 
   useEffect(() => {
@@ -170,16 +171,17 @@ function ProductDetail(props) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
+        const tempPrice = renderPrice();
         const productOrder = {
           productId: product._id,
           color: chooseColor,
           size: chooseSize,
-          price: product.price,
+          price: tempPrice,
           quantity: quanlity,
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
         };
-        props.addToCart(1);
+        props.addToCart(parseInt(quanlity));
         let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
         if (tempRoductOrder) {
           let check = false;
@@ -214,7 +216,7 @@ function ProductDetail(props) {
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
-        total += parseInt(product.price) * parseInt(quanlity);
+        total += parseInt(tempPrice) * parseInt(quanlity);
         localStorage.setItem("total", total);
         setChooseColor("");
         setChooseSize("");
@@ -229,7 +231,7 @@ function ProductDetail(props) {
 
   const buyProduct = () => {
     if (props.currentUser) {
-      if (chooseColor == "" && chooseSize == "") {
+      if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
         if (!checkAddOrBuy) {
@@ -283,7 +285,8 @@ function ProductDetail(props) {
           localStorage.setItem("total", total);
           setChooseColor("");
           setChooseSize("");
-          props.addToCart(1);
+          props.addToCart(parseInt(quanlity));
+          setIsBuy(true);
         }
       }
     } else {
@@ -330,6 +333,22 @@ function ProductDetail(props) {
       }
     }
   };
+
+  const renderPrice = () => {
+    if (chooseSize != "" && chooseColor != "") {
+      if (product.detail && product.detail.length > 0) {
+        for (let i = 0; i < product.detail.length; i++) {
+          if (
+            product.detail[i].color == chooseColor &&
+            product.detail[i].size == chooseSize
+          ) {
+            return product.detail[i].price;
+          }
+        }
+      }
+    }
+    return priceBuy;
+  };
   return (
     <div className="container">
       {console.log("lalalhh", product.images)}
@@ -361,7 +380,12 @@ function ProductDetail(props) {
           <div className="row">
             <div className="col-7">
               <div className="flex mt-2">
-                <div className="money">{product.price}đ</div>
+                <div className="money">
+                  {parseInt(renderPrice())
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  đ
+                </div>
                 <div className="rate-own">
                   {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
               <Rating
@@ -373,13 +397,17 @@ function ProductDetail(props) {
               /> */}
                 </div>
               </div>
-              <div className="color">
-                <h6 className="mr-5">Màu</h6>
-                {renderColor()}
+              <div className="color row">
+                <div className="col-2">
+                  <h6 className="mr-5">Màu</h6>
+                </div>
+                <div className="col-10"> {renderColor()}</div>
               </div>
-              <div className="size">
-                <h6 className="mr-5">Size</h6>
-                {renderSize()}
+              <div className="size row">
+                <div className="col-2">
+                  <h6 className="mr-5">Size</h6>
+                </div>
+                <div className="col-10"> {renderSize()}</div>
               </div>
               <div>
                 {checkChoose && (
@@ -401,7 +429,7 @@ function ProductDetail(props) {
                     width: "40px",
                     border: "1px solid #d9a128",
                     borderRadius: "5px",
-                    textAlign:'center'
+                    textAlign: "center"
                   }}
                   value={quanlity}
                   name="quanlity"
@@ -428,7 +456,7 @@ function ProductDetail(props) {
                   style={{ backgroundColor: "#9d0b0b" }}
                   onClick={() => buyProduct()}
                 >
-                  {true && (
+                  {/* {true && (
                     <Link
                       to={{
                         pathname: "/cart",
@@ -436,18 +464,37 @@ function ProductDetail(props) {
                       }}
                       className="buy-product"
                     >
-                      Mua hàng
                     </Link>
-                  )}
+                  )} */}
+                  Mua hàng
                 </Button>
+                {isBuy && (
+                  <Redirect
+                    to={{
+                      pathname: "/cart",
+                      state: { buy: true }
+                    }}
+                  />
+                )}
               </div>
             </div>
             <div className="col-5">
-              <div style = {{width:'100%', display:"flex",flexDirection:'column',alignItems:'center'}}>
-                <div><h6><b>SẼ CÓ TẠI NHÀ BẠN</b></h6></div>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center"
+                }}
+              >
+                <div>
+                  <h6>
+                    <b>SẼ CÓ TẠI NHÀ BẠN</b>
+                  </h6>
+                </div>
                 <Box fontSize={14}>Từ 1 đến 5 ngày</Box>
               </div>
-             <Divider style = {{margin:'10px 0'}}/>
+              <Divider style={{ margin: "10px 0" }} />
               <div>
                 <Box display="inline" marginRight={1}>
                   <LocalShippingIcon style={{ color: "#EAB628" }} />
@@ -456,35 +503,41 @@ function ProductDetail(props) {
                   <b>PHÍ VẬN CHUYỂN</b> trên toàn quốc
                 </Box>
               </div>
-              <Divider style = {{margin:'10px 0'}}/>
+              <Divider style={{ margin: "10px 0" }} />
               <div style={{ display: "flex" }}>
                 <Box display="inline" marginRight={1}>
                   <FlipCameraAndroidIcon style={{ color: "#EAB628" }} />
                 </Box>
                 <Box display="inline" fontSize={14}>
-                  <Box><b>ĐỔI TRẢ MIỄN PHÍ</b></Box>
+                  <Box>
+                    <b>ĐỔI TRẢ MIỄN PHÍ</b>
+                  </Box>
                   <Box>
                     Đổi size, sản phẩm bị lỗi miễn phí trong vòng 3 đến 5 ngày
                   </Box>
                 </Box>
               </div>
-              <Divider style = {{margin:'10px 0'}}/>
+              <Divider style={{ margin: "10px 0" }} />
               <div style={{ display: "flex" }}>
                 <Box marginRight={1}>
                   <MonetizationOnIcon style={{ color: "#EAB628" }} />
                 </Box>
                 <Box fontSize={14}>
-                  <Box><b>THANH TOÁN</b></Box>
+                  <Box>
+                    <b>THANH TOÁN</b>
+                  </Box>
                   <Box>Thanh toán khi nhận hàng</Box>
                 </Box>
               </div>
-              <Divider style = {{margin:'10px 0'}}/>
+              <Divider style={{ margin: "10px 0" }} />
               <div style={{ display: "flex" }}>
                 <Box marginRight={1}>
                   <PhoneInTalkIcon style={{ color: "#EAB628" }} />
                 </Box>
                 <Box fontSize={14}>
-                  <Box><b>HỖ TRỢ MUA NHANH</b></Box>
+                  <Box>
+                    <b>HỖ TRỢ MUA NHANH</b>
+                  </Box>
                   <Box>0981853641</Box>
                   <Box>từ 8h đên 21h mỗi ngày</Box>
                 </Box>
@@ -537,13 +590,13 @@ function ProductDetail(props) {
     </div>
   );
 }
-
 const stateMapToProps = (state, props) => {
   return {
     product: state.product,
     currentUser: state.user
   };
 };
+
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProduct: id => {
@@ -557,4 +610,5 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
+
 export default connect(stateMapToProps, dispatchMapToProps)(ProductDetail);
