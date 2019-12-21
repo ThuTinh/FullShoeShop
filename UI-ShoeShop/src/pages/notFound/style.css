@@ -23,7 +23,7 @@
     font-size: 186px;
     font-weight: 200;
     margin: 0px;
-    background: linear-gradient(130deg, #ffa34f, #ff6f68);
+    background: linear-gradient(130deg, #ffa34f, #DDA128);
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
@@ -50,7 +50,7 @@
   
   .notfound a {
     font-family: 'Kanit', sans-serif;
-    color: #f27c52;
+    color: #DDA128;
     font-weight: 200;
     text-decoration: none;
     border-bottom: 1px dashed #f27c52;

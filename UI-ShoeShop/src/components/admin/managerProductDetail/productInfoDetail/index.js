@@ -15,6 +15,7 @@ import htmlToDraft from "html-to-draftjs";
 import draftToHtml from "draftjs-to-html";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import callApi from "../../../../utils/apiCaller";
+import { Redirect } from "react-router-dom";
 
 function ProductInfoDetail(props) {
   const [data, setData] = useState(new FormData());
@@ -88,47 +89,47 @@ function ProductInfoDetail(props) {
   };
 
   const save = async () => {
-    let imgs = [];
-    if (url.length > 0) {
-      const reponse = await axios.post(
-        "http://localhost:1337/api/v1/uploads/images/multiple",
-        data,
-        {
-          // receive two    parameter endpoint url ,form data
+    try {
+      let imgs = [];
+      if (url.length > 0) {
+        const reponse = await axios.post(
+          "http://localhost:1337/api/v1/uploads/images/multiple",
+          data,
+          {
+            // receive two    parameter endpoint url ,form data
+          }
+        );
+        if (reponse.data.payload && reponse.data.payload.length > 0) {
+          imgs = reponse.data.payload;
         }
+      }
+      const product = {
+        nameShow: showName,
+        price: price,
+        description: discHtml,
+        sale: sale,
+        images: imgs.concat(imgNameOld)
+      };
+      let reponse = await callApi(
+        `products/${props.match.params.id}`,
+        "PUT",
+        product
       );
-      if (reponse.data.payload && reponse.data.payload.length > 0) {
-        imgs = reponse.data.payload;
-      }
-    }
-    console.log("img ne", imgs);
 
-    const product = {
-      nameShow: showName,
-      price: price,
-      description: discHtml,
-      sale: sale,
-      images: imgs.concat(imgNameOld)
-    };
-    let reponse = await callApi(
-      `products/${props.match.params.id}`,
-      "PUT",
-      product
-    );
-
-    if (checkUpdatePrice) {
-      if (prices.length > 0) {
-        prices.map(async (price, index) => {
-          const res = await callApi(
-            `products/update-price-detail/${props.match.params.id}`,
-            "PUT",
-            `{"id":"${props.product.detail[index]._id}", "price":"${price}"}`
-          );
-          console.log("respapa", res);
-        });
+      if (checkUpdatePrice) {
+        if (prices.length > 0) {
+          prices.map(async (price, index) => {
+            const res = await callApi(
+              `products/update-price-detail/${props.match.params.id}`,
+              "PUT",
+              `{"id":"${props.product.detail[index]._id}", "price":"${price}"}`
+            );
+            console.log("respapa", res);
+          });
+        }
       }
-    }
-    console.log("reponse save:", reponse);
+      setIsSave(true);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -216,15 +217,10 @@ function ProductInfoDetail(props) {
       result = imgNameOld.map((item, index) => {
         console.log("name ne", item);
         return (
-          <div  key={new Date() + item} style={{ position: "relative" }}>
-            <img
-              src={tempUrl + item}
-             
-              className="imgProduct"
-            />
+          <div key={new Date() + item} style={{ position: "relative" }}>
+            <img src={tempUrl + item} className="imgProduct" />
             <HighlightOffIcon
               style={{ position: "absolute", top: 0, right: 0 }}
-             
               onClick={() => removeImageOld(item, index)}
             />
           </div>
@@ -258,6 +254,7 @@ function ProductInfoDetail(props) {
             <button className="outline-button" onClick={save}>
               Lưu
             </button>
+            {isSave && <Redirect to="/admin/products" />}
           </div>
           <h6>PHẦN MÔ TẢ</h6>
 

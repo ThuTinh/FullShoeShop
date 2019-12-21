@@ -187,18 +187,19 @@ class Navbars extends React.Component {
                 </li>
                 <li>
                   <Box
-                    onClick={() => {
-                      this.props.getProductByCategoryWomen();
-                      console.log("ahihi");
-                    }}
+                    // onClick={() => {
+                    //   this.props.getProductByCategoryWomen();
+                    //   console.log("ahihi");
+                    // }}
                   >
-                    {" "}
-                    Giày nữ{" "}
+                 
+                    Giày nữ
                   </Box>
 
                   <ul className="catelogy">{this.renderWomenCategory()}</ul>
                 </li>
-                <li onClick={() => this.props.getProductByCategoryMan()}>
+                <li >
+                  {/* onClick={() => this.props.getProductByCategoryMan()} */}
                   Giày nam
                   <ul className="catelogy">{this.renderManCategory()}</ul>
                 </li>

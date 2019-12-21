@@ -9,10 +9,10 @@ const validateReqBody = body => {
     throw new Error("'Name' is required");
   }
 };
-const filter = {
-  name: 1,
-  images: 1
-};
+// const filter = {
+//   name: 1,
+//   images: 1
+// };
 
 const findAll = async () => {
   return await Product.find().populate({

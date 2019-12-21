@@ -1,9 +1,9 @@
 import React from "react";
-import {Link} from 'react-router-dom'
-
+import { Link } from "react-router-dom";
+import './style.css'
 function NotFoundPage() {
   return (
-    <div style = {{marginTop:'150px'}}>
+    <div style={{ marginTop: "150px" }}>
       <div className="notfound">
         <div className="notfound-404">
           <h1>404</h1>
