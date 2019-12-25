@@ -128,10 +128,6 @@ function DetailSuplier(props) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button className="outline-button">Lưu</button>
-        <button className="outline-button">sửa</button>
-      </div>
       <div>
         <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
       </div>

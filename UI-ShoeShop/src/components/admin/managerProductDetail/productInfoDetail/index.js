@@ -35,6 +35,8 @@ function ProductInfoDetail(props) {
   const [imgNameOld, setImgNameOld] = useState(0);
   const [checkUpdatePrice, setCheckUpdatePrice] = useState(false);
   const [disable, setDisable] = useState(true);
+  const [isModifi, setIsModifi] = useState(false);
+
 
   let fileListAvata;
   const onChangeImage = e => {
@@ -173,6 +175,7 @@ function ProductInfoDetail(props) {
       setSumInventory(sum);
       setPrices(arrPrices);
     }
+   
   }, [props.product]);
 
   const renderProductItem = () => {
@@ -247,11 +250,16 @@ function ProductInfoDetail(props) {
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               className="outline-button"
-              onClick={() => setDisable(false)}
+              onClick={() => { setIsModifi(true);setDisable(false)}}
+              disabled={isModifi}
             >
               Sửa
             </button>
-            <button className="outline-button" onClick={save}>
+            <button
+              className="outline-button"
+              onClick={save}
+              disabled={!isModifi}
+            >
               Lưu
             </button>
             {isSave && <Redirect to="/admin/products" />}

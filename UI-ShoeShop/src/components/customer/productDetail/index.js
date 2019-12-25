@@ -176,7 +176,7 @@ function ProductDetail(props) {
           productId: product._id,
           color: chooseColor,
           size: chooseSize,
-          price: tempPrice,
+          price: product.sale!="0"?Math.ceil(parseInt(tempPrice * (1 - product.sale / 100))): tempPrice,
           quantity: quanlity,
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
@@ -234,12 +234,13 @@ function ProductDetail(props) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
+        const tempPrice = renderPrice();
         if (!checkAddOrBuy) {
           const productOrder = {
             productId: product._id,
             color: chooseColor,
             size: chooseSize,
-            price: product.price,
+            price: product.sale!="0"?Math.ceil(parseInt(tempPrice * (1 - product.sale / 100))): tempPrice,
             quantity: quanlity,
             img: product.images.length > 0 ? product.images[0] : "",
             name: product.nameShow != "" ? product.nameShow : product.name
@@ -293,7 +294,8 @@ function ProductDetail(props) {
       setIsLogin(false);
     }
   };
-  const renderInventory = () => {
+  const RenderInventory = () => {
+    setCheckAddOrBuy(false);
     if (chooseSize != "" && chooseColor != "") {
       if (product.detail && product.detail.length > 0) {
         let inventory = 0;
@@ -331,7 +333,7 @@ function ProductDetail(props) {
         }
         return <p>Có {inventory <= 0 ? 0 : inventory} sản phẩm có sẳn</p>;
       }
-    }
+    } else return null;
   };
 
   const renderPrice = () => {
@@ -381,10 +383,31 @@ function ProductDetail(props) {
             <div className="col-7">
               <div className="flex mt-2">
                 <div className="money">
-                  {parseInt(renderPrice())
+                  {product.sale != "0" && (
+                    <Box
+                      display="inline"
+                      style={{
+                        textDecoration: "line-through",
+                        marginRight: "5px"
+                      }}
+                    >
+                      {(parseInt(renderPrice()) || 0)
+                        .toFixed(1)
+                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                    </Box>
+                  )}
+                  <Box display="inline" fontWeight={600}>
+                    {(product.sale != "0"
+                      ? Math.ceil(parseInt(renderPrice()) * (1 - product.sale / 100))
+                      : parseInt(renderPrice()) || 0
+                    )
+                      .toFixed(1)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  </Box>
+                  {/* {parseInt(renderPrice())
                     .toFixed(2)
                     .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                  đ
+                  đ */}
                 </div>
                 <div className="rate-own">
                   {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
@@ -417,7 +440,7 @@ function ProductDetail(props) {
                 )}
                 {checkAddOrBuy && (
                   <Box color="#FF0000">
-                    <i>Sản phẩm đã hết hàng, xin hãy chọn sản phẩm khác !</i>
+                    <i>Hết hàng, xin hãy chọn sản phẩm khác !</i>
                   </Box>
                 )}
               </div>
@@ -436,7 +459,7 @@ function ProductDetail(props) {
                   onChange={e => setQuanlity(e.target.value)}
                   min={1}
                 />
-                {renderInventory()}
+                <RenderInventory />
               </div>
               <div className="buy d-flex">
                 {!isLogin && <Redirect to="/login" />}
@@ -446,6 +469,7 @@ function ProductDetail(props) {
                   color="secondary"
                   style={{ backgroundColor: "#9d0b0b" }}
                   onClick={() => addProduct()}
+                  disabled={checkAddOrBuy}
                 >
                   Thêm vào giỏ hàng
                 </Button>
@@ -455,6 +479,7 @@ function ProductDetail(props) {
                   className={classes.button}
                   style={{ backgroundColor: "#9d0b0b" }}
                   onClick={() => buyProduct()}
+                  disabled={checkAddOrBuy}
                 >
                   {/* {true && (
                     <Link

@@ -54,7 +54,8 @@ const schema = new Schema(
     },
     sale: {
       type: Number,
-      trim: true
+      trim: true,
+      default:0
     },
     favorited: {
       type: Number,

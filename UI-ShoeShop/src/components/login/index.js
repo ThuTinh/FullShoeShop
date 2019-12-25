@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
   },
   width400: {
     width: "400px",
-    marginTop: "30px"
+    marginTop: "30px",
+    color: '#fff'
   },
   width200: {
     width: "200px"
@@ -97,7 +98,6 @@ function Login(props) {
       setMessageEmail("");
       setMessagePassword("");
       props.login({ email, password });
-
     }
   };
 

@@ -48,6 +48,9 @@ const updateCountFavorite = async (id, count) => {
   });
 };
 
+const getProductsSale = async()=>{
+  return await Product.find({ sale: { $gt: 0 } });
+}
 const addItem = async (_id, filter, newId) => {
   let object = {};
   object[filter] = newId;
@@ -228,5 +231,6 @@ module.exports = {
   UpdateAmountSold,
   UpdateInventory,
   getProductBuyCategoryMan,
-  getProductBuyCategoryWomen
+  getProductBuyCategoryWomen,
+  getProductsSale
 };

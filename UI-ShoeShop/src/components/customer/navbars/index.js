@@ -12,7 +12,8 @@ import {
   atcGetCurentUserRequest,
   actGetProductByFilter,
   atcGetProductByCategoryMan,
-  atcGetProductByCategoryWomen
+  atcGetProductByCategoryWomen,
+  atcGetProductSale
 } from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
@@ -117,7 +118,6 @@ class Navbars extends React.Component {
     this.setState({
       isLogout: !this.state.isLogout
     });
-   
   };
   filter = (e, id) => {
     console.log("e, id", e, id);
@@ -187,23 +187,28 @@ class Navbars extends React.Component {
                 </li>
                 <li>
                   <Box
-                    // onClick={() => {
-                    //   this.props.getProductByCategoryWomen();
-                    //   console.log("ahihi");
-                    // }}
+                  // onClick={() => {
+                  //   this.props.getProductByCategoryWomen();
+                  //   console.log("ahihi");
+                  // }}
                   >
-                 
                     Giày nữ
                   </Box>
 
                   <ul className="catelogy">{this.renderWomenCategory()}</ul>
                 </li>
-                <li >
+                <li>
                   {/* onClick={() => this.props.getProductByCategoryMan()} */}
                   Giày nam
                   <ul className="catelogy">{this.renderManCategory()}</ul>
                 </li>
-                <li>Bán chạy</li>
+                <li
+                  onClick={() => {
+                    this.props.getProductSale();
+                  }}
+                >
+                  Khuyến mãi
+                </li>
                 {/* <li>Khuyến mãi</li> */}
                 <li>Giới thiệu shop</li>
                 <li>
@@ -296,7 +301,9 @@ class Navbars extends React.Component {
             <div className="icon-menu">
               <MenuIcon
                 style={{ fontSize: "40px", marginTop: "10px" }}
-                onClick={() => this.setState({showMenu: !this.state.showMenu})}
+                onClick={() =>
+                  this.setState({ showMenu: !this.state.showMenu })
+                }
               />
             </div>
 
@@ -328,6 +335,7 @@ class Navbars extends React.Component {
           <ul>
             <li
               onClick={() => {
+                console.log("kaka");
                 this.props.filterProduct(null);
               }}
             >
@@ -349,7 +357,13 @@ class Navbars extends React.Component {
               Giày nam
               <ul className="catelogy">{this.renderManCategory()}</ul>
             </li>
-            <li>Bán chạy</li>
+            <li
+              onClick={() => {
+                console.log("AAAkaka");
+              }}
+            >
+              Khuyến mãi
+            </li>
             {/* <li>Khuyến mãi</li> */}
             <li>Giới thiệu shop</li>
             {this.props.currentUser._id && (
@@ -422,6 +436,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getProductByCategoryMan: () => {
       dispatch(atcGetProductByCategoryMan());
+    },
+    getProductSale: () => {
+      dispatch(atcGetProductSale());
     }
   };
 };

@@ -160,6 +160,15 @@ export const atcUpdateCaregoryRequest = (id, category) => {
   };
 };
 
+export const atcGetProductSale = () => {
+  return dispatch => {
+    return callApi("products/products-sale").then(res => {
+      res.data.status == 1
+        ? dispatch(atcGetProducts(res.data.payload))
+        : dispatch(atcGetProducts([]));
+    });
+  };
+};
 export const atcGetProducts = products => {
   return {
     type: Types.GET_PRODUCTS,
