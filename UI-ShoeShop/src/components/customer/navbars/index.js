@@ -239,7 +239,7 @@ class Navbars extends React.Component {
                           )}
                       </>
                     )}
-                    { !this.props.currentUser && (
+                    { !this.props.currentUser.role && (
                       <>
                         <li>
                           <Link to="/login" className="format-link">
@@ -392,7 +392,7 @@ class Navbars extends React.Component {
                   )}
               </>
             )}
-            {!this.props.currentUser &&
+            {!this.props.currentUser.role &&
                (
                 <>
                   <li>
