@@ -7,7 +7,8 @@ import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import {
   actGetEmployeeRequest,
-  atcSearchUserRequets
+  atcSearchUserRequets,
+  atcDeleteEmployeeRequest
 } from "../../../../actions";
 import { ReactMUIDatatable } from "react-material-ui-datatable";
 import { Link } from "react-router-dom";
@@ -76,6 +77,7 @@ function ListEmployee(props) {
             </IconButton>
             <IconButton
               onClick={() => {
+                props.deleteCustomer(row._id)
               }}
             >
               <DeleteIcon />
@@ -107,7 +109,10 @@ const dispatchMapToProps = (dispatch, state) => {
     },
     search: (filter, kind) => {
       dispatch(atcSearchUserRequets(filter, kind));
-    }
+    },
+    deleteCustomer: id => {
+      dispatch(atcDeleteEmployeeRequest(id));
+    },
   };
 };
 

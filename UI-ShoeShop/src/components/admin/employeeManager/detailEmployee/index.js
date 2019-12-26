@@ -7,10 +7,12 @@ import {
   atcGetUserByIdRequest,
   atcChangeRoleRequest
 } from "../../../../actions";
+import { Redirect } from "react-router-dom";
 
 function DetailEmployee(props) {
   const [role, setRole] = useState("");
   const [user, setUser] = useState(props.user);
+  const [isSave, setIsSave] = useState(false);
 
   const onChange = e => {
     setRole(e.target.value);
@@ -19,6 +21,7 @@ function DetailEmployee(props) {
   const saveChangeRole = () => {
     let id = props.match.params.id;
     props.changeRole(id, role);
+    setIsSave(true);
   };
   useEffect(() => {
     console.log("id", props.match.params.id);
@@ -29,19 +32,17 @@ function DetailEmployee(props) {
     //Loi, khong nhan gia tri
     setUser(props.user);
     setRole(props.user.role);
-    console.log("role", role);
-    console.log("user", user);
   }, [props.user]);
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {isSave && <Redirect to = "/admin/employees"/>}
         <button className="outline-button" onClick={saveChangeRole}>
           Lưu
         </button>
-        <button className="outline-button">Sửa</button>
       </div>
       <div>
-        <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
+        <h6 >THÔNG TIN NHÂN VIÊN</h6>
       </div>
       <div
         style={{
@@ -68,13 +69,13 @@ function DetailEmployee(props) {
           <h6>{user.email}</h6>
           <label>SDT</label>
           <h6>{user.phone}</h6>
-          <label>Tình trạng</label>
+          {/* <label>Tình trạng</label>
           <div>
             <select>
               <option>Đang hoạt động</option>
               <option>Tạm nghỉ</option>
             </select>
-          </div>
+          </div> */}
           <label>Quyền</label>
           <div>
             <select

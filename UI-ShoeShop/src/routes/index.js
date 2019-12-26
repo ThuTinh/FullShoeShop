@@ -21,7 +21,7 @@ function App(props) {
   return (
     <>
       <Switch>
-        {props.currentUser.role && props.currentUser.role != "customer" && (
+        {props.currentUser&&props.currentUser.role!=null && props.currentUser.role != "customer" && (
           <Route path="/admin" component={AdminRoute} />
         )}
         <Route path="/login" component={loginPage} />

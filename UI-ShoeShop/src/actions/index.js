@@ -101,6 +101,16 @@ export const atcDeleteCustomerRequest = id => {
   };
 };
 
+export const atcDeleteEmployeeRequest = id => {
+  return dispatch => {
+    return callApi("users", "DELETE", `{"id": "${id}"}`)
+      .then(res => {
+        dispatch(actGetEmployeeRequest());
+      })
+      .catch(err => console.log("err:", err));
+  };
+};
+
 export const actCustomer = customers => {
   return {
     type: Types.GET_CUSTOMERS,

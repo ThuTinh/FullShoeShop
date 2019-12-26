@@ -6,10 +6,12 @@ import {
   atcGetUserByIdRequest,
   atcChangeRoleRequest
 } from "../../../../actions";
+import { Redirect } from "react-router-dom";
 
 function DetailCustomer(props) {
   const [role, setRole] = useState("");
   const [user, setUser] = useState(props.user);
+  const [isSave, setIsSave] = useState(false);
   const onChange = e => {
     setRole(e.target.value);
   };
@@ -17,6 +19,7 @@ function DetailCustomer(props) {
   const saveChangeRole = () => {
     let id = props.match.params.id;
     props.changeRole(id, role);
+    setIsSave(true);
   };
 
   useEffect(() => {
@@ -32,6 +35,7 @@ function DetailCustomer(props) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {isSave && <Redirect to ="/admin/customers"/>}
         <button className="outline-button" onClick={saveChangeRole}>
           Lưu
         </button>
