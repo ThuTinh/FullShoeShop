@@ -17,7 +17,7 @@ function InputItem(props) {
     }
   return (
     <Grid item>
-      <input  value = {content} onChange= {(e)=>onChange(e)}  style = {{padding:"5px 0", border:"1px solid #C4C4C4"}} />
+      <input  min="1" type = {props.type}  value = {content} onChange= {(e)=>onChange(e)}  style = {{padding:"5px 0", border:"1px solid #C4C4C4"}} />
       <DeleteIcon onClick = {onRemove}></DeleteIcon>
     </Grid> 
   );

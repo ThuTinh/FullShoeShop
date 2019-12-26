@@ -4,7 +4,7 @@ import shoe from "../../../assets/image/shoe.jpg";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import Paper from "@material-ui/core/Paper";
+import { Paper, Box } from "@material-ui/core";
 import { connect } from "react-redux";
 import "./style.css";
 
@@ -22,6 +22,7 @@ function ProductItem(props) {
       });
       setAmountSold(tempAmountSold);
     }
+    console.log("lalaalla", props.product);
   }, [props.product]);
   const addToCart = () => {};
   return (
@@ -39,6 +40,8 @@ function ProductItem(props) {
               `http://localhost:1337/images/temp/${product.images[0]}` || shoe
             }
           />
+
+          { (product.sale && product.sale != "0") && <Box className="sale">-{product.sale}%</Box>}
         </div>
         <div className="card-item-body">
           <Link
@@ -50,12 +53,24 @@ function ProductItem(props) {
             {product.nameShow || product.name}
           </Link>
           <div style={{ color: "#DFAF48" }}>
-            <b>
-              {(product.price || 0)
-                .toFixed(2)
+            {product.sale && product.sale != "0" && (
+              <Box
+                display="inline"
+                style={{ textDecoration: "line-through", marginRight: "5px" }}
+              >
+                {(product.price || 0)
+                  .toFixed(1)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+              </Box>
+            )}
+            <Box display="inline" fontWeight={600}>
+              {(product.sale && product.sale != "0"
+                ? Math.ceil(product.price * (1 - product.sale / 100))
+                : product.price || 0
+              )
+                .toFixed(1)
                 .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-              đ
-            </b>
+            </Box>
           </div>
           <div
             style={{

@@ -103,6 +103,7 @@ function ListCustomer(props) {
             <IconButton
               onClick={() => {
                 console.log("Xóa nè 1", row);
+                props.deleteCustomer(row._id);
               }}
             >
               <DeleteIcon />

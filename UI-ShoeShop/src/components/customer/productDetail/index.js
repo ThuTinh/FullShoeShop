@@ -13,7 +13,7 @@ import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 import { Editor } from "react-draft-wysiwyg";
 import "./style.css";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import SnackbarContentWrapper from "../../message";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -22,6 +22,7 @@ import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PhoneInTalkIcon from "@material-ui/icons/PhoneInTalk";
 import FlipCameraAndroidIcon from "@material-ui/icons/FlipCameraAndroid";
+import withWidth from '@material-ui/core/withWidth';
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1)
@@ -176,7 +177,10 @@ function ProductDetail(props) {
           productId: product._id,
           color: chooseColor,
           size: chooseSize,
-          price: tempPrice,
+          price:
+            product.sale != "0"
+              ? Math.ceil(parseInt(tempPrice * (1 - product.sale / 100)))
+              : tempPrice,
           quantity: quanlity,
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
@@ -234,12 +238,16 @@ function ProductDetail(props) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
+        const tempPrice = renderPrice();
         if (!checkAddOrBuy) {
           const productOrder = {
             productId: product._id,
             color: chooseColor,
             size: chooseSize,
-            price: product.price,
+            price:
+              product.sale != "0"
+                ? Math.ceil(parseInt(tempPrice * (1 - product.sale / 100)))
+                : tempPrice,
             quantity: quanlity,
             img: product.images.length > 0 ? product.images[0] : "",
             name: product.nameShow != "" ? product.nameShow : product.name
@@ -293,7 +301,8 @@ function ProductDetail(props) {
       setIsLogin(false);
     }
   };
-  const renderInventory = () => {
+  const RenderInventory = () => {
+    setCheckAddOrBuy(false);
     if (chooseSize != "" && chooseColor != "") {
       if (product.detail && product.detail.length > 0) {
         let inventory = 0;
@@ -331,7 +340,7 @@ function ProductDetail(props) {
         }
         return <p>Có {inventory <= 0 ? 0 : inventory} sản phẩm có sẳn</p>;
       }
-    }
+    } else return null;
   };
 
   const renderPrice = () => {
@@ -352,11 +361,11 @@ function ProductDetail(props) {
   return (
     <div className="container">
       {console.log("lalalhh", product.images)}
-      <div className="row">
-        <div className="col-5">
+      <Grid container spacing={1}>
+        <Grid item md={5} xs={12}>
           <CarouselProduct imgs={product.images} />
-        </div>
-        <div className="col-7">
+        </Grid>
+        <Grid item md={7}>
           <div className="title mt-4">
             <h3>
               {/* {product.nameShow || product.name} */}
@@ -377,14 +386,37 @@ function ProductDetail(props) {
               {/* <div style={{ marginLeft: "2%" }}>100 đánh giá</div> */}
             </div>
           </div>
-          <div className="row">
-            <div className="col-7">
+          <Grid container>
+            <Grid item md = {7} xs={12}>
               <div className="flex mt-2">
                 <div className="money">
-                  {parseInt(renderPrice())
+                  {product.sale != "0" && (
+                    <Box
+                      display="inline"
+                      style={{
+                        textDecoration: "line-through",
+                        marginRight: "5px"
+                      }}
+                    >
+                      {(parseInt(renderPrice()) || 0)
+                        .toFixed(1)
+                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                    </Box>
+                  )}
+                  <Box display="inline" fontWeight={600}>
+                    {(product.sale != "0"
+                      ? Math.ceil(
+                          parseInt(renderPrice()) * (1 - product.sale / 100)
+                        )
+                      : parseInt(renderPrice()) || 0
+                    )
+                      .toFixed(1)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                  </Box>
+                  {/* {parseInt(renderPrice())
                     .toFixed(2)
                     .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-                  đ
+                  đ */}
                 </div>
                 <div className="rate-own">
                   {/* <label style={{ marginRight: "10px" }}>Đánh giá sao:</label>
@@ -397,18 +429,20 @@ function ProductDetail(props) {
               /> */}
                 </div>
               </div>
-              <div className="color row">
-                <div className="col-2">
+              <Grid container className="color">
+                <Grid item md={2} xs={12}>
                   <h6 className="mr-5">Màu</h6>
-                </div>
-                <div className="col-10"> {renderColor()}</div>
-              </div>
-              <div className="size row">
-                <div className="col-2">
+                </Grid>
+                <Grid item md={10}>
+                  {renderColor()}
+                </Grid>
+              </Grid>
+              <Grid container className="size">
+                <Grid item md = {2} xs={12} >
                   <h6 className="mr-5">Size</h6>
-                </div>
-                <div className="col-10"> {renderSize()}</div>
-              </div>
+                </Grid>
+                <Grid item md = {10}> {renderSize()}</Grid>
+              </Grid>
               <div>
                 {checkChoose && (
                   <Box color="#FF0000">
@@ -417,7 +451,7 @@ function ProductDetail(props) {
                 )}
                 {checkAddOrBuy && (
                   <Box color="#FF0000">
-                    <i>Sản phẩm đã hết hàng, xin hãy chọn sản phẩm khác !</i>
+                    <i>Hết hàng, xin hãy chọn sản phẩm khác !</i>
                   </Box>
                 )}
               </div>
@@ -436,9 +470,9 @@ function ProductDetail(props) {
                   onChange={e => setQuanlity(e.target.value)}
                   min={1}
                 />
-                {renderInventory()}
+                <RenderInventory />
               </div>
-              <div className="buy d-flex">
+              <div className="buy" style = {{display: props.width !=='xs'?'flex':'block' }}>
                 {!isLogin && <Redirect to="/login" />}
                 <Button
                   variant="contained"
@@ -446,6 +480,7 @@ function ProductDetail(props) {
                   color="secondary"
                   style={{ backgroundColor: "#9d0b0b" }}
                   onClick={() => addProduct()}
+                  disabled={checkAddOrBuy}
                 >
                   Thêm vào giỏ hàng
                 </Button>
@@ -455,6 +490,7 @@ function ProductDetail(props) {
                   className={classes.button}
                   style={{ backgroundColor: "#9d0b0b" }}
                   onClick={() => buyProduct()}
+                  disabled={checkAddOrBuy}
                 >
                   {/* {true && (
                     <Link
@@ -477,8 +513,8 @@ function ProductDetail(props) {
                   />
                 )}
               </div>
-            </div>
-            <div className="col-5">
+            </Grid>
+            <Grid item md = {5}  xs={12}>
               <div
                 style={{
                   width: "100%",
@@ -542,11 +578,11 @@ function ProductDetail(props) {
                   <Box>từ 8h đên 21h mỗi ngày</Box>
                 </Box>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row ">
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <div >
         {/* <div className="dive"></div> */}
         <div>
           <div className="detail">
@@ -611,4 +647,4 @@ const dispatchMapToProps = (dispatch, props) => {
   };
 };
 
-export default connect(stateMapToProps, dispatchMapToProps)(ProductDetail);
+export default  connect(stateMapToProps, dispatchMapToProps)(withWidth()(ProductDetail));

@@ -1,7 +1,7 @@
 import React from "react";
 
 function Report() {
-  const months = [1, 2, 3, 4, 56, 7, 8, 9, 10, 11, 12];
+  const months = [1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12];
 
   const RenderMonth = () => {
     var result = [];
