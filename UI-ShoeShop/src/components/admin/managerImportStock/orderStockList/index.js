@@ -120,10 +120,12 @@ function OrderStockList(props) {
   };
 
   const RenderDataTable = () => {
+    console.log("stockordekakar",  props.ordersSuplier);
     let data = [];
     console.log("status", props.status);
     if (props.ordersSuplier && props.ordersSuplier.length > 0) {
-      data = props.ordersSuplier
+     const temp =  props.ordersSuplier;
+      data =temp
         .filter(order => order.status == props.status || props.status == "ALL")
         .sort(compare)
         .map((order, index) => {
@@ -134,7 +136,7 @@ function OrderStockList(props) {
           return order;
         });
     }
-    console.log("stockorder", data);
+
     return (
       <ReactMUIDatatable
         data={data}

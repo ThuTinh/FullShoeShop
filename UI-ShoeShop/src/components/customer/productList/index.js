@@ -110,7 +110,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductsRequest());
+      dispatch(atcGetProductsRequest(true));
     },
     getCurentUser: token => {
       dispatch(atcGetCurentUserRequest(token));

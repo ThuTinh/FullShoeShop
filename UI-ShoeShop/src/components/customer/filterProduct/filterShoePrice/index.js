@@ -8,6 +8,7 @@ function FilterShoePrice(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     //  props.filter("price",newValue )
+    console.log("value price", newValue);
   };
 
   return (
@@ -33,6 +34,7 @@ function FilterShoePrice(props) {
         <Slider
           value={value}
           onChange={handleChange}
+          onChangeCommitted = {()=> props.filter("price",value )}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
           max={1000}

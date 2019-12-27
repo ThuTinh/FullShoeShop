@@ -73,6 +73,13 @@ function CartResult(props) {
           item.size,
           item.quantity
         );
+        console.log(
+          "check1234",
+          item.productId,
+          item.color,
+          item.size,
+          item.quantity
+        );
         return {
           productId: item.productId,
           color: item.color,
@@ -123,7 +130,7 @@ function CartResult(props) {
           .toFixed(2)
           .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
       </StyledTableCell>
-      <StyledTableCell align="center" >
+      <StyledTableCell align="center">
         {!props.buy && (
           <button className="red-button">
             <Link

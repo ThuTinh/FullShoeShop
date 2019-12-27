@@ -14,6 +14,13 @@ const validateReqBody = body => {
 //   images: 1
 // };
 
+const findAllProductIsActivity = async () => {
+  return await Product.find({ status: true }).populate({
+    path: "categories",
+    populate: { path: "parent" }
+  });
+};
+
 const findAll = async () => {
   return await Product.find().populate({
     path: "categories",
@@ -48,9 +55,9 @@ const updateCountFavorite = async (id, count) => {
   });
 };
 
-const getProductsSale = async()=>{
+const getProductsSale = async () => {
   return await Product.find({ sale: { $gt: 0 } });
-}
+};
 const addItem = async (_id, filter, newId) => {
   let object = {};
   object[filter] = newId;
@@ -157,11 +164,23 @@ const removeImgName = async (id, name) => {
 };
 
 const UpdateAmountSold = async (productId, color, size, quantity) => {
+  // return await Product.update(
+  //   {
+  //     _id: mongoose.Types.ObjectId(productId),
+  //     "detail.color": color,
+  //     "detail.size": size
+  //   },
+  //   {
+  //     $inc: {
+  //       "detail.$.amountSold": parseInt(quantity),
+  //       "detail.$.inventory": -parseInt(quantity)
+  //     }
+  //   }
+  // );
   return await Product.update(
     {
       _id: mongoose.Types.ObjectId(productId),
-      "detail.color": color,
-      "detail.size": size
+      detail: { $elemMatch: { color: color, size: size } }
     },
     {
       $inc: {
@@ -232,5 +251,6 @@ module.exports = {
   UpdateInventory,
   getProductBuyCategoryMan,
   getProductBuyCategoryWomen,
-  getProductsSale
+  getProductsSale,
+  findAllProductIsActivity
 };

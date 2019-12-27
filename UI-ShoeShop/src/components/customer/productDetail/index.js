@@ -6,7 +6,8 @@ import CarouselProduct from "../carousel/carouseProduct";
 import {
   atcGetProductRequest,
   atcAddToCart,
-  atcGetCurentUserRequest
+  atcGetCurentUserRequest,
+  atcMakeOrderCustomer
 } from "../../../actions/index";
 import { connect } from "react-redux";
 import { EditorState, ContentState } from "draft-js";
@@ -22,7 +23,7 @@ import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PhoneInTalkIcon from "@material-ui/icons/PhoneInTalk";
 import FlipCameraAndroidIcon from "@material-ui/icons/FlipCameraAndroid";
-import withWidth from '@material-ui/core/withWidth';
+import withWidth from "@material-ui/core/withWidth";
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1)
@@ -48,6 +49,7 @@ function ProductDetail(props) {
   const [checkAddOrBuy, setCheckAddOrBuy] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [priceBuy, setPriceBuy] = useState(0);
+  const [outOfStock, setOutOfStock] = useState(false);
 
   // const history = createBrowserHistory();
   const classes = useStyles();
@@ -168,7 +170,7 @@ function ProductDetail(props) {
     return result;
   };
   const addProduct = () => {
-    if (props.currentUser) {
+    if (props.currentUser && props.currentUser.role) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
@@ -234,7 +236,8 @@ function ProductDetail(props) {
   };
 
   const buyProduct = () => {
-    if (props.currentUser) {
+    console.log("props.currentUser",props.currentUser)
+    if (props.currentUser && props.currentUser.role ) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
@@ -301,8 +304,43 @@ function ProductDetail(props) {
       setIsLogin(false);
     }
   };
+
+  const bookProduct = () => {
+    if(props.currentUser && props.currentUser.role){
+      let products = [];
+      const itemProduct = {
+        productId: product._id,
+        color: chooseColor,
+        size: chooseSize,
+        price: product.price,
+        inventory: parseInt(quanlity)
+      };
+      products.push(itemProduct);
+  
+      console.log("item product",itemProduct);
+      const order = {
+        products: products,
+        totalPrice: product.price * quanlity,
+        userId: props.currentUser._id,
+        name: props.currentUser.name,
+        email: props.currentUser.email,
+        phone: props.currentUser.phone,
+        shipAddress: props.currentUser.shipAddress,
+        status: "BOOK"
+      };
+      props.makeBookProduct(order);
+      showMessage("info", "Book sản phẩm thành công!");
+      setChooseColor("");
+      setChooseColor("");
+    }else{
+      setIsLogin(false);
+    }
+    
+
+  };
   const RenderInventory = () => {
     setCheckAddOrBuy(false);
+    setOutOfStock(false);
     if (chooseSize != "" && chooseColor != "") {
       if (product.detail && product.detail.length > 0) {
         let inventory = 0;
@@ -337,6 +375,7 @@ function ProductDetail(props) {
         }
         if (inventory <= 0) {
           setCheckAddOrBuy(true);
+          setOutOfStock(true);
         }
         return <p>Có {inventory <= 0 ? 0 : inventory} sản phẩm có sẳn</p>;
       }
@@ -369,7 +408,7 @@ function ProductDetail(props) {
           <div className="title mt-4">
             <h3>
               {/* {product.nameShow || product.name} */}
-              {product.nameShow||product.name}
+              {product.nameShow || product.name}
             </h3>
             <div style={{ display: "flex" }}>
               <div>
@@ -387,7 +426,7 @@ function ProductDetail(props) {
             </div>
           </div>
           <Grid container>
-            <Grid item md = {7} xs={12}>
+            <Grid item md={7} xs={12}>
               <div className="flex mt-2">
                 <div className="money">
                   {product.sale != "0" && (
@@ -438,10 +477,13 @@ function ProductDetail(props) {
                 </Grid>
               </Grid>
               <Grid container className="size">
-                <Grid item md = {2} xs={12} >
+                <Grid item md={2} xs={12}>
                   <h6 className="mr-5">Size</h6>
                 </Grid>
-                <Grid item md = {10}> {renderSize()}</Grid>
+                <Grid item md={10}>
+                  {" "}
+                  {renderSize()}
+                </Grid>
               </Grid>
               <div>
                 {checkChoose && (
@@ -472,13 +514,19 @@ function ProductDetail(props) {
                 />
                 <RenderInventory />
               </div>
-              <div className="buy" style = {{display: props.width !=='xs'?'flex':'block' }}>
+              <div
+                className="buy"
+                style={{ display: props.width !== "xs" ? "flex" : "block" }}
+              >
                 {!isLogin && <Redirect to="/login" />}
                 <Button
                   variant="contained"
                   className={classes.button}
                   color="secondary"
-                  style={{ backgroundColor: "#9d0b0b" }}
+                  style={{
+                    backgroundColor: "#9d0b0b",
+                    display: !outOfStock ? "block" : "none"
+                  }}
                   onClick={() => addProduct()}
                   disabled={checkAddOrBuy}
                 >
@@ -488,7 +536,10 @@ function ProductDetail(props) {
                   variant="contained"
                   color="secondary"
                   className={classes.button}
-                  style={{ backgroundColor: "#9d0b0b" }}
+                  style={{
+                    backgroundColor: "#9d0b0b",
+                    display: !outOfStock ? "block" : "none"
+                  }}
                   onClick={() => buyProduct()}
                   disabled={checkAddOrBuy}
                 >
@@ -504,6 +555,18 @@ function ProductDetail(props) {
                   )} */}
                   Mua hàng
                 </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  style={{
+                    backgroundColor: "#9d0b0b",
+                    display: outOfStock ? "block" : "none"
+                  }}
+                  onClick={bookProduct}
+                >
+                  Book hàng
+                </Button>
                 {isBuy && (
                   <Redirect
                     to={{
@@ -514,7 +577,7 @@ function ProductDetail(props) {
                 )}
               </div>
             </Grid>
-            <Grid item md = {5}  xs={12}>
+            <Grid item md={5} xs={12}>
               <div
                 style={{
                   width: "100%",
@@ -582,7 +645,7 @@ function ProductDetail(props) {
           </Grid>
         </Grid>
       </Grid>
-      <div >
+      <div>
         {/* <div className="dive"></div> */}
         <div>
           <div className="detail">
@@ -643,8 +706,14 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getCurentUser: token => {
       dispatch(atcGetCurentUserRequest(token));
+    },
+    makeBookProduct: order => {
+      dispatch(atcMakeOrderCustomer(order));
     }
   };
 };
 
-export default  connect(stateMapToProps, dispatchMapToProps)(withWidth()(ProductDetail));
+export default connect(
+  stateMapToProps,
+  dispatchMapToProps
+)(withWidth()(ProductDetail));

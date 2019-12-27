@@ -109,6 +109,10 @@ function ManagerProductDetail(props) {
       label: "Số lượng bán ra"
     },
     {
+      name:"favorited",
+      label:'Lượt thích'
+    },
+    {
       name: "status",
       label: "Trạng thái"
     }
@@ -214,7 +218,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductsRequest());
+      dispatch(atcGetProductsRequest(false));
     },
     search: filter => {
       dispatch(atcSearchProductRequest(filter));

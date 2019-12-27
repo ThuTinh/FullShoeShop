@@ -10,7 +10,8 @@ import { Container } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
   atcGetOrderRequest,
-  atcChangeStatusOrderRequest
+  atcChangeStatusOrderRequest,
+  atcUpdateAmountSold
 } from "../../../../actions";
 import CartAdmin from "./cart";
 
@@ -57,6 +58,25 @@ function OrderDetail(props) {
         case "PAID":
           status = "ORDERED";
           break;
+        case "BOOK":
+          status = "ORDERED";
+          for (let i = 0; i < order.products.length; i++) {
+            console.log(
+              "kakaka",
+              order,
+              order.products[i].productId._id,
+              order.products[i].color,
+              order.products[i].size,
+              order.products[i].inventory
+            );
+            props.updateAmountSold(
+              order.products[i].productId._id,
+              order.products[i].color,
+              order.products[i].size,
+              order.products[i].inventory
+            );
+          }
+          break;
         case "ORDERED":
           status = "SHIPPING";
           break;
@@ -90,7 +110,9 @@ function OrderDetail(props) {
     <Container fixed>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <div>
-          {order.status == "PAID" && <label>Duyệt</label>}
+          {(order.status == "PAID" || order.status == "BOOK") && (
+            <label>Duyệt</label>
+          )}
           {order.status == "ORDERED" && <label>Shipping</label>}
           {order.status == "SHIPPING" && <label>Hoàn thành</label>}
           {order.status == "CANCEL" && <label>Đã hủy</label>}
@@ -202,6 +224,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     changeStatus: (orderId, status) => {
       dispatch(atcChangeStatusOrderRequest(orderId, status));
+    },
+    updateAmountSold: (productId, color, size, quantity) => {
+      dispatch(atcUpdateAmountSold(productId, color, size, quantity));
     }
   };
 };
