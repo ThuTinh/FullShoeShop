@@ -17,17 +17,21 @@ function App(props) {
   }, []);
 
   useEffect(() => {
-    console.log("currr",props.currentUser )
+    console.log("currr", props.currentUser);
   }, [props.currentUser]);
 
   return (
     <>
       <Switch>
-        {props.currentUser&&props.currentUser.role!=null && props.currentUser.role != "customer" && (
-          <Route path="/admin" component={AdminRoute} />
+        {props.currentUser &&
+          props.currentUser.role != null &&
+          props.currentUser.role != "customer" && (
+            <Route path="/admin" component={AdminRoute} />
+          )}
+        {!props.currentUser.role && (
+          <Route path="/login" component={loginPage} />
         )}
-      {!props.currentUser.role && <Route path="/login" component={loginPage} />}
-      {!props.currentUser.role &&  <Route path="/sign" component={SignPage} />}
+        {!props.currentUser.role && <Route path="/sign" component={SignPage} />}
         <Route path="/" component={CustomerRoute} />
         <Route path="**" component={NotFoundPage} />
       </Switch>
