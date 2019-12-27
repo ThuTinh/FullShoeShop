@@ -369,7 +369,7 @@ function ProductDetail(props) {
           <div className="title mt-4">
             <h3>
               {/* {product.nameShow || product.name} */}
-              {product.nameShow}
+              {product.nameShow||product.name}
             </h3>
             <div style={{ display: "flex" }}>
               <div>
