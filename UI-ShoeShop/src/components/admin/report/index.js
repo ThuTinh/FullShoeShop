@@ -1,5 +1,12 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import axios from 'axios';
+import ReactExport from "react-export-excel";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
+
 function Report() {
   const months = [1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12];
 
@@ -23,7 +30,13 @@ function Report() {
   const [month,setMonth]=useState(1)
   const [year,setYear]=useState(2019)
   const [data,setData]=useState([])
-  
+  useEffect( () => {
+    axios(
+      `http://localhost:1337/api/v1/order-suplier/report?month=12&year=2019`,
+    ).then(result=> setData(result.data.payload));
+    
+   
+  },[])
   return (
     <div>
       <div
@@ -89,13 +102,20 @@ function Report() {
            marginTop:'20px'
           }}
         >
-          <button className="outline-button" onClick={async () => {
-    const result = await axios(
-      `http://localhost:1337/api/v1/order-suplier/report?month=${month}&year=${year}`,
-    );
-    console.log(result.data)
-    setData(result.data);
-  }}>Xuất báo cáo</button>
+
+<ExcelFile
+          element={
+            <button className="outline-button" >Xuất báo cáo</button>
+          }
+        >
+          <ExcelSheet data={data} name="report">
+            <ExcelColumn label="name" value="name" />
+            <ExcelColumn label="numberProductOrder" value="numberProductOrder" />
+            <ExcelColumn label="totalPrice" value='totalPrice' />
+          
+          </ExcelSheet>
+        </ExcelFile>
+         
         </div>
       </div>
     </div>
