@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import InputItem from "./subItem";
-import color from "@material-ui/core/colors/amber";
-
 const useStyles = makeStyles(them => ({
   deleteIcon: {
     color: "#512C62",
@@ -58,6 +56,7 @@ function ImportStockItem(props) {
             index={index}
             onRemove={onSubColorRemove}
             reciveContentInput={reciveContentInputColor}
+            type = "text"
           />
         );
       });
@@ -90,6 +89,7 @@ function ImportStockItem(props) {
             index={index}
             onRemove={onSubSizeRemove}
             reciveContentInput={reciveContentInputSize}
+            type = "number"
           />
         );
       });

@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { Checkbox, Box, Typography, Divider } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import Slider from "@material-ui/core/Slider";
 
 function FilterShoePrice(props) {
+  const [value, setValue] = React.useState([10, 200]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    //  props.filter("price",newValue )
+  };
 
   return (
     <>
-       <Box
+      <Box
         boxShadow={2}
         style={{
           backgroundColor: "#ffffff",
@@ -23,7 +30,15 @@ function FilterShoePrice(props) {
         >
           GIÁ
         </Box>
-        <Box>
+        <Slider
+          value={value}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
+          aria-labelledby="range-slider"
+          max={1000}
+          min={10}
+        />
+        {/* <Box>
           <Checkbox onChange = {()=>{props.filter("price",[0, 200000])}} /> 0-200.000
           <Divider />
         </Box>
@@ -42,7 +57,7 @@ function FilterShoePrice(props) {
         <Box>
           <Checkbox  onChange = {()=>{props.filter("price",[1000000])}} /> >1000.000
           <Divider />
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

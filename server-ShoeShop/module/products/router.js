@@ -17,7 +17,8 @@ const {
   removeImgName,
   UpdateAmountSold,
   getProductBuyCategoryMan,
-  getProductBuyCategoryWomen
+  getProductBuyCategoryWomen,
+  getProductsSale
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -64,6 +65,10 @@ router.get("/filter", async (req, res, next) => {
     res.status(200).json(handleError(error));
   }
 });
+router.get("/products-sale", async(req, res, next)=>{
+  const products = await getProductsSale();
+  res.status(200).json(makeResponse(products));
+})
 
 router.get("/product-man", async(req, res, next)=>{
   const products = await getProductBuyCategoryMan();

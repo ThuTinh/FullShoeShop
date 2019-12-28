@@ -4,6 +4,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import PriceAndQualityItem from "./priceAndQuanlityItem";
 
+
 const StyledTableRow = withStyles(theme => ({
   root: {
     "&:nth-of-type(odd)": {

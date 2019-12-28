@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
@@ -11,7 +11,8 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
 import { actSignRequest } from "../../actions";
 import { connect } from "react-redux";
-import {Redirect} from 'react-router-dom'
+import { Redirect } from "react-router-dom";
+import "./style.css";
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -20,13 +21,11 @@ const useStyles = makeStyles(theme => ({
   },
   width400: {
     width: "450px",
-    marginTop: "30px"
+    marginTop: "30px",
+    color: "#fff"
   },
   width200: {
     width: "200px"
-  },
-  paddingLabel: {
-    paddingBottom: "10px"
   },
   container: {
     paddingBottom: "5%",
@@ -41,6 +40,16 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "10px",
     color: "#F75F00",
     fontWeight: 600
+  },
+  paddingLabel: {
+    paddingBottom: "10px",
+    color: "#fff"
+  },
+  conatinerParent: {
+    position: "absolute",
+    zIndex: 100,
+    top: "1%",
+    right: "10%"
   }
 }));
 
@@ -54,16 +63,14 @@ function Sign(props) {
     weightRange: "",
     showPassword: false
   });
-  const [redirect, setRedirect] = useState(false)
-useEffect(()=>{
-console.log(props.resSign,'yeu tinh')
+  const [redirect, setRedirect] = useState(false);
+  useEffect(() => {
+    console.log(props.resSign, "yeu tinh");
 
-  if(props.resSign.email)
-  { 
-    setRedirect(true);
-
-  }
-},[props.resSign])
+    if (props.resSign.email) {
+      setRedirect(true);
+    }
+  }, [props.resSign]);
 
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,7 +78,10 @@ console.log(props.resSign,'yeu tinh')
   const [shipAddress, setShipAddress] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
+  const [messagePhone, setMessagePhone] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [messageEmail, setMessageEmail] = useState("");
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
@@ -80,158 +90,276 @@ console.log(props.resSign,'yeu tinh')
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
-    
   };
 
   const handleMouseDownPassword = event => {
     event.preventDefault();
   };
 
+  const FormError = props => {
+    if (props.isHidden) {
+      return null;
+    }
+    return (
+      <div className="form-warning">
+        <i> {props.errorMessage} </i>
+      </div>
+    );
+  };
 
+  const validatePhone = phone => {
+    const regexp = /^\d{10,11}$/;
+    // regular expression - checking if phone number contains only 10 - 11 numbers
+
+    if (regexp.exec(phone) !== null) {
+      return {
+        isInputValid: true,
+        errorMessage: ""
+      };
+    } else {
+      return {
+        isInputValid: false,
+        errorMessage: "Số điện thoại phải có 10 - 11 chữ số."
+      };
+    }
+  };
+
+  const validateEmail = email => {
+    const regexp = /^[a-z][a-z0-9_\.]{4,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/;
+
+    if (regexp.exec(email) !== null) {
+      return {
+        isInputValid: true,
+        errorMessage: ""
+      };
+    } else {
+      return {
+        isInputValid: false,
+        errorMessage: "Email chưa đúng"
+      };
+    }
+  };
+
+  const handlePhoneValidation = () => {
+    const { isInputValid, errorMessage } = validatePhone(phone);
+    setMessagePhone(errorMessage);
+    setIsPhoneValid(isInputValid);
+  };
+
+  const handleEmailValidation = () => {
+    const { isInputValid, errorMessage } = validateEmail(email);
+    setMessageEmail(errorMessage);
+    setIsEmailValid(isInputValid);
+  };
+
+  const isDisableButtonSign = () => {
+    if (
+      isPhoneValid &&
+      isEmailValid &&
+      name.length > 0 &&
+      address.length > 0 &&
+      shipAddress.length > 0 &&
+      password.length > 0
+    )
+      return false;
+    return true;
+  };
   return (
-    <div
-      style={{
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex"
-      }}
-    >
-      {
-        redirect&&<Redirect to={'/'}/>
-      }
-      <div className={classes.container}>
-        <h3 className={classes.tilte}>ĐĂNG KÍ THÀNH VIÊN</h3>
-        <Grid container spacing={4}>
-          <Grid
-            md={12}
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <div>
-              <FormControl>
-                <InputLabel htmlFor="name">Họ và Tên</InputLabel>
-                <Input
-                  id="name"
-                  className={classes.width400}
-                  onChange={(e)=>{setName(e.target.value)}}
-                  name = "name"
-                />
-              </FormControl>
-            </div>
+    <div>
+      <div className="background"> </div>
+      <div className={classes.conatinerParent}>
+        {redirect && <Redirect to={"/"} />}
+        <div className={classes.container}>
+          <h3 className={classes.tilte}>ĐĂNG KÍ THÀNH VIÊN</h3>
+          <Grid container spacing={4}>
+            <Grid
+              md={12}
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              <div>
+                <FormControl>
+                  <InputLabel htmlFor="name" className={classes.paddingLabel}>
+                    Họ và Tên
+                  </InputLabel>
+                  <Input
+                    id="name"
+                    className={classes.width400}
+                    onChange={e => {
+                      setName(e.target.value);
+                    }}
+                    name="name"
+                  />
+                  <FormError
+                    isHidden={name.length > 0 ? true : false}
+                    errorMessage="Không được bỏ trống"
+                  />
+                </FormControl>
+              </div>
 
-            <div>
-              <FormControl>
-                <InputLabel htmlFor="name">Số điện thoại</InputLabel>
-                <Input
-                  id="name"
-                  type="tel"
+              <div>
+                <FormControl>
+                  <InputLabel htmlFor="name" className={classes.paddingLabel}>
+                    Số điện thoại
+                  </InputLabel>
+                  <Input
+                    id="name"
+                    type="tel"
+                    className={classes.width400}
+                    onChange={e => {
+                      setPhone(e.target.value);
+                    }}
+                    phone="phone"
+                    onBlur={handlePhoneValidation}
+                  />
+                  <FormError
+                    isHidden={isPhoneValid}
+                    errorMessage={messagePhone}
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl>
+                  <InputLabel
+                    htmlFor="address"
+                    className={classes.paddingLabel}
+                  >
+                    Địa chỉ
+                  </InputLabel>
+                  <Input
+                    id="address"
+                    className={classes.width400}
+                    onChange={e => {
+                      setAddress(e.target.value);
+                    }}
+                    name="address"
+                  />
+                  <FormError
+                    isHidden={address.length > 0 ? true : false}
+                    errorMessage="Không được bỏ trống"
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl>
+                  <InputLabel
+                    htmlFor="shipAdress"
+                    className={classes.paddingLabel}
+                  >
+                    Địa chỉ giao hàng
+                  </InputLabel>
+                  <Input
+                    id="shipAdress"
+                    className={classes.width400}
+                    onChange={e => {
+                      setShipAddress(e.target.value);
+                    }}
+                    name="shipAddress"
+                  />
+                  <FormError
+                    isHidden={shipAddress.length > 0 ? true : false}
+                    errorMessage="Không được bỏ trống"
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl>
+                  <InputLabel
+                    htmlFor="email"
+                    type="email"
+                    className={classes.paddingLabel}
+                  >
+                    Email
+                  </InputLabel>
+                  <Input
+                    id="email"
+                    className={classes.width400}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                    }}
+                    name="email"
+                    onBlur={handleEmailValidation}
+                  />
+                  <FormError
+                    isHidden={isEmailValid}
+                    errorMessage={messageEmail}
+                  />
+                </FormControl>
+              </div>
+              <div style={{ marginBottom: "20px" }}>
+                <FormControl>
+                  <InputLabel
+                    htmlFor="adornment-password"
+                    className={classes.paddingLabel}
+                  >
+                    Mật khẩu
+                  </InputLabel>
+                  <Input
+                    onChange={onchange}
+                    id="adornment-password"
+                    type={values.showPassword ? "text" : "password"}
+                    value={values.password}
+                    onChange={handleChange("password")}
+                    className={classes.width400}
+                    name="password"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {values.showPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  <FormError
+                    isHidden={password.length > 0 ? true : false}
+                    errorMessage="Không được bỏ trống"
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  color="secondary"
                   className={classes.width400}
-                  onChange={(e)=>{setPhone(e.target.value)}}
-                  phone = "phone"
-                />
-              </FormControl>
-            </div>
-            <div>
-              <FormControl>
-                <InputLabel htmlFor="address">Địa chỉ</InputLabel>
-                <Input
-                  id="address"
-                  className={classes.width400}
-                  onChange={(e)=>{setAddress(e.target.value)}}
-                  name = "address"
-                />
-              </FormControl>
-            </div>
-            <div>
-              <FormControl>
-                <InputLabel
-                  htmlFor="shipAdress"
-                  className={classes.paddingLabel}
+                  style={{ backgroundColor: "#F75F00" }}
+                  onClick={() => {
+                    props.sign({
+                      name,
+                      email,
+                      address,
+                      shipAddress,
+                      password,
+                      phone
+                    });
+                  }}
+                  disabled = {isDisableButtonSign()}
                 >
-                  Địa chỉ giao hàng
-                </InputLabel>
-                <Input
-                  id="shipAdress"
-                  className={classes.width400}
-                  onChange={(e)=>{setShipAddress(e.target.value)}}
-                  name = "shipAddress"
-                />
-              </FormControl>
-            </div>
-            <div>
-              <FormControl>
-                <InputLabel htmlFor="email" type="email">
-                  Email
-                </InputLabel>
-                <Input
-                  id="email"
-                  className={classes.width400}
-                  onChange={(e)=>{setEmail(e.target.value)}}
-                  name = "email"
-                />
-              </FormControl>
-            </div>
-            <div style={{ marginBottom: "20px" }}>
-              <FormControl>
-                <InputLabel
-                  htmlFor="adornment-password"
-                  className={classes.paddingLabel}
-                >
-                  Mật khẩu
-                </InputLabel>
-                <Input
-                  onChange={onchange}
-                  id="adornment-password"
-                  type={values.showPassword ? "text" : "password"}
-                  value={values.password}
-                  onChange={handleChange("password")}
-                  className={classes.width400}
-                  name = "password"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </div>
-            <div>
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.width400}
-                style={{ backgroundColor: "#F75F00" }}
-                onClick={()=>{props.sign({name, email, address, shipAddress, password, phone})
-              }}
-              >
-                Đăng kí
-              </Button>
-            </div>
+                  Đăng kí
+                </Button>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     </div>
   );
 }
 
-const stateMapToProps = (state) => {
+const stateMapToProps = state => {
   return {
-     resSign: state.sign
-  }
-}
+    resSign: state.sign
+  };
+};
 const dispatchMapToProps = (dispatch, props) => {
   return {
     sign: sign => {
@@ -239,7 +367,4 @@ const dispatchMapToProps = (dispatch, props) => {
     }
   };
 };
-export default connect(
-  stateMapToProps,
-  dispatchMapToProps
-)(Sign);
+export default connect(stateMapToProps, dispatchMapToProps)(Sign);

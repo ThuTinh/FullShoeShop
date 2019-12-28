@@ -27,6 +27,8 @@ function FilterProduct(props) {
       }
       setFilterCatelogy(tempCategory);
     } else {
+      value[0] = value[0]*1000;
+      value[1] = value[1]*1000;
       setFilterPrice(value);
     }
 

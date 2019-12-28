@@ -18,6 +18,7 @@ import SnackbarContentWrapper from "../../../message";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Redirect } from "react-router-dom";
 import { Box } from "@material-ui/core";
+import './style.css'
 
 const useStyles = makeStyles(theme => ({
   btnAddInfo: {
@@ -260,27 +261,27 @@ function OrderImport(props) {
         {renderImportStockItem()}
       </div>
 
-      <div style={{ marginTop: "50px", marginBottom: "50px" }}>
-        <div>
+      <div style={{ marginTop: "20px", marginBottom: "50px" }}>
+        <div style ={{marginBottom:'20px'}}>
           <h5>Chi tiết đơn hàng</h5>
         </div>
-        <div>
-          <Box>Áp dụng cho Tất cả</Box>
-          <div style={{ display: "flex" }}>
-            <div style={{ display: "flex" }}>
+        <div className = "applyAll">
+          <Box marginBottom={2} fontWeight={500}>Áp dụng cho Tất cả</Box>
+          <div style={{ display: "flex" , alignItems: 'baseline'}}>
+            <div style={{ display: "flex", alignItems: 'baseline' }}>
               <div>Giá</div>
               <input
-                className="format-input"
+                className="input-apply"
                 placeholder="gia"
                 value={priceAll}
                 onChange={e => setPriceAll(e.target.value)}
               />
             </div>
-            <div style={{ display: "flex" }}>
-              <div>So luong</div>
+            <div style={{ display: "flex",alignItems: 'baseline' }}>
+              <div>Số lượng</div>
               <input
-                className="format-input"
-                placeholder="so luong"
+                className="input-apply"
+                placeholder="số lượng"
                 value={inventoryAll}
                 onChange={e => setInventoryAll(e.target.value)}
               />

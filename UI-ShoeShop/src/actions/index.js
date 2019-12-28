@@ -101,6 +101,16 @@ export const atcDeleteCustomerRequest = id => {
   };
 };
 
+export const atcDeleteEmployeeRequest = id => {
+  return dispatch => {
+    return callApi("users", "DELETE", `{"id": "${id}"}`)
+      .then(res => {
+        dispatch(actGetEmployeeRequest());
+      })
+      .catch(err => console.log("err:", err));
+  };
+};
+
 export const actCustomer = customers => {
   return {
     type: Types.GET_CUSTOMERS,
@@ -160,6 +170,15 @@ export const atcUpdateCaregoryRequest = (id, category) => {
   };
 };
 
+export const atcGetProductSale = () => {
+  return dispatch => {
+    return callApi("products/products-sale").then(res => {
+      res.data.status == 1
+        ? dispatch(atcGetProducts(res.data.payload))
+        : dispatch(atcGetProducts([]));
+    });
+  };
+};
 export const atcGetProducts = products => {
   return {
     type: Types.GET_PRODUCTS,
