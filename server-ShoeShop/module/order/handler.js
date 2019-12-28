@@ -9,8 +9,8 @@ const validate = body => {
   }
 };
 
-const findAll = async () => {
-  return await Order.find();
+const findAll = async (condition) => {
+  return await Order.find(condition).populate("products.productId").lean();
 };
 
 const findOne = async id => {
