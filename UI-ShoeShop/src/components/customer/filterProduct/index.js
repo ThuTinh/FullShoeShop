@@ -31,12 +31,12 @@ function FilterProduct(props) {
     }
 
     console.log("test filter", filterPrice, filterCatelogy);
-    if (filterPrice.length > 0) {
-      const temp = filterPrice;
-      temp[0] = temp[0] * 1000;
-      temp[1] = temp[1] * 1000;
-      setFilterPrice(temp)
-    }
+    // if (filterPrice.length > 0) {
+    //   const temp = filterPrice;
+    //   temp[0] = temp[0] * 1000;
+    //   temp[1] = temp[1] * 1000;
+    //   setFilterPrice(temp)
+    // }
     props.filterProduct(filterCatelogy.join(","), filterPrice.join(","));
   };
 

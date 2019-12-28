@@ -37,8 +37,8 @@ function FilterShoePrice(props) {
           onChangeCommitted = {()=> props.filter("price",value )}
           valueLabelDisplay="auto"
           aria-labelledby="range-slider"
-          max={1000}
-          min={10}
+          max={2000000}
+          min={50000}
         />
         {/* <Box>
           <Checkbox onChange = {()=>{props.filter("price",[0, 200000])}} /> 0-200.000

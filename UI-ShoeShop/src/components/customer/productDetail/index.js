@@ -229,10 +229,12 @@ function ProductDetail(props) {
         showMessage("info", "Thêm sản phẩm thành công!");
 
         //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
+       
       }
     } else {
       setIsLogin(false);
     }
+   
   };
 
   const buyProduct = () => {
@@ -342,6 +344,7 @@ function ProductDetail(props) {
     setCheckAddOrBuy(false);
     setOutOfStock(false);
     if (chooseSize != "" && chooseColor != "") {
+      setCheckChoose(false)
       if (product.detail && product.detail.length > 0) {
         let inventory = 0;
         for (let i = 0; i < product.detail.length; i++) {
