@@ -1,9 +1,10 @@
-import React from "react";
-
+import React,{useState} from "react";
+import axios from 'axios';
 function Report() {
   const months = [1, 2, 3, 4, 56, 7, 8, 9, 10, 11, 12];
 
   const RenderMonth = () => {
+ 
     var result = [];
     result = months.map((item, index) => {
       return <option key={index}>{item}</option>;
@@ -19,7 +20,10 @@ function Report() {
     }
     return result;
   };
-
+  const [month,setMonth]=useState(1)
+  const [year,setYear]=useState(2019)
+  const [data,setData]=useState([])
+  
   return (
     <div>
       <div
@@ -41,6 +45,8 @@ function Report() {
           <div>Chọn Tháng</div>
           <div>
             <select
+            value={month}
+            onChange={e=>setMonth(e.target.value)}
               style={{
                 padding: "10px 0",
                 textAlign: "center",
@@ -64,6 +70,8 @@ function Report() {
           <div>Chọn năm</div>
           <div>
             <select
+            value={year}
+            onChange={e=>setYear(e.target.value)}
               style={{
                 padding: "10px 0",
                 textAlign: "center",
@@ -81,7 +89,13 @@ function Report() {
            marginTop:'20px'
           }}
         >
-          <button className="outline-button">Xuất báo cáo</button>
+          <button className="outline-button" onClick={async () => {
+    const result = await axios(
+      `http://localhost:1337/api/v1/order-suplier/report?month=${month}&year=${year}`,
+    );
+    console.log(result.data)
+    setData(result.data);
+  }}>Xuất báo cáo</button>
         </div>
       </div>
     </div>

@@ -6,7 +6,8 @@ const {
   filter,
   validate,
   findOne,
-  Approved
+  Approved,
+  getAll
 } = require("./handler");
 const logger = require("../logger");
 const { makeResponse,handleError } = require("../common");
@@ -15,6 +16,12 @@ const router = new express.Router();
 router.get("/", async (req, res, next) => {
   console.log("filter: ", req.query.filter);
   const orders = await filter(req.query.filter);
+  res.status(200).json(makeResponse(orders));
+});
+
+
+router.get("/report", async (req, res, next) => {
+  const orders = await getAll(req.query);
   res.status(200).json(makeResponse(orders));
 });
 
