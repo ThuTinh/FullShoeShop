@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { atcGetCategoryRequest,actGetProductByFilter } from "../../../actions";
+import { atcGetCategoryRequest, actGetProductByFilter } from "../../../actions";
 import { connect } from "react-redux";
 import FilterShoeMan from "./filterShoeMan";
 import FilterShoeWomen from "./filterShoeWomen";
@@ -27,13 +27,17 @@ function FilterProduct(props) {
       }
       setFilterCatelogy(tempCategory);
     } else {
-      value[0] = value[0]*1000;
-      value[1] = value[1]*1000;
       setFilterPrice(value);
     }
 
     console.log("test filter", filterPrice, filterCatelogy);
-    props.filterProduct(filterCatelogy.join(','), filterPrice.join(','));
+    // if (filterPrice.length > 0) {
+    //   const temp = filterPrice;
+    //   temp[0] = temp[0] * 1000;
+    //   temp[1] = temp[1] * 1000;
+    //   setFilterPrice(temp)
+    // }
+    props.filterProduct(filterCatelogy.join(","), filterPrice.join(","));
   };
 
   const RenderWomenShoes = () => {
@@ -105,7 +109,7 @@ const dispatchMapToProps = (dispatch, props) => {
     getCategory: () => {
       dispatch(atcGetCategoryRequest());
     },
-    filterProduct : (categories, price)=>{
+    filterProduct: (categories, price) => {
       dispatch(actGetProductByFilter(categories, price));
     }
   };

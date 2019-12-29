@@ -41,7 +41,9 @@ function ProductItem(props) {
             }
           />
 
-          { (product.sale && product.sale != "0") && <Box className="sale">-{product.sale}%</Box>}
+          {product.sale && product.sale != "0" && (
+            <Box className="sale">-{product.sale}%</Box>
+          )}
         </div>
         <div className="card-item-body">
           <Link
@@ -53,23 +55,25 @@ function ProductItem(props) {
             {product.nameShow || product.name}
           </Link>
           <div style={{ color: "#DFAF48" }}>
-            {product.sale && product.sale != "0" && (
-              <Box
-                display="inline"
-                style={{ textDecoration: "line-through", marginRight: "5px" }}
-              >
-                {(product.price || 0)
-                  .toFixed(1)
-                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-              </Box>
-            )}
+            {/* {product.sale && product.sale != 0 && ( */}
+            <Box
+              display="inline"
+              style={{ textDecoration: "line-through", marginRight: "5px" }}
+            >
+              {product.sale && product.sale != 0
+                ? (product.price || 0)
+                    .toFixed(1)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                : ""}
+            </Box>
+            {/* )} */}
             <Box display="inline" fontWeight={600}>
-              {(product.sale && product.sale != "0"
+              {(product.sale && product.sale != 0
                 ? Math.ceil(product.price * (1 - product.sale / 100))
                 : product.price || 0
               )
                 .toFixed(1)
-                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
             </Box>
           </div>
           <div

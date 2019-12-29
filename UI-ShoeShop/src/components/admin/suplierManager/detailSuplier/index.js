@@ -257,7 +257,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductsRequest());
+      dispatch(atcGetProductsRequest(false));
     },
     createProduct: (id, productId) => {
       dispatch(atcCreateProdctSuplierRequest(id, productId));

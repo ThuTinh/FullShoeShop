@@ -12,7 +12,8 @@ import {
   atcAddToCart,
   atcUpdateAmountSold
 } from "../../../../actions";
-
+import SnackbarContentWrapper from "../../../message";
+import Snackbar from "@material-ui/core/Snackbar";
 const StyledTableRow = withStyles(theme => ({
   root: {
     "&:nth-of-type(odd)": {
@@ -34,6 +35,23 @@ const StyledTableCell = withStyles(theme => ({
 function CartResult(props) {
   const [user, setUser] = useState(props.currentUser);
   const [ordered, setOrdered] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
+  const [variantMessage, setVariantMessage] = useState("info");
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const showMessage = (variant, message) => {
+    setVariantMessage(variant);
+    setMessage(message);
+    setOpenSnackbar(true);
+  };
   useEffect(() => {
     if (props.totalPrice == 0) {
       let total = parseInt(localStorage.getItem("total"))
@@ -73,6 +91,13 @@ function CartResult(props) {
           item.size,
           item.quantity
         );
+        console.log(
+          "check1234",
+          item.productId,
+          item.color,
+          item.size,
+          item.quantity
+        );
         return {
           productId: item.productId,
           color: item.color,
@@ -100,49 +125,72 @@ function CartResult(props) {
     console.log("order da order ne", order);
   };
   return (
-    <StyledTableRow>
-      <StyledTableCell colSpan={2}>
-        <button className="red-button">
-          <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
-            Trở về home
-          </Link>
-        </button>
-      </StyledTableCell>
-      <StyledTableCell
-        align="center"
-        style={{ fontSize: "20px", fontWeight: "600" }}
-        colSpan={3}
-      >
-        Tổng tiền
-      </StyledTableCell>
-      <StyledTableCell
-        align="center"
-        style={{ fontSize: "20px", fontWeight: "600" }}
-      >
-        {parseInt(props.totalPrice)
-          .toFixed(2)
-          .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
-      </StyledTableCell>
-      <StyledTableCell align="center" >
-        {!props.buy && (
+    <>
+      <StyledTableRow>
+        <StyledTableCell colSpan={2}>
           <button className="red-button">
-            <Link
-              disabled={props.totalPrice == 0 ? true : false}
-              to="/product/purchase"
-              style={{ color: "#fff", textDecoration: "none" }}
-            >
-              Mua hàng
+            <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
+              Trở về home
             </Link>
           </button>
-        )}
-        {props.buy && (
-          <button className="red-button" onClick={makePurchase}>
-            Đặt hàng
-          </button>
-        )}
-        {ordered && <Redirect to="/my-acount/orders" />}
-      </StyledTableCell>
-    </StyledTableRow>
+        </StyledTableCell>
+        <StyledTableCell
+          align="center"
+          style={{ fontSize: "20px", fontWeight: "600" }}
+          colSpan={3}
+        >
+          Tổng tiền
+        </StyledTableCell>
+        <StyledTableCell
+          align="center"
+          style={{ fontSize: "20px", fontWeight: "600" }}
+        >
+          {parseInt(props.totalPrice)
+            .toFixed(2)
+            .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          {!props.buy && (
+            <button
+              className="red-button"
+              onClick={() => {
+                if (props.totalPrice == 0)
+                  showMessage("info", "Bạn chưa chọn sản phẩm!");
+              }}
+            >
+              <Link
+                disabled={props.totalPrice == 0 ? true : false}
+                to="/product/purchase"
+                style={{ color: "#fff", textDecoration: "none" }}
+              >
+                Mua hàng
+              </Link>
+            </button>
+          )}
+          {props.buy && (
+            <button className="red-button" onClick={makePurchase}>
+              Đặt hàng
+            </button>
+          )}
+          {ordered && <Redirect to="/my-acount/orders" />}
+        </StyledTableCell>
+      </StyledTableRow>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right"
+        }}
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={variantMessage}
+          message={message}
+        />
+      </Snackbar>
+    </>
   );
 }
 

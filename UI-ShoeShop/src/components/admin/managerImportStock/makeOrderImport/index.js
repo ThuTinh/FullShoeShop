@@ -18,7 +18,7 @@ import SnackbarContentWrapper from "../../../message";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Redirect } from "react-router-dom";
 import { Box } from "@material-ui/core";
-import './style.css'
+import "./style.css";
 
 const useStyles = makeStyles(theme => ({
   btnAddInfo: {
@@ -184,7 +184,7 @@ function OrderImport(props) {
     _setDetailProducts(detailProduct);
     console.log("test detail product", _detailProducts);
   };
-  const saveOrder = async () => {
+  const saveOrder = () => {
     if (products && products.length > 0) {
       // thực hiện lưu order vào trong model orderSuplier
       let total = 0;
@@ -206,11 +206,10 @@ function OrderImport(props) {
       };
       console.log("user", props.currenUser);
       setOrderSuplier(order);
-      await props.createOrderSuplier(order);
-      if (props.message.status) {
-        // showMessage("success", "Thêm thành thành công!");
-        // //setSaveSuccess(true);
-      }
+      props.createOrderSuplier(order);
+
+      showMessage("success", "Thêm thành thành công!");
+      setSaveSuccess(true);
     }
   };
 
@@ -227,7 +226,6 @@ function OrderImport(props) {
     //   if (props.message.status == false)
     //     showMessage("info", "Thêm không thành thành công!");
     // }
-
   }, [props.message]);
 
   const ApDung = () => {
@@ -262,24 +260,30 @@ function OrderImport(props) {
       </div>
 
       <div style={{ marginTop: "20px", marginBottom: "50px" }}>
-        <div style ={{marginBottom:'20px'}}>
+        <div style={{ marginBottom: "20px" }}>
           <h5>Chi tiết đơn hàng</h5>
         </div>
-        <div className = "applyAll">
-          <Box marginBottom={2} fontWeight={500}>Áp dụng cho Tất cả</Box>
-          <div style={{ display: "flex" , alignItems: 'baseline'}}>
-            <div style={{ display: "flex", alignItems: 'baseline' }}>
+        <div className="applyAll">
+          <Box marginBottom={2} fontWeight={500}>
+            Áp dụng cho Tất cả
+          </Box>
+          <div style={{ display: "flex", alignItems: "baseline" }}>
+            <div style={{ display: "flex", alignItems: "baseline" }}>
               <div>Giá</div>
               <input
+                type="number"
+                min = {1000}
                 className="input-apply"
                 placeholder="gia"
                 value={priceAll}
                 onChange={e => setPriceAll(e.target.value)}
               />
             </div>
-            <div style={{ display: "flex",alignItems: 'baseline' }}>
+            <div style={{ display: "flex", alignItems: "baseline" }}>
               <div>Số lượng</div>
               <input
+                type="number"
+                min = {1}
                 className="input-apply"
                 placeholder="số lượng"
                 value={inventoryAll}
@@ -347,7 +351,7 @@ const dispatchMapToProps = (dispatch, props) => {
     makePriceAndInventoryAll: (priceAll, inventoryAll) => {
       dispatch(atcPriceAndInventoryAll(priceAll, inventoryAll));
     },
-    setStatusMessage:(status)=>{
+    setStatusMessage: status => {
       // dispatch()
     }
   };

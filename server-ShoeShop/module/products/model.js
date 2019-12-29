@@ -117,8 +117,7 @@ const schema = new Schema(
     //status: false: ngừng hoạt động
     status: {
       type: Boolean,
-      select: true,
-      default: true,
+      default: false,
       required: true
     },
     deleted: {

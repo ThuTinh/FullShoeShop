@@ -140,6 +140,7 @@ function ManagerProduct(props) {
     };
     if (checkUpdate) {
       try {
+        console.log("ì update", idUpdate)
         props.updateProduct(idUpdate, product);
         showMessage("success", "Cập nhập thành công!");
       } catch (error) {
@@ -192,7 +193,8 @@ function ManagerProduct(props) {
     setCheckUpdate(true);
     setIdUpdate(product._id);
     setNameProduct(product.name);
-    setStatus(product.status);
+    console.log("status update",product.status )
+    setStatus(product.status=="Hoạt động"?true:false);
     if (product.categories != null) {
       setChooseParent(product.categories.parent.name);
       if (props.categories && props.categories.length > 0) {
@@ -256,6 +258,10 @@ function ManagerProduct(props) {
     {
       name: "amountSold",
       label: "Số lượng bán ra"
+    },
+    {
+      name:"favorited",
+      label:'Lượt thích'
     },
     {
       name: "status",
@@ -439,7 +445,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductsRequest());
+      dispatch(atcGetProductsRequest(false));
     },
     deleteProduct: id => {
       dispatch(atcDeleteProductRequest(id));

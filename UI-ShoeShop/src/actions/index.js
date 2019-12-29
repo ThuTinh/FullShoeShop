@@ -249,9 +249,9 @@ export const atcUpdateDetailItemProductRequets = (id, idItem, inventoryAdd) => {
       });
   };
 };
-export const atcGetProductsRequest = () => {
+export const atcGetProductsRequest = (activity) => {
   return dispatch => {
-    return callApi("products", "GET")
+    return callApi(`products?activity=${activity}`, "GET")
       .then(res => {
         res.data.status == 1
           ? dispatch(atcGetProducts(res.data.payload))
@@ -273,7 +273,7 @@ export const actGetProductByFilter = (categories, price) => {
             : dispatch(atcGetProducts([]));
         })
         .catch(err => {
-          dispatch(atcGetProductsRequest());
+          dispatch(atcGetProductsRequest(true));
         });
     } else {
       if (categories) {
@@ -285,7 +285,7 @@ export const actGetProductByFilter = (categories, price) => {
               : dispatch(atcGetProducts([]));
           })
           .catch(err => {
-            dispatch(atcGetProductsRequest());
+            dispatch(atcGetProductsRequest(true));
           });
       } else {
         if (price) {
@@ -297,11 +297,11 @@ export const actGetProductByFilter = (categories, price) => {
                 : dispatch(atcGetProducts([]));
             })
             .catch(err => {
-              dispatch(atcGetProductsRequest());
+              dispatch(atcGetProductsRequest(true));
             });
         } else {
           console.log("categories5", categories);
-          dispatch(atcGetProductsRequest());
+          dispatch(atcGetProductsRequest(true));
         }
       }
     }
@@ -312,7 +312,7 @@ export const atcCreateProductRequest = product => {
   return dispatch => {
     return callApi("products", "POST", product)
       .then(res => {
-        dispatch(atcGetProductsRequest());
+        dispatch(atcGetProductsRequest(false));
       })
       .catch(err => console.log("err:", err));
   };
@@ -322,7 +322,7 @@ export const atcDeleteProductRequest = id => {
   return dispatch => {
     return callApi("products", "DELETE", `{"id": "${id}"}`)
       .then(res => {
-        dispatch(atcGetProductsRequest());
+        dispatch(atcGetProductsRequest(false));
       })
       .catch(err => console.log("err:", err));
   };
@@ -332,7 +332,7 @@ export const atcUpdateProductRequest = (id, product) => {
   return dispatch => {
     return callApi(`products/${id}`, "PUT", product)
       .then(res => {
-        dispatch(atcGetProductsRequest());
+        dispatch(atcGetProductsRequest(false));
       })
       .catch(err => {
         console.log("lỗi", err);

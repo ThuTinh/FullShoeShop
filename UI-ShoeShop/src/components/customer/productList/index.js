@@ -9,23 +9,39 @@ import {
 } from "../../../actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Grid } from "@material-ui/core";
+import Pagination from "../pagination";
 
 function ProductList(props) {
   const [user, setUser] = useState(props.currentUser);
   const [isLoading, setIsLoading] = useState(true);
+  const itemPerPage = 20;
+  const  [curentPage, setCurentPage] = useState(1);
   const RenderProductList = () => {
     console.log("ls products", props.products);
     var result = [];
     const products = props.products;
-    if (products && products.length > 0) {
-      result = products.map((product, index) => {
-        return (
-          <Grid item md={3} xs={6} key={index}>
-            <ProductItem product={product} addFavourite={addFaccvourite} />
+    for (let i = (curentPage - 1) * itemPerPage; i < products.length; i++) {
+      if(i < itemPerPage *curentPage ){
+        const item = (
+          <Grid item md={3} xs={6} key={i}>
+            <ProductItem product={products[i]} addFavourite={addFaccvourite} />
           </Grid>
         );
-      });
+        result.push(item);
+      }else{
+        break;
+      }
+     
     }
+    // if (products && products.length > 0) {
+    //   result = products.map((product, index) => {
+    //     return (
+    //       <Grid item md={3} xs={6} key={index}>
+    //         <ProductItem product={product} addFavourite={addFaccvourite} />
+    //       </Grid>
+    //     );
+    //   });
+    // }
     if (result.length > 0) {
       return result;
     } else {
@@ -36,6 +52,10 @@ function ProductList(props) {
       );
     }
   };
+
+  const changeCurentPage = (curentPage)=>{
+    setCurentPage(curentPage);
+  }
 
   const addFaccvourite = productId => {
     let body = {
@@ -74,8 +94,10 @@ function ProductList(props) {
           />
         </div>
       )}
-      <Grid container spacing={2}>{!isLoading && <RenderProductList />}</Grid>
-    
+      <Grid container spacing={2}>
+        {!isLoading && <RenderProductList />}
+      </Grid>
+      <Pagination totalItem={props.products.length} itemPerPage={itemPerPage} changeCurentPage = {changeCurentPage} curentPage = {curentPage} />
     </>
   );
 }
@@ -88,7 +110,7 @@ const stateMapToProps = (state, props) => {
 const dispatchMapToProps = (dispatch, props) => {
   return {
     getProducts: () => {
-      dispatch(atcGetProductsRequest());
+      dispatch(atcGetProductsRequest(true));
     },
     getCurentUser: token => {
       dispatch(atcGetCurentUserRequest(token));

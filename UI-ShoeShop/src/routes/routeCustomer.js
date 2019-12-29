@@ -44,7 +44,7 @@ function CustomerRoute(props) {
            <Route path={route.url} component={route.component} />
         )} */}
         <Route path="/" component={CustomHomePage} exact={true} />
-        <Route path="**" component={NotFoundPage}  />
+        <Route path="**" component={NotFoundPage} />
       </Switch>
       <div className="mt-2">
         <Footer></Footer>

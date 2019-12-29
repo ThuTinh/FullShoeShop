@@ -78,11 +78,12 @@ function OrderManager() {
           aria-label="full width tabs example"
         >
           <Tab label="Tất cả" {...a11yProps(0)} />
-          <Tab label="Chờ xác nhận" {...a11yProps(1)} />
-          <Tab label="Chờ lấy hàng" {...a11yProps(2)} />
-          <Tab label="Đang giao" {...a11yProps(3)} />
-          <Tab label="Đã giao" {...a11yProps(4)} />
-          <Tab label="Đã hủy" {...a11yProps(5)} />
+          <Tab label="Book" {...a11yProps(1)} />
+          <Tab label="Chờ xác nhận" {...a11yProps(2)} />
+          <Tab label="Chờ lấy hàng" {...a11yProps(3)} />
+          <Tab label="Đang giao" {...a11yProps(4)} />
+          <Tab label="Đã giao" {...a11yProps(5)} />
+          <Tab label="Đã hủy" {...a11yProps(6)} />
           {/* <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} /> */}
         </Tabs>
       </AppBar>
@@ -91,18 +92,21 @@ function OrderManager() {
         <ListOrder status="ALL" />
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <ListOrder status="PAID" />
+        <ListOrder status="BOOK" />
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        <ListOrder status="ORDERED" />
+        <ListOrder status="PAID" />
       </TabPanel>
       <TabPanel value={value} index={3} dir={theme.direction}>
-        <ListOrder status="SHIPPING" />
+        <ListOrder status="ORDERED" />
       </TabPanel>
       <TabPanel value={value} index={4} dir={theme.direction}>
-        <ListOrder status="PAYED" />
+        <ListOrder status="SHIPPING" />
       </TabPanel>
       <TabPanel value={value} index={5} dir={theme.direction}>
+        <ListOrder status="PAYED" />
+      </TabPanel>
+      <TabPanel value={value} index={6} dir={theme.direction}>
         <ListOrder status="CANCEL" />
       </TabPanel>
       {/* <TabPanel value={value} index={6} dir={theme.direction}>

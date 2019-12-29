@@ -96,10 +96,10 @@ function InforCustomer(props) {
 
   const [currentUser, setCurrentUser] = useState(props.currentUser);
 
-  useEffect(() => {
-    let token = localStorage.getItem("token");
-    props.getCurrentUser(token);
-  }, []);
+  // useEffect(() => {
+  //   let token = localStorage.getItem("token");
+  //   props.getCurrentUser(token);
+  // }, []);
 
   useEffect(() => {
     setCurrentUser(props.currentUser);
@@ -304,6 +304,9 @@ function InforCustomer(props) {
                       )
                       .then(res => {
                         console.log("update avatar", res);
+                        // window.location.reload();
+                        let token = localStorage.getItem("token");
+                        props.getCurrentUser(token);
                       });
                   })
                   .catch(err => {

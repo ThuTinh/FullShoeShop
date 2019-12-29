@@ -18,7 +18,8 @@ const {
   UpdateAmountSold,
   getProductBuyCategoryMan,
   getProductBuyCategoryWomen,
-  getProductsSale
+  getProductsSale,
+  findAllProductIsActivity
 } = require("./handler");
 const logger = require("../logger");
 const { handleError, makeResponse } = require("../common");
@@ -65,20 +66,20 @@ router.get("/filter", async (req, res, next) => {
     res.status(200).json(handleError(error));
   }
 });
-router.get("/products-sale", async(req, res, next)=>{
+router.get("/products-sale", async (req, res, next) => {
   const products = await getProductsSale();
   res.status(200).json(makeResponse(products));
-})
+});
 
-router.get("/product-man", async(req, res, next)=>{
+router.get("/product-man", async (req, res, next) => {
   const products = await getProductBuyCategoryMan();
   res.status(200).json(makeResponse(products));
-})
+});
 
-router.get("/product-women", async(req, res, next)=>{
+router.get("/product-women", async (req, res, next) => {
   const products = await getProductBuyCategoryWomen();
   res.status(200).json(makeResponse(products));
-})
+});
 // const {MESSAGE} = require('../common/constant')
 // /**
 //  * @swagger
@@ -95,7 +96,13 @@ router.get("/product-women", async(req, res, next)=>{
 //  */
 router.get("/", async (req, res, next) => {
   try {
-    const products = await findAll();
+    let products = [];
+    console.log("req.query.activity", req.query.activity);
+    if (req.query.activity == "false") {
+      products = await findAll();
+    } else {
+      products = await findAllProductIsActivity();
+    }
     res.json(makeResponse(products));
   } catch (error) {
     res.json(handleError(error));
@@ -348,6 +355,7 @@ router.put("/amount-sold/:id", async (req, res, next) => {
     req.body.size,
     req.body.quantity
   );
+  console.log("product test",product)
   res.status(200).json(makeResponse(product));
 });
 

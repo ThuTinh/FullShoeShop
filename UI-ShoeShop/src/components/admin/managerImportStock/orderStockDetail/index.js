@@ -77,13 +77,30 @@ function OrderStockDetail(props) {
     if (order.products && order.products.length > 0) {
       ressult = order.products.map((product, index) => {
         console.log("product test", product);
-        return (
+        const item = product.maSanPham && (
           <OrderStockItemDetail
             product={product}
             key={index}
-            name={product.maSanPham.name ? product.maSanPham.name : "undifine"}
+            name={
+              product.maSanPham && product.maSanPham.name
+                ? product.maSanPham.name
+                : "undifine"
+            }
           />
         );
+
+        return item;
+        // (
+        //   <OrderStockItemDetail
+        //     product={product}
+        //     key={index}
+        //     name={
+        //       product.maSanPham && product.maSanPham.name
+        //         ? product.maSanPham.name
+        //         : "undifine"
+        //     }
+        //   />
+        // );
       });
     }
     return ressult;
@@ -215,7 +232,11 @@ function OrderStockDetail(props) {
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Tổng công:</div>
             <p>
-              <b>{order.totalPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</b>
+              <b>
+                {order.totalPrice
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+              </b>
             </p>
           </div>
         </div>
