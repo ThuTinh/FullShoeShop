@@ -32,11 +32,11 @@ function Report() {
   const [data,setData]=useState([])
   useEffect( () => {
     axios(
-      `http://localhost:1337/api/v1/order-suplier/report?month=12&year=2019`,
+      `http://localhost:1337/api/v1/order-suplier/report?month=${month}&year=${year}`,
     ).then(result=> setData(result.data.payload));
     
    
-  },[])
+  },[month,year])
   return (
     <div>
       <div
