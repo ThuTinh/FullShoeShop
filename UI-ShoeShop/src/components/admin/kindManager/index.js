@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#FFFFFF",
     color: theme.palette.common.black
   },
   body: {

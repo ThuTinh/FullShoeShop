@@ -28,6 +28,7 @@ function FilterProduct(props) {
       setFilterCatelogy(tempCategory);
     } else {
       setFilterPrice(value);
+
     }
 
     console.log("test filter", filterPrice, filterCatelogy);
@@ -37,6 +38,7 @@ function FilterProduct(props) {
     //   temp[1] = temp[1] * 1000;
     //   setFilterPrice(temp)
     // }
+    
     props.filterProduct(filterCatelogy.join(","), filterPrice.join(","));
   };
 

@@ -83,7 +83,7 @@ function OrderManager() {
           <Tab label="Chờ lấy hàng" {...a11yProps(3)} />
           <Tab label="Đang giao" {...a11yProps(4)} />
           <Tab label="Đã giao" {...a11yProps(5)} />
-          <Tab label="Đã hủy" {...a11yProps(6)} />
+          {/* <Tab label="Đã hủy" {...a11yProps(6)} /> */}
           {/* <Tab label="Trả hàng/hoàn tiền" {...a11yProps(6)} /> */}
         </Tabs>
       </AppBar>
@@ -106,9 +106,9 @@ function OrderManager() {
       <TabPanel value={value} index={5} dir={theme.direction}>
         <ListOrder status="PAYED" />
       </TabPanel>
-      <TabPanel value={value} index={6} dir={theme.direction}>
+      {/* <TabPanel value={value} index={6} dir={theme.direction}>
         <ListOrder status="CANCEL" />
-      </TabPanel>
+      </TabPanel> */}
       {/* <TabPanel value={value} index={6} dir={theme.direction}>
           <ListOrder></ListOrder>
         </TabPanel> */}
