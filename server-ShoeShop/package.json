@@ -7,7 +7,14 @@
   "license": "ISC",
   "scripts": {
     "lint": "eslint module/** --fix",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    
+    "start:lambda": "netlify-lambda serve src/lambda",
+    "build": "run-p build:**",
+    "build:app": "react-scripts build",
+    "build:lambda": "netlify-lambda build src/lambda",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "axios": "^0.19.0",
