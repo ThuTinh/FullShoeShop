@@ -371,17 +371,24 @@ export const atcGetSupliers = supliers => {
   };
 };
 
+// export const atcCreateOrderSuplierRequest = order => {
+//   return dispatch => {
+//     return callApi("order-suplier", "POST", order)
+//       .then(res => {
+//         res.data.status == 1
+//           ? dispatch(atcSuccess("Tạo hóa đơn thành công!"))
+//           : dispatch(atcFail("Tạo đơn hàng không thành công!"));
+//       })
+//       .catch(err => dispatch(atcFail("Tạo đơn hàng không thành công!")));
+//   };
+// };
+
 export const atcCreateOrderSuplierRequest = order => {
   return dispatch => {
     return callApi("order-suplier", "POST", order)
-      .then(res => {
-        res.data.status == 1
-          ? dispatch(atcSuccess("Tạo hóa đơn thành công!"))
-          : dispatch(atcFail("Tạo đơn hàng không thành công!"));
-      })
-      .catch(err => dispatch(atcFail("Tạo đơn hàng không thành công!")));
   };
 };
+
 
 export const atcGetDetailOrderSuplierRequest = id => {
   return dispatch => {
@@ -817,3 +824,11 @@ export const atcPriceAndInventoryAll = (priceAll, inventoryAll) => {
     }
   };
 };
+
+export const atcCheckIsSave = (status)=>{
+  return {
+    type: 'SAVEORDER',
+    status: status
+
+  }
+}

@@ -11,7 +11,8 @@ import {
   atcAddDetailItemProductRequets,
   atcGetCurentUserRequest,
   atcUpdateDetailItemProductRequets,
-  atcPriceAndInventoryAll
+  atcPriceAndInventoryAll,
+  atcCheckIsSave
 } from "../../../../actions";
 import { connect } from "react-redux";
 import SnackbarContentWrapper from "../../../message";
@@ -49,7 +50,7 @@ function OrderImport(props) {
   const [products, setProducts] = useState([
     {
       maSanPham: "",
-      classification: { color: ["Màu"], size: [40] }
+      classification: { color: ["Màu"], size: ["40"] }
     }
   ]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -72,6 +73,10 @@ function OrderImport(props) {
   const [saveSucess, setSaveSuccess] = useState(false);
   const [priceAll, setPriceAll] = useState(0);
   const [inventoryAll, setInventoryAll] = useState(0);
+  const [validatePrice, setValidatePrice] = useState(false);
+  const [validateInventory, setValidateInventory] = useState(false);
+
+  let orderProductDetail = [];
   //Danh sách detail của sản phẩm trong model products
   // const [detailProducts, setDetailProducts] = useState([]);
 
@@ -129,7 +134,7 @@ function OrderImport(props) {
     let arr = products;
     let item = {
       maSanPham: "",
-      classification: { color: ["Màu"], size: [40] }
+      classification: { color: ["màu"], size: [40] }
     };
     arr.push(item);
     setProducts([...arr]);
@@ -182,12 +187,15 @@ function OrderImport(props) {
 
   const onReciveDetailProduct = detailProduct => {
     _setDetailProducts(detailProduct);
+    orderProductDetail = detailProduct;
     console.log("test detail product", _detailProducts);
   };
   const saveOrder = () => {
+    // props.checkIsSave(true);
     if (products && products.length > 0) {
       // thực hiện lưu order vào trong model orderSuplier
       let total = 0;
+      console.log("test order", orderProductDetail);
       for (let i = 0; i < _detailProducts.length; i++) {
         for (let j = 0; j < _detailProducts[i].detail.length; j++) {
           total +=
@@ -204,12 +212,18 @@ function OrderImport(props) {
           ? props.currenUser._id
           : "5dbedb5ba5592c2698f1992a"
       };
-      console.log("user", props.currenUser);
-      setOrderSuplier(order);
-      props.createOrderSuplier(order);
-
-      showMessage("success", "Thêm thành thành công!");
-      setSaveSuccess(true);
+      console.log("kakaka", _detailProducts);
+      // props
+      //   .createOrderSuplier(order)
+      //   .then(() => {
+      //     showMessage("success", "Tạo thành thành công!");
+      //     setTimeout(() => {
+      //       setSaveSuccess(true);
+      //     }, 1000);
+      //   })
+      //   .catch(() => {
+      //     showMessage("info", "Tạo thất bại");
+      //   });
     }
   };
 
@@ -229,7 +243,17 @@ function OrderImport(props) {
   }, [props.message]);
 
   const ApDung = () => {
-    props.makePriceAndInventoryAll(priceAll, inventoryAll);
+    if (priceAll < 1000) {
+      setValidatePrice(true);
+    }
+    if (inventoryAll < 0) {
+      setValidateInventory(true);
+    }
+    if (priceAll >= 1000 && inventoryAll > 0) {
+      setValidatePrice(false);
+      setValidateInventory(false);
+      props.makePriceAndInventoryAll(priceAll, inventoryAll);
+    }
   };
   return (
     <div>
@@ -272,7 +296,7 @@ function OrderImport(props) {
               <div>Giá</div>
               <input
                 type="number"
-                min = {1000}
+                min={1000}
                 className="input-apply"
                 placeholder="gia"
                 value={priceAll}
@@ -283,7 +307,7 @@ function OrderImport(props) {
               <div>Số lượng</div>
               <input
                 type="number"
-                min = {1}
+                min={1}
                 className="input-apply"
                 placeholder="số lượng"
                 value={inventoryAll}
@@ -294,6 +318,12 @@ function OrderImport(props) {
               Áp dụng
             </button>
           </div>
+          {validatePrice && (
+            <div className="form-warning">Giá nhập không hợp lệ</div>
+          )}
+          {validateInventory && (
+            <div className="form-warning">số lượng nhập không hợp lệ</div>
+          )}
         </div>
         {renderImportStockDetail()}
       </div>
@@ -334,7 +364,7 @@ const dispatchMapToProps = (dispatch, props) => {
       return dispatch(atcGetDetailProductRequest(id));
     },
     createOrderSuplier: order => {
-      dispatch(atcCreateOrderSuplierRequest(order));
+      return dispatch(atcCreateOrderSuplierRequest(order));
     },
     updateProduct: (id, data) => {
       dispatch(atcUpdateProductRequest(id, data));
@@ -353,6 +383,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     setStatusMessage: status => {
       // dispatch()
+    },
+    checkIsSave: status => {
+      dispatch(atcCheckIsSave(status));
     }
   };
 };

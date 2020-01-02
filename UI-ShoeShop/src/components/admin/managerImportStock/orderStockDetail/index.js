@@ -150,7 +150,7 @@ function OrderStockDetail(props) {
             let check = false;
             for (let k = 0; k < detailProduct.length; k++) {
               if (
-                orderDetailProduct[i].color == detailProduct[k].color &&
+                orderDetailProduct[i].color.toLowerCase() == detailProduct[k].color.toLowerCase() &&
                 orderDetailProduct[i].size == detailProduct[k].size
               ) {
                 //cập nhập lại số lượng của product detail
@@ -215,18 +215,12 @@ function OrderStockDetail(props) {
               <b>{order.employee.name}</b>
             </p>
           </div>
+        </div>
+        <div style={{ width: "50%" }}>
           <div style={{ display: "flex" }}>
             <div style={{ width: "150px" }}>Thời gian: </div>
             <p>
               <b>{new Date(order.createdAt).toDateString("yyyy-MM-dd")} </b>
-            </p>
-          </div>
-        </div>
-        <div style={{ width: "50%" }}>
-          <div style={{ display: "flex" }}>
-            <div style={{ width: "150px" }}>Trạng thái:</div>
-            <p>
-              <b>Đã duyệt</b>
             </p>
           </div>
           <div style={{ display: "flex" }}>

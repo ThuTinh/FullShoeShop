@@ -52,33 +52,6 @@ function OrderStockList(props) {
     console.log("ordersSuplier ne", props.ordersSuplier);
   }, [props.ordersSuplier]);
 
-  // const renderOrderStockItem = () => {
-  //   var result = "";
-  //   var orders = props.ordersSuplier;
-  //   if (orders && orders.length > 0) {
-  //     result = orders.map((order, index) => {
-  //       if (order.suplierId != null) {
-  //         return (
-  //           <OrderStockItem
-  //             order={order}
-  //             index={index}
-  //             key={index}
-  //             getDetailOrderSuplier={props.getDetailOrderSuplier}
-  //             deleteOrderSuplier={props.deleteOrderSuplier}
-  //             status={props.status}
-  //           />
-  //         );
-  //       } else {
-  //         return null;
-  //       }
-  //     });
-  //   }
-  //   return result;
-  // };
-  // const clearSearch = () => {
-  //   // setFilter("");
-  //   // props.getProducts();
-  // };
   const columns = [
     {
       name: "suplierId.name",
@@ -120,19 +93,21 @@ function OrderStockList(props) {
   };
 
   const RenderDataTable = () => {
-    console.log("stockordekakar",  props.ordersSuplier);
+    console.log("stockordekakar", props.ordersSuplier);
     let data = [];
     console.log("status", props.status);
     if (props.ordersSuplier && props.ordersSuplier.length > 0) {
-     const temp =  props.ordersSuplier;
-      data =temp
+      const temp = props.ordersSuplier;
+      data = temp
         .filter(order => order.status == props.status || props.status == "ALL")
         .sort(compare)
         .map((order, index) => {
           order.createdAt = new Date(order.createdAt).toDateString(
             "yyyy-MM-dd"
           );
-          order.totalPrice = parseInt(order.totalPrice).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+          order.totalPrice = parseInt(order.totalPrice)
+            .toFixed(2)
+            .replace(/\d(?=(\d{3})+\.)/g, "$&,");
           return order;
         });
     }

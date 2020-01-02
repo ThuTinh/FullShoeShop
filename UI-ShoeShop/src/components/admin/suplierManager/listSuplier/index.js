@@ -88,7 +88,8 @@ function ListSuplier(props) {
     });
   };
 
-  const createSuplier = () => {
+  const createSuplier = e => {
+    e.preventDefault();
     if (isUpdate) {
       props.updateSUplier(idUpdate, suplier);
       setIsUpdate(false);
@@ -205,7 +206,7 @@ function ListSuplier(props) {
           <div className={classes.paper}>
             <h3 id="transition-modal-title">Thông tin nhà cung cấp</h3>
             <div id="transition-modal-description">
-              <form>
+              <form onSubmit={createSuplier}>
                 <div>
                   <label className={classes.label}>Tên NCC</label>
                   <input
@@ -249,14 +250,13 @@ function ListSuplier(props) {
                   />
                 </div>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <button className="fill-button" onClick={()=> setOpen(false)}>
-                    Hủy
-                  </button>
                   <button
                     className="fill-button"
-                    onClick={createSuplier}
-                    type="submit"
+                    onClick={() => setOpen(false)}
                   >
+                    Hủy
+                  </button>
+                  <button className="fill-button" type="submit">
                     Lưu
                   </button>
                 </div>

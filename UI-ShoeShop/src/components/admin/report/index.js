@@ -152,10 +152,10 @@ function Report() {
           }}
         >
           <button className="outline-button" onClick={report}>
-            Báo đơn nhập
+            Báo cáo đơn nhập
           </button>
           <button className="outline-button" onClick={reportOrder}>
-            Báo đơn mua
+            Báo cáo đơn mua
           </button>
         </div>
       </div>

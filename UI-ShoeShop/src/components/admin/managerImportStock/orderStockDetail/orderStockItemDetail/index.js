@@ -52,11 +52,11 @@ function OrderStockItemDetail(props) {
                 {props.product.detail[index].price}
               </TableCell>
               <TableCell align="center">
-                {props.product.detail[index].inventory}
+                {props.product.detail[index].inventory} 
               </TableCell>
-              <TableCell align="center">
+              {/* <TableCell align="center">
                 {props.product.detail[index].amountSold}
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           );
           result.push(item);
@@ -75,9 +75,9 @@ function OrderStockItemDetail(props) {
                 <TableCell align="center">
                   {props.product.detail[index].inventory}
                 </TableCell>
-                <TableCell align="center">
+                {/* <TableCell align="center">
                   {props.product.detail[index].amountSold}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             );
             result.push(item);
@@ -95,9 +95,9 @@ function OrderStockItemDetail(props) {
                 <TableCell align="center">
                   {props.product.detail[index].inventory}
                 </TableCell>
-                <TableCell align="center">
+                {/* <TableCell align="center">
                   {props.product.detail[index].amountSold}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             );
             result.push(item);

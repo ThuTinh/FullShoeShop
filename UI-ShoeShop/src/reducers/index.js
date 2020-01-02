@@ -20,7 +20,8 @@ import order from "./order";
 import favoriteProducts from "./favoriteProducts";
 import customer from "./customer";
 import message from "./message";
-import priceAndInventoyAll from './priceAndInventoryAll'
+import priceAndInventoyAll from './priceAndInventoryAll';
+import saveOrderSuplier from './saveOrderSuplier'
 const reducerControler = combineReducers({
   login,
   sign,
@@ -42,7 +43,8 @@ const reducerControler = combineReducers({
   order,
   favoriteProducts,
   customer,
-  message,priceAndInventoyAll
+  message,priceAndInventoyAll,
+  saveOrderSuplier
 });
 
 export default reducerControler;

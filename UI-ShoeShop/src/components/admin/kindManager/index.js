@@ -69,7 +69,7 @@ function KindManager(props) {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
   const [variantMessage, setVariantMessage] = useState("info");
-
+  const [validateCategory, setValidateCategory] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -98,7 +98,7 @@ function KindManager(props) {
             key={index}
             category={category}
             edit={editCategory}
-            delete = {deleteCategory}
+            delete={deleteCategory}
           ></KindItem>
         );
       });
@@ -106,15 +106,14 @@ function KindManager(props) {
     return result;
   };
 
-  const deleteCategory  = (id)=>{
+  const deleteCategory = id => {
     try {
       props.deleteCategory(id);
       showMessage("success", "xóa thành công!");
     } catch (error) {
       showMessage("info", "Xóa không thành công!");
     }
-      
-  }
+  };
   const editCategory = categoryedit => {
     if (props.categories && props.categories.length > 0) {
       props.categories.map((category, index) => {
@@ -129,36 +128,39 @@ function KindManager(props) {
   };
 
   const createCategory = () => {
-    var id = "";
-    if (props.categories && props.categories.length > 0) {
-      props.categories.map((category, index) => {
-        if (parent == category.name) {
-          id = category._id;
+    if (nameCategory.length > 0) {
+      var id = "";
+      if (props.categories && props.categories.length > 0) {
+        props.categories.map((category, index) => {
+          if (parent == category.name) {
+            id = category._id;
+          }
+        });
+      }
+
+      let category = {
+        parent: id,
+        name: nameCategory
+      };
+      if (idUpdate.length > 0) {
+        try {
+          props.updatecategory(idUpdate, category);
+          showMessage("success", "Cập nhập thành công!");
+        } catch (error) {
+          showMessage("info", "Cập nhập không thành công!");
         }
-      });
-    }
-
-    let category = {
-      parent: id,
-      name: nameCategory
-    };
-    if (idUpdate.length > 0) {
-      try {
-        props.updatecategory(idUpdate, category);
-        showMessage("success", "Cập nhập thành công!");
-      } catch (error) {
-        showMessage("info", "Cập nhập không thành công!");
+      } else {
+        try {
+          props.createCategory(category);
+          showMessage("success", "Tạo thành công!");
+        } catch (error) {
+          showMessage("info", "Tạo không thành công!");
+        }
       }
+      handleClose();
     } else {
-      try {
-        props.createCategory(category);
-        showMessage("success", "Tạo thành công!");
-      } catch (error) {
-        showMessage("info", "Tạo không thành công!");
-      }
+      setValidateCategory(true);
     }
-
-    handleClose();
   };
 
   const handleCloseSnackbar = (event, reason) => {
@@ -173,6 +175,17 @@ function KindManager(props) {
     setVariantMessage(variant);
     setMessage(message);
     setOpenSnackbar(true);
+  };
+
+  const FormError = props => {
+    if (props.isHidden) {
+      return null;
+    }
+    return (
+      <div className="form-warning">
+        <i> {props.errorMessage} </i>
+      </div>
+    );
   };
   return (
     <div>
@@ -242,6 +255,10 @@ function KindManager(props) {
                   onChange={e => {
                     setNameCategory(e.target.value);
                   }}
+                />
+                <FormError
+                  isHidden={validateCategory}
+                  errorMessage="Tên loại không được bỏ trống"
                 />
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>

@@ -12,6 +12,10 @@ function PriceAndQualityItem(props) {
   const [inventory, setInventory] = useState(
     props.detail ? props.detail.inventory : 0
   );
+  const [save, setSave] = useState(false);
+
+  const [validatePrice, setValidatePrice] = useState(false);
+  const [validateQuantity, setValidateQuantity] = useState(false);
 
   // const onChangePrice = e => {
   //   setContent({
@@ -30,8 +34,20 @@ function PriceAndQualityItem(props) {
       price: props.priceAndInventoyAll.priceAll,
       inventory: props.priceAndInventoyAll.inventoryAll
     };
-    props.onRecive(props.index, props.indexColor, props.indexSize, content);
+    // if (
+    //   price != props.priceAndInventoyAll.priceAll ||
+    //   inventory != props.priceAndInventoyAll.inventoryAll
+    // )
+    if (!save) {
+      props.onRecive(props.index, props.indexColor, props.indexSize, content);
+      console.log("thay đổi");
+    }
   }, [props.priceAndInventoyAll]);
+
+  useEffect(() => {
+    setSave(props.saveOrderSuplier);
+  }, [props.saveOrderSuplier]);
+
   const onChangePrice = e => {
     setPrice(e.target.value);
     const content = {
@@ -81,7 +97,8 @@ function PriceAndQualityItem(props) {
 }
 const stateMapToProps = (state, props) => {
   return {
-    priceAndInventoyAll: state.priceAndInventoyAll
+    priceAndInventoyAll: state.priceAndInventoyAll,
+    saveOrderSuplier: state.saveOrderSuplier
   };
 };
 export default connect(stateMapToProps, null)(PriceAndQualityItem);

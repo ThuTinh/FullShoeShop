@@ -121,7 +121,11 @@ function CartResult(props) {
     localStorage.removeItem("total");
     props.addToCart(-props.count);
     props.calculateTotalPrice(-props.totalPrice);
-    setOrdered(true);
+    showMessage("info", "Mua hàng thành công!!");
+
+    setTimeout(() => {
+      setOrdered(true);
+    }, 1000);
     console.log("order da order ne", order);
   };
   return (
@@ -172,7 +176,7 @@ function CartResult(props) {
               Đặt hàng
             </button>
           )}
-          {ordered && <Redirect to="/my-acount/orders" />}
+          {ordered && <Redirect to="/" />}
         </StyledTableCell>
       </StyledTableRow>
       <Snackbar

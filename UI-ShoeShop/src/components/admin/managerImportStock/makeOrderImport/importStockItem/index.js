@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import InputItem from "./subItem";
+import color from "@material-ui/core/colors/amber";
 const useStyles = makeStyles(them => ({
   deleteIcon: {
     color: "#512C62",
@@ -21,7 +22,10 @@ function ImportStockItem(props) {
     props.product.classification ? props.product.classification.color : []
   );
   const [idSanPham, setIdSanPham] = useState("");
-
+  const [validateSize, setValidateSize] = useState(false);
+  const [validateColor, setValidateColor] = useState(false);
+  const [messageSize, setMessageSize] = useState("");
+  const [messageColor, setMessageColor] = useState("");
   const onRemove = () => {
     props.onRemove(props.index);
   };
@@ -56,7 +60,7 @@ function ImportStockItem(props) {
             index={index}
             onRemove={onSubColorRemove}
             reciveContentInput={reciveContentInputColor}
-            type = "text"
+            type="text"
           />
         );
       });
@@ -66,7 +70,7 @@ function ImportStockItem(props) {
 
   const reciveContentInputColor = (index, contentInput) => {
     let arrColor = colors;
-    arrColor[index] = contentInput;
+    arrColor[index] = contentInput.toLowerCase();
     setColors(arrColor);
 
     // let product = {
@@ -89,7 +93,7 @@ function ImportStockItem(props) {
             index={index}
             onRemove={onSubSizeRemove}
             reciveContentInput={reciveContentInputSize}
-            type = "number"
+            type="number"
           />
         );
       });
@@ -124,37 +128,85 @@ function ImportStockItem(props) {
 
   const renderOption = () => {
     var result = "";
-    if(props.suplierProducts && props.suplierProducts.length>0){
-      result = props.suplierProducts.map((suplierProduct, index)=>{
-      return  <option value = {suplierProduct._id}>{suplierProduct.name}</option>
-      })
+    if (props.suplierProducts && props.suplierProducts.length > 0) {
+      result = props.suplierProducts.map((suplierProduct, index) => {
+        return (
+          <option value={suplierProduct._id}>{suplierProduct.name}</option>
+        );
+      });
     }
     return result;
   };
 
-  useEffect(()=>{
-    if(props.suplierProducts && props.suplierProducts.length>0){
+  useEffect(() => {
+    if (props.suplierProducts && props.suplierProducts.length > 0) {
       setIdSanPham(props.suplierProducts[0]._id);
     }
-  },[props.suplierProducts])
+  }, [props.suplierProducts]);
 
-  const confirmInfoProductDetail = ()=>{
-    let product = {
-      maSanPham: idSanPham,
-      classification: {
-        color: colors,
-        size: sizes
-      },
-      
-    };
-    props.reciveProduct(props.index, product);
-  }
+  const confirmInfoProductDetail = () => {
+    var setColor = new Set(
+      colors.map((color, index) => {
+        return color.toLowerCase();
+      })
+    );
 
-  const selectMaSanPham = (e)=>{
+    const empityColor = colors.filter(color => color.length == 0);
+    const empitiSize = sizes.filter(size => size.length == 0);
+    const hoplesize = sizes.filter(size => size < 35 || size > 45);
+    if (colors.length > setColor.size) {
+      setValidateColor(true);
+      setMessageColor("Màu không được trùng!!");
+    } else {
+      if (empityColor.length > 0) {
+        setValidateColor(true);
+        setMessageColor("Không được để trống");
+      }
+    }
+
+    if (empitiSize.length > 0) {
+      setValidateSize(true);
+      setMessageSize("Size không được để trống");
+    } else {
+      if (hoplesize.length > 0) {
+        setValidateSize(true);
+        setMessageSize(
+          "size không hợp lệ, size phải nằm trong khoảng 35 đến 45"
+        );
+      }
+    }
+    if (
+      empityColor.length == 0 &&
+      colors.length == setColor.size &&
+      empitiSize.length == 0 &&
+      hoplesize.length == 0
+    ) {
+      let product = {
+        maSanPham: idSanPham,
+        classification: {
+          color: colors,
+          size: sizes
+        },
+      };
+      props.reciveProduct(props.index, product);
+      setValidateSize(false);
+      setValidateColor(false);
+    }
+  };
+
+  const selectMaSanPham = e => {
     setIdSanPham(e.target.value);
-  }
+  };
   return (
-    <div style={{ marginBottom: "100px", paddingLeft: "15%" , border:'1px solid #C4C4C4', backgroundColor:'#F0F0F0', paddingTop:'10px'}}>
+    <div
+      style={{
+        marginBottom: "100px",
+        paddingLeft: "15%",
+        border: "1px solid #C4C4C4",
+        backgroundColor: "#F0F0F0",
+        paddingTop: "10px"
+      }}
+    >
       <Grid container>
         <Grid
           container
@@ -162,9 +214,8 @@ function ImportStockItem(props) {
           direction="row"
           justify="space-between"
           alignItems="flex-start"
-         
         >
-          <Grid item >
+          <Grid item>
             <div style={{ marginBottom: "30px" }}>
               <label
                 style={{
@@ -175,12 +226,15 @@ function ImportStockItem(props) {
               >
                 Tên Sản phẩm:{" "}
               </label>
-              <select style={{ width: "200px", height: "40px" }}  onChange = {(e)=>selectMaSanPham(e)}>
+              <select
+                style={{ width: "200px", height: "40px" }}
+                onChange={e => selectMaSanPham(e)}
+              >
                 {renderOption()}
               </select>
             </div>
           </Grid>
-          <Grid item style={{marginTop:'-10px'}}>
+          <Grid item style={{ marginTop: "-10px" }}>
             <div>
               <HighlightOffIcon
                 onClick={onRemove}
@@ -202,7 +256,9 @@ function ImportStockItem(props) {
               alignItems="flex-start"
             >
               {renderColorItem()}
-
+              {validateColor && (
+                <div className="form-warning">{messageColor}</div>
+              )}
               <Grid item alignItems="flex-end">
                 <button
                   className="outline-button"
@@ -233,7 +289,9 @@ function ImportStockItem(props) {
               item
             >
               {renderSizeItem()}
-
+              {validateSize && (
+                <div className="form-warning">{messageSize}</div>
+              )}
               <Grid>
                 <button
                   onClick={addSize}
@@ -249,12 +307,16 @@ function ImportStockItem(props) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid sm = {8}>  
-        <Grid container justify = "center">
-        <button className = "outline-button" onClick = {confirmInfoProductDetail}>Xác nhận</button>
+        <Grid sm={8}>
+          <Grid container justify="center">
+            <button
+              className="outline-button"
+              onClick={confirmInfoProductDetail}
+            >
+              Xác nhận
+            </button>
+          </Grid>
         </Grid>
-        </Grid>
-       
       </Grid>
     </div>
   );

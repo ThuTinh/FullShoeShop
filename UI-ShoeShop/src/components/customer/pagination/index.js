@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { IconButton, Paper } from "@material-ui/core";
+import React, { useState } from "react";
+import { IconButton } from "@material-ui/core";
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
 import "./style.css";
 
 function Pagination(props) {
@@ -13,16 +15,16 @@ function Pagination(props) {
     console.log("totalItem / itemPerPage", totalItem / itemPerPage);
     for (let i = 1; i <= Math.ceil(totalItem / itemPerPage); i++) {
       const item = (
-        <IconButton
+        <button
           key={i}
           onClick={() => {
             props.changeCurentPage(i);
             setChoosePage(i);
           }}
-          style={{ backgroundColor: choosePage == i ? "#F0C366" : "#F5F5F5" , margin:'4px'}}
+          style={{ backgroundColor: choosePage == i ? "#F0C366" : "#F5F5F5" , margin:'4px', width:'40px', height:"40px", border:'none', borderRadius:'50%'}}
         >
           {i}
-        </IconButton>
+        </button>
       );
       result.push(item);
     }
@@ -42,9 +44,9 @@ function Pagination(props) {
   };
   return (
     <div style={{ textAlign: "center" }}>
-      <IconButton onClick={privious}>{"<"}</IconButton>
+      <IconButton onClick={privious}><SkipPreviousIcon/></IconButton>
       <RenderPage />
-      <IconButton onClick={next}>{">"}</IconButton>
+      <IconButton onClick={next}><SkipNextIcon/></IconButton>
     </div>
   );
 }

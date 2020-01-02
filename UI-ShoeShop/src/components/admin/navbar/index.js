@@ -347,15 +347,16 @@ function AdminHome(props) {
               </Link>
             </ListItem>
           )}
-
-          <ListItem button key="Báo cáo">
-            <ListItemIcon>
-              <ReportIcon style={{ color: "#d9a128" }}></ReportIcon>
-            </ListItemIcon>
-            <Link to="/admin/report" className={classes.link}>
-              <ListItemText primary="Báo cáo" />
-            </Link>
-          </ListItem>
+          {role && (role == "saleman" || role == "admin") && (
+            <ListItem button key="Báo cáo">
+              <ListItemIcon>
+                <ReportIcon style={{ color: "#d9a128" }}></ReportIcon>
+              </ListItemIcon>
+              <Link to="/admin/report" className={classes.link}>
+                <ListItemText primary="Báo cáo" />
+              </Link>
+            </ListItem>
+          )}
         </List>
       </Drawer>
 
@@ -430,7 +431,7 @@ function AdminHome(props) {
               />
             )}
 
-            {role && role === "admin" && (
+            {role && (role === "saleman" || role === "admin") && (
               <Route path="/admin/report" component={Report} />
             )}
 

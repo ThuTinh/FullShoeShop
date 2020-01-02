@@ -33,7 +33,7 @@ function CustomerRoute(props) {
     <div>
       <Navbars countCarts={countCarts}></Navbars>
       <Switch>
-        <Route path="/cart" component={CartPage} />}
+        <Route path="/cart" component={CartPage} />
         {role && (
           <Route path="/product/purchase" component={InfoPurchasePage} />
         )}

@@ -169,7 +169,12 @@ function ProductDetail(props) {
     }
     return result;
   };
+
   const addProduct = () => {
+    if (quanlity.length == 0) {
+      setQuanlity(1);
+    }
+    const tempQuanlity = quanlity.length == 0 ? 1 : quanlity;
     if (props.currentUser && props.currentUser.role) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
@@ -183,11 +188,11 @@ function ProductDetail(props) {
             product.sale != "0"
               ? Math.ceil(parseInt(tempPrice * (1 - product.sale / 100)))
               : tempPrice,
-          quantity: quanlity,
+          quantity: tempQuanlity,
           img: product.images.length > 0 ? product.images[0] : "",
           name: product.nameShow != "" ? product.nameShow : product.name
         };
-        props.addToCart(parseInt(quanlity));
+        props.addToCart(parseInt(tempQuanlity));
         let tempRoductOrder = JSON.parse(localStorage.getItem("ProductOrders"));
         if (tempRoductOrder) {
           let check = false;
@@ -197,7 +202,7 @@ function ProductDetail(props) {
               tempRoductOrder[i].size == productOrder.size
             ) {
               tempRoductOrder[i].quantity =
-                parseInt(tempRoductOrder[i].quantity) + 1;
+                parseInt(tempRoductOrder[i].quantity) + parseInt(tempQuanlity);
               check = true;
               console.log(
                 " tempRoductOrder[i].quanlity",
@@ -222,24 +227,25 @@ function ProductDetail(props) {
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
-        total += parseInt(tempPrice) * parseInt(quanlity);
+        total += parseInt(tempPrice) * parseInt(tempQuanlity);
         localStorage.setItem("total", total);
         setChooseColor("");
         setChooseSize("");
         showMessage("info", "Thêm sản phẩm thành công!");
 
         //  var storedNames = JSON.parse(localStorage.getItem("ProductOrders"));
-       
       }
     } else {
       setIsLogin(false);
     }
-   
   };
 
   const buyProduct = () => {
-    console.log("props.currentUser",props.currentUser)
-    if (props.currentUser && props.currentUser.role ) {
+    if (quanlity.length == 0) {
+      setQuanlity(1);
+    }
+    const tempQuanlity = quanlity.length == 0 ? 1 : quanlity;
+    if (props.currentUser && props.currentUser.role) {
       if (chooseColor == "" || chooseSize == "") {
         setCheckChoose(true);
       } else {
@@ -253,7 +259,7 @@ function ProductDetail(props) {
               product.sale != "0"
                 ? Math.ceil(parseInt(tempPrice * (1 - product.sale / 100)))
                 : tempPrice,
-            quantity: quanlity,
+            quantity: tempQuanlity,
             img: product.images.length > 0 ? product.images[0] : "",
             name: product.nameShow != "" ? product.nameShow : product.name
           };
@@ -269,7 +275,8 @@ function ProductDetail(props) {
                 tempRoductOrder[i].size == productOrder.size
               ) {
                 tempRoductOrder[i].quantity =
-                  parseInt(tempRoductOrder[i].quantity) + 1;
+                  parseInt(tempRoductOrder[i].quantity) +
+                  parseInt(tempQuanlity);
                 console.log(
                   "tempRoductOrder[i].quanlity",
                   tempRoductOrder[i].quantity
@@ -294,11 +301,11 @@ function ProductDetail(props) {
           let total = localStorage.getItem("total")
             ? parseInt(localStorage.getItem("total"))
             : 0;
-          total += parseInt(product.price) * parseInt(quanlity);
+          total += parseInt(product.price) * parseInt(tempQuanlity);
           localStorage.setItem("total", total);
           setChooseColor("");
           setChooseSize("");
-          props.addToCart(parseInt(quanlity));
+          props.addToCart(parseInt(tempQuanlity));
           setIsBuy(true);
         }
       }
@@ -308,21 +315,26 @@ function ProductDetail(props) {
   };
 
   const bookProduct = () => {
-    if(props.currentUser && props.currentUser.role){
+    const tempQuanlity = quanlity.length == 0 ? 1 : quanlity;
+    if (quanlity.length == 0) {
+      setQuanlity(1);
+    }
+
+    if (props.currentUser && props.currentUser.role) {
       let products = [];
       const itemProduct = {
         productId: product._id,
         color: chooseColor,
         size: chooseSize,
         price: product.price,
-        inventory: parseInt(quanlity)
+        inventory: parseInt(tempQuanlity)
       };
       products.push(itemProduct);
-  
-      console.log("item product",itemProduct);
+
+      console.log("item product", itemProduct);
       const order = {
         products: products,
-        totalPrice: product.price * quanlity,
+        totalPrice: product.price * parseInt(tempQuanlity),
         userId: props.currentUser._id,
         name: props.currentUser.name,
         email: props.currentUser.email,
@@ -334,17 +346,15 @@ function ProductDetail(props) {
       showMessage("info", "Book sản phẩm thành công!");
       setChooseColor("");
       setChooseColor("");
-    }else{
+    } else {
       setIsLogin(false);
     }
-    
-
   };
   const RenderInventory = () => {
     setCheckAddOrBuy(false);
     setOutOfStock(false);
     if (chooseSize != "" && chooseColor != "") {
-      setCheckChoose(false)
+      setCheckChoose(false);
       if (product.detail && product.detail.length > 0) {
         let inventory = 0;
         for (let i = 0; i < product.detail.length; i++) {
@@ -512,7 +522,14 @@ function ProductDetail(props) {
                   }}
                   value={quanlity}
                   name="quanlity"
-                  onChange={e => setQuanlity(e.target.value)}
+                  onChange={e => {
+                    console.log("só lượng", e.target.value);
+                    if (e.target.value < 0) {
+                      setQuanlity(1);
+                    } else {
+                      setQuanlity(e.target.value);
+                    }
+                  }}
                   min={1}
                 />
                 <RenderInventory />

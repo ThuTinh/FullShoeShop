@@ -10,28 +10,30 @@ import {
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Grid } from "@material-ui/core";
 import Pagination from "../pagination";
+import { Redirect } from "react-router-dom";
 
 function ProductList(props) {
   const [user, setUser] = useState(props.currentUser);
   const [isLoading, setIsLoading] = useState(true);
-  const itemPerPage = 20;
-  const  [curentPage, setCurentPage] = useState(1);
+  const itemPerPage = 12;
+  const [curentPage, setCurentPage] = useState(1);
+  const [showPagination, setShowaPagination] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const RenderProductList = () => {
     console.log("ls products", props.products);
     var result = [];
     const products = props.products;
     for (let i = (curentPage - 1) * itemPerPage; i < products.length; i++) {
-      if(i < itemPerPage *curentPage ){
+      if (i < itemPerPage * curentPage) {
         const item = (
           <Grid item md={3} xs={6} key={i}>
             <ProductItem product={products[i]} addFavourite={addFaccvourite} />
           </Grid>
         );
         result.push(item);
-      }else{
+      } else {
         break;
       }
-     
     }
     // if (products && products.length > 0) {
     //   result = products.map((product, index) => {
@@ -45,6 +47,7 @@ function ProductList(props) {
     if (result.length > 0) {
       return result;
     } else {
+      setShowaPagination(false);
       return (
         <div>
           <h2>Không có sản phẩm nào được tìm thấy!!</h2>
@@ -53,17 +56,21 @@ function ProductList(props) {
     }
   };
 
-  const changeCurentPage = (curentPage)=>{
+  const changeCurentPage = curentPage => {
     setCurentPage(curentPage);
-  }
+  };
 
   const addFaccvourite = productId => {
-    let body = {
-      productId: productId,
-      id: user._id
-    };
-    console.log("body", body);
-    props.addFaccvourite(body);
+    if (props.currentUser && props.currentUser._id) {
+      let body = {
+        productId: productId,
+        id: user._id
+      };
+
+      props.addFaccvourite(body);
+    } else {
+      setIsLogin(true);
+    }
   };
   useEffect(() => {
     props.getProducts();
@@ -78,6 +85,7 @@ function ProductList(props) {
   useEffect(() => {
     if (props.products && props.products.length > 0) {
       setIsLoading(false);
+      setShowaPagination(true);
     }
   }, [props.products]);
 
@@ -87,6 +95,7 @@ function ProductList(props) {
   }, [props.currentUser]);
   return (
     <>
+      {isLogin && <Redirect to="/login" />}
       {isLoading && (
         <div style={{ width: "100%", textAlign: "center" }}>
           <CircularProgress
@@ -97,7 +106,14 @@ function ProductList(props) {
       <Grid container spacing={2}>
         {!isLoading && <RenderProductList />}
       </Grid>
-      <Pagination totalItem={props.products.length} itemPerPage={itemPerPage} changeCurentPage = {changeCurentPage} curentPage = {curentPage} />
+      {showPagination && (
+        <Pagination
+          totalItem={props.products.length}
+          itemPerPage={itemPerPage}
+          changeCurentPage={changeCurentPage}
+          curentPage={curentPage}
+        />
+      )}
     </>
   );
 }
