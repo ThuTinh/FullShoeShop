@@ -10,6 +10,7 @@ import NotFoundPage from "../pages/notFound";
 import { connect } from "react-redux";
 import { atcGetCurentUserRequest } from "../actions";
 
+
 function App(props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
