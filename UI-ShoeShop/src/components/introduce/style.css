@@ -9,7 +9,7 @@ h4 {
 	display: block;
 }
 
-p{
+.format-p{
 	display: block;
 	margin-block-start: 1em;
 	margin-block-end: 1em;

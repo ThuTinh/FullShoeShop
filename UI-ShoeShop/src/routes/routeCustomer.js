@@ -39,10 +39,7 @@ function CustomerRoute(props) {
         )}
         <Route path="/product-detail/:id" component={ProductDetailPage} />
         {role && <Route path="/my-acount" component={ProfilePage} />}
-        {role && <Route path="/introduce" component={IntroducePage} />}
-        {/* { _routes && _routes.map((route, index) => 
-           <Route path={route.url} component={route.component} />
-        )} */}
+        <Route path="/introduce" component={IntroducePage} />
         <Route path="/" component={CustomHomePage} exact={true} />
         <Route path="**" component={NotFoundPage} />
       </Switch>

@@ -160,7 +160,7 @@ class Navbars extends React.Component {
     // return focus to the button when we transitioned from !open -> open
     return (
       <div>
-        {console.log(this.props.currentUser,'user ne ne')}
+        {console.log(this.props.currentUser, "user ne ne")}
         <div className="menu-container">
           {this.state.isLogout && <Redirect to="/" />}
           <nav className={this.state.visible ? "menu" : "menu-scroll"}>
@@ -211,15 +211,12 @@ class Navbars extends React.Component {
                   Khuyến mãi
                 </li>
                 {/* <li>Khuyến mãi</li> */}
-                
-                { !this.props.currentUser.role && (
-                    <li>
-                      <Link to="/introduce" className="format-link">
-                        Giới thiệu shop
-                      </Link>
-                    </li>
-                  )}
 
+                <li>
+                  <Link to="/introduce" className="format-link">
+                    Giới thiệu shop
+                  </Link>
+                </li>
 
                 <li>
                   <PersonIcon className="icon-person"></PersonIcon>
@@ -248,7 +245,7 @@ class Navbars extends React.Component {
                           )}
                       </>
                     )}
-                    { !this.props.currentUser.role && (
+                    {!this.props.currentUser.role && (
                       <>
                         <li>
                           <Link to="/login" className="format-link">
@@ -376,16 +373,15 @@ class Navbars extends React.Component {
               Khuyến mãi
             </li>
             {/* <li>Khuyến mãi</li> */}
-            {!this.props.currentUser.role &&
-               (
-                <>
-                  <li>
-                    <Link to="/introduce" className="format-link">
-                      Giới thiệu shop
-                    </Link>
-                  </li>
-                </>
-              )}
+            {!this.props.currentUser.role && (
+              <>
+                <li>
+                  <Link to="/introduce" className="format-link">
+                    Giới thiệu shop
+                  </Link>
+                </li>
+              </>
+            )}
             {this.props.currentUser && this.props.currentUser._id && (
               <>
                 <li>
@@ -400,7 +396,8 @@ class Navbars extends React.Component {
                   </Link>
                 </li>
                 <li onClick={this.signnOut}>Đăng Xuất</li>
-                {this.props.currentUser && this.props.currentUser.role &&
+                {this.props.currentUser &&
+                  this.props.currentUser.role &&
                   this.props.currentUser.role != "customer" && (
                     <li>
                       <Link to="/admin" className="format-link">
@@ -410,21 +407,20 @@ class Navbars extends React.Component {
                   )}
               </>
             )}
-            {!this.props.currentUser.role &&
-               (
-                <>
-                  <li>
-                    <Link to="/login" className="format-link">
-                      Đăng nhập
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/sign" className="format-link">
-                      Đăng kí
-                    </Link>
-                  </li>
-                </>
-              )}
+            {!this.props.currentUser.role && (
+              <>
+                <li>
+                  <Link to="/login" className="format-link">
+                    Đăng nhập
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/sign" className="format-link">
+                    Đăng kí
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
