@@ -9,6 +9,8 @@ import "react-id-swiper/lib/styles/css/swiper.css";
 import NotFoundPage from "../pages/notFound";
 import { connect } from "react-redux";
 import { atcGetCurentUserRequest } from "../actions";
+import IntroducePage from "../pages/introducePage";
+
 
 function App(props) {
   useEffect(() => {
@@ -32,6 +34,7 @@ function App(props) {
           <Route path="/login" component={loginPage} />
         )}
         {!props.currentUser.role && <Route path="/sign" component={SignPage} />}
+        {!props.currentUser.role && <Route path="/introduce" component={IntroducePage} />}
         <Route path="/" component={CustomerRoute} />
         <Route path="**" component={NotFoundPage} />
       </Switch>

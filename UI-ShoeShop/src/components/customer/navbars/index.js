@@ -211,7 +211,16 @@ class Navbars extends React.Component {
                   Khuyến mãi
                 </li>
                 {/* <li>Khuyến mãi</li> */}
-                <li>Giới thiệu shop</li>
+                
+                { !this.props.currentUser.role && (
+                    <li>
+                      <Link to="/introduce" className="format-link">
+                        Giới thiệu shop
+                      </Link>
+                    </li>
+                  )}
+
+
                 <li>
                   <PersonIcon className="icon-person"></PersonIcon>
                   <ul className="menu-person">
@@ -367,7 +376,16 @@ class Navbars extends React.Component {
               Khuyến mãi
             </li>
             {/* <li>Khuyến mãi</li> */}
-            <li>Giới thiệu shop</li>
+            {!this.props.currentUser.role &&
+               (
+                <>
+                  <li>
+                    <Link to="/introduce" className="format-link">
+                      Giới thiệu shop
+                    </Link>
+                  </li>
+                </>
+              )}
             {this.props.currentUser && this.props.currentUser._id && (
               <>
                 <li>
