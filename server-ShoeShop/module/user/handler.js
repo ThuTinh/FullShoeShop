@@ -125,6 +125,7 @@ const removeFavoriteProduct = async (userid, productId) => {
     .select("favoriteProducts")
     .populate("favoriteProducts");
 };
+
 const updateAvatar = async (id, avatar) => {
   const user = await User.findById(mongoose.Types.ObjectId(id));
   if (!user) {

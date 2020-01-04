@@ -31,7 +31,7 @@ const schema = new Schema(
       type: String,
       required: [true, "is required"],
       trim: true,
-      index: true
+     
     },
 
     // inventory: {
@@ -41,7 +41,8 @@ const schema = new Schema(
     // },
     nameShow: {
       type: String,
-      trim: true
+      trim: true,
+      index: true
     },
     rating: [rating],
     price: {
@@ -130,7 +131,7 @@ const schema = new Schema(
     timestamps: true
   }
 );
-const index = { name: "text" };
+const index = { nameShow: "text" };
 schema.index(index);
 schema.pre("find", function() {
   this.where({ deleted: false });

@@ -150,7 +150,8 @@ function OrderStockDetail(props) {
             let check = false;
             for (let k = 0; k < detailProduct.length; k++) {
               if (
-                orderDetailProduct[i].color.toLowerCase() == detailProduct[k].color.toLowerCase() &&
+                orderDetailProduct[i].color.toLowerCase() ==
+                  detailProduct[k].color.toLowerCase() &&
                 orderDetailProduct[i].size == detailProduct[k].size
               ) {
                 //cập nhập lại số lượng của product detail
@@ -188,8 +189,11 @@ function OrderStockDetail(props) {
         <div>
           {order.status == "PAID" && <label>Duyệt</label>}
           {order.status == "ORDERED" && <label>Hoàn thành</label>}
+          {order.status == "COMPLETED" && <label>Đã nhận hàng</label>}
 
-          <Switch checked={duyet} onChange={e => approved(e)} value="duyet" />
+          {order.status != "COMPLETED" && (
+            <Switch checked={duyet} onChange={e => approved(e)} value="duyet" />
+          )}
         </div>
       </div>
       <div

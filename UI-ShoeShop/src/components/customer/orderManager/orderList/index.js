@@ -7,12 +7,19 @@ import {
   atcGetCurentUserRequest,
   atcRemoveProductItemInOrderRequest
 } from "../../../../actions";
+import Pagination from "../../pagination";
 
 function OrderList(props) {
-  const [orders, setOrders] = useState(props.orders);
-
+  const [orders, setOrders] = useState([]);
+  const itemPerPage = 3;
+  const [curentPage, setCurentPage] = useState(1);
+  const [showPagination, setShowaPagination] = useState(false);
   useEffect(() => {
     setOrders(props.orderCustomer);
+    if (props.orderCustomer.length > 0) {
+      setShowaPagination(true);
+    }
+    console.log("lengh", props.orderCustomer);
   }, [props.orderCustomer]);
 
   useEffect(() => {
@@ -41,33 +48,72 @@ function OrderList(props) {
       props.currentUser._id
     );
   };
+
+  const changeCurentPage = curentPage => {
+    setCurentPage(curentPage);
+  };
+
   const renderOrderItem = () => {
     let result = [];
-    if (orders && orders.length > 0) {
-      orders.map((order, index) => {
-        if (order.products && order.products.length > 0) {
-          order.products.map((item, ind) => {
+    console.log("curentPage", curentPage, itemPerPage, orders, orders.length);
+    for (let i = (curentPage - 1) * itemPerPage; i < orders.length; i++) {
+      if (i < itemPerPage * curentPage) {
+        if (orders[i].products && orders[i].products.length > 0) {
+          orders[i].products.map((item, ind) => {
             const orderItem = (
               <OrderItem
-                key={index + new Date() + ind}
+                key={i + new Date() + ind}
                 orderItem={item}
-                status={order.status}
-                orderId={order._id}
+                status={orders[i].status}
+                orderId={orders[i]._id}
                 cancelProductOrderItem={cancelProductOrderItem}
-                updatedAt={order.updatedAt}
+                updatedAt={orders[i].updatedAt}
+                currentUser = {props.currentUser}
+                isManager = {props.isManager}
               />
             );
             result.push(orderItem);
           });
         }
-      });
+      } else {
+        break;
+      }
     }
+
+    // if (orders && orders.length > 0) {
+    //   orders.map((order, index) => {
+    //     if (order.products && order.products.length > 0) {
+    //       order.products.map((item, ind) => {
+    //         const orderItem = (
+    //           <OrderItem
+    //             key={index + new Date() + ind}
+    //             orderItem={item}
+    //             status={order.status}
+    //             orderId={order._id}
+    //             cancelProductOrderItem={cancelProductOrderItem}
+    //             updatedAt={order.updatedAt}
+    //           />
+    //         );
+    //         result.push(orderItem);
+    //       });
+    //     }
+    //   });
+    // }
     return result;
   };
   return (
     <div style={{ marginTop: "40px" }}>
       <h6 style={{ color: "#2b2b28" }}>DANH SÁCH ĐƠN HÀNG</h6>
       {renderOrderItem()}
+
+      {showPagination && (
+        <Pagination
+          totalItem={props.orderCustomer.length}
+          itemPerPage={itemPerPage}
+          changeCurentPage={changeCurentPage}
+          curentPage={curentPage}
+        />
+      )}
     </div>
   );
 }

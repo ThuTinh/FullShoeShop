@@ -41,6 +41,7 @@ function OrderItem(props) {
   }, [props.orderItem]);
   const CancelOrderItem = () => {
     props.cancelProductOrderItem(props.orderId, props.orderItem._id);
+    window.location.reload();
   };
   return (
     <div className="container-order">
@@ -63,7 +64,7 @@ function OrderItem(props) {
             <p>
               Ngày mua: {new Date(props.updatedAt).toDateString("yyyy-MM-dd")}
             </p>
-            {hideCancel && (
+            {hideCancel || !props.isManager && (
               <button
                 className="fill-button"
                 onClick={() => {
