@@ -193,6 +193,7 @@ export const atcGetProduct = product => {
   };
 };
 
+
 export const atcGetProductByCategoryMan = () => {
   return dispatch => {
     return callApi("products/product-man", "GET").then(res => {

@@ -212,18 +212,17 @@ function OrderImport(props) {
           ? props.currenUser._id
           : "5dbedb5ba5592c2698f1992a"
       };
-      console.log("kakaka", _detailProducts);
-      // props
-      //   .createOrderSuplier(order)
-      //   .then(() => {
-      //     showMessage("success", "Tạo thành thành công!");
-      //     setTimeout(() => {
-      //       setSaveSuccess(true);
-      //     }, 1000);
-      //   })
-      //   .catch(() => {
-      //     showMessage("info", "Tạo thất bại");
-      //   });
+      props
+        .createOrderSuplier(order)
+        .then(() => {
+          showMessage("success", "Tạo thành thành công!");
+          setTimeout(() => {
+            setSaveSuccess(true);
+          }, 1000);
+        })
+        .catch(() => {
+          showMessage("info", "Tạo thất bại");
+        });
     }
   };
 

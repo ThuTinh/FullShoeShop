@@ -145,6 +145,7 @@ const search = async text => {
   }
 };
 
+
 const removeImgName = async (id, name) => {
   let exist = await Product.find({
     _id: id

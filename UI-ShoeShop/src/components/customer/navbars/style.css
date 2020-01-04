@@ -82,7 +82,7 @@ label:hover {
   clear: both;
   position: fixed;
   margin-top: 100px;
-  width: 85%;
+  width: 90%;
   height: 40px;
   color: #fff;
   justify-content: flex-end;
@@ -90,7 +90,7 @@ label:hover {
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
-  z-index: 1000 !important;
+  z-index: 999 !important;
 }
 
 .search-croll {
@@ -106,7 +106,7 @@ label:hover {
   transition: all 0.3s ease 0s;
   justify-content: flex-end;
   align-items: center;
-  z-index: 1000 !important;
+  z-index: 999 !important;
 }
 #search_input {
   background: -webkit-linear-gradient(
@@ -188,6 +188,7 @@ label:hover {
   height: fit-content;
   width: 250px;
   top: 50px;
+  z-index: 10000;
 }
 .wraper ul li:hover > ul {
   display: block;
@@ -208,6 +209,7 @@ label:hover {
   list-style: none;
   display: none;
   position: absolute;
+  z-index: 10000;
 }
 
 .icon-person:hover > .menu-person {

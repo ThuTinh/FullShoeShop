@@ -13,7 +13,8 @@ import {
   actGetProductByFilter,
   atcGetProductByCategoryMan,
   atcGetProductByCategoryWomen,
-  atcGetProductSale
+  atcGetProductSale,
+  atcSearchProductRequest
 } from "../../../actions";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/image/logo.jpg";
@@ -42,14 +43,16 @@ class Navbars extends React.Component {
       visibleSearch: true,
       redirect: false,
       isLogout: false,
-      showMenu: false
+      showMenu: false,
+      contentSearch: "",
+      backHome: false
     };
   }
 
   // Adds an event listener when the component is mount.
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
-    console.log(this.state.visible);
+    console.log("check akak", this.props.location);
     const orderOlds = JSON.parse(localStorage.getItem("ProductOrders"));
     if (orderOlds && orderOlds.length > 0) {
       let count = 0;
@@ -97,6 +100,7 @@ class Navbars extends React.Component {
                   <li
                     key={index}
                     onClick={e => {
+                      this.setState({ backHome: true });
                       this.filter(e, children._id);
                     }}
                   >
@@ -123,6 +127,11 @@ class Navbars extends React.Component {
     console.log("e, id", e, id);
     this.props.filterProduct(id);
   };
+  searchProducts = e => {
+    e.preventDefault();
+    this.setState({ visibleSearch: true });
+    this.props.searchProducts(this.state.contentSearch);
+  };
   renderManCategory = () => {
     var result = "";
     console.log("aaa", this.props.categories);
@@ -140,6 +149,7 @@ class Navbars extends React.Component {
                   <li
                     key={index + new Date()}
                     onClick={e => {
+                      this.setState({ backHome: true });
                       this.filter(e, children._id);
                     }}
                   >
@@ -160,7 +170,7 @@ class Navbars extends React.Component {
     // return focus to the button when we transitioned from !open -> open
     return (
       <div>
-        {console.log(this.props.currentUser, "user ne ne")}
+        {this.state.backHome && <Redirect to="/" />}
         <div className="menu-container">
           {this.state.isLogout && <Redirect to="/" />}
           <nav className={this.state.visible ? "menu" : "menu-scroll"}>
@@ -181,6 +191,7 @@ class Navbars extends React.Component {
               <ul>
                 <li
                   onClick={() => {
+                    this.setState({ backHome: true });
                     this.props.filterProduct(null);
                   }}
                 >
@@ -289,13 +300,17 @@ class Navbars extends React.Component {
             className={this.state.visible ? "search" : "search-croll"}
             style={{ visibility: this.state.visibleSearch ? "hidden" : "" }}
           >
-            <form>
+            <form onSubmit={this.searchProducts}>
               <div style={{ display: "flex" }}>
                 <input
                   type="text"
                   className="control-input"
                   id="search_input"
                   placeholder="Search Here"
+                  value={this.state.contentSearch}
+                  onChange={e =>
+                    this.setState({ contentSearch: e.target.value })
+                  }
                 />
                 <button type="submit" className="btn-search">
                   Tìm kiếm
@@ -457,6 +472,9 @@ const dispatchMapToProps = (dispatch, props) => {
     },
     getProductSale: () => {
       dispatch(atcGetProductSale());
+    },
+    searchProducts: search => {
+      dispatch(atcSearchProductRequest(search));
     }
   };
 };

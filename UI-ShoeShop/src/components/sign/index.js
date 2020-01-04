@@ -19,11 +19,6 @@ const useStyles = makeStyles(theme => ({
     margin: "5px",
     width: "100%"
   },
-  width400: {
-    width: "450px",
-    marginTop: "30px",
-    color: "#fff"
-  },
   width200: {
     width: "200px"
   },
@@ -41,16 +36,6 @@ const useStyles = makeStyles(theme => ({
     color: "#F75F00",
     fontWeight: 600
   },
-  paddingLabel: {
-    paddingBottom: "10px",
-    color: "#fff"
-  },
-  conatinerParent: {
-    position: "absolute",
-    zIndex: 100,
-    top: "1%",
-    right: "10%"
-  }
 }));
 
 function Sign(props) {
@@ -167,9 +152,9 @@ function Sign(props) {
   return (
     <div>
       <div className="background"> </div>
-      <div className={classes.conatinerParent}>
+      <div className="conatinerParent">
         {redirect && <Redirect to={"/"} />}
-        <div className={classes.container}>
+        <div className="container-sign">
           <h3 className={classes.tilte}>ĐĂNG KÍ THÀNH VIÊN</h3>
           <Grid container spacing={4}>
             <Grid
@@ -181,12 +166,12 @@ function Sign(props) {
             >
               <div>
                 <FormControl>
-                  <InputLabel htmlFor="name" className={classes.paddingLabel}>
+                  <InputLabel htmlFor="name" className="paddingLabel">
                     Họ và Tên
                   </InputLabel>
                   <Input
                     id="name"
-                    className={classes.width400}
+                    className="width400"
                     onChange={e => {
                       setName(e.target.value);
                     }}
@@ -201,13 +186,13 @@ function Sign(props) {
 
               <div>
                 <FormControl>
-                  <InputLabel htmlFor="name" className={classes.paddingLabel}>
+                  <InputLabel htmlFor="name" className= "paddingLabel">
                     Số điện thoại
                   </InputLabel>
                   <Input
                     id="name"
                     type="tel"
-                    className={classes.width400}
+                    className= "width400"
                     onChange={e => {
                       setPhone(e.target.value);
                     }}
@@ -224,13 +209,13 @@ function Sign(props) {
                 <FormControl>
                   <InputLabel
                     htmlFor="address"
-                    className={classes.paddingLabel}
+                    className= "paddingLabel"
                   >
                     Địa chỉ
                   </InputLabel>
                   <Input
                     id="address"
-                    className={classes.width400}
+                    className="width400"
                     onChange={e => {
                       setAddress(e.target.value);
                     }}
@@ -246,13 +231,13 @@ function Sign(props) {
                 <FormControl>
                   <InputLabel
                     htmlFor="shipAdress"
-                    className={classes.paddingLabel}
+                    className= "paddingLabel"
                   >
                     Địa chỉ giao hàng
                   </InputLabel>
                   <Input
                     id="shipAdress"
-                    className={classes.width400}
+                    className="width400"
                     onChange={e => {
                       setShipAddress(e.target.value);
                     }}
@@ -269,13 +254,13 @@ function Sign(props) {
                   <InputLabel
                     htmlFor="email"
                     type="email"
-                    className={classes.paddingLabel}
+                    className="paddingLabel"
                   >
                     Email
                   </InputLabel>
                   <Input
                     id="email"
-                    className={classes.width400}
+                    className="width400"
                     onChange={e => {
                       setEmail(e.target.value);
                     }}
@@ -292,7 +277,7 @@ function Sign(props) {
                 <FormControl>
                   <InputLabel
                     htmlFor="adornment-password"
-                    className={classes.paddingLabel}
+                    className="paddingLabel"
                   >
                     Mật khẩu
                   </InputLabel>
@@ -302,7 +287,7 @@ function Sign(props) {
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
                     onChange={handleChange("password")}
-                    className={classes.width400}
+                    className="width400"
                     name="password"
                     endAdornment={
                       <InputAdornment position="end">
@@ -330,7 +315,7 @@ function Sign(props) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  className={classes.width400}
+                  className="width400"
                   style={{ backgroundColor: "#F75F00" }}
                   onClick={() => {
                     props.sign({
@@ -342,7 +327,7 @@ function Sign(props) {
                       phone
                     });
                   }}
-                  disabled = {isDisableButtonSign()}
+                  disabled={isDisableButtonSign()}
                 >
                   Đăng kí
                 </Button>

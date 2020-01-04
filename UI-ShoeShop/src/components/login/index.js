@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   width400: {
     width: "400px",
     marginTop: "30px",
-    color: '#fff'
+    color: "#fff"
   },
   width200: {
     width: "200px"
@@ -109,7 +109,7 @@ function Login(props) {
   return (
     <div>
       <div className="background"> </div>
-      <div className={classes.conatiner}>
+      <div className="conatiner-info">
         <Grid
           container
           direction="column"
@@ -188,24 +188,17 @@ function Login(props) {
               alignItems: "center"
             }}
           >
-            <div style={{ color: "#fff" }}>
+            <div className="remember">
               <Checkbox
                 checked={remember}
                 onChange={event => {
                   setRemameber(event.target.checked);
                 }}
                 value="remember"
-                style={{ color: "#fff" }}
-              />{" "}
+              />
               Ghi nhớ
             </div>
-            <div
-              style={{
-                fontSize: "15px",
-                fontWeight: 600,
-                color: "#fff"
-              }}
-            >
+            <div className="forget-container">
               <i className="forget-pass">Quên mật khẩu?</i>
             </div>
           </div>
@@ -261,7 +254,7 @@ function Login(props) {
               </Button>
             </div>
           </div>
-          <div style={{ color: "#fff", marginTop: "20px", fontSize: "12px" }}>
+          <div className="chua-co-tai-khoan">
             <i>Bạn chưa có tài khoản?</i>{" "}
             <Link to="/sign">
               <u className="registry">Đăng kí</u>
