@@ -388,15 +388,13 @@ class Navbars extends React.Component {
               Khuyến mãi
             </li>
             {/* <li>Khuyến mãi</li> */}
-            {!this.props.currentUser.role && (
-              <>
-                <li>
-                  <Link to="/introduce" className="format-link">
-                    Giới thiệu shop
-                  </Link>
-                </li>
-              </>
-            )}
+
+            <li>
+              <Link to="/introduce" className="format-link">
+                Giới thiệu shop
+              </Link>
+            </li>
+
             {this.props.currentUser && this.props.currentUser._id && (
               <>
                 <li>
