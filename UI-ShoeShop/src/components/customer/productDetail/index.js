@@ -6,7 +6,7 @@ import CarouselProduct from "../carousel/carouseProduct";
 import {
   atcGetProductRequest,
   atcAddToCart,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcMakeOrderCustomer
 } from "../../../actions/index";
 import { connect } from "react-redux";
@@ -724,9 +724,9 @@ const dispatchMapToProps = (dispatch, props) => {
     addToCart: count => {
       dispatch(atcAddToCart(count));
     },
-    getCurentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     makeBookProduct: order => {
       dispatch(atcMakeOrderCustomer(order));
     }

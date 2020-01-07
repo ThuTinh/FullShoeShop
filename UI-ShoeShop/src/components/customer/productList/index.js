@@ -4,7 +4,7 @@ import ProductItem from "../prodcutItem";
 import { connect } from "react-redux";
 import {
   atcGetProductsRequest,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcAddProductFavourite
 } from "../../../actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -74,12 +74,12 @@ function ProductList(props) {
   };
   useEffect(() => {
     props.getProducts();
-    const token = localStorage.getItem("token");
-    console.log("token111", token);
-    if (token && token.length > 0) {
-      console.log("token", token);
-      props.getCurentUser(token);
-    }
+    // const token = localStorage.getItem("token");
+    // console.log("token111", token);
+    // if (token && token.length > 0) {
+    //   console.log("token", token);
+    //   props.getCurentUser(token);
+    // }
   }, []);
 
   useEffect(() => {
@@ -128,9 +128,9 @@ const dispatchMapToProps = (dispatch, props) => {
     getProducts: () => {
       dispatch(atcGetProductsRequest(true));
     },
-    getCurentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     addFaccvourite: data => {
       dispatch(atcAddProductFavourite(data));
     }
