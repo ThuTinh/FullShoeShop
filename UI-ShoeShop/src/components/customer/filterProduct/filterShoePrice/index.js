@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
+import "./style.css"
 
 function FilterShoePrice(props) {
   const [value, setValue] = React.useState([10, 200]);

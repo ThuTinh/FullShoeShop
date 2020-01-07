@@ -59,13 +59,19 @@ const addFavoritedProduct = async (userId, productId) => {
   if (!product) throw new Error("Not found product id");
   const user = await User.findById(userId);
   if (!user) throw new Error("Not found user id ", userId);
+  const count = user.favoriteProducts.length;
   await User.findByIdAndUpdate(userId, {
     $addToSet: { favoriteProducts: productId }
   });
-  await updateCountFavorite(
-    product._id,
-    product.favorited ? product.favorited + 1 : 1
-  );
+  const userTemp = await User.findById(userId);
+  const counttemp = userTemp.favoriteProducts.length;
+  if (counttemp > count) {
+    await updateCountFavorite(
+      product._id,
+      product.favorited ? product.favorited + 1 : 1
+    );
+  }
+
   return user;
 };
 
@@ -117,6 +123,13 @@ const getFavoriteProducts = async id => {
 };
 
 const removeFavoriteProduct = async (userid, productId) => {
+  const product = await findProductById(productId);
+  if (!product) throw new Error("Not found product id");
+  console.log("favourite", product.favorited);
+  await updateCountFavorite(
+    product._id,
+    product.favorited ? product.favorited - 1 : 1
+  );
   return await User.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(userid) },
     { $pull: { favoriteProducts: mongoose.Types.ObjectId(productId) } },

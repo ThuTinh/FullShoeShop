@@ -15,7 +15,10 @@ function OrderList(props) {
   const [curentPage, setCurentPage] = useState(1);
   const [showPagination, setShowaPagination] = useState(false);
   useEffect(() => {
-    setOrders(props.orderCustomer);
+
+    let tempOrderSort = props.orderCustomer;
+    tempOrderSort = tempOrderSort.sort(compare);
+    setOrders(tempOrderSort);
     if (props.orderCustomer.length > 0) {
       setShowaPagination(true);
     }
@@ -53,6 +56,19 @@ function OrderList(props) {
     setCurentPage(curentPage);
   };
 
+  const compare = (a, b) => {
+    // Use toUpperCase() to ignore character casing
+    const orderA = a.createdAt.toUpperCase();
+    const orderB = b.createdAt.toUpperCase();
+
+    let comparison = 0;
+    if (orderA < orderB) {
+      comparison = 1;
+    } else if (orderA >= orderB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
   const renderOrderItem = () => {
     let result = [];
     console.log("curentPage", curentPage, itemPerPage, orders, orders.length);
@@ -68,8 +84,8 @@ function OrderList(props) {
                 orderId={orders[i]._id}
                 cancelProductOrderItem={cancelProductOrderItem}
                 updatedAt={orders[i].updatedAt}
-                currentUser = {props.currentUser}
-                isManager = {props.isManager}
+                currentUser={props.currentUser}
+                isManager={props.isManager}
               />
             );
             result.push(orderItem);

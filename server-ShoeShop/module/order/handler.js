@@ -9,8 +9,10 @@ const validate = body => {
   }
 };
 
-const findAll = async (condition) => {
-  return await Order.find(condition).populate("products.productId").lean();
+const findAll = async condition => {
+  return await Order.find(condition)
+    .populate("products.productId")
+    .lean();
 };
 
 const findOne = async id => {
@@ -39,7 +41,15 @@ const removeProductItem = async (id, productItemId) => {
     if (order && order.products) {
       const temp = order.products;
       for (let k = 0; k < temp.length; k++) {
-        if (temp[k]._id == productItemId) {
+        console.log(
+          "for if",
+          temp[k]._id,
+          productItemId,
+          temp[k]._id == productItemId
+        );
+
+        if (temp[k]._id.toString() == productItemId.toString()) {
+          console.log("for if vao");
           await productHandler.UpdateInventory(
             temp[k].productId,
             temp[k].color,
@@ -51,13 +61,18 @@ const removeProductItem = async (id, productItemId) => {
       }
     }
 
-    if (order.products.length == 1 && order.products[0]._id == productItemId) {
-      console.log("chi tiet1", order.totalPrice, productItemId);
+    if (order.products.length == 1 && order.products[0]._id.toString() == productItemId.toString()) {
+      console.log("chi tiet1");
       return await Order.findByIdAndDelete(id);
     } else {
       for (let i = 0; i < order.products.length; i++) {
-        console.log("for ne", productItemId, order.products[i]._id);
+        console.log(
+          "for ne",
+          typeof productItemId,
+          typeof order.products[i]._id
+        );
         if (order.products[i]._id == productItemId) {
+          console.log("for for for", productItemId, order.products[i]._id);
           total =
             parseInt(order.totalPrice) -
             parseInt(order.products[i].price) *
