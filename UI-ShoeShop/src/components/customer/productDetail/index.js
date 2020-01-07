@@ -227,7 +227,7 @@ function ProductDetail(props) {
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
-        total += parseInt(tempPrice) * parseInt(tempQuanlity);
+        total += parseInt(productOrder.price) * parseInt(tempQuanlity);
         localStorage.setItem("total", total);
         setChooseColor("");
         setChooseSize("");
@@ -298,10 +298,12 @@ function ProductDetail(props) {
               JSON.stringify(productOrders)
             );
           }
+          // console.log("check order ne", product.price,tempQuanlity )
           let total = localStorage.getItem("total")
             ? parseInt(localStorage.getItem("total"))
             : 0;
-          total += parseInt(product.price) * parseInt(tempQuanlity);
+              console.log("check order ne", product.price,tempQuanlity , tempPrice, total)
+          total += parseInt(productOrder.price) * parseInt(tempQuanlity);
           localStorage.setItem("total", total);
           setChooseColor("");
           setChooseSize("");
