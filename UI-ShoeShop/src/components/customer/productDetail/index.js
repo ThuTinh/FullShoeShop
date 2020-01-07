@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ProductDetail(props) {
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(4);
   const [rating, setRating] = useState(0);
   const [product, setProduct] = useState({});
   const [discription, setDiscription] = useState(EditorState.createEmpty());
