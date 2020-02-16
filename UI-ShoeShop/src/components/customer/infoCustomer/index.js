@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import {
-  atcGetCurentUserRequest,
+   atcGetCurentUserRequest,
   atcUpdateUserRequest
 } from "../../../actions";
 import axios from "axios";
@@ -96,10 +96,10 @@ function InforCustomer(props) {
 
   const [currentUser, setCurrentUser] = useState(props.currentUser);
 
-  // useEffect(() => {
-  //   let token = localStorage.getItem("token");
-  //   props.getCurrentUser(token);
-  // }, []);
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    props.getCurrentUser(token);
+  }, []);
 
   useEffect(() => {
     setCurrentUser(props.currentUser);

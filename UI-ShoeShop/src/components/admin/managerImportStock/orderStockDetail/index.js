@@ -15,7 +15,7 @@ import {
   atcCreateOrderSuplierRequest,
   atcUpdateProductRequest,
   atcAddDetailItemProductRequets,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcUpdateDetailItemProductRequets
 } from "../../../../actions";
 import OrderStockItemDetail from "./orderStockItemDetail";
@@ -287,9 +287,9 @@ const dispatchMapToProps = (dispatch, props) => {
     updateDetailItem: (id, idItem, inventory) => {
       dispatch(atcUpdateDetailItemProductRequets(id, idItem, inventory));
     },
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    }
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // }
   };
 };
 export default connect(stateMapToProps, dispatchMapToProps)(OrderStockDetail);

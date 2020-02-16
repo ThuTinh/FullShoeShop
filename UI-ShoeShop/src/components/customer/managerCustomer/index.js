@@ -11,7 +11,7 @@ import InforCustomer from "../infoCustomer";
 import OrderList from "../orderManager/orderList";
 import ProductFavorite from "../productFavorite";
 import avatar from "../../../assets/image/avatar.JPG";
-import { atcGetCurentUserRequest } from "../../../actions";
+// import { atcGetCurentUserRequest } from "../../../actions";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import { connect } from "react-redux";
 
@@ -161,17 +161,19 @@ function ManagerCustomer(props) {
             Sản phẩm yêu thích
           </Link>
         </div>
-        <div className={clsx("action-hover", classes.myAdmin)}>
-          <BusinessCenterIcon className={classes.icon}></BusinessCenterIcon>
-          <Link
-            to={{
-              pathname: "/admin"
-            }}
-            className={classes.link}
-          >
-            Đi tới trang admin
-          </Link>
-        </div>
+        {props.currentUser.role != "customer" && (
+          <div className={clsx("action-hover", classes.myAdmin)}>
+            <BusinessCenterIcon className={classes.icon}></BusinessCenterIcon>
+            <Link
+              to={{
+                pathname: "/admin"
+              }}
+              className={classes.link}
+            >
+              Đi tới trang admin
+            </Link>
+          </div>
+        )}
       </div>
       <div className={classes.inforCustomer}>
         <Switch>
@@ -194,9 +196,9 @@ const stateMapToProps = (state, props) => {
 };
 const dispatchMapToProps = (dispatch, props) => {
   return {
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    }
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // }
   };
 };
 export default connect(stateMapToProps, dispatchMapToProps)(ManagerCustomer);

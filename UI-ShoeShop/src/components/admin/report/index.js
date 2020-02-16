@@ -62,7 +62,11 @@ function Report() {
             <TableCell align="center">
               {isOrder ? item.quantity : item.numberProductOrder}
             </TableCell>
-            <TableCell align="center">{item.totalPrice}</TableCell>
+            <TableCell align="center">
+              {parseInt(item.totalPrice)
+                .toFixed(1)
+                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+            </TableCell>
           </TableRow>
         );
       });
@@ -173,7 +177,10 @@ function Report() {
             <RenderReportSuplier />
             <TableRow>
               <TableCell align="center" colSpan={3}>
-                Tổng cộng: {total}
+                Tổng cộng:{" "}
+                {parseInt(total)
+                  .toFixed(1)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
               </TableCell>
             </TableRow>
           </TableBody>

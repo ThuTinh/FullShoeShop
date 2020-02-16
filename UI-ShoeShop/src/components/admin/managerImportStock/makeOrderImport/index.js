@@ -9,7 +9,7 @@ import {
   atcCreateOrderSuplierRequest,
   atcUpdateProductRequest,
   atcAddDetailItemProductRequets,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcUpdateDetailItemProductRequets,
   atcPriceAndInventoryAll,
   atcCheckIsSave
@@ -374,9 +374,9 @@ const dispatchMapToProps = (dispatch, props) => {
     updateDetailItem: (id, idItem, inventory) => {
       dispatch(atcUpdateDetailItemProductRequets(id, idItem, inventory));
     },
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     makePriceAndInventoryAll: (priceAll, inventoryAll) => {
       dispatch(atcPriceAndInventoryAll(priceAll, inventoryAll));
     },

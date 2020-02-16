@@ -41,7 +41,7 @@ function DetailCustomer(props) {
         </button>
       </div>
       <div>
-        <h6 style={{ color: "#512c62" }}>THÔNG TIN KHÁCH HÀNG</h6>
+        <h6 >THÔNG TIN KHÁCH HÀNG</h6>
       </div>
 
       <div

@@ -22,22 +22,49 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/report", async (req, res, next) => {
-  const products = await findAll({createdAt:{ $gte: new Date(new Date(req.query.month+'/1'+'/'+req.query.year).setHours(00, 00, 00)),
-  $lt: new Date(new Date(req.query.month+'/30'+'/'+req.query.year).setHours(23, 59, 59))}});
-  const _products= products.map(item=>item.products).flat()
-const a=[..._products]
-  const result = _products.filter((item,index)=>
-  a.findIndex(_item=>_item.productId._id===item.productId._id)===index).map(i=>{
-    let totalPrice=0; 
-    let quantity=0;
-    _products.map(_i=>{
-      if(_i.productId._id===i.productId._id){
-        totalPrice+=_i.price;
-        quantity+=1
-      }});
-       return {name:i.productId.name,quantity,totalPrice,id:i.productId._id}
-      })
- 
+  const products = await findAll({
+    createdAt: {
+      $gte: new Date(
+        new Date(req.query.month + "/1" + "/" + req.query.year).setHours(
+          00,
+          00,
+          00
+        )
+      ),
+      $lt: new Date(
+        new Date(req.query.month + "/30" + "/" + req.query.year).setHours(
+          23,
+          59,
+          59
+        )
+      )
+    }
+  });
+  const _products = products.map(item => item.products).flat();
+  const a = [..._products];
+  const result = _products
+    .filter(
+      (item, index) =>
+        a.findIndex(_item => _item.productId._id === item.productId._id) ===
+        index
+    )
+    .map(i => {
+      let totalPrice = 0;
+      let quantity = 0;
+      _products.map(_i => {
+        if (_i.productId._id === i.productId._id) {
+          totalPrice += _i.price;
+          quantity += 1;
+        }
+      });
+      return {
+        name: i.productId.name,
+        quantity,
+        totalPrice,
+        id: i.productId._id
+      };
+    });
+
   res.status(200).json(makeResponse(result));
 });
 
@@ -100,9 +127,14 @@ router.put("/status/:id", async (req, res, next) => {
   res.status(200).json(makeResponse(order));
 });
 
-router.delete('/:id', async(req, res,next)=>{
-  const id = req.params.id?req.params.id:0;
-  const order =  await deleteOrder(id);
-  res.status(200).json(order);
-})
+router.delete("/:id", async (req, res, next) => {
+  const id = req.params.id ? req.params.id : 0;
+
+  const order = await findOne(id);
+  for (let i = 0; i < order.products.length; i++) {
+    await removeProductItem(id, order.products[i]._id);
+  }
+  const orderDelte = await deleteOrder(id);
+  res.status(200).json(orderDelte);
+});
 module.exports = router;

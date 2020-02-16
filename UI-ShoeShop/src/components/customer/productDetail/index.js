@@ -6,7 +6,7 @@ import CarouselProduct from "../carousel/carouseProduct";
 import {
   atcGetProductRequest,
   atcAddToCart,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcMakeOrderCustomer
 } from "../../../actions/index";
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ProductDetail(props) {
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(4);
   const [rating, setRating] = useState(0);
   const [product, setProduct] = useState({});
   const [discription, setDiscription] = useState(EditorState.createEmpty());
@@ -227,7 +227,7 @@ function ProductDetail(props) {
         let total = localStorage.getItem("total")
           ? parseInt(localStorage.getItem("total"))
           : 0;
-        total += parseInt(tempPrice) * parseInt(tempQuanlity);
+        total += parseInt(productOrder.price) * parseInt(tempQuanlity);
         localStorage.setItem("total", total);
         setChooseColor("");
         setChooseSize("");
@@ -298,10 +298,12 @@ function ProductDetail(props) {
               JSON.stringify(productOrders)
             );
           }
+          // console.log("check order ne", product.price,tempQuanlity )
           let total = localStorage.getItem("total")
             ? parseInt(localStorage.getItem("total"))
             : 0;
-          total += parseInt(product.price) * parseInt(tempQuanlity);
+              console.log("check order ne", product.price,tempQuanlity , tempPrice, total)
+          total += parseInt(productOrder.price) * parseInt(tempQuanlity);
           localStorage.setItem("total", total);
           setChooseColor("");
           setChooseSize("");
@@ -724,9 +726,9 @@ const dispatchMapToProps = (dispatch, props) => {
     addToCart: count => {
       dispatch(atcAddToCart(count));
     },
-    getCurentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     makeBookProduct: order => {
       dispatch(atcMakeOrderCustomer(order));
     }

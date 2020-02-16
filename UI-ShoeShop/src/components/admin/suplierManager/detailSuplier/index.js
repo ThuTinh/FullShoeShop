@@ -129,7 +129,7 @@ function DetailSuplier(props) {
   return (
     <div>
       <div>
-        <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÂN VIÊN</h6>
+        <h6 style={{ color: "#512c62" }}>THÔNG TIN NHÀ CUNG CẤP</h6>
       </div>
       {/* <div
         style={{ width: "10%", height: "4px", backgroundColor: "#F75F00" }}

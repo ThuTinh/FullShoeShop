@@ -92,7 +92,7 @@ function DetailEmployee(props) {
         </div>
       </div>
       <div>
-        <OrderList></OrderList>
+        <OrderList  userId={props.match.params.id} isManager={true}></OrderList>
       </div>
     </div>
   );

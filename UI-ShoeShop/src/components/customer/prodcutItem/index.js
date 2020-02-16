@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import "./style.css";
 
 function ProductItem(props) {
-  const [value, setValue] = useState(2);
+  const [value, setValue] = useState(4);
   const [show, setShow] = useState(false);
   const [amoutSold, setAmountSold] = useState(0);
   const [product, setProduct] = useState(props.product);

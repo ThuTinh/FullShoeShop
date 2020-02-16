@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { atcGetCurentUserRequest } from "../../../actions";
+// import { atcGetCurentUserRequest } from "../../../actions";
 import "./style.css";
 
 const useStyles = makeStyles(theme => ({
@@ -27,10 +27,10 @@ function InfoPurchase(props) {
   const [shipAddress, setShipAddress] = useState("");
   const [phone, setPhone] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    props.getCurrentUser(token);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   props.getCurrentUser(token);
+  // }, []);
 
   useEffect(() => {
     const temp = props.currentUser;
@@ -149,9 +149,9 @@ const stateMapToProps = (state, props) => {
 };
 const dispatchMapToProps = (dispatch, props) => {
   return {
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    }
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // }
   };
 };
 export default connect(stateMapToProps, dispatchMapToProps)(InfoPurchase);

@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import {
   atcTotalPrice,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcMakeOrderCustomer,
   atcAddToCart,
   atcUpdateAmountSold
@@ -72,8 +72,8 @@ function CartResult(props) {
       }
     }
 
-    const token = localStorage.getItem("token");
-    props.getCurrentUser(token);
+    // const token = localStorage.getItem("token");
+    // props.getCurrentUser(token);
   }, []);
 
   useEffect(() => {
@@ -210,9 +210,9 @@ const dispatchMapToProps = (dispatch, props) => {
     calculateTotalPrice: price => {
       dispatch(atcTotalPrice(price));
     },
-    getCurrentUser: token => {
-      dispatch(atcGetCurentUserRequest(token));
-    },
+    // getCurrentUser: token => {
+    //   dispatch(atcGetCurentUserRequest(token));
+    // },
     makeOrderCumtomer: order => {
       dispatch(atcMakeOrderCustomer(order));
     },

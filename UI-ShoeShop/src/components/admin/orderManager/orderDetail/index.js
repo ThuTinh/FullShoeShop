@@ -61,14 +61,6 @@ function OrderDetail(props) {
         case "BOOK":
           status = "ORDERED";
           for (let i = 0; i < order.products.length; i++) {
-            console.log(
-              "kakaka",
-              order,
-              order.products[i].productId._id,
-              order.products[i].color,
-              order.products[i].size,
-              order.products[i].inventory
-            );
             props.updateAmountSold(
               order.products[i].productId._id,
               order.products[i].color,
@@ -104,7 +96,6 @@ function OrderDetail(props) {
       }
     }
     props.changeStatus(order._id, status);
-    console.log("dattaus ne", status);
   };
   return (
     <Container fixed>
@@ -113,10 +104,10 @@ function OrderDetail(props) {
           {(order.status == "PAID" || order.status == "BOOK") && (
             <label>Duyệt</label>
           )}
-          {order.status == "ORDERED" && <label>Shipping</label>}
-          {order.status == "SHIPPING" && <label>Hoàn thành</label>}
-          {order.status == "CANCEL" && <label>Đã hủy</label>}
-          {order.status !== "PAYED" && (
+          {order && order.status == "ORDERED" && <label>Shipping</label>}
+          {order && order.status == "SHIPPING" && <label>Hoàn thành</label>}
+          {order && order.status == "CANCEL" && <label>Đã hủy</label>}
+          { order && order.status !== "PAYED" && (
             <Switch
               checked={duyet}
               onChange={e => approved(e)}
@@ -124,7 +115,7 @@ function OrderDetail(props) {
               disabled={!isAccess}
             />
           )}
-          {order.status == "PAYED" && <h6>Đã thanh toán</h6>}
+          {order && order.status == "PAYED" && <h6>Đã thanh toán</h6>}
         </div>
       </div>
       <Grid>

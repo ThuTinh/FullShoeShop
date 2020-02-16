@@ -4,7 +4,7 @@ import OrderItem from "../orderItem";
 import { connect } from "react-redux";
 import {
   atcGetOrderCustomersRequest,
-  atcGetCurentUserRequest,
+  // atcGetCurentUserRequest,
   atcRemoveProductItemInOrderRequest
 } from "../../../../actions";
 import Pagination from "../../pagination";
@@ -15,11 +15,13 @@ function OrderList(props) {
   const [curentPage, setCurentPage] = useState(1);
   const [showPagination, setShowaPagination] = useState(false);
   useEffect(() => {
-    setOrders(props.orderCustomer);
-    if (props.orderCustomer.length > 0) {
+    let tempOrderSort = props.orderCustomer;
+    tempOrderSort = tempOrderSort.sort(compare);
+    setOrders(tempOrderSort);
+    console.log("test order admin",props.orderCustomer,props.orderCustomer.length)
+    if ( props.orderCustomer.length > 0) {
       setShowaPagination(true);
     }
-    console.log("lengh", props.orderCustomer);
   }, [props.orderCustomer]);
 
   useEffect(() => {
@@ -53,6 +55,19 @@ function OrderList(props) {
     setCurentPage(curentPage);
   };
 
+  const compare = (a, b) => {
+    // Use toUpperCase() to ignore character casing
+    const orderA = a.createdAt.toUpperCase();
+    const orderB = b.createdAt.toUpperCase();
+
+    let comparison = 0;
+    if (orderA < orderB) {
+      comparison = 1;
+    } else if (orderA >= orderB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
   const renderOrderItem = () => {
     let result = [];
     console.log("curentPage", curentPage, itemPerPage, orders, orders.length);
@@ -68,8 +83,8 @@ function OrderList(props) {
                 orderId={orders[i]._id}
                 cancelProductOrderItem={cancelProductOrderItem}
                 updatedAt={orders[i].updatedAt}
-                currentUser = {props.currentUser}
-                isManager = {props.isManager}
+                currentUser={props.currentUser}
+                isManager={props.isManager}
               />
             );
             result.push(orderItem);
@@ -104,9 +119,17 @@ function OrderList(props) {
   return (
     <div style={{ marginTop: "40px" }}>
       <h6 style={{ color: "#2b2b28" }}>DANH SÁCH ĐƠN HÀNG</h6>
+      <div
+        style={{
+          width: "10%",
+          height: "4px",
+          backgroundColor: "#e3b04b",
+          marginBottom: "30px"
+        }}
+      ></div>
       {renderOrderItem()}
 
-      {showPagination && (
+      {showPagination && props.orderCustomer.length!=0 && (
         <Pagination
           totalItem={props.orderCustomer.length}
           itemPerPage={itemPerPage}

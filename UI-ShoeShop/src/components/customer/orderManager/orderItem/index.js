@@ -64,7 +64,8 @@ function OrderItem(props) {
             <p>
               Ngày mua: {new Date(props.updatedAt).toDateString("yyyy-MM-dd")}
             </p>
-            {hideCancel || !props.isManager && (
+            {/* {hideCancel || !props.isManager && ( */}
+              {hideCancel && (
               <button
                 className="fill-button"
                 onClick={() => {
