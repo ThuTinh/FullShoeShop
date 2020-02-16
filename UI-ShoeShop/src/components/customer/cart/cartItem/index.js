@@ -99,7 +99,6 @@ function CartItem(props) {
           }
           className="img-fluid z-depth-0 img-product"
         />
-        {console.log("Bạn H", productOrder)}
       </StyledTableCell>
       <StyledTableCell align="center">{productOrder.name}</StyledTableCell>
       <StyledTableCell align="center">
